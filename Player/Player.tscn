@@ -1,0 +1,26 @@
+[gd_scene load_steps=6 format=2]
+
+[ext_resource path="res://Player/Sprites/Segment-0.png" type="Texture" id=1]
+[ext_resource path="res://Player/Player.Body.gd" type="Script" id=2]
+[ext_resource path="res://Player/Player.Head.gd" type="Script" id=3]
+
+[sub_resource type="Curve" id=2]
+_data = [ Vector2( 0, 0 ), 0.0, 0.0, 0, 0, Vector2( 0.520968, 1 ), 0.0, 0.0, 0, 0, Vector2( 1, 1 ), 0.0, 0.0, 0, 0 ]
+
+[sub_resource type="RectangleShape2D" id=1]
+
+[node name="Player" type="Node2D"]
+
+[node name="Body" type="Line2D" parent="."]
+width = 28.0
+width_curve = SubResource( 2 )
+default_color = Color( 1, 1, 1, 1 )
+texture = ExtResource( 1 )
+texture_mode = 1
+script = ExtResource( 2 )
+
+[node name="Head" type="KinematicBody2D" parent="."]
+script = ExtResource( 3 )
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Head"]
+shape = SubResource( 1 )
