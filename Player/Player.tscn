@@ -1,4 +1,4 @@
-[gd_scene load_steps=13 format=2]
+[gd_scene load_steps=17 format=2]
 
 [ext_resource path="res://Player/Sprites/Segment-0.png" type="Texture" id=1]
 [ext_resource path="res://Player/Player.Body.gd" type="Script" id=2]
@@ -6,6 +6,8 @@
 [ext_resource path="res://Player/Sprites/Lights/Light.GradientTexture2D.tres" type="Texture" id=4]
 [ext_resource path="res://Player/Player.Body.Curve_0.tres" type="Curve" id=5]
 [ext_resource path="res://Player/Sprites/Texture.png" type="Texture" id=6]
+[ext_resource path="res://Shaders/Materials/Mix-Unshaded.CanvasItemMaterial.tres" type="Material" id=7]
+[ext_resource path="res://UI/Cursors/Arrow.png" type="Texture" id=8]
 
 [sub_resource type="Curve2D" id=3]
 _data = {
@@ -245,14 +247,25 @@ tracks/1/keys = {
 "values": [ 0.0 ]
 }
 
+[sub_resource type="Gradient" id=10]
+interpolation_mode = 2
+offsets = PoolRealArray( 0, 0.833333 )
+colors = PoolColorArray( 0.459961, 0.459961, 0.459961, 1, 0, 0, 0, 1 )
+
+[sub_resource type="GradientTexture2D" id=11]
+gradient = SubResource( 10 )
+fill = 1
+fill_from = Vector2( 0.5, 0.5 )
+fill_to = Vector2( 0.8, 0.2 )
+
 [node name="Player" type="Node2D"]
 
 [node name="Body" type="Line2D" parent="."]
 light_mask = 1025
-points = PoolVector2Array( -820, 41, -553, 37, -482, -5, -422, -48, -309, -64, -138, -17, -9, 0 )
+points = PoolVector2Array( -16, 46, -32, 63, -77, 46, -111, 23, -108, -20, -39, -61, -9, 0 )
 width = 28.0
 width_curve = ExtResource( 5 )
-default_color = Color( 1, 1, 1, 1 )
+default_color = Color( 0.611765, 0.341176, 0.341176, 1 )
 texture = ExtResource( 1 )
 texture_mode = 1
 joint_mode = 2
@@ -267,8 +280,9 @@ self_modulate = Color( 0.501961, 0.6, 1, 0 )
 curve = SubResource( 3 )
 
 [node name="0" type="PathFollow2D" parent="Body/Lights"]
-position = Vector2( -27, 4 )
-rotation = -2.94053
+position = Vector2( -717, 40 )
+rotation = 3.14159
+offset = 725.281
 loop = false
 
 [node name="0" type="Light2D" parent="Body/Lights/0"]
@@ -279,8 +293,9 @@ energy = 1.9
 range_item_cull_mask = 1024
 
 [node name="1" type="PathFollow2D" parent="Body/Lights"]
-position = Vector2( -27, 4 )
-rotation = -2.94053
+position = Vector2( -693.402, 40 )
+rotation = 3.14159
+offset = 701.704
 loop = false
 
 [node name="1" type="Light2D" parent="Body/Lights/1"]
@@ -291,8 +306,9 @@ energy = 1.9
 range_item_cull_mask = 1024
 
 [node name="2" type="PathFollow2D" parent="Body/Lights"]
-position = Vector2( -27, 4 )
-rotation = -2.94053
+position = Vector2( -549.412, 31.5925 )
+rotation = 2.67248
+offset = 555.84
 loop = false
 
 [node name="2" type="Light2D" parent="Body/Lights/2"]
@@ -308,6 +324,12 @@ playback_speed = 1.6
 anims/Idle = SubResource( 4 )
 anims/RESET = SubResource( 5 )
 
+[node name="HealthUI" type="Line2D" parent="."]
+points = PoolVector2Array( -45, 59, -108, 31, -113, 1, -102, -23, -76, -41, -43, -56, -27, -37, -8, 1 )
+width = 3.0
+width_curve = ExtResource( 5 )
+default_color = Color( 1, 0, 0, 1 )
+
 [node name="Head" type="KinematicBody2D" parent="."]
 script = ExtResource( 3 )
 
@@ -315,18 +337,21 @@ script = ExtResource( 3 )
 shape = SubResource( 1 )
 
 [node name="Mouth" type="Sprite" parent="Head"]
+modulate = Color( 0.611765, 0.341176, 0.341176, 1 )
 light_mask = 1025
 texture = ExtResource( 6 )
 region_enabled = true
 region_rect = Rect2( 128, 32, 64, 32 )
 
 [node name="Jaw_0" type="Sprite" parent="Head/Mouth"]
+self_modulate = Color( 0.611765, 0.341176, 0.341176, 1 )
 light_mask = 1025
 texture = ExtResource( 6 )
 region_enabled = true
 region_rect = Rect2( 32, 32, 64, 32 )
 
 [node name="Jaw_1" type="Sprite" parent="Head/Mouth"]
+modulate = Color( 0.611765, 0.341176, 0.341176, 1 )
 light_mask = 1025
 texture = ExtResource( 6 )
 flip_v = true
@@ -338,9 +363,19 @@ autoplay = "Open"
 anims/Open = SubResource( 6 )
 anims/RESET = SubResource( 7 )
 
-[node name="CanvasModulate" type="CanvasModulate" parent="."]
-visible = false
-color = Color( 0, 0, 0, 1 )
+[node name="Arrow" type="Sprite" parent="Head"]
+modulate = Color( 1, 0, 0, 1 )
+material = ExtResource( 7 )
+scale = Vector2( 0.8, 0.8 )
+z_index = 30
+texture = ExtResource( 8 )
+offset = Vector2( 128, 0 )
+
+[node name="Light2D2" type="Light2D" parent="Head"]
+texture = SubResource( 11 )
+texture_scale = 4.07
+shadow_enabled = true
+shadow_buffer_size = 32
 
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
 visible = false

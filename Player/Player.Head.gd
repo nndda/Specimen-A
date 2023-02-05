@@ -4,6 +4,13 @@ var easer = 0.0
 var max_speed = 350.0
 var speed = 430.0
 
+func _process(_delta):
+	$Arrow.look_at(get_global_mouse_position())
+	$Arrow.modulate.a = glbl.moving_f
+	$Arrow.offset.x = (glbl.moving_f * 60) + 68
+	
+	glbl.head_pos = global_position
+
 var velo
 func _physics_process(_delta):
 

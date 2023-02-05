@@ -13,17 +13,30 @@ func UpdateWormLength() -> void:
 				points[sgmnt].distance_to( points[ wrapi( sgmnt, 0, sgmnt_count ) + 1 ] )
 			)
 
-
 func UpdateLightPath() -> void:
 	for n in get_point_count() - 1 :
 		$Lights.curve.set_point_position(
 			(get_point_count() - 2) - n,
 			points[n] )
 
+func UpdateHealthUI() -> void:
+	for n in get_point_count() - 1:
+		if $"../HealthUI".get_point_count() <= n:
+			$"../HealthUI".add_point(points[n])
+		else:
+			$"../HealthUI".points[n] = points[n]
+
+#func ri() -> String:
+#	return str(randi() % 9)
+
 func _ready():
+	$"../HealthUI".clear_points()
 	$Lights.curve.clear_points()
 	for n in glbl.worm_segment_max:
 		$Lights.curve.add_point(Vector2(0,0))
+	
+#	for n in 20:
+#		print(str(n*5) + "%    {content: \"Log Start: " + ri() + ri() + "/" + ri() + ri() + "/" + ri() + ri() + ri() + ri() + "\";}")
 
 func _process(_delta):
 	if get_point_count() > glbl.worm_segment_max:
@@ -34,3 +47,4 @@ func _process(_delta):
 			add_point($"../Head".position)
 	UpdateWormLength()
 	UpdateLightPath()
+	UpdateHealthUI()

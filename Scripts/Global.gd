@@ -4,11 +4,15 @@ var allow_move : bool = true
 var moving : bool
 var moving_f : float
 
+var head_pos : Vector2
+
 var worm_segment_max : int = 36
 var worm_length : float
 var worm_length_array : Array
 
 var worm_body
+
+var health : float = 100.0
 
 func sum_array(array:PoolRealArray) -> float:
 	var t = 0.0
@@ -16,7 +20,9 @@ func sum_array(array:PoolRealArray) -> float:
 		 t += n
 	return t
 
-func _process(delta):
+func _process(_delta):
+
+	health = clamp(health,0.0,100.0)
 
 	if allow_move:
 		moving = true if Input.is_action_pressed("Move") else false
