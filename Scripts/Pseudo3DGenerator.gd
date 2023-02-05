@@ -15,9 +15,9 @@ func GenerateLayers() -> void:
 		layer.follow_viewport_scale		= range_lerp( n, 0, 8, 1.0, max_scale )
 
 		map_layer.collision_layer		= 0
-		map_layer.collision_mask		= 0
+		map_layer.collision_mask		= 0 
 		map_layer.navigation_layers		= 0
-		map_layer.occluder_light_mask	= 0
+		map_layer.occluder_light_mask	= 0 if n < depth - 1 else 1
 
 		layer.call_deferred( "add_child", map_layer)
 		layer.call_deferred( "add_child", load("res://Worlds/GlobalModulate.tscn").instance())
