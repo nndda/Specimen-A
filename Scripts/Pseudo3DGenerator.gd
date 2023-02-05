@@ -2,17 +2,17 @@ extends Node
 
 export(NodePath)	var map
 export(int, 8)		var depth
-export(float, 0, 2)	var max_scale = 1.2
+
+onready var max_scale = glbl.top_scale
 
 func GenerateLayers() -> void:
 	for n in depth:
-
 		var layer						= CanvasLayer.new()
 		var map_layer					= get_node(map).duplicate()
 
 		layer.layer						= 0
 		layer.follow_viewport_enable	= true
-		layer.follow_viewport_scale		= range_lerp( n, 0, 8, 1.0, max_scale )
+		layer.follow_viewport_scale		= range_lerp( n, -1, depth-1, 1.0, max_scale )
 
 		map_layer.collision_layer		= 0
 		map_layer.collision_mask		= 0 
