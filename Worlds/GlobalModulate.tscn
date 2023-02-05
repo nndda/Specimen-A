@@ -1,4 +1,4 @@
 [gd_scene format=2]
 
 [node name="GlobalModulate" type="CanvasModulate"]
-color = Color( 0.184314, 0.0784314, 0.0784314, 0 )
+color = Color( 0.121094, 0.0372505, 0.0372505, 1 )
