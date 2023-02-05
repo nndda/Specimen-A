@@ -1,0 +1,38 @@
+[gd_scene load_steps=6 format=2]
+
+[ext_resource path="res://Scripts/VisibilityHandler.tscn" type="PackedScene" id=1]
+[ext_resource path="res://Shaders/Lights/General.GradientTexture2D.tres" type="Texture" id=2]
+[ext_resource path="res://Worlds/Tilesets/Tileset.png" type="Texture" id=3]
+[ext_resource path="res://Shaders/Lights/LightsBehaviourHandler.tscn" type="PackedScene" id=4]
+
+[sub_resource type="RectangleShape2D" id=1]
+extents = Vector2( 8, 8 )
+
+[node name="LCorner" type="Sprite"]
+texture = ExtResource( 3 )
+region_enabled = true
+region_rect = Rect2( 96, 96, 32, 32 )
+
+[node name="Light2D" type="Light2D" parent="."]
+position = Vector2( -12, -12 )
+texture = ExtResource( 2 )
+texture_scale = 5.0
+mode = 2
+shadow_enabled = true
+shadow_buffer_size = 64
+
+[node name="VisibilityHandler" parent="." instance=ExtResource( 1 )]
+visible = false
+position = Vector2( -8.00001, -8 )
+scale = Vector2( 15.2, 15.2 )
+
+[node name="LightsBehaviourHandler" parent="." instance=ExtResource( 4 )]
+
+[node name="AnimationPlayer" parent="LightsBehaviourHandler" index="0"]
+root_node = NodePath("../..")
+
+[node name="CollisionShape2D" parent="LightsBehaviourHandler" index="1"]
+position = Vector2( -8, -8 )
+shape = SubResource( 1 )
+
+[editable path="LightsBehaviourHandler"]
