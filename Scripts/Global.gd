@@ -22,10 +22,17 @@ func sum_array(array:PoolRealArray) -> float:
 
 func _process(_delta):
 
+	if Input.is_action_pressed("Skill1"):
+		health -= 2.0
+	if Input.is_action_pressed("Skill2"):
+		health += 2.0
+
 	health = clamp(health,0.0,100.0)
 
 	if allow_move:
 		moving = true if Input.is_action_pressed("Move") else false
+	else:
+		moving = false
 
 	if moving:
 		moving_f += 0.1
