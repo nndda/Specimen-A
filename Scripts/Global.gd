@@ -1,12 +1,14 @@
 extends Node
 
+var top_scale = 1.2
+
 var allow_move : bool = true
 var moving : bool
 var moving_f : float
 
 var head_pos : Vector2
 
-var worm_segment_max : int = 36
+var worm_segment_max : int = 32
 var worm_length : float
 var worm_length_array : Array
 
