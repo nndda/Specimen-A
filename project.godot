@@ -27,7 +27,6 @@ window/size/always_on_top=true
 window/size/test_width=1024
 window/size/test_height=576
 window/stretch/mode="viewport"
-window/stretch/aspect="keep"
 
 [gui]
 
