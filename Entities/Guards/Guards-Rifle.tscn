@@ -1,0 +1,68 @@
+[gd_scene load_steps=6 format=2]
+
+[ext_resource path="res://Entities/Enntities.png" type="Texture" id=1]
+[ext_resource path="res://Shaders/Particles/BloodSplatters.png" type="Texture" id=2]
+[ext_resource path="res://Entities/Guards/Guards.gd" type="Script" id=3]
+
+[sub_resource type="CanvasItemMaterial" id=2]
+particles_animation = true
+particles_anim_h_frames = 10
+particles_anim_v_frames = 1
+particles_anim_loop = false
+
+[sub_resource type="CircleShape2D" id=1]
+radius = 11.0
+
+[node name="Guard-Rifle" type="KinematicBody2D"]
+script = ExtResource( 3 )
+
+[node name="ColorRect" type="ColorRect" parent="."]
+margin_left = -63.0
+margin_top = -81.0
+margin_right = 98.0
+margin_bottom = 137.0
+color = Color( 0.262745, 0.262745, 0.262745, 1 )
+
+[node name="BloodSplatter" type="CPUParticles2D" parent="."]
+visible = false
+material = SubResource( 2 )
+position = Vector2( 14, -15 )
+emitting = false
+explosiveness = 1.0
+local_coords = false
+texture = ExtResource( 2 )
+spread = 180.0
+gravity = Vector2( 0, 0 )
+initial_velocity = 40.0
+initial_velocity_random = 0.5
+angular_velocity = 180.0
+angular_velocity_random = 1.0
+angle = 720.0
+angle_random = 1.0
+scale_amount = 0.8
+scale_amount_random = 0.9
+anim_offset = 1.0
+anim_offset_random = 1.0
+
+[node name="Sprite" type="Sprite" parent="."]
+position = Vector2( 5, -9 )
+texture = ExtResource( 1 )
+region_enabled = true
+region_rect = Rect2( 96, 192, 64, 64 )
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2( 6, -10 )
+shape = SubResource( 1 )
+
+[node name="Gun" type="Node2D" parent="."]
+position = Vector2( 0, 1 )
+
+[node name="Light2D" type="Light2D" parent="Gun"]
+position = Vector2( 0, -1 )
+
+[node name="RayCast2D" type="RayCast2D" parent="Gun"]
+enabled = true
+
+[node name="Position2D" type="Position2D" parent="Gun"]
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="Gun"]
