@@ -2,6 +2,7 @@ extends VisibilityNotifier2D
 
 func _enter_tree():
 	self.show()
+
 func _ready():
 	var err = connect( "ready", get_parent(), "hide" )
 	if err != 0:
