@@ -17,16 +17,14 @@ region_rect = Rect2( 96, 96, 32, 32 )
 position = Vector2( -12, -12 )
 texture = ExtResource( 2 )
 texture_scale = 5.0
+color = Color( 1, 0.917647, 0.866667, 1 )
 mode = 2
+range_layer_min = -1
 shadow_enabled = true
-shadow_buffer_size = 64
-
-[node name="VisibilityHandler" parent="." instance=ExtResource( 1 )]
-visible = false
-position = Vector2( -8.00001, -8 )
-scale = Vector2( 15.2, 15.2 )
+shadow_buffer_size = 32
 
 [node name="LightsBehaviourHandler" parent="." instance=ExtResource( 4 )]
+light = NodePath("../Light2D")
 
 [node name="AnimationPlayer" parent="LightsBehaviourHandler" index="0"]
 root_node = NodePath("../..")
@@ -34,5 +32,10 @@ root_node = NodePath("../..")
 [node name="CollisionShape2D" parent="LightsBehaviourHandler" index="1"]
 position = Vector2( -8, -8 )
 shape = SubResource( 1 )
+
+[node name="VisibilityHandler" parent="." instance=ExtResource( 1 )]
+visible = false
+position = Vector2( -9.99999, -10 )
+scale = Vector2( 14.4, 14.4 )
 
 [editable path="LightsBehaviourHandler"]
