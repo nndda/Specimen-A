@@ -1,4 +1,7 @@
-extends CanvasLayer
+extends CPUParticles2D
 
 func _process(_delta):
-	$CPUParticles2D.global_position = glbl.head_pos
+	self.global_position = Vector2(
+		get_global_transform_with_canvas().origin.x,
+		get_global_transform_with_canvas().origin.y 
+	)
