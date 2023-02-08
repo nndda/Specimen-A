@@ -1,0 +1,187 @@
+[gd_scene load_steps=15 format=2]
+
+[ext_resource path="res://UI/Fonts/Silver.ttf" type="DynamicFontData" id=1]
+[ext_resource path="res://UI/Fonts/Silver.DynamicFont.tres" type="DynamicFont" id=2]
+[ext_resource path="res://Worlds/GlobalModulate.tscn" type="PackedScene" id=3]
+[ext_resource path="res://Shaders/Lights/General.GradientTexture2D.tres" type="Texture" id=4]
+[ext_resource path="res://Player/Sprites/Lights/Light.GradientTexture2D.tres" type="Texture" id=5]
+[ext_resource path="res://Player/Sprites/Segment-0.png" type="Texture" id=6]
+[ext_resource path="res://Player/Player.Body.Curve_0.tres" type="Curve" id=7]
+[ext_resource path="res://UI/MainMenu.gd" type="Script" id=8]
+
+[sub_resource type="StyleBoxFlat" id=2]
+bg_color = Color( 1, 1, 1, 0.0862745 )
+expand_margin_left = 8.0
+expand_margin_right = 8.0
+expand_margin_top = 2.0
+
+[sub_resource type="Theme" id=1]
+default_font = ExtResource( 2 )
+Button/styles/normal = SubResource( 2 )
+
+[sub_resource type="DynamicFont" id=3]
+size = 48
+extra_spacing_char = 2
+font_data = ExtResource( 1 )
+
+[sub_resource type="Curve2D" id=4]
+_data = {
+"points": PoolVector2Array( 0, 0, 0, 0, -82.0549, 210.124, 0, 0, 0, 0, 45.4662, 235.251, 0, 0, 0, 0, 25.5835, 215.688, 0, 0, 0, 0, 118.313, 171.076, 0, 0, 0, 0, 152.035, 146.667, 0, 0, 0, 0, 215.14, 125.366, 0, 0, 0, 0, 263.148, 124.215, 0, 0, 0, 0, 309.485, 135.957, 0, 0, 0, 0, 338.198, 150.225, 0, 0, 0, 0, 365.41, 167.091, 0, 0, 0, 0, 395.319, 191.287, 0, 0, 0, 0, 436.46, 200.028, 0, 0, 0, 0, 459.781, 199.636, 0, 0, 0, 0, 489.164, 202.744, 0, 0, 0, 0, 507.788, 198.486, 0, 0, 0, 0, 531.242, 195.861, 0, 0, 0, 0, 562.331, 178.014, 0, 0, 0, 0, 578.625, 167.792, 0, 0, 0, 0, 595.285, 158.935, 0, 0, 0, 0, 609.714, 149.945, 0, 0, 0, 0, 630.204, 144.455, 0, 0, 0, 0, 659.185, 154.258, 0, 0, 0, 0, 683.665, 171.857 )
+}
+
+[sub_resource type="Animation" id=5]
+resource_name = "Flick"
+tracks/0/type = "value"
+tracks/0/path = NodePath("Line2D/Path2D/PathFollow2D:unit_offset")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 1 ),
+"transitions": PoolRealArray( 2, 1 ),
+"update": 0,
+"values": [ 0.0, 1.0 ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("Line2D/Path2D/PathFollow2D/Light2D:energy")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0, 0.9, 1 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
+"update": 0,
+"values": [ 1.0, 1.0, 0.0 ]
+}
+
+[sub_resource type="Animation" id=6]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/path = NodePath("Line2D/Path2D/PathFollow2D:unit_offset")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ 0.0 ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("Line2D/Path2D/PathFollow2D/Light2D:energy")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ 1.0 ]
+}
+
+[node name="MainMenu" type="Control"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+theme = SubResource( 1 )
+script = ExtResource( 8 )
+
+[node name="ColorRect" type="ColorRect" parent="."]
+light_mask = 0
+margin_left = -19.0
+margin_top = -18.0
+margin_right = 852.0
+margin_bottom = 498.0
+color = Color( 0.027451, 0.027451, 0.027451, 1 )
+
+[node name="GlobalModulate" parent="." instance=ExtResource( 3 )]
+
+[node name="CanvasModulate" type="CanvasModulate" parent="."]
+visible = false
+color = Color( 0.027451, 0.027451, 0.027451, 1 )
+
+[node name="Label" type="Label" parent="."]
+margin_left = 448.0
+margin_top = 64.0
+margin_right = 581.0
+margin_bottom = 118.0
+custom_fonts/font = SubResource( 3 )
+text = "Annelida"
+uppercase = true
+
+[node name="Light2D2" type="Light2D" parent="Label"]
+position = Vector2( 208, -32 )
+texture = ExtResource( 4 )
+texture_scale = 10.0
+
+[node name="VBoxContainer" type="VBoxContainer" parent="."]
+margin_left = 80.0
+margin_top = 128.0
+margin_right = 135.0
+margin_bottom = 236.0
+custom_constants/separation = 12
+
+[node name="Light2D" type="Light2D" parent="VBoxContainer"]
+texture = ExtResource( 4 )
+texture_scale = 6.0
+energy = 1.14
+
+[node name="Button" type="Button" parent="VBoxContainer"]
+margin_right = 55.0
+margin_bottom = 28.0
+text = "Start"
+align = 0
+
+[node name="Button2" type="Button" parent="VBoxContainer"]
+margin_top = 40.0
+margin_right = 55.0
+margin_bottom = 68.0
+text = "Config"
+align = 0
+
+[node name="Button3" type="Button" parent="VBoxContainer"]
+margin_top = 80.0
+margin_right = 55.0
+margin_bottom = 108.0
+text = "Exit"
+align = 0
+
+[node name="Body" type="Node2D" parent="."]
+
+[node name="Line2D" type="Line2D" parent="Body"]
+light_mask = 512
+position = Vector2( 32, 362 )
+rotation = -0.523598
+points = PoolVector2Array( 688.362, 175.723, 648.426, 146.892, 616.678, 145.883, 594.285, 160.668, 564.063, 179.014, 535.206, 196.995, 492.262, 203.378, 442.29, 199.93, 396.917, 194.519, 364.642, 172.421, 322.975, 142.591, 281.968, 131.617, 247.023, 124.143, 199.382, 126.66, 152.937, 139.105, 118.545, 174.674 )
+width = 72.0
+width_curve = ExtResource( 7 )
+default_color = Color( 1, 1, 1, 1 )
+texture = ExtResource( 6 )
+texture_mode = 1
+
+[node name="Path2D" type="Path2D" parent="Body/Line2D"]
+self_modulate = Color( 0.501961, 0.6, 1, 0 )
+curve = SubResource( 4 )
+
+[node name="PathFollow2D" type="PathFollow2D" parent="Body/Line2D/Path2D"]
+position = Vector2( -82.0549, 210.124 )
+rotation = 0.194549
+
+[node name="Light2D" type="Light2D" parent="Body/Line2D/Path2D/PathFollow2D"]
+light_mask = 0
+texture = ExtResource( 5 )
+texture_scale = 2.0
+range_item_cull_mask = 512
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="Body"]
+anims/Flick = SubResource( 5 )
+anims/RESET = SubResource( 6 )
+
+[node name="Timer" type="Timer" parent="Body/AnimationPlayer"]
+one_shot = true
+autostart = true
+
+[connection signal="timeout" from="Body/AnimationPlayer/Timer" to="." method="_on_Timer_timeout"]
