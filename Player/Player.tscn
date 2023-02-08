@@ -1,4 +1,4 @@
-[gd_scene load_steps=27 format=2]
+[gd_scene load_steps=37 format=2]
 
 [ext_resource path="res://Player/Sprites/Segment-0.png" type="Texture" id=1]
 [ext_resource path="res://Player/Player.Body.gd" type="Script" id=2]
@@ -9,6 +9,7 @@
 [ext_resource path="res://Shaders/Materials/Mix-Unshaded.CanvasItemMaterial.tres" type="Material" id=7]
 [ext_resource path="res://UI/Cursors/Arrow.png" type="Texture" id=8]
 [ext_resource path="res://UI/Cursors/Cross.png" type="Texture" id=9]
+[ext_resource path="res://Player/CollisionBody.Shape.tres" type="Shape2D" id=10]
 
 [sub_resource type="Curve2D" id=3]
 _data = {
@@ -232,8 +233,6 @@ resource_name = "Health"
 [sub_resource type="Animation" id=16]
 length = 0.001
 
-[sub_resource type="RectangleShape2D" id=1]
-
 [sub_resource type="Animation" id=6]
 resource_name = "Open"
 loop = true
@@ -289,16 +288,32 @@ tracks/1/keys = {
 "values": [ 0.0 ]
 }
 
-[sub_resource type="Gradient" id=10]
+[sub_resource type="Gradient" id=26]
 interpolation_mode = 2
 offsets = PoolRealArray( 0, 0.833333 )
 colors = PoolColorArray( 1, 1, 1, 1, 1, 1, 1, 0 )
 
-[sub_resource type="GradientTexture2D" id=11]
-gradient = SubResource( 10 )
+[sub_resource type="GradientTexture2D" id=27]
+gradient = SubResource( 26 )
+width = 96
+height = 96
 fill = 1
 fill_from = Vector2( 0.5, 0.5 )
-fill_to = Vector2( 0.8, 0.2 )
+fill_to = Vector2( 0.9, 0.1 )
+
+[sub_resource type="CircleShape2D" id=28]
+radius = 140.0
+
+[sub_resource type="CircleShape2D" id=29]
+radius = 180.0
+
+[sub_resource type="Gradient" id=18]
+colors = PoolColorArray( 1, 1, 1, 1, 0, 0, 0, 1 )
+
+[sub_resource type="GradientTexture2D" id=19]
+gradient = SubResource( 18 )
+fill = 1
+fill_from = Vector2( 0.5, 0.5 )
 
 [sub_resource type="Animation" id=20]
 resource_name = "Blink"
@@ -331,15 +346,62 @@ tracks/0/keys = {
 "values": [ Color( 1, 0, 0, 0 ) ]
 }
 
-[sub_resource type="Gradient" id=18]
-colors = PoolColorArray( 1, 1, 1, 1, 0, 0, 0, 1 )
+[sub_resource type="Gradient" id=23]
+interpolation_mode = 1
+offsets = PoolRealArray( 0, 0.258621, 0.310345, 0.54023 )
+colors = PoolColorArray( 1, 1, 1, 0, 1, 0, 0, 0.0627451, 1, 1, 1, 0, 1, 1, 1, 0 )
 
-[sub_resource type="GradientTexture2D" id=19]
-gradient = SubResource( 18 )
+[sub_resource type="GradientTexture2D" id=24]
+flags = 0
+gradient = SubResource( 23 )
+width = 256
+height = 256
 fill = 1
 fill_from = Vector2( 0.5, 0.5 )
 
+[sub_resource type="Gradient" id=22]
+interpolation_mode = 1
+offsets = PoolRealArray( 0, 0.298851, 0.333333, 0.356322 )
+colors = PoolColorArray( 1, 1, 1, 0, 1, 0, 0, 0.231373, 0.730134, 0.0256688, 0.0256688, 1, 1, 1, 1, 0 )
+
+[sub_resource type="GradientTexture2D" id=25]
+flags = 0
+gradient = SubResource( 22 )
+width = 256
+height = 256
+fill = 1
+fill_from = Vector2( 0.5, 0.5 )
+
+[sub_resource type="Gradient" id=31]
+interpolation_mode = 1
+offsets = PoolRealArray( 0, 0.281609, 0.310345, 0.344828 )
+colors = PoolColorArray( 1, 1, 1, 0, 1, 0, 0, 0.231373, 1, 0.992157, 0.992157, 0.537255, 1, 1, 1, 0 )
+
+[sub_resource type="GradientTexture2D" id=32]
+flags = 0
+gradient = SubResource( 31 )
+width = 256
+height = 256
+fill = 1
+fill_from = Vector2( 0.5, 0.5 )
+
+[sub_resource type="Gradient" id=8]
+
+[sub_resource type="GradientTexture2D" id=30]
+gradient = SubResource( 8 )
+width = 24
+height = 24
+
 [node name="Player" type="Node2D"]
+
+[node name="Node2D" type="Node2D" parent="."]
+visible = false
+position = Vector2( -64, -64 )
+
+[node name="ColorRect" type="ColorRect" parent="Node2D"]
+margin_right = 514.0
+margin_bottom = 670.0
+color = Color( 0.152941, 0.152941, 0.152941, 1 )
 
 [node name="Body" type="Line2D" parent="."]
 light_mask = 1025
@@ -403,7 +465,6 @@ anims/Idle = SubResource( 4 )
 anims/RESET = SubResource( 5 )
 
 [node name="HealthUI" type="Line2D" parent="."]
-visible = false
 self_modulate = Color( 1, 1, 1, 0.882353 )
 material = ExtResource( 7 )
 points = PoolVector2Array( -45, 59, -108, 31, -113, 1, -102, -23, -76, -41, -43, -56, -27, -37, -8, 1 )
@@ -424,8 +485,8 @@ anims/RESET = SubResource( 16 )
 [node name="Head" type="KinematicBody2D" parent="."]
 script = ExtResource( 3 )
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Head"]
-shape = SubResource( 1 )
+[node name="AttackCooldown" type="Timer" parent="Head"]
+one_shot = true
 
 [node name="Mouth" type="Sprite" parent="Head"]
 modulate = Color( 0.611765, 0.341176, 0.341176, 1 )
@@ -450,43 +511,127 @@ region_enabled = true
 region_rect = Rect2( 32, 32, 64, 32 )
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="Head/Mouth"]
-autoplay = "Open"
 anims/Open = SubResource( 6 )
 anims/RESET = SubResource( 7 )
 
-[node name="Arrow" type="Sprite" parent="Head"]
-modulate = Color( 1, 0, 0, 1 )
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Head"]
+position = Vector2( 2, 0 )
+shape = ExtResource( 10 )
+
+[node name="Light2D" type="Light2D" parent="Head"]
+texture = SubResource( 27 )
+texture_scale = 4.07
+color = Color( 1, 0.505882, 0.505882, 1 )
+mode = 2
+range_layer_min = -1
+shadow_enabled = true
+shadow_buffer_size = 32
+
+[node name="DestroyThrough" type="RayCast2D" parent="Head"]
+enabled = true
+cast_to = Vector2( 60, 0 )
+collision_mask = 16
+
+[node name="FaceObstacle" type="RayCast2D" parent="Head"]
+enabled = true
+cast_to = Vector2( 40, 0 )
+
+[node name="FaceObstacle-Pos" type="Position2D" parent="Head"]
+
+[node name="AreaShake" type="Area2D" parent="Head"]
+visible = false
+input_pickable = false
+monitoring = false
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Head/AreaShake"]
+visible = false
+shape = SubResource( 28 )
+
+[node name="AreaEMP" type="Area2D" parent="Head"]
+visible = false
+input_pickable = false
+monitoring = false
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Head/AreaEMP"]
+visible = false
+shape = SubResource( 29 )
+
+[node name="Light2D" type="Light2D" parent="."]
+editor_only = true
+texture = SubResource( 19 )
+texture_scale = 9.52
+energy = 8.82
+mode = 2
+shadow_enabled = true
+shadow_buffer_size = 32
+
+[node name="UI" type="CanvasLayer" parent="."]
+layer = 2
+
+[node name="FaceObstacleIcon" type="Sprite" parent="UI"]
+modulate = Color( 1, 0, 0, 0 )
+material = ExtResource( 7 )
+scale = Vector2( 0.6, 0.6 )
+texture = ExtResource( 9 )
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="UI/FaceObstacleIcon"]
+anims/Blink = SubResource( 20 )
+anims/RESET = SubResource( 21 )
+
+[node name="Arrow" type="Sprite" parent="UI"]
+modulate = Color( 0.898039, 0, 0, 1 )
 material = ExtResource( 7 )
 scale = Vector2( 0.8, 0.8 )
 z_index = 30
 texture = ExtResource( 8 )
 offset = Vector2( 128, 0 )
 
-[node name="Light2D" type="Light2D" parent="Head"]
-texture = SubResource( 11 )
-texture_scale = 4.07
-mode = 2
-shadow_enabled = true
-shadow_buffer_size = 32
-
-[node name="FaceObstacle" type="RayCast2D" parent="Head"]
-enabled = true
-cast_to = Vector2( 55, 0 )
-
-[node name="FaceObstacleIcon" type="Sprite" parent="Head"]
-modulate = Color( 1, 0, 0, 0 )
+[node name="AttackIndicator" type="TextureProgress" parent="UI"]
 material = ExtResource( 7 )
-scale = Vector2( 0.6, 0.6 )
-texture = ExtResource( 9 )
+margin_right = 256.0
+margin_bottom = 256.0
+value = 65.0
+texture_under = SubResource( 24 )
+texture_progress = SubResource( 25 )
+fill_mode = 4
 
-[node name="AnimationPlayer" type="AnimationPlayer" parent="Head/FaceObstacleIcon"]
-anims/Blink = SubResource( 20 )
-anims/RESET = SubResource( 21 )
+[node name="AttackCooldown" type="TextureProgress" parent="UI"]
+material = ExtResource( 7 )
+margin_right = 256.0
+margin_bottom = 256.0
+value = 12.0
+texture_under = SubResource( 24 )
+texture_progress = SubResource( 32 )
+fill_mode = 4
 
-[node name="Light2D" type="Light2D" parent="."]
+[node name="Control" type="Control" parent="UI"]
 visible = false
-editor_only = true
-texture = SubResource( 19 )
-texture_scale = 9.52
-energy = 8.82
-mode = 2
+anchor_right = 1.0
+anchor_bottom = 1.0
+
+[node name="Skills" type="HBoxContainer" parent="UI/Control"]
+anchor_right = 1.0
+margin_top = 5.0
+margin_bottom = 31.0
+custom_constants/separation = 12
+alignment = 1
+
+[node name="EMPBurst" type="TextureRect" parent="UI/Control/Skills"]
+margin_left = 336.0
+margin_right = 360.0
+margin_bottom = 26.0
+texture = SubResource( 30 )
+
+[node name="DischargeShrapnel" type="TextureRect" parent="UI/Control/Skills"]
+margin_left = 372.0
+margin_right = 396.0
+margin_bottom = 26.0
+texture = SubResource( 30 )
+
+[node name="SynthesizeAcids" type="TextureRect" parent="UI/Control/Skills"]
+margin_left = 408.0
+margin_right = 432.0
+margin_bottom = 26.0
+texture = SubResource( 30 )
+
+[connection signal="timeout" from="Head/AttackCooldown" to="Head" method="_on_AttackCooldown_timeout"]
