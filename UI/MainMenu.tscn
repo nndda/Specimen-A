@@ -1,23 +1,13 @@
-[gd_scene load_steps=15 format=2]
+[gd_scene load_steps=13 format=2]
 
 [ext_resource path="res://UI/Fonts/Silver.ttf" type="DynamicFontData" id=1]
-[ext_resource path="res://UI/Fonts/Silver.DynamicFont.tres" type="DynamicFont" id=2]
+[ext_resource path="res://UI/Default.theme" type="Theme" id=2]
 [ext_resource path="res://Worlds/GlobalModulate.tscn" type="PackedScene" id=3]
 [ext_resource path="res://Shaders/Lights/General.GradientTexture2D.tres" type="Texture" id=4]
 [ext_resource path="res://Player/Sprites/Lights/Light.GradientTexture2D.tres" type="Texture" id=5]
 [ext_resource path="res://Player/Sprites/Segment-0.png" type="Texture" id=6]
 [ext_resource path="res://Player/Player.Body.Curve_0.tres" type="Curve" id=7]
 [ext_resource path="res://UI/MainMenu.gd" type="Script" id=8]
-
-[sub_resource type="StyleBoxFlat" id=2]
-bg_color = Color( 1, 1, 1, 0.0862745 )
-expand_margin_left = 8.0
-expand_margin_right = 8.0
-expand_margin_top = 2.0
-
-[sub_resource type="Theme" id=1]
-default_font = ExtResource( 2 )
-Button/styles/normal = SubResource( 2 )
 
 [sub_resource type="DynamicFont" id=3]
 size = 48
@@ -86,7 +76,7 @@ tracks/1/keys = {
 [node name="MainMenu" type="Control"]
 anchor_right = 1.0
 anchor_bottom = 1.0
-theme = SubResource( 1 )
+theme = ExtResource( 2 )
 script = ExtResource( 8 )
 
 [node name="ColorRect" type="ColorRect" parent="."]
@@ -168,7 +158,7 @@ curve = SubResource( 4 )
 
 [node name="PathFollow2D" type="PathFollow2D" parent="Body/Line2D/Path2D"]
 position = Vector2( -82.0549, 210.124 )
-rotation = 0.194549
+rotation = 0.194542
 
 [node name="Light2D" type="Light2D" parent="Body/Line2D/Path2D/PathFollow2D"]
 light_mask = 0
