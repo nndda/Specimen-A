@@ -11,7 +11,7 @@ var moving_f : float
 var head_pos : Vector2
 var head_canvas_pos : Vector2
 
-var worm_segment_max : int = 40
+var worm_segment_max : int = 56
 var worm_length : float
 var worm_length_array : Array
 
