@@ -13,6 +13,11 @@ var attack_out				: int
 var attack_dir				: Vector2
 var attack_cooldown			= 3.25
 
+var attack_speed			= 22.0
+
+var attack_distance_max		: float = 32.0 * 12.0
+var attack_pos : PoolVector2Array = [Vector2(),Vector2()]
+
 func OpenMouth(n:float) -> void:
 	$Mouth/Jaw_0.rotation_degrees = n*-30
 	$Mouth/Jaw_0.rotation_degrees = clamp($Mouth/Jaw_0.rotation_degrees,-30.0,0.0)
@@ -46,6 +51,7 @@ func AttackHandler() -> void:
 			attack_strength		= float(attack_out)
 			$AttackCooldown.start(
 				3.25 * ( float( attack_out ) / 100 ) )
+			attack_pos[0] = glbl.head_pos
 
 			allow_attack = false
 
@@ -63,7 +69,9 @@ func _ready():
 	$FaceObstacle.add_exception($DestroyThrough)
 
 
-func _process(_delta):
+func _process(delta):
+
+	glbl.health += ( 2.5 * delta ) * 1 if !invincible else 0.5
 
 	glbl.head_pos				= global_position
 	glbl.head_canvas_pos		= get_global_transform_with_canvas().origin
@@ -93,7 +101,7 @@ func _process(_delta):
 
 var velo
 var attack_velo	: Vector2
-func _physics_process(_delta):
+func _physics_process(delta):
 
 	easer += ( 0.1 * 1.0 if glbl.moving else -1.0 )
 	easer = clamp(easer,0.0,1.0)
@@ -104,18 +112,18 @@ func _physics_process(_delta):
 			( ( speed ) * global_position.direction_to(get_global_mouse_position()) ) )
 		)
 	else:
-		velo = 20 * attack_dir
+		velo = attack_speed * attack_dir
 		var collision = move_and_collide(velo)
 
-		if $DestroyThrough.is_colliding():
+		attack_pos[1] = glbl.head_pos
 
+		if $DestroyThrough.is_colliding():
 #			print( "$DestroyThrough.is_colliding():" + str($DestroyThrough.is_colliding()) )
 #			print( "$DestroyThrough.get_collider():" + str($DestroyThrough.get_collider()) )
 
 			if $DestroyThrough.get_collider().has_method("Damage"):
 				if $DestroyThrough.get_collider().health - attack_strength <= 0:
 					$DestroyThrough.get_collider().Damage( $DestroyThrough.get_collider().health )
-#					$DestroyThrough.get_collider().queue_free()
 					ResetAtkDmg()
 				else:
 					if collision != null:
@@ -137,6 +145,14 @@ func _physics_process(_delta):
 			ResetAtkDmg()
 			attacking = false
 
+		if attack_pos[0].distance_to(attack_pos[1]) >= attack_distance_max:
+			ResetAtkDmg()
+			velo -= 2.0 * delta
+			attacking = false
+
+		velo.x = clamp(velo.x,0.0,attack_speed * attack_dir.x)
+		velo.y = clamp(velo.y,0.0,attack_speed * attack_dir.y)
+
 	if glbl.moving_f > 0 and !attacking:
 		self.look_at(get_global_mouse_position())
 
@@ -149,3 +165,12 @@ func ResetAtkDmg() -> void:
 
 func _on_AttackCooldown_timeout():
 	allow_attack = true
+
+
+
+var invincible = false
+func DamagePlayer(power:float) -> void:
+	if !invincible:
+		print("DamagePlayer: " + str(power))
+		glbl.health -= power
+		$"../Body/AnimationPlayer/Hit".play("Hit")

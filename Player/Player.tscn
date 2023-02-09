@@ -1,4 +1,4 @@
-[gd_scene load_steps=37 format=2]
+[gd_scene load_steps=45 format=2]
 
 [ext_resource path="res://Player/Sprites/Segment-0.png" type="Texture" id=1]
 [ext_resource path="res://Player/Player.Body.gd" type="Script" id=2]
@@ -10,11 +10,7 @@
 [ext_resource path="res://UI/Cursors/Arrow.png" type="Texture" id=8]
 [ext_resource path="res://UI/Cursors/Cross.png" type="Texture" id=9]
 [ext_resource path="res://Player/CollisionBody.Shape.tres" type="Shape2D" id=10]
-
-[sub_resource type="Curve2D" id=3]
-_data = {
-"points": PoolVector2Array( 0, 0, 0, 0, -27, 4, 0, 0, 0, 0, -184, -28, 0, 0, 0, 0, -315, -65, 0, 0, 0, 0, -431, -46, 0, 0, 0, 0, -493, 3, 0, 0, 0, 0, -566, 40, 0, 0, 0, 0, -717, 40 )
-}
+[ext_resource path="res://Player/DamageBody.Area2D.gd" type="Script" id=11]
 
 [sub_resource type="Animation" id=4]
 resource_name = "Idle"
@@ -190,6 +186,69 @@ tracks/6/keys = {
 "transitions": PoolRealArray( 1 ),
 "update": 0,
 "values": [ 28.0 ]
+}
+
+[sub_resource type="Animation" id=35]
+resource_name = "FadeOutHealthBar"
+tracks/0/type = "value"
+tracks/0/path = NodePath("../../HealthUI:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.2, 0.7, 1 ),
+"transitions": PoolRealArray( 1, 2, 1, 1 ),
+"update": 0,
+"values": [ Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 0 ) ]
+}
+
+[sub_resource type="Animation" id=33]
+resource_name = "Hit"
+length = 0.6
+tracks/0/type = "value"
+tracks/0/path = NodePath("..:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 1 ),
+"transitions": PoolRealArray( 2, 1, 2, 1, 2, 1, 1, 1 ),
+"update": 0,
+"values": [ Color( 1, 1, 1, 1 ), Color( 0.952941, 0.105882, 0.105882, 1 ), Color( 1, 1, 1, 1 ), Color( 0.952941, 0.105882, 0.105882, 1 ), Color( 1, 1, 1, 1 ), Color( 0.952941, 0.105882, 0.105882, 1 ), Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 1 ) ]
+}
+
+[sub_resource type="Animation" id=34]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/path = NodePath("..:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ Color( 1, 1, 1, 1 ) ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("../../HealthUI:modulate")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ Color( 1, 1, 1, 1 ) ]
+}
+
+[sub_resource type="Curve2D" id=3]
+_data = {
+"points": PoolVector2Array( 0, 0, 0, 0, -27, 4, 0, 0, 0, 0, -184, -28, 0, 0, 0, 0, -315, -65, 0, 0, 0, 0, -431, -46, 0, 0, 0, 0, -493, 3, 0, 0, 0, 0, -566, 40, 0, 0, 0, 0, -717, 40 )
 }
 
 [sub_resource type="Gradient" id=17]
@@ -392,6 +451,47 @@ gradient = SubResource( 8 )
 width = 24
 height = 24
 
+[sub_resource type="Gradient" id=36]
+offsets = PoolRealArray( 0.618321, 0.881679, 1 )
+colors = PoolColorArray( 1, 1, 1, 0, 1, 1, 1, 0.377358, 1, 1, 1, 0.760784 )
+
+[sub_resource type="GradientTexture2D" id=37]
+flags = 4
+gradient = SubResource( 36 )
+fill = 1
+fill_from = Vector2( 0.5, 0.5 )
+
+[sub_resource type="Animation" id=38]
+resource_name = "Beating"
+loop = true
+tracks/0/type = "value"
+tracks/0/path = NodePath(".:self_modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.1, 0.3, 0.5, 0.7, 0.9, 1 ),
+"transitions": PoolRealArray( 1, 1, 1, 1, 1, 1, 1 ),
+"update": 0,
+"values": [ Color( 0.788235, 0.0392157, 0.0392157, 1 ), Color( 0.788235, 0.0392157, 0.0392157, 1 ), Color( 0.788235, 0.0392157, 0.0392157, 0.631373 ), Color( 0.788235, 0.0392157, 0.0392157, 1 ), Color( 0.788235, 0.0392157, 0.0392157, 0.631373 ), Color( 0.788235, 0.0392157, 0.0392157, 1 ), Color( 0.788235, 0.0392157, 0.0392157, 1 ) ]
+}
+
+[sub_resource type="Animation" id=39]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/path = NodePath(".:self_modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ Color( 0.788235, 0.0392157, 0.0392157, 1 ) ]
+}
+
 [node name="Player" type="Node2D"]
 
 [node name="Node2D" type="Node2D" parent="."]
@@ -399,13 +499,15 @@ visible = false
 position = Vector2( -64, -64 )
 
 [node name="ColorRect" type="ColorRect" parent="Node2D"]
-margin_right = 514.0
-margin_bottom = 670.0
+margin_left = -240.0
+margin_top = -240.0
+margin_right = 992.0
+margin_bottom = 592.0
 color = Color( 0.152941, 0.152941, 0.152941, 1 )
 
 [node name="Body" type="Line2D" parent="."]
 light_mask = 1025
-points = PoolVector2Array( -16, 46, -32, 63, -77, 46, -111, 23, -108, -20, -39, -61, -9, 0 )
+points = PoolVector2Array( -16, 46, -32, 63, -77, 46, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 )
 width = 28.0
 width_curve = ExtResource( 5 )
 default_color = Color( 0.611765, 0.341176, 0.341176, 1 )
@@ -417,6 +519,17 @@ end_cap_mode = 2
 sharp_limit = 1.0
 round_precision = 4
 script = ExtResource( 2 )
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="Body"]
+autoplay = "Idle"
+playback_speed = 1.6
+anims/Idle = SubResource( 4 )
+anims/RESET = SubResource( 5 )
+
+[node name="Hit" type="AnimationPlayer" parent="Body/AnimationPlayer"]
+anims/FadeOutHealthBar = SubResource( 35 )
+anims/Hit = SubResource( 33 )
+anims/RESET = SubResource( 34 )
 
 [node name="Lights" type="Path2D" parent="Body"]
 self_modulate = Color( 0.501961, 0.6, 1, 0 )
@@ -458,13 +571,14 @@ color = Color( 1, 0, 0, 1 )
 energy = 1.9
 range_item_cull_mask = 1024
 
-[node name="AnimationPlayer" type="AnimationPlayer" parent="Body"]
-autoplay = "Idle"
-playback_speed = 1.6
-anims/Idle = SubResource( 4 )
-anims/RESET = SubResource( 5 )
+[node name="DamageCollision" type="Area2D" parent="."]
+collision_layer = 4
+collision_mask = 4
+input_pickable = false
+script = ExtResource( 11 )
 
 [node name="HealthUI" type="Line2D" parent="."]
+visible = false
 self_modulate = Color( 1, 1, 1, 0.882353 )
 material = ExtResource( 7 )
 points = PoolVector2Array( -45, 59, -108, 31, -113, 1, -102, -23, -76, -41, -43, -56, -27, -37, -8, 1 )
@@ -483,6 +597,8 @@ anims/Health = SubResource( 15 )
 anims/RESET = SubResource( 16 )
 
 [node name="Head" type="KinematicBody2D" parent="."]
+collision_layer = 5
+collision_mask = 5
 script = ExtResource( 3 )
 
 [node name="AttackCooldown" type="Timer" parent="Head"]
@@ -634,4 +750,19 @@ margin_right = 432.0
 margin_bottom = 26.0
 texture = SubResource( 30 )
 
+[node name="LowHealthOverlay" type="TextureRect" parent="UI"]
+modulate = Color( 1, 1, 1, 0 )
+self_modulate = Color( 0.788235, 0.0392157, 0.0392157, 1 )
+anchor_right = 1.0
+anchor_bottom = 1.0
+texture = SubResource( 37 )
+expand = true
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="UI/LowHealthOverlay"]
+autoplay = "Beating"
+anims/Beating = SubResource( 38 )
+anims/RESET = SubResource( 39 )
+
+[connection signal="animation_finished" from="Body/AnimationPlayer/Hit" to="Body" method="_on_Hit_animation_finished"]
+[connection signal="animation_started" from="Body/AnimationPlayer/Hit" to="Body" method="_on_Hit_animation_started"]
 [connection signal="timeout" from="Head/AttackCooldown" to="Head" method="_on_AttackCooldown_timeout"]
