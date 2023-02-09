@@ -8,3 +8,5 @@ func _ready():
 #	$PostFX.show()
 	$TopLayer.follow_viewport_scale = glbl.top_scale
 	
+func _process(_delta):
+	$Entities/Label.text = str($"Player/Head".invincible)
