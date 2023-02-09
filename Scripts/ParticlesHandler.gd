@@ -2,8 +2,14 @@ extends CPUParticles2D
 
 export(bool) var stay = false
 
+var custom_init_pos = false
+var init_pos : Vector2
+
 onready var copytimer = Timer.new()
 func _ready():
+	if custom_init_pos:
+		global_position = init_pos
+	
 	one_shot = stay
 	copytimer.one_shot = stay
 	copytimer.wait_time = lifetime# * speed_scale + 0.1
