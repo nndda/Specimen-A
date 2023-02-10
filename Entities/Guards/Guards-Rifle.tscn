@@ -1,10 +1,9 @@
-[gd_scene load_steps=20 format=2]
+[gd_scene load_steps=19 format=2]
 
 [ext_resource path="res://Entities/Enntities.png" type="Texture" id=1]
 [ext_resource path="res://Shaders/Particles/muzzle.png" type="Texture" id=2]
 [ext_resource path="res://Entities/Guards/Guards.gd" type="Script" id=3]
 [ext_resource path="res://Shaders/Lights/General.GradientTexture2D.tres" type="Texture" id=4]
-[ext_resource path="res://Worlds/GlobalModulate.tscn" type="PackedScene" id=5]
 [ext_resource path="res://Entities/Guards/Gun-Rifle.gd" type="Script" id=7]
 [ext_resource path="res://Shaders/Materials/Mix-Unshaded.CanvasItemMaterial.tres" type="Material" id=8]
 
@@ -15,8 +14,9 @@ extents = Vector2( 155, 117 )
 closed = false
 polygon = PoolVector2Array( -10, 9, -5, -3, -3, -2, 3, -2, 5, -3, 10, 8 )
 
-[sub_resource type="CircleShape2D" id=1]
-radius = 11.0
+[sub_resource type="CapsuleShape2D" id=14]
+radius = 12.0
+height = 24.0
 
 [sub_resource type="OccluderPolygon2D" id=3]
 closed = false
@@ -171,17 +171,7 @@ tracks/2/keys = {
 collision_layer = 17
 collision_mask = 17
 script = ExtResource( 3 )
-cooldown = 1.2
-
-[node name="GlobalModulate" parent="." instance=ExtResource( 5 )]
-
-[node name="ColorRect" type="ColorRect" parent="."]
-visible = false
-margin_left = -296.0
-margin_top = -339.0
-margin_right = 404.0
-margin_bottom = 234.0
-color = Color( 0.262745, 0.262745, 0.262745, 1 )
+cooldown = 2.5
 
 [node name="TriggerArea" type="Area2D" parent="."]
 visible = false
@@ -223,7 +213,27 @@ light_mask = 2048
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 visible = false
 position = Vector2( -2, -1 )
-shape = SubResource( 1 )
+shape = SubResource( 14 )
+
+[node name="AttackCooldown" type="Timer" parent="."]
+one_shot = true
+
+[node name="NavigationAgent2D" type="NavigationAgent2D" parent="."]
+avoidance_enabled = true
+
+[node name="UpdatePlayerPos" type="Timer" parent="NavigationAgent2D"]
+process_mode = 0
+autostart = true
+
+[node name="KeepDistance" type="Node2D" parent="."]
+visible = false
+
+[node name="Line2D" type="Line2D" parent="KeepDistance"]
+points = PoolVector2Array( -64, 0, 32, 0 )
+default_color = Color( 0.898039, 0, 0, 0.168627 )
+
+[node name="Position2D" type="Position2D" parent="KeepDistance"]
+position = Vector2( -25, 0 )
 
 [node name="Gun" type="Node2D" parent="."]
 position = Vector2( 14, 5 )
@@ -323,9 +333,9 @@ color = Color( 1, 0, 0, 1 )
 anims/Firing = SubResource( 10 )
 anims/RESET = SubResource( 11 )
 
-[node name="AttackCooldown" type="Timer" parent="."]
-one_shot = true
-
 [connection signal="body_entered" from="TriggerArea" to="." method="_on_TriggerArea_body_entered"]
-[connection signal="animation_finished" from="Gun/AnimationPlayer" to="." method="Weapon_AnimationFinished"]
 [connection signal="timeout" from="AttackCooldown" to="." method="_on_AttackCooldown_timeout"]
+[connection signal="path_changed" from="NavigationAgent2D" to="." method="_on_NavigationAgent2D_path_changed"]
+[connection signal="velocity_computed" from="NavigationAgent2D" to="." method="_on_NavigationAgent2D_velocity_computed"]
+[connection signal="timeout" from="NavigationAgent2D/UpdatePlayerPos" to="." method="_on_UpdatePlayerPos_timeout"]
+[connection signal="animation_finished" from="Gun/AnimationPlayer" to="." method="Weapon_AnimationFinished"]
