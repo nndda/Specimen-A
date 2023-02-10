@@ -118,7 +118,7 @@ func _physics_process(_delta):
 
 func _on_Hit_animation_started(anim_name):
 	if anim_name == "Hit":
-		print("Hit started")
+#		print("Hit started")
 		$"../Head".invincible = true
 
 		health_bar.visible = true
@@ -126,7 +126,7 @@ func _on_Hit_animation_started(anim_name):
 
 func _on_Hit_animation_finished(anim_name):
 	if anim_name == "Hit":
-		print("Hit finished")
+#		print("Hit finished")
 		$"../Head".invincible = false
 		$AnimationPlayer/Hit.play("FadeOutHealthBar")
 

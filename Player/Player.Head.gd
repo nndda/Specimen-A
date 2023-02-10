@@ -63,7 +63,6 @@ func AttackHandler() -> void:
 func _ready():
 	$AreaShake/CollisionShape2D.set_deferred("disabled",true)
 	print($AreaShake/CollisionShape2D.disabled)
-	$"../Node2D".queue_free()
 	
 	$DestroyThrough.add_exception($FaceObstacle)
 	$FaceObstacle.add_exception($DestroyThrough)
@@ -106,6 +105,8 @@ func _physics_process(delta):
 	easer += ( 0.1 * 1.0 if glbl.moving else -1.0 )
 	easer = clamp(easer,0.0,1.0)
 
+	attack_distance_max = (12.0 * 32.0) * (attack_strength / 60)
+
 	if !attacking:
 		velo = move_and_slide(
 			( float(glbl.moving_f) *
@@ -118,36 +119,37 @@ func _physics_process(delta):
 		attack_pos[1] = glbl.head_pos
 
 		if $DestroyThrough.is_colliding():
-#			print( "$DestroyThrough.is_colliding():" + str($DestroyThrough.is_colliding()) )
-#			print( "$DestroyThrough.get_collider():" + str($DestroyThrough.get_collider()) )
-
 			if $DestroyThrough.get_collider().has_method("Damage"):
+
 				if $DestroyThrough.get_collider().health - attack_strength <= 0:
 					$DestroyThrough.get_collider().Damage( $DestroyThrough.get_collider().health )
-					ResetAtkDmg()
+					$"Mouth/ImpactParticles-Blood".emitting = true
+#					ResetAtkDmg()
+					ShakeCam()
+					$AreaShake/CollisionShape2D.set_deferred("disabled",true)
+
 				else:
 					if collision != null:
 						if collision.collider.has_method("Damage"):
+							$"Mouth/ImpactParticles-Blood".emitting = true
 							collision.collider.Damage(attack_strength)
 							ResetAtkDmg()
 
+						ShakeCam()
+						$AreaShake/CollisionShape2D.set_deferred("disabled",true)
+
 		if collision != null:
-#			$AreaShake/CollisionShape2D.set_deferred("disabled",false)
-
-			glbl.camera.ShakeStart(
-				15 + ( 25 * ( attack_strength / 100 ) ),
-				0.95,
-				16 + 8 * ( attack_strength / 100 ) )
-			velo = velo.bounce(collision.normal)
-
+			ShakeCam()
 			$AreaShake/CollisionShape2D.set_deferred("disabled",true)
-
+			velo = velo.bounce(collision.normal)
 			ResetAtkDmg()
 			attacking = false
 
 		if attack_pos[0].distance_to(attack_pos[1]) >= attack_distance_max:
 			ResetAtkDmg()
-			velo -= 2.0 * delta
+			velo.x -= 2.0 * delta
+			velo.y -= 2.0 * delta
+			$AreaShake/CollisionShape2D.set_deferred("disabled",true)
 			attacking = false
 
 		velo.x = clamp(velo.x,0.0,attack_speed * attack_dir.x)
@@ -158,7 +160,14 @@ func _physics_process(delta):
 
 	$"../UI/AttackCooldown".visible = ($AttackCooldown.time_left > 0)
 
+func ShakeCam() -> void:
+	glbl.camera.ShakeStart(
+		15 + ( 25 * ( attack_strength / 100 ) ),
+		0.95,
+		16 + 8 * ( attack_strength / 100 ) )
+
 func ResetAtkDmg() -> void:
+#	if reset:
 	OpenMouth(0)
 	attack_strength = 0
 	attack_out = 0
@@ -171,6 +180,6 @@ func _on_AttackCooldown_timeout():
 var invincible = false
 func DamagePlayer(power:float) -> void:
 	if !invincible:
-		print("DamagePlayer: " + str(power))
-		glbl.health -= power
+		print("DamagePlayer: " + str(power*1.85))
+		glbl.health -= power*1.85
 		$"../Body/AnimationPlayer/Hit".play("Hit")
