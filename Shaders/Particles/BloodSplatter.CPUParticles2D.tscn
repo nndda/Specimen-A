@@ -15,19 +15,20 @@ offsets = PoolRealArray( 0, 0.145038 )
 colors = PoolColorArray( 0.691406, 0.691406, 0.691406, 1, 1, 1, 1, 1 )
 
 [sub_resource type="Gradient" id=4]
-offsets = PoolRealArray( 0.240458, 0.790076 )
-colors = PoolColorArray( 0.746094, 0.724964, 0.724964, 1, 1, 1, 1, 1 )
+offsets = PoolRealArray( 0.300885, 0.814159 )
+colors = PoolColorArray( 0.746094, 0.724964, 0.724964, 1, 0.666992, 0.666992, 0.666992, 1 )
 
 [node name="BloodSplatter" type="CPUParticles2D"]
 material = SubResource( 2 )
 position = Vector2( 0, -2 )
 amount = 5
+speed_scale = 2.0
 explosiveness = 1.0
 local_coords = false
 texture = ExtResource( 1 )
 spread = 180.0
 gravity = Vector2( 0, 0 )
-initial_velocity = 40.0
+initial_velocity = 20.0
 initial_velocity_random = 0.5
 angular_velocity = 30.0
 angular_velocity_random = 1.0
