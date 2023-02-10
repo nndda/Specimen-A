@@ -18,7 +18,7 @@ func _physics_process(_delta):
 
 		$BulletSpark.global_position = $CollidingPoint.global_position
 		if $LineOfSight/LineOfFire.get_collider().has_method("DamagePlayer"):
-			$LineOfSight/LineOfFire.get_collider().DamagePlayer(12.0)
+			$LineOfSight/LineOfFire.get_collider().DamagePlayer(15.0)
 	else:
 		$BulletPath.points[1] = Vector2(0,110)
 
