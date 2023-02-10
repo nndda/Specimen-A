@@ -12,7 +12,12 @@ export(int) var particle_amount = 30
 
 var particle_max : int = 30
 
+export(NodePath) var navigation
+
 func _ready():
+	if get_node_or_null(navigation) != null:
+		print("nav enabled : " + str(get_node(navigation).enabled))
+		get_node(navigation).enabled = false
 	max_health = health
 	particle_max = particle_amount
 	if get_node(particle_node) != null:
@@ -41,4 +46,7 @@ func Damage(power:float = 35.0) -> void:
 			for obj in destroy_objects:
 				get_node(obj).queue_free()
 
+		if get_node_or_null(navigation) != null:
+			print("nav enabled : " + str(get_node(navigation).enabled))
+			get_node(navigation).enabled = true
 		queue_free()
