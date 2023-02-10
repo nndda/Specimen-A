@@ -1,0 +1,234 @@
+[gd_scene load_steps=13 format=2]
+
+[ext_resource path="res://Shaders/Particles/BloodSplatter.CPUParticles2D.tscn" type="PackedScene" id=1]
+[ext_resource path="res://Shaders/Particles/BloodSplatterDecap.CPUParticles2D.tscn" type="PackedScene" id=2]
+[ext_resource path="res://Entities/Enntities.png" type="Texture" id=3]
+[ext_resource path="res://Scripts/VisibilityHandler.tscn" type="PackedScene" id=4]
+[ext_resource path="res://Shaders/Particles/BloodSplatters.png" type="Texture" id=5]
+[ext_resource path="res://Entities/Guards/Guard-Corpse.gd" type="Script" id=7]
+
+[sub_resource type="CanvasItemMaterial" id=2]
+particles_animation = true
+particles_anim_h_frames = 10
+particles_anim_v_frames = 1
+particles_anim_loop = false
+
+[sub_resource type="Gradient" id=3]
+offsets = PoolRealArray( 0, 0.145038 )
+colors = PoolColorArray( 0.691406, 0.691406, 0.691406, 1, 1, 1, 1, 1 )
+
+[sub_resource type="Gradient" id=4]
+offsets = PoolRealArray( 0.240458, 0.790076 )
+colors = PoolColorArray( 0.746094, 0.724964, 0.724964, 1, 1, 1, 1, 1 )
+
+[sub_resource type="CanvasItemMaterial" id=1]
+particles_animation = true
+particles_anim_h_frames = 1
+particles_anim_v_frames = 4
+particles_anim_loop = false
+
+[sub_resource type="CanvasItemMaterial" id=5]
+particles_animation = true
+particles_anim_h_frames = 10
+particles_anim_v_frames = 1
+particles_anim_loop = false
+
+[sub_resource type="Curve" id=6]
+_data = [ Vector2( 0, 1 ), 0.0, 1.4, 0, 0, Vector2( 0.644231, 0 ), 0.0, 0.0, 0, 0 ]
+
+[node name="Guard-Corpse" type="Node2D"]
+script = ExtResource( 7 )
+
+[node name="BloodSplatter" parent="." instance=ExtResource( 1 )]
+material = SubResource( 2 )
+position = Vector2( 0, 0 )
+emitting = false
+amount = 3
+initial_velocity = 30.0
+color_ramp = SubResource( 3 )
+color_initial_ramp = SubResource( 4 )
+
+[node name="Torso" type="Sprite" parent="."]
+rotation = -1.5708
+texture = ExtResource( 3 )
+region_enabled = true
+region_rect = Rect2( 96, 320, 32, 32 )
+
+[node name="Head" type="Sprite" parent="Torso"]
+position = Vector2( -1, -21 )
+texture = ExtResource( 3 )
+region_enabled = true
+region_rect = Rect2( 96, 288, 32, 32 )
+__meta__ = {
+"_editor_description_": "+-30 rot deg"
+}
+
+[node name="RArm-Blood" type="Node2D" parent="Torso"]
+position = Vector2( -9, -12 )
+
+[node name="BloodSplatterDecap" parent="Torso/RArm-Blood" instance=ExtResource( 2 )]
+material = SubResource( 1 )
+position = Vector2( -16, -1 )
+
+[node name="RArm" type="Sprite" parent="Torso"]
+position = Vector2( -9, -14 )
+texture = ExtResource( 3 )
+offset = Vector2( -14, 0 )
+region_enabled = true
+region_rect = Rect2( 96, 352, 32, 32 )
+__meta__ = {
+"_editor_description_": "+-90 rot deg"
+}
+
+[node name="Hand" type="Sprite" parent="Torso/RArm"]
+position = Vector2( -17, 1 )
+texture = ExtResource( 3 )
+offset = Vector2( -2, 2 )
+region_enabled = true
+region_rect = Rect2( 96, 384, 32, 32 )
+__meta__ = {
+"_editor_description_": "0 - 180 rot deg"
+}
+
+[node name="Hand-BloodSplatterDecap" parent="Torso/RArm" instance=ExtResource( 2 )]
+show_behind_parent = true
+material = SubResource( 1 )
+position = Vector2( -31, 1 )
+
+[node name="LArm-Blood" type="Node2D" parent="Torso"]
+position = Vector2( 10, -12 )
+scale = Vector2( -1, 1 )
+
+[node name="BloodSplatterDecap" parent="Torso/LArm-Blood" instance=ExtResource( 2 )]
+material = SubResource( 1 )
+position = Vector2( -16, 0 )
+
+[node name="LArm" type="Sprite" parent="Torso"]
+position = Vector2( 9, -14 )
+texture = ExtResource( 3 )
+offset = Vector2( 14, 0 )
+flip_h = true
+region_enabled = true
+region_rect = Rect2( 96, 352, 32, 32 )
+__meta__ = {
+"_editor_description_": "+-90 rot deg"
+}
+
+[node name="Hand" type="Sprite" parent="Torso/LArm"]
+position = Vector2( 16, 1 )
+texture = ExtResource( 3 )
+offset = Vector2( 2, 2 )
+flip_h = true
+region_enabled = true
+region_rect = Rect2( 96, 384, 32, 32 )
+__meta__ = {
+"_editor_description_": "0 - 180 rot deg"
+}
+
+[node name="Hand-BloodSplatterDecap" parent="Torso/LArm" instance=ExtResource( 2 )]
+show_behind_parent = true
+material = SubResource( 1 )
+position = Vector2( 30, 1 )
+scale = Vector2( -1, 1 )
+
+[node name="RLeg-Blood" type="Node2D" parent="Torso"]
+position = Vector2( -5, 15 )
+
+[node name="BloodSplatterDecap" parent="Torso/RLeg-Blood" instance=ExtResource( 2 )]
+material = SubResource( 1 )
+position = Vector2( 1, 15 )
+rotation = -1.5708
+
+[node name="RLeg" type="Sprite" parent="Torso"]
+position = Vector2( -4, 14 )
+texture = ExtResource( 3 )
+offset = Vector2( -2, 16 )
+region_enabled = true
+region_rect = Rect2( 96, 416, 32, 32 )
+__meta__ = {
+"_editor_description_": "30 -15 rot deg"
+}
+
+[node name="Feet" type="Sprite" parent="Torso/RLeg"]
+position = Vector2( 0, 15 )
+texture = ExtResource( 3 )
+offset = Vector2( -2, 3 )
+region_enabled = true
+region_rect = Rect2( 96, 448, 32, 32 )
+__meta__ = {
+"_editor_description_": "0 -60 rot deg"
+}
+
+[node name="Feet-BloodSplatterDecap" type="Node2D" parent="Torso/RLeg"]
+position = Vector2( -1, 15 )
+
+[node name="BloodSplatterDecap" parent="Torso/RLeg/Feet-BloodSplatterDecap" instance=ExtResource( 2 )]
+material = SubResource( 1 )
+position = Vector2( 1, 15 )
+rotation = -1.5708
+
+[node name="LLeg-Blood" type="Node2D" parent="Torso"]
+position = Vector2( 5, 15 )
+
+[node name="BloodSplatterDecap" parent="Torso/LLeg-Blood" instance=ExtResource( 2 )]
+material = SubResource( 1 )
+position = Vector2( 1, 15 )
+rotation = -1.5708
+
+[node name="LLeg" type="Sprite" parent="Torso"]
+position = Vector2( 4, 15 )
+texture = ExtResource( 3 )
+offset = Vector2( 2, 16 )
+flip_h = true
+region_enabled = true
+region_rect = Rect2( 96, 416, 32, 32 )
+__meta__ = {
+"_editor_description_": "30 -15 rot deg"
+}
+
+[node name="Feet" type="Sprite" parent="Torso/LLeg"]
+position = Vector2( 0, 15 )
+texture = ExtResource( 3 )
+offset = Vector2( 2, 3 )
+flip_h = true
+region_enabled = true
+region_rect = Rect2( 96, 448, 32, 32 )
+__meta__ = {
+"_editor_description_": "0 -60 rot deg"
+}
+
+[node name="Feet-BloodSplatterDecap" type="Node2D" parent="Torso/LLeg"]
+position = Vector2( 0, 15 )
+
+[node name="BloodSplatterDecap" parent="Torso/LLeg/Feet-BloodSplatterDecap" instance=ExtResource( 2 )]
+material = SubResource( 1 )
+position = Vector2( 1, 15 )
+rotation = -1.5708
+
+[node name="BloodSplash" type="CPUParticles2D" parent="."]
+material = SubResource( 5 )
+z_index = 1
+z_as_relative = false
+emitting = false
+amount = 32
+lifetime = 2.0
+one_shot = true
+speed_scale = 2.0
+explosiveness = 0.87
+lifetime_randomness = 0.35
+fract_delta = false
+texture = ExtResource( 5 )
+emission_shape = 1
+emission_sphere_radius = 16.0
+direction = Vector2( 0, 0 )
+spread = 180.0
+gravity = Vector2( 0, 0 )
+initial_velocity = 70.42
+scale_amount = 0.05
+scale_amount_random = 0.35
+scale_amount_curve = SubResource( 6 )
+color = Color( 0.898039, 0, 0, 1 )
+
+[node name="VisibilityHandler" parent="." instance=ExtResource( 4 )]
+position = Vector2( 0.499994, 6 )
+scale = Vector2( 5.25, 5.2 )
