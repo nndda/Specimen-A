@@ -54,7 +54,7 @@ func UpdateHealthUI() -> void:
 		health_bar_offsets[0] = clamp(health_bar_offsets[0],0.02,0.96)
 		health_bar_offsets[1] = clamp(health_bar_offsets[1],0.04,0.98)
 
-		for n in ( get_point_count() - 1 ):
+		for n in ( get_point_count() ):
 			if health_bar.get_point_count() <= n:
 				health_bar.add_point(points[n])
 			else:

@@ -31,29 +31,40 @@ func AttackHandler() -> void:
 
 	if allow_attack:
 
-		attack_out	+= 2 if Input.is_action_pressed("Attack") else -2
-		attack_out	= int(clamp(attack_out,0,100))
-		OpenMouth(float(attack_out)/100)
+		match glbl.skill_current:
+			glbl.skill.none:
+				attack_out	+= 4 if Input.is_action_pressed("Attack") else -4
+				attack_out	= int(clamp(attack_out,0,100))
+				OpenMouth(float(attack_out)/100)
+				if Input.is_action_pressed("Attack"):
+					$"../UI/Arrow".look_at(get_viewport().get_mouse_position())
+					$"../UI/Arrow".position		= glbl.head_canvas_pos
+					$"../UI/Arrow".modulate.a	= float(attack_out)/100
+					$"../UI/Arrow".offset.x		= (float(attack_out)/100 * 60) + 68
+					$FaceObstacle.look_at(get_global_mouse_position())
+					self.look_at(get_global_mouse_position())
 
-		if Input.is_action_pressed("Attack"):
-			$"../UI/Arrow".look_at(get_viewport().get_mouse_position())
-			$"../UI/Arrow".position		= glbl.head_canvas_pos
-			$"../UI/Arrow".modulate.a	= float(attack_out)/100
-			$"../UI/Arrow".offset.x		= (float(attack_out)/100 * 60) + 68
+				if Input.is_action_just_released("Attack"):
+					$AreaShake/CollisionShape2D.set_deferred("disabled",false)
+					attacking			= true
+					attack_dir			= glbl.head_pos.direction_to(get_global_mouse_position())
+					attack_strength		= float(attack_out)
+					$AttackCooldown.start(
+						3.25 * ( float( attack_out ) / 100 ) )
+					attack_pos[0] = glbl.head_pos
+					allow_attack = false
 
-			$FaceObstacle.look_at(get_global_mouse_position())
-			self.look_at(get_global_mouse_position())
+			glbl.skill.DischargeShrapnel:
+				if Input.is_action_just_pressed("Attack") and glbl.shrapnel_current > 0:
+					pass
 
-		if Input.is_action_just_released("Attack"):
-			$AreaShake/CollisionShape2D.set_deferred("disabled",false)
-			attacking			= true
-			attack_dir			= glbl.head_pos.direction_to(get_global_mouse_position())
-			attack_strength		= float(attack_out)
-			$AttackCooldown.start(
-				3.25 * ( float( attack_out ) / 100 ) )
-			attack_pos[0] = glbl.head_pos
+			glbl.skill.EMPBurst:
+				if Input.is_action_just_pressed("Attack") and glbl.emp_charge > 0:
+					pass
 
-			allow_attack = false
+			glbl.skill.SynthesizeAcids:
+				if Input.is_action_just_pressed("Attack") and glbl.acid > 0:
+					pass
 
 	$"../UI/AttackIndicator".value		= attack_out
 	$"../UI/AttackCooldown".max_value	= 100
@@ -66,11 +77,14 @@ func _ready():
 	
 	$DestroyThrough.add_exception($FaceObstacle)
 	$FaceObstacle.add_exception($DestroyThrough)
+	MonitorVariables()
 
 
 func _process(delta):
+	MonitorVariables()
 
-	glbl.health += ( 2.5 * delta ) * 1 if !invincible else 0.5
+#	glbl.health += ( 2.5 * delta ) * 1 if !invincible else 0.5
+	glbl.health += ( 2.5 * delta )
 
 	glbl.head_pos				= global_position
 	glbl.head_canvas_pos		= get_global_transform_with_canvas().origin
@@ -124,7 +138,6 @@ func _physics_process(delta):
 				if $DestroyThrough.get_collider().health - attack_strength <= 0:
 					$DestroyThrough.get_collider().Damage( $DestroyThrough.get_collider().health )
 					$"Mouth/ImpactParticles-Blood".emitting = true
-#					ResetAtkDmg()
 					ShakeCam()
 					$AreaShake/CollisionShape2D.set_deferred("disabled",true)
 
@@ -180,6 +193,22 @@ func _on_AttackCooldown_timeout():
 var invincible = false
 func DamagePlayer(power:float) -> void:
 	if !invincible:
-		print("DamagePlayer: " + str(power*1.85))
-		glbl.health -= power*1.85
+		var power_total = (power * 1.25) * 1.0 if !attacking else 0.0
+		
+		print("DamagePlayer: " + str(
+			power_total
+			)
+		)
+		glbl.health -= power_total
 		$"../Body/AnimationPlayer/Hit".play("Hit")
+		$"../UI/Control/HealthBar/AnimationPlayer".play("Visible")
+
+func MonitorVariables() -> void:
+	$"../Dbg/VBoxContainer".data = [
+		"fps",	Engine.get_frames_per_second(),
+		"body length",	glbl.worm_length,
+		"head pos",	glbl.head_pos.round(),
+		"moving",	glbl.moving,
+		"attacking",	attacking,
+		"health",	round(glbl.health),
+	]

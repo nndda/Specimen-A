@@ -1,4 +1,4 @@
-[gd_scene load_steps=47 format=2]
+[gd_scene load_steps=59 format=2]
 
 [ext_resource path="res://Player/Sprites/Segment-0.png" type="Texture" id=1]
 [ext_resource path="res://Player/Player.Body.gd" type="Script" id=2]
@@ -11,6 +11,11 @@
 [ext_resource path="res://UI/Cursors/Cross.png" type="Texture" id=9]
 [ext_resource path="res://Player/CollisionBody.Shape.tres" type="Shape2D" id=10]
 [ext_resource path="res://Player/DamageBody.Area2D.gd" type="Script" id=11]
+[ext_resource path="res://UI/UI.png" type="Texture" id=12]
+[ext_resource path="res://UI/Default.theme" type="Theme" id=13]
+[ext_resource path="res://UI/Fonts/Silver.L.DynamicFont.tres" type="DynamicFont" id=14]
+[ext_resource path="res://Player/UI.gd" type="Script" id=15]
+[ext_resource path="res://Scripts/DebugVars.gd" type="Script" id=16]
 
 [sub_resource type="Animation" id=4]
 resource_name = "Idle"
@@ -451,12 +456,86 @@ height = 256
 fill = 1
 fill_from = Vector2( 0.5, 0.5 )
 
-[sub_resource type="Gradient" id=8]
+[sub_resource type="AtlasTexture" id=42]
+atlas = ExtResource( 12 )
+region = Rect2( 32, 64, 32, 32 )
 
-[sub_resource type="GradientTexture2D" id=30]
-gradient = SubResource( 8 )
-width = 24
-height = 24
+[sub_resource type="AtlasTexture" id=43]
+atlas = ExtResource( 12 )
+region = Rect2( 32, 96, 32, 32 )
+
+[sub_resource type="AtlasTexture" id=44]
+atlas = ExtResource( 12 )
+region = Rect2( 32, 128, 32, 32 )
+
+[sub_resource type="AtlasTexture" id=45]
+atlas = ExtResource( 12 )
+region = Rect2( 64, 64, 32, 32 )
+
+[sub_resource type="AtlasTexture" id=46]
+atlas = ExtResource( 12 )
+region = Rect2( 96, 64, 32, 32 )
+
+[sub_resource type="Animation" id=47]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/path = NodePath(".:margin_top")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ 5.0 ]
+}
+
+[sub_resource type="Animation" id=48]
+resource_name = "ToggleVis"
+tracks/0/type = "value"
+tracks/0/path = NodePath(".:margin_top")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 1 ),
+"transitions": PoolRealArray( 0.5, 1 ),
+"update": 0,
+"values": [ 5.0, -53 ]
+}
+
+[sub_resource type="Animation" id=49]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/path = NodePath(".:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ Color( 1, 1, 1, 0 ) ]
+}
+
+[sub_resource type="Animation" id=50]
+resource_name = "Visible"
+length = 2.0
+tracks/0/type = "value"
+tracks/0/path = NodePath(".:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 1.5, 2 ),
+"transitions": PoolRealArray( 1, 2, 1 ),
+"update": 0,
+"values": [ Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 0 ) ]
+}
 
 [sub_resource type="Gradient" id=36]
 offsets = PoolRealArray( 0.618321, 0.881679, 1 )
@@ -713,6 +792,7 @@ shadow_buffer_size = 32
 
 [node name="UI" type="CanvasLayer" parent="."]
 layer = 2
+script = ExtResource( 15 )
 
 [node name="FaceObstacleIcon" type="Sprite" parent="UI"]
 modulate = Color( 1, 0, 0, 0 )
@@ -751,9 +831,9 @@ texture_progress = SubResource( 32 )
 fill_mode = 4
 
 [node name="Control" type="Control" parent="UI"]
-visible = false
 anchor_right = 1.0
 anchor_bottom = 1.0
+theme = ExtResource( 13 )
 
 [node name="Skills" type="HBoxContainer" parent="UI/Control"]
 anchor_right = 1.0
@@ -762,23 +842,141 @@ margin_bottom = 31.0
 custom_constants/separation = 12
 alignment = 1
 
-[node name="EMPBurst" type="TextureRect" parent="UI/Control/Skills"]
-margin_left = 336.0
-margin_right = 360.0
-margin_bottom = 26.0
-texture = SubResource( 30 )
+[node name="Label" type="Control" parent="UI/Control/Skills"]
+margin_left = 312.0
+margin_right = 312.0
+margin_bottom = 32.0
 
 [node name="DischargeShrapnel" type="TextureRect" parent="UI/Control/Skills"]
-margin_left = 372.0
-margin_right = 396.0
-margin_bottom = 26.0
-texture = SubResource( 30 )
+self_modulate = Color( 0.733333, 0.709804, 0.709804, 1 )
+margin_left = 324.0
+margin_right = 356.0
+margin_bottom = 32.0
+texture = SubResource( 42 )
+
+[node name="Frame" type="TextureRect" parent="UI/Control/Skills/DischargeShrapnel"]
+self_modulate = Color( 0.733333, 0.709804, 0.709804, 1 )
+anchor_right = 1.0
+anchor_bottom = 1.0
+texture = SubResource( 43 )
+
+[node name="Hover" type="TextureRect" parent="UI/Control/Skills/DischargeShrapnel"]
+modulate = Color( 0.898039, 0, 0, 1 )
+anchor_right = 1.0
+anchor_bottom = 1.0
+texture = SubResource( 44 )
+
+[node name="CapBar" type="Control" parent="UI/Control/Skills/DischargeShrapnel"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_top = 34.0
+margin_bottom = 4.0
+
+[node name="ColorRect" type="ColorRect" parent="UI/Control/Skills/DischargeShrapnel/CapBar"]
+self_modulate = Color( 0.733333, 0.709804, 0.709804, 1 )
+anchor_right = 1.0
+margin_bottom = 3.0
+
+[node name="EMPBurst" type="TextureRect" parent="UI/Control/Skills"]
+self_modulate = Color( 0.733333, 0.709804, 0.709804, 1 )
+margin_left = 368.0
+margin_right = 400.0
+margin_bottom = 32.0
+texture = SubResource( 45 )
+
+[node name="Frame" type="TextureRect" parent="UI/Control/Skills/EMPBurst"]
+self_modulate = Color( 0.733333, 0.709804, 0.709804, 1 )
+anchor_right = 1.0
+anchor_bottom = 1.0
+texture = SubResource( 43 )
+
+[node name="Hover" type="TextureRect" parent="UI/Control/Skills/EMPBurst"]
+visible = false
+modulate = Color( 0.898039, 0, 0, 1 )
+anchor_right = 1.0
+anchor_bottom = 1.0
+texture = SubResource( 44 )
+
+[node name="CapBar" type="Control" parent="UI/Control/Skills/EMPBurst"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_top = 34.0
+margin_bottom = 4.0
+
+[node name="ColorRect" type="ColorRect" parent="UI/Control/Skills/EMPBurst/CapBar"]
+self_modulate = Color( 0.733333, 0.709804, 0.709804, 1 )
+anchor_right = 1.0
+margin_bottom = 3.0
 
 [node name="SynthesizeAcids" type="TextureRect" parent="UI/Control/Skills"]
-margin_left = 408.0
-margin_right = 432.0
-margin_bottom = 26.0
-texture = SubResource( 30 )
+self_modulate = Color( 0.733333, 0.709804, 0.709804, 1 )
+margin_left = 412.0
+margin_right = 444.0
+margin_bottom = 32.0
+texture = SubResource( 46 )
+
+[node name="Frame" type="TextureRect" parent="UI/Control/Skills/SynthesizeAcids"]
+self_modulate = Color( 0.733333, 0.709804, 0.709804, 1 )
+anchor_right = 1.0
+anchor_bottom = 1.0
+texture = SubResource( 43 )
+
+[node name="Hover" type="TextureRect" parent="UI/Control/Skills/SynthesizeAcids"]
+visible = false
+modulate = Color( 0.898039, 0, 0, 1 )
+anchor_right = 1.0
+anchor_bottom = 1.0
+texture = SubResource( 44 )
+
+[node name="CapBar" type="Control" parent="UI/Control/Skills/SynthesizeAcids"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_top = 34.0
+margin_bottom = 4.0
+
+[node name="ColorRect" type="ColorRect" parent="UI/Control/Skills/SynthesizeAcids/CapBar"]
+self_modulate = Color( 0.733333, 0.709804, 0.709804, 1 )
+anchor_right = 1.0
+margin_bottom = 3.0
+
+[node name="Label2" type="Control" parent="UI/Control/Skills"]
+margin_left = 456.0
+margin_right = 456.0
+margin_bottom = 32.0
+
+[node name="Label" type="Label" parent="UI/Control/Skills/Label2"]
+anchor_bottom = 1.0
+margin_right = 240.0
+margin_bottom = 42.0
+rect_scale = Vector2( 0.6, 0.6 )
+custom_fonts/font = ExtResource( 14 )
+text = "Discharge Shrapnel"
+valign = 1
+
+[node name="Tween" type="Tween" parent="UI/Control/Skills"]
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="UI/Control/Skills"]
+autoplay = "ToggleVis"
+anims/RESET = SubResource( 47 )
+anims/ToggleVis = SubResource( 48 )
+
+[node name="Visibility" type="Timer" parent="UI/Control/Skills/AnimationPlayer"]
+wait_time = 1.5
+one_shot = true
+
+[node name="HealthBar" type="ColorRect" parent="UI/Control"]
+modulate = Color( 1, 1, 1, 0 )
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_top = -6.0
+rect_min_size = Vector2( 768, 6 )
+rect_pivot_offset = Vector2( 384, 0 )
+color = Color( 0.760784, 0.027451, 0.027451, 1 )
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="UI/Control/HealthBar"]
+anims/RESET = SubResource( 49 )
+anims/Visible = SubResource( 50 )
 
 [node name="LowHealthOverlay" type="TextureRect" parent="UI"]
 modulate = Color( 1, 1, 1, 0 )
@@ -793,6 +991,19 @@ autoplay = "Beating"
 anims/Beating = SubResource( 38 )
 anims/RESET = SubResource( 39 )
 
+[node name="Dbg" type="CanvasLayer" parent="."]
+layer = 3
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Dbg"]
+margin_left = 12.0
+margin_top = 12.0
+margin_right = 256.0
+margin_bottom = 88.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+script = ExtResource( 16 )
+
 [connection signal="animation_finished" from="Body/AnimationPlayer/Hit" to="Body" method="_on_Hit_animation_finished"]
 [connection signal="animation_started" from="Body/AnimationPlayer/Hit" to="Body" method="_on_Hit_animation_started"]
 [connection signal="timeout" from="Head/AttackCooldown" to="Head" method="_on_AttackCooldown_timeout"]
+[connection signal="timeout" from="UI/Control/Skills/AnimationPlayer/Visibility" to="UI" method="_on_SkillUI_Visibility_timeout"]
