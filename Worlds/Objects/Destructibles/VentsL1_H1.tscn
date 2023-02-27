@@ -42,7 +42,7 @@ destroy_objects = [ NodePath("../Sprite1"), NodePath("../Sprite2") ]
 shape = SubResource( 17 )
 
 [node name="VisibilityHandler" parent="." instance=ExtResource( 6 )]
-position = Vector2( -9.53674e-07, -9.53674e-07 )
-scale = Vector2( 3.6, 1.6 )
+position = Vector2( -9.53674e-07, -1.43051e-06 )
+scale = Vector2( 3.6, 3.2 )
 process_parent = true
 physics_process_parent = true
