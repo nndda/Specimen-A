@@ -24,13 +24,16 @@ func Shake() -> void:
 		)
 	$ShakeTween.start()
 
+var following = true
+
 func _ready():
 	glbl.camera = self
 func _process(_delta):
-	global_position = glbl.head_pos
+	if following:
+		global_position = glbl.head_pos
 
-	offset_h = range_lerp( get_viewport().get_mouse_position().x, 0.0, get_viewport_rect().size.x, -1.0, 1.0 )
-	offset_v = range_lerp( get_viewport().get_mouse_position().y, 0.0, get_viewport_rect().size.y, -1.0, 1.0 )
+		offset_h = range_lerp( get_viewport().get_mouse_position().x, 0.0, get_viewport_rect().size.x, -1.0, 1.0 )
+		offset_v = range_lerp( get_viewport().get_mouse_position().y, 0.0, get_viewport_rect().size.y, -1.0, 1.0 )
 
 func _on_Frequency_timeout():
 	Shake()
