@@ -52,7 +52,7 @@ color_initial_ramp = SubResource( 4 )
 rotation = -1.5708
 texture = ExtResource( 3 )
 region_enabled = true
-region_rect = Rect2( 96, 320, 32, 32 )
+region_rect = Rect2( 128, 320, 32, 32 )
 
 [node name="Head" type="Sprite" parent="Torso"]
 position = Vector2( -1, -21 )
