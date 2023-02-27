@@ -29,7 +29,7 @@ tracks/1/keys = {
 } ]
 }
 
-[node name="GlobalModulate" type="CanvasModulate"]
+[node name="GlobalModulate" type="CanvasModulate" groups=["SHOW"]]
 visible = false
 color = Color( 0.121569, 0.0352941, 0.0352941, 1 )
 
