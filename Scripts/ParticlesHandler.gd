@@ -2,7 +2,7 @@ extends CPUParticles2D
 
 export(bool) var stay = false
 
-var custom_init_pos = false
+export(bool) var custom_init_pos = false
 var init_pos : Vector2
 
 onready var copytimer = Timer.new()
