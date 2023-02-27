@@ -1,6 +1,7 @@
 extends StaticBody2D
 
 var health = 80
+var max_health = 80
 var dead = false
 
 var triggered = false
@@ -11,6 +12,12 @@ var fire_clear = false
 onready var line_of_fire = $Gun/LineOfSight/LineOfFire
 var fire_ready = false
 
+export(NodePath) var particle_node
+
+export(int) var particle_amount = 35
+var particle_max : int = 35
+onready var particle_layer = Node2D.new()
+
 export(float,0.0,5.0) var init_cooldown = 0.0
 var clear = true
 export(float,0.8,5.0) var cooldown
@@ -19,6 +26,7 @@ export(String) var group
 
 
 func _ready():
+	$Gun.damage = 32.0
 	clear = init_cooldown == 0
 	$AttackCooldown.wait_time = cooldown
 
@@ -42,7 +50,8 @@ func _process(_delta):
 		fire_ready = false
 
 func _physics_process(_delta):
-	$Gun.look_at(glbl.head_pos)
+	if triggered:
+		$Gun.look_at(glbl.head_pos)
 
 func Weapon_AnimationFinished(anim):
 	if anim == "Firing":
@@ -59,7 +68,24 @@ func Damage(power:float) -> void:
 #	blood.init_pos				= global_position
 #	get_node("../../Objects").add_child(blood)
 
+	if get_node(particle_node)	!= null:
+		var particle			= get_node(particle_node).duplicate()
+		particle.amount			= int(clamp( particle_amount - (particle_max - particle_amount) * (health/max_health),1,particle_max))
+		particle_amount			-= particle.amount
+		particle_amount			= clamp(particle.amount,0,particle_max)
+
+		if particle.custom_init_pos:
+			particle.init_pos = global_position
+
+		particle.visible		= true
+		particle.emitting		= true
+
+		if particle_layer.get_child_count() > 3:
+			particle_layer.get_child(0).queue_free()
+		particle_layer.add_child(particle)
+
 	health		-= power
+	glbl.PopUpPoints(power,global_position)
 	if health	<= 0:
 #		var corpse = load("res://Entities/Guards/Guard-Corpse.tscn").instance()
 #		corpse.init_pos = global_position
