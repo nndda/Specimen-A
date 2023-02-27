@@ -19,28 +19,50 @@ var worm_body
 
 var health : float = 100.0
 
+
+
+
+var skill_current = skill.none
+enum skill {
+	none,
+	DischargeShrapnel,
+	EMPBurst,
+	SynthesizeAcids
+}
+#var skills_discovered : int = 0
+var skills_discovered : int = 4 # Dbg purpose
+
+#var skills = {
+#
+#	skill.DischargeShrapnel : {
+#		"ready"		: false,
+#	},
+#
+#	skill.EMPBurst : {
+#		"ready"		: false,
+#	},
+#
+#	skill.SynthesizeAcids : {
+#		"ready"		: false,
+#	},
+#}
+var shrapnel_current : int = 0
+var emp_charge : int = 0
+var acid : int = 0
+
+
+
 func sum_array(array:PoolRealArray) -> float:
 	var t = 0.0
 	for n in array:
 		 t += n
 	return t
 
-
-var attack_mode : int = 0
-func _input(event : InputEvent) -> void:
-	if event is InputEventMouseButton:
-		if event.pressed:
-			match event.button_index:
-				BUTTON_WHEEL_UP:
-					attack_mode += 1
-				BUTTON_WHEEL_DOWN:
-					attack_mode -= 1
-#		print(attack_mode)
-
 #	CONFIG
 var cfg = {
 	"always_show_health_bar"	: false,
 	"optimal_graphic"			: false,
+	"show_damage"				: true,
 }
 
 
@@ -49,10 +71,10 @@ var cfg = {
 
 func _process(_delta):
 
-	if Input.is_action_pressed("Skill1"):
-		health -= 2.0
-	if Input.is_action_pressed("Skill2"):
-		health += 2.0
+#	if Input.is_action_pressed("Skill1"):
+#		health -= 2.0
+#	if Input.is_action_pressed("Skill2"):
+#		health += 2.0
 
 	health = clamp(health,0.0,100.0)
 
@@ -69,3 +91,14 @@ func _process(_delta):
 	moving_f = clamp( moving_f, 0.0,
 		float(glbl.head_pos.distance_to(get_global_mouse_position()) >= 25)
 	)
+
+	skill_current = wrapi(skill_current,0,skills_discovered)
+
+var gameplay_ui_layer
+func PopUpPoints(value : float, pos : Vector2) -> void:
+	if glbl.cfg.show_damage:
+		var label = load("res://UI/PointsLabel.tscn").instance()
+		label.text = str(round(value))
+		label.init_pos = pos
+		gameplay_ui_layer.call_deferred("add_child",label)
+
