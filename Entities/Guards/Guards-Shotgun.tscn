@@ -1,0 +1,597 @@
+[gd_scene load_steps=21 format=2]
+
+[ext_resource path="res://Entities/Enntities.png" type="Texture" id=1]
+[ext_resource path="res://Shaders/Particles/muzzle.png" type="Texture" id=2]
+[ext_resource path="res://Entities/Guards/Guards.gd" type="Script" id=3]
+[ext_resource path="res://Shaders/Lights/General.GradientTexture2D.tres" type="Texture" id=4]
+[ext_resource path="res://Scripts/VisibilityHandler.tscn" type="PackedScene" id=5]
+[ext_resource path="res://Entities/Guards/Gun-Shotgun.gd" type="Script" id=6]
+[ext_resource path="res://Worlds/GlobalModulate.tscn" type="PackedScene" id=7]
+[ext_resource path="res://Shaders/Materials/Mix-Unshaded.CanvasItemMaterial.tres" type="Material" id=8]
+
+[sub_resource type="RectangleShape2D" id=5]
+extents = Vector2( 226.277, 267.061 )
+
+[sub_resource type="OccluderPolygon2D" id=4]
+closed = false
+polygon = PoolVector2Array( -10, 9, -5, -3, -3, -2, 3, -2, 5, -3, 10, 8 )
+
+[sub_resource type="CapsuleShape2D" id=14]
+radius = 12.0
+height = 24.0
+
+[sub_resource type="OccluderPolygon2D" id=3]
+closed = false
+polygon = PoolVector2Array( -32, 56, -1, -2, 1, -2, 32, 56 )
+
+[sub_resource type="Gradient" id=12]
+offsets = PoolRealArray( 0, 0.10687, 1 )
+colors = PoolColorArray( 1, 1, 1, 0.831373, 1, 1, 1, 0.54902, 1, 1, 1, 0 )
+
+[sub_resource type="GradientTexture2D" id=13]
+flags = 0
+gradient = SubResource( 12 )
+fill = 1
+fill_from = Vector2( 0.5, 0.5 )
+fill_to = Vector2( 0.8, 0.2 )
+
+[sub_resource type="CanvasItemMaterial" id=6]
+blend_mode = 1
+
+[sub_resource type="Gradient" id=7]
+offsets = PoolRealArray( 0.419847, 1 )
+colors = PoolColorArray( 0.956863, 0.619608, 0.113725, 0, 0.956863, 0.619608, 0.113725, 1 )
+
+[sub_resource type="CanvasItemMaterial" id=8]
+blend_mode = 1
+
+[sub_resource type="Gradient" id=9]
+offsets = PoolRealArray( 0.194656, 0.961832 )
+colors = PoolColorArray( 1, 1, 1, 1, 1, 1, 1, 0 )
+
+[sub_resource type="Animation" id=10]
+resource_name = "Firing"
+length = 0.75
+step = 0.025
+tracks/0/type = "method"
+tracks/0/path = NodePath(".")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0.025 ),
+"transitions": PoolRealArray( 1 ),
+"values": [ {
+"args": [  ],
+"method": "Fire"
+} ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("Muzzle:energy")
+tracks/1/interp = 1
+tracks/1/loop_wrap = false
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0.025, 0.125, 0.3 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
+"update": 0,
+"values": [ 1.5, 0.0, 0.0 ]
+}
+tracks/2/type = "value"
+tracks/2/path = NodePath("Muzzle/Flash:energy")
+tracks/2/interp = 1
+tracks/2/loop_wrap = false
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/keys = {
+"times": PoolRealArray( 0.025, 0.15, 0.325 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
+"update": 0,
+"values": [ 2.0, 0.0, 0.0 ]
+}
+tracks/3/type = "value"
+tracks/3/path = NodePath("BulletPaths:modulate")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/keys = {
+"times": PoolRealArray( 0, 0.025, 0.3, 0.75 ),
+"transitions": PoolRealArray( 1, -0.5, 1, 1 ),
+"update": 0,
+"values": [ Color( 0, 0, 0, 1 ), Color( 1, 1, 1, 0.752941 ), Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 0 ) ]
+}
+
+[sub_resource type="Animation" id=11]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/path = NodePath("Muzzle:energy")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ 0.0 ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("Muzzle/Flash:energy")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ 0.0 ]
+}
+tracks/2/type = "value"
+tracks/2/path = NodePath("BulletPaths:modulate")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ Color( 1, 1, 1, 1 ) ]
+}
+
+[node name="Guard-Shotgun" type="KinematicBody2D"]
+collision_layer = 17
+collision_mask = 17
+script = ExtResource( 3 )
+cooldown = 3.75
+
+[node name="GlobalModulate" parent="." groups=["DBG"] instance=ExtResource( 7 )]
+
+[node name="ColorRect" type="ColorRect" parent="." groups=["DBG"]]
+visible = false
+margin_left = -128.0
+margin_top = -144.0
+margin_right = 352.0
+margin_bottom = 128.0
+color = Color( 0.188235, 0.188235, 0.188235, 1 )
+
+[node name="TriggerArea" type="Area2D" parent="."]
+visible = false
+input_pickable = false
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="TriggerArea"]
+position = Vector2( 24, 27 )
+shape = SubResource( 5 )
+
+[node name="Sprite" type="Sprite" parent="."]
+rotation = -1.5708
+texture = ExtResource( 1 )
+region_enabled = true
+region_rect = Rect2( 224, 192, 64, 64 )
+
+[node name="GeneralLight" type="Light2D" parent="Sprite"]
+texture = ExtResource( 4 )
+color = Color( 1, 1, 1, 0.941176 )
+mode = 2
+range_layer_min = -1
+
+[node name="LightHelmet" type="Light2D" parent="Sprite"]
+position = Vector2( 2, 0 )
+texture = ExtResource( 4 )
+offset = Vector2( 0, -4 )
+texture_scale = 0.6
+color = Color( 0.956863, 0.619608, 0.113725, 1 )
+range_layer_min = -1
+shadow_enabled = true
+shadow_item_cull_mask = 2049
+
+[node name="LightOccluder2D" type="LightOccluder2D" parent="Sprite/LightHelmet"]
+self_modulate = Color( 1, 1, 1, 0 )
+light_mask = 2048
+position = Vector2( 0, -1 )
+occluder = SubResource( 4 )
+light_mask = 2048
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+visible = false
+position = Vector2( -2, -1 )
+shape = SubResource( 14 )
+
+[node name="AttackCooldown" type="Timer" parent="."]
+one_shot = true
+
+[node name="NavigationAgent2D" type="NavigationAgent2D" parent="."]
+avoidance_enabled = true
+
+[node name="UpdatePlayerPos" type="Timer" parent="NavigationAgent2D"]
+process_mode = 0
+autostart = true
+
+[node name="KeepDistance" type="Node2D" parent="."]
+visible = false
+
+[node name="Line2D" type="Line2D" parent="KeepDistance"]
+points = PoolVector2Array( -64, 0, 32, 0 )
+default_color = Color( 0.898039, 0, 0, 0.168627 )
+
+[node name="Position2D" type="Position2D" parent="KeepDistance"]
+position = Vector2( -25, 0 )
+
+[node name="Gun" type="Node2D" parent="."]
+position = Vector2( 14, 5 )
+rotation = -1.5708
+script = ExtResource( 6 )
+
+[node name="Light2D" type="Light2D" parent="Gun"]
+position = Vector2( 0, 4 )
+texture = ExtResource( 4 )
+texture_scale = 3.0
+mode = 2
+range_layer_min = -1
+shadow_enabled = true
+shadow_gradient_length = 30.0
+shadow_item_cull_mask = 2049
+
+[node name="LightOccluder2D" type="LightOccluder2D" parent="Gun/Light2D"]
+self_modulate = Color( 1, 1, 1, 0 )
+light_mask = 2048
+position = Vector2( 0, -1 )
+occluder = SubResource( 3 )
+light_mask = 2048
+
+[node name="Muzzle" type="Light2D" parent="Gun"]
+position = Vector2( -4.76837e-07, 15 )
+rotation = 3.14159
+texture = ExtResource( 2 )
+texture_scale = 0.5
+color = Color( 0.956863, 0.619608, 0.113725, 1 )
+energy = 0.0
+range_layer_min = -1
+
+[node name="Flash" type="Light2D" parent="Gun/Muzzle"]
+light_mask = 65
+position = Vector2( -5.34058e-05, 12 )
+texture = SubResource( 13 )
+texture_scale = 2.0
+color = Color( 0.956863, 0.619608, 0.113725, 1 )
+energy = 0.0
+range_layer_min = -1
+range_item_cull_mask = 65
+shadow_enabled = true
+shadow_buffer_size = 32
+shadow_item_cull_mask = 65
+
+[node name="FiringSight" type="Area2D" parent="Gun"]
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="Gun/FiringSight"]
+polygon = PoolVector2Array( 46.9995, 151, 0, 0, -49.0005, 150 )
+
+[node name="FiringLine" type="Node2D" parent="Gun"]
+
+[node name="-3" type="RayCast2D" parent="Gun/FiringLine"]
+rotation = -0.261799
+enabled = true
+cast_to = Vector2( 0, 156 )
+collision_mask = 4
+collide_with_areas = true
+
+[node name="-2" type="RayCast2D" parent="Gun/FiringLine"]
+rotation = -0.174533
+enabled = true
+cast_to = Vector2( 0, 156 )
+collision_mask = 4
+collide_with_areas = true
+
+[node name="-1" type="RayCast2D" parent="Gun/FiringLine"]
+rotation = -0.0872665
+enabled = true
+cast_to = Vector2( 0, 156 )
+collision_mask = 4
+collide_with_areas = true
+
+[node name="0" type="RayCast2D" parent="Gun/FiringLine"]
+enabled = true
+cast_to = Vector2( 0, 156 )
+collision_mask = 4
+collide_with_areas = true
+
+[node name="1" type="RayCast2D" parent="Gun/FiringLine"]
+rotation = 0.0872665
+enabled = true
+cast_to = Vector2( 0, 156 )
+collision_mask = 4
+collide_with_areas = true
+
+[node name="2" type="RayCast2D" parent="Gun/FiringLine"]
+rotation = 0.174533
+enabled = true
+cast_to = Vector2( 0, 156 )
+collision_mask = 4
+collide_with_areas = true
+
+[node name="3" type="RayCast2D" parent="Gun/FiringLine"]
+rotation = 0.261799
+enabled = true
+cast_to = Vector2( 0, 156 )
+collision_mask = 4
+collide_with_areas = true
+
+[node name="BulletPaths" type="Node2D" parent="Gun"]
+
+[node name="-3" type="Line2D" parent="Gun/BulletPaths"]
+material = SubResource( 6 )
+points = PoolVector2Array( 0, 0, 38.9995, 145 )
+width = 1.0
+default_color = Color( 0.956863, 0.619608, 0.113725, 1 )
+gradient = SubResource( 7 )
+
+[node name="-2" type="Line2D" parent="Gun/BulletPaths"]
+material = SubResource( 6 )
+points = PoolVector2Array( 0, 0, 25.9995, 148 )
+width = 1.0
+default_color = Color( 0.956863, 0.619608, 0.113725, 1 )
+gradient = SubResource( 7 )
+
+[node name="-1" type="Line2D" parent="Gun/BulletPaths"]
+material = SubResource( 6 )
+points = PoolVector2Array( 0, 0, 12.9995, 149 )
+width = 1.0
+default_color = Color( 0.956863, 0.619608, 0.113725, 1 )
+gradient = SubResource( 7 )
+
+[node name="0" type="Line2D" parent="Gun/BulletPaths"]
+material = SubResource( 6 )
+points = PoolVector2Array( 0, 0, -0.000543118, 150 )
+width = 1.0
+default_color = Color( 0.956863, 0.619608, 0.113725, 1 )
+gradient = SubResource( 7 )
+
+[node name="1" type="Line2D" parent="Gun/BulletPaths"]
+material = SubResource( 6 )
+points = PoolVector2Array( 0, 0, -13.0005, 150 )
+width = 1.0
+default_color = Color( 0.956863, 0.619608, 0.113725, 1 )
+gradient = SubResource( 7 )
+
+[node name="2" type="Line2D" parent="Gun/BulletPaths"]
+material = SubResource( 6 )
+points = PoolVector2Array( 0, 0, -26.0005, 148 )
+width = 1.0
+default_color = Color( 0.956863, 0.619608, 0.113725, 1 )
+gradient = SubResource( 7 )
+
+[node name="3" type="Line2D" parent="Gun/BulletPaths"]
+material = SubResource( 6 )
+points = PoolVector2Array( 0, 0, -39.0005, 145 )
+width = 1.0
+default_color = Color( 0.956863, 0.619608, 0.113725, 1 )
+gradient = SubResource( 7 )
+
+[node name="CollidingPoints" type="Node2D" parent="Gun"]
+
+[node name="-3" type="Position2D" parent="Gun/CollidingPoints"]
+
+[node name="ColorRect" type="ColorRect" parent="Gun/CollidingPoints/-3"]
+visible = false
+material = ExtResource( 8 )
+margin_left = -2.0
+margin_top = -2.0
+margin_right = 2.0
+margin_bottom = 2.0
+color = Color( 1, 0, 0, 1 )
+
+[node name="BulletSpark" type="CPUParticles2D" parent="Gun/CollidingPoints/-3"]
+visible = false
+modulate = Color( 0.956863, 0.619608, 0.113725, 1 )
+material = SubResource( 8 )
+amount = 4
+lifetime = 0.2
+explosiveness = 1.0
+direction = Vector2( 0, -1 )
+spread = 90.0
+gravity = Vector2( 0, 0 )
+initial_velocity = 240.0
+initial_velocity_random = 0.8
+angle = 720.0
+angle_random = 1.0
+scale_amount = 4.0
+scale_amount_random = 0.5
+color_ramp = SubResource( 9 )
+
+[node name="-2" type="Position2D" parent="Gun/CollidingPoints"]
+
+[node name="ColorRect" type="ColorRect" parent="Gun/CollidingPoints/-2"]
+visible = false
+material = ExtResource( 8 )
+margin_left = -2.0
+margin_top = -2.0
+margin_right = 2.0
+margin_bottom = 2.0
+color = Color( 1, 0, 0, 1 )
+
+[node name="BulletSpark" type="CPUParticles2D" parent="Gun/CollidingPoints/-2"]
+visible = false
+modulate = Color( 0.956863, 0.619608, 0.113725, 1 )
+material = SubResource( 8 )
+amount = 4
+lifetime = 0.2
+explosiveness = 1.0
+direction = Vector2( 0, -1 )
+spread = 90.0
+gravity = Vector2( 0, 0 )
+initial_velocity = 240.0
+initial_velocity_random = 0.8
+angle = 720.0
+angle_random = 1.0
+scale_amount = 4.0
+scale_amount_random = 0.5
+color_ramp = SubResource( 9 )
+
+[node name="-1" type="Position2D" parent="Gun/CollidingPoints"]
+
+[node name="ColorRect" type="ColorRect" parent="Gun/CollidingPoints/-1"]
+visible = false
+material = ExtResource( 8 )
+margin_left = -2.0
+margin_top = -2.0
+margin_right = 2.0
+margin_bottom = 2.0
+color = Color( 1, 0, 0, 1 )
+
+[node name="BulletSpark" type="CPUParticles2D" parent="Gun/CollidingPoints/-1"]
+visible = false
+modulate = Color( 0.956863, 0.619608, 0.113725, 1 )
+material = SubResource( 8 )
+amount = 4
+lifetime = 0.2
+explosiveness = 1.0
+direction = Vector2( 0, -1 )
+spread = 90.0
+gravity = Vector2( 0, 0 )
+initial_velocity = 240.0
+initial_velocity_random = 0.8
+angle = 720.0
+angle_random = 1.0
+scale_amount = 4.0
+scale_amount_random = 0.5
+color_ramp = SubResource( 9 )
+
+[node name="0" type="Position2D" parent="Gun/CollidingPoints"]
+
+[node name="ColorRect" type="ColorRect" parent="Gun/CollidingPoints/0"]
+visible = false
+material = ExtResource( 8 )
+margin_left = -2.0
+margin_top = -2.0
+margin_right = 2.0
+margin_bottom = 2.0
+color = Color( 1, 0, 0, 1 )
+
+[node name="BulletSpark" type="CPUParticles2D" parent="Gun/CollidingPoints/0"]
+visible = false
+modulate = Color( 0.956863, 0.619608, 0.113725, 1 )
+material = SubResource( 8 )
+amount = 4
+lifetime = 0.2
+explosiveness = 1.0
+direction = Vector2( 0, -1 )
+spread = 90.0
+gravity = Vector2( 0, 0 )
+initial_velocity = 240.0
+initial_velocity_random = 0.8
+angle = 720.0
+angle_random = 1.0
+scale_amount = 4.0
+scale_amount_random = 0.5
+color_ramp = SubResource( 9 )
+
+[node name="1" type="Position2D" parent="Gun/CollidingPoints"]
+
+[node name="ColorRect" type="ColorRect" parent="Gun/CollidingPoints/1"]
+visible = false
+material = ExtResource( 8 )
+margin_left = -2.0
+margin_top = -2.0
+margin_right = 2.0
+margin_bottom = 2.0
+color = Color( 1, 0, 0, 1 )
+
+[node name="BulletSpark" type="CPUParticles2D" parent="Gun/CollidingPoints/1"]
+visible = false
+modulate = Color( 0.956863, 0.619608, 0.113725, 1 )
+material = SubResource( 8 )
+amount = 4
+lifetime = 0.2
+explosiveness = 1.0
+direction = Vector2( 0, -1 )
+spread = 90.0
+gravity = Vector2( 0, 0 )
+initial_velocity = 240.0
+initial_velocity_random = 0.8
+angle = 720.0
+angle_random = 1.0
+scale_amount = 4.0
+scale_amount_random = 0.5
+color_ramp = SubResource( 9 )
+
+[node name="2" type="Position2D" parent="Gun/CollidingPoints"]
+
+[node name="ColorRect" type="ColorRect" parent="Gun/CollidingPoints/2"]
+visible = false
+material = ExtResource( 8 )
+margin_left = -2.0
+margin_top = -2.0
+margin_right = 2.0
+margin_bottom = 2.0
+color = Color( 1, 0, 0, 1 )
+
+[node name="BulletSpark" type="CPUParticles2D" parent="Gun/CollidingPoints/2"]
+visible = false
+modulate = Color( 0.956863, 0.619608, 0.113725, 1 )
+material = SubResource( 8 )
+amount = 4
+lifetime = 0.2
+explosiveness = 1.0
+direction = Vector2( 0, -1 )
+spread = 90.0
+gravity = Vector2( 0, 0 )
+initial_velocity = 240.0
+initial_velocity_random = 0.8
+angle = 720.0
+angle_random = 1.0
+scale_amount = 4.0
+scale_amount_random = 0.5
+color_ramp = SubResource( 9 )
+
+[node name="3" type="Position2D" parent="Gun/CollidingPoints"]
+
+[node name="ColorRect" type="ColorRect" parent="Gun/CollidingPoints/3"]
+visible = false
+material = ExtResource( 8 )
+margin_left = -2.0
+margin_top = -2.0
+margin_right = 2.0
+margin_bottom = 2.0
+color = Color( 1, 0, 0, 1 )
+
+[node name="BulletSpark" type="CPUParticles2D" parent="Gun/CollidingPoints/3"]
+visible = false
+modulate = Color( 0.956863, 0.619608, 0.113725, 1 )
+material = SubResource( 8 )
+amount = 4
+lifetime = 0.2
+explosiveness = 1.0
+direction = Vector2( 0, -1 )
+spread = 90.0
+gravity = Vector2( 0, 0 )
+initial_velocity = 240.0
+initial_velocity_random = 0.8
+angle = 720.0
+angle_random = 1.0
+scale_amount = 4.0
+scale_amount_random = 0.5
+color_ramp = SubResource( 9 )
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="Gun"]
+anims/Firing = SubResource( 10 )
+anims/RESET = SubResource( 11 )
+
+[node name="VisibilityHandler" parent="." instance=ExtResource( 5 )]
+visible = false
+position = Vector2( 1.90735e-06, 1.90735e-06 )
+scale = Vector2( 6.4, 6.4 )
+process_parent = true
+physics_process_parent = true
+
+[connection signal="body_entered" from="TriggerArea" to="." method="_on_TriggerArea_body_entered"]
+[connection signal="timeout" from="AttackCooldown" to="." method="_on_AttackCooldown_timeout"]
+[connection signal="path_changed" from="NavigationAgent2D" to="." method="_on_NavigationAgent2D_path_changed"]
+[connection signal="velocity_computed" from="NavigationAgent2D" to="." method="_on_NavigationAgent2D_velocity_computed"]
+[connection signal="timeout" from="NavigationAgent2D/UpdatePlayerPos" to="." method="_on_UpdatePlayerPos_timeout"]
+[connection signal="body_entered" from="Gun/FiringSight" to="Gun" method="_on_FiringSight_body_entered"]
+[connection signal="body_exited" from="Gun/FiringSight" to="Gun" method="_on_FiringSight_body_exited"]
+[connection signal="animation_finished" from="Gun/AnimationPlayer" to="." method="Weapon_AnimationFinished"]
