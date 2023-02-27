@@ -1,18 +1,16 @@
-[gd_scene load_steps=19 format=2]
+[gd_scene load_steps=20 format=2]
 
 [ext_resource path="res://Entities/Enntities.png" type="Texture" id=1]
 [ext_resource path="res://Shaders/Particles/muzzle.png" type="Texture" id=2]
 [ext_resource path="res://Entities/Turrets/Turret.gd" type="Script" id=3]
 [ext_resource path="res://Shaders/Lights/General.GradientTexture2D.tres" type="Texture" id=4]
+[ext_resource path="res://Scripts/VisibilityHandler.tscn" type="PackedScene" id=5]
+[ext_resource path="res://Shaders/Particles/GlassShardsL.CPUParticles2D.tscn" type="PackedScene" id=6]
 [ext_resource path="res://Entities/Guards/Gun-Rifle.gd" type="Script" id=7]
 [ext_resource path="res://Shaders/Materials/Mix-Unshaded.CanvasItemMaterial.tres" type="Material" id=8]
 
 [sub_resource type="RectangleShape2D" id=5]
-extents = Vector2( 64, 144 )
-
-[sub_resource type="OccluderPolygon2D" id=4]
-closed = false
-polygon = PoolVector2Array( -10, 9, -5, -3, -3, -2, 3, -2, 5, -3, 10, 8 )
+extents = Vector2( 64, 112 )
 
 [sub_resource type="CapsuleShape2D" id=14]
 radius = 12.0
@@ -171,14 +169,17 @@ tracks/2/keys = {
 collision_layer = 17
 collision_mask = 17
 script = ExtResource( 3 )
+particle_node = NodePath("GlassShardsL")
+init_cooldown = 2.0
+cooldown = 1.2
 
-[node name="ColorRect" type="ColorRect" parent="."]
+[node name="ColorRect" type="ColorRect" parent="." groups=["DBG"]]
 visible = false
 margin_left = -160.0
 margin_top = -160.0
 margin_right = 160.0
 margin_bottom = 160.0
-color = Color( 0.164706, 0.164706, 0.164706, 1 )
+color = Color( 0.0705882, 0.0705882, 0.0705882, 1 )
 
 [node name="TriggerArea" type="Area2D" parent="."]
 visible = false
@@ -200,23 +201,6 @@ color = Color( 1, 1, 1, 0.941176 )
 mode = 2
 range_layer_min = -1
 
-[node name="LightHelmet" type="Light2D" parent="Sprite"]
-position = Vector2( 2, 0 )
-texture = ExtResource( 4 )
-offset = Vector2( 0, -4 )
-texture_scale = 0.6
-color = Color( 0.956863, 0.619608, 0.113725, 1 )
-range_layer_min = -1
-shadow_enabled = true
-shadow_item_cull_mask = 2049
-
-[node name="LightOccluder2D" type="LightOccluder2D" parent="Sprite/LightHelmet"]
-self_modulate = Color( 1, 1, 1, 0 )
-light_mask = 2048
-position = Vector2( 0, -1 )
-occluder = SubResource( 4 )
-light_mask = 2048
-
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 visible = false
 position = Vector2( -2, -1 )
@@ -234,7 +218,7 @@ region_enabled = true
 region_rect = Rect2( 192, 32, 64, 64 )
 
 [node name="Light2D" type="Light2D" parent="Gun"]
-position = Vector2( 0, 4 )
+position = Vector2( 5, 0 )
 rotation = -1.5708
 texture = ExtResource( 4 )
 texture_scale = 3.0
@@ -252,8 +236,8 @@ occluder = SubResource( 3 )
 light_mask = 2048
 
 [node name="Muzzle" type="Light2D" parent="Gun"]
-position = Vector2( -4.76837e-07, 15 )
-rotation = -1.5708
+position = Vector2( 38, 0 )
+rotation = 1.57079
 texture = ExtResource( 2 )
 texture_scale = 0.5
 color = Color( 0.956863, 0.619608, 0.113725, 1 )
@@ -262,7 +246,6 @@ range_layer_min = -1
 
 [node name="Flash" type="Light2D" parent="Gun/Muzzle"]
 light_mask = 65
-position = Vector2( -5.34058e-05, 12 )
 texture = SubResource( 13 )
 texture_scale = 2.0
 color = Color( 0.956863, 0.619608, 0.113725, 1 )
@@ -275,7 +258,7 @@ shadow_item_cull_mask = 65
 
 [node name="BulletPath" type="Line2D" parent="Gun"]
 material = SubResource( 6 )
-points = PoolVector2Array( 0, 0, 0, 110 )
+points = PoolVector2Array( 0, 0, 214, 0 )
 width = 1.0
 default_color = Color( 0.956863, 0.619608, 0.113725, 1 )
 gradient = SubResource( 7 )
@@ -313,8 +296,21 @@ scale_amount_random = 0.5
 color_ramp = SubResource( 9 )
 
 [node name="CollidingPoint" type="Position2D" parent="Gun"]
+position = Vector2( 213, 0 )
 
 [node name="ColorRect" type="ColorRect" parent="Gun/CollidingPoint"]
+visible = false
+material = ExtResource( 8 )
+margin_left = -2.0
+margin_top = -2.0
+margin_right = 2.0
+margin_bottom = 2.0
+color = Color( 1, 0, 0, 1 )
+
+[node name="CollidingPointDefault" type="Position2D" parent="Gun"]
+position = Vector2( 213, 0 )
+
+[node name="ColorRect" type="ColorRect" parent="Gun/CollidingPointDefault"]
 visible = false
 material = ExtResource( 8 )
 margin_left = -2.0
@@ -326,6 +322,15 @@ color = Color( 1, 0, 0, 1 )
 [node name="AnimationPlayer" type="AnimationPlayer" parent="Gun"]
 anims/Firing = SubResource( 10 )
 anims/RESET = SubResource( 11 )
+
+[node name="GlassShardsL" parent="." instance=ExtResource( 6 )]
+color = Color( 0.247059, 0.247059, 0.247059, 0.854902 )
+custom_init_pos = true
+
+[node name="VisibilityHandler" parent="." instance=ExtResource( 5 )]
+visible = false
+position = Vector2( -2.28882e-05, -1.90735e-06 )
+scale = Vector2( 22.4, 22.4 )
 
 [connection signal="body_entered" from="TriggerArea" to="." method="_on_TriggerArea_body_entered"]
 [connection signal="timeout" from="AttackCooldown" to="." method="_on_AttackCooldown_timeout"]
