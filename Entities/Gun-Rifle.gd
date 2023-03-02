@@ -1,6 +1,6 @@
 extends Node2D
 
-var damage = 8.25
+var damage = 4.25
 
 onready var on_line = false
 

@@ -11,7 +11,7 @@ var attacking				= false
 var attack_strength			: float
 var attack_out				: int
 var attack_dir				: Vector2
-var attack_cooldown			= 3.25
+var attack_cooldown			= 2.5
 
 var attack_speed			= 22.0
 
@@ -45,7 +45,9 @@ func AttackHandler() -> void:
 					self.look_at(get_global_mouse_position())
 
 				if Input.is_action_just_released("Attack"):
-					$AreaShake/CollisionShape2D.set_deferred("disabled",false)
+#					$AreaShake/CollisionShape2D.set_deferred("disabled",false)
+					$AreaShake.monitorable	= true
+					$AreaShake.monitoring	= true
 					attacking			= true
 					attack_dir			= glbl.head_pos.direction_to(get_global_mouse_position())
 					attack_strength		= float(attack_out)
@@ -72,8 +74,10 @@ func AttackHandler() -> void:
 
 
 func _ready():
-	$AreaShake/CollisionShape2D.set_deferred("disabled",true)
-	print($AreaShake/CollisionShape2D.disabled)
+#	$AreaShake/CollisionShape2D.set_deferred("disabled",true)
+#	print($AreaShake/CollisionShape2D.disabled)
+	$AreaShake.monitorable	= false
+	$AreaShake.monitoring	= false
 	
 	$DestroyThrough.add_exception($FaceObstacle)
 	$FaceObstacle.add_exception($DestroyThrough)
@@ -139,7 +143,9 @@ func _physics_process(delta):
 					$DestroyThrough.get_collider().Damage( $DestroyThrough.get_collider().health )
 					$"Mouth/ImpactParticles-Blood".emitting = true
 					ShakeCam()
-					$AreaShake/CollisionShape2D.set_deferred("disabled",true)
+#					$AreaShake/CollisionShape2D.set_deferred("disabled",true)
+					$AreaShake.monitorable	= false
+					$AreaShake.monitoring	= false
 
 				else:
 					if collision != null:
@@ -149,11 +155,15 @@ func _physics_process(delta):
 							ResetAtkDmg()
 
 						ShakeCam()
-						$AreaShake/CollisionShape2D.set_deferred("disabled",true)
+#						$AreaShake/CollisionShape2D.set_deferred("disabled",true)
+						$AreaShake.monitorable	= false
+						$AreaShake.monitoring	= false
 
 		if collision != null:
 			ShakeCam()
-			$AreaShake/CollisionShape2D.set_deferred("disabled",true)
+#			$AreaShake/CollisionShape2D.set_deferred("disabled",true)
+			$AreaShake.monitorable	= false
+			$AreaShake.monitoring	= false
 			velo = velo.bounce(collision.normal)
 			ResetAtkDmg()
 			attacking = false
@@ -162,7 +172,7 @@ func _physics_process(delta):
 			ResetAtkDmg()
 			velo.x -= 2.0 * delta
 			velo.y -= 2.0 * delta
-			$AreaShake/CollisionShape2D.set_deferred("disabled",true)
+#			$AreaShake/CollisionShape2D.set_deferred("disabled",true)
 			attacking = false
 
 		velo.x = clamp(velo.x,0.0,attack_speed * attack_dir.x)
@@ -172,6 +182,7 @@ func _physics_process(delta):
 		self.look_at(get_global_mouse_position())
 
 	$"../UI/AttackCooldown".visible = ($AttackCooldown.time_left > 0)
+	glbl.attacking = attacking
 
 func ShakeCam() -> void:
 	glbl.camera.ShakeStart(
@@ -195,10 +206,10 @@ func DamagePlayer(power:float) -> void:
 	if !invincible:
 		var power_total = (power * 1.25) * 1.0 if !attacking else 0.0
 		
-		print("DamagePlayer: " + str(
-			power_total
-			)
-		)
+#		print("DamagePlayer: " + str(
+#			power_total
+#			)
+#		)
 		glbl.health -= power_total
 		$"../Body/AnimationPlayer/Hit".play("Hit")
 		$"../UI/Control/HealthBar/AnimationPlayer".play("Visible")
@@ -206,9 +217,9 @@ func DamagePlayer(power:float) -> void:
 func MonitorVariables() -> void:
 	$"../Dbg/VBoxContainer".data = [
 		"fps",	Engine.get_frames_per_second(),
-		"body length",	glbl.worm_length,
+		"body length",	round(glbl.worm_length),
 		"head pos",	glbl.head_pos.round(),
 		"moving",	glbl.moving,
-		"attacking",	attacking,
+		"attacking",	glbl.attacking,
 		"health",	round(glbl.health),
 	]

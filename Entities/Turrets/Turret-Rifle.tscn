@@ -6,15 +6,11 @@
 [ext_resource path="res://Shaders/Lights/General.GradientTexture2D.tres" type="Texture" id=4]
 [ext_resource path="res://Scripts/VisibilityHandler.tscn" type="PackedScene" id=5]
 [ext_resource path="res://Shaders/Particles/GlassShardsL.CPUParticles2D.tscn" type="PackedScene" id=6]
-[ext_resource path="res://Entities/Guards/Gun-Rifle.gd" type="Script" id=7]
+[ext_resource path="res://Entities/Gun-Rifle.gd" type="Script" id=7]
 [ext_resource path="res://Shaders/Materials/Mix-Unshaded.CanvasItemMaterial.tres" type="Material" id=8]
-
-[sub_resource type="RectangleShape2D" id=5]
-extents = Vector2( 64, 112 )
-
-[sub_resource type="CapsuleShape2D" id=14]
-radius = 12.0
-height = 24.0
+[ext_resource path="res://Entities/Turrets/Turret-Rifle.CollisionShape2D.shape.tres" type="Shape2D" id=9]
+[ext_resource path="res://Entities/Turrets/Turret-Rifle.TriggerArea.CollisionShape2D.shape.tres" type="Shape2D" id=10]
+[ext_resource path="res://Entities/Turrets/Turret-Rifle.BulletSpark.color_ramp.tres" type="Gradient" id=11]
 
 [sub_resource type="OccluderPolygon2D" id=3]
 closed = false
@@ -40,10 +36,6 @@ colors = PoolColorArray( 0.956863, 0.619608, 0.113725, 0, 0.956863, 0.619608, 0.
 
 [sub_resource type="CanvasItemMaterial" id=8]
 blend_mode = 1
-
-[sub_resource type="Gradient" id=9]
-offsets = PoolRealArray( 0.194656, 0.961832 )
-colors = PoolColorArray( 1, 1, 1, 1, 1, 1, 1, 0 )
 
 [sub_resource type="Animation" id=10]
 resource_name = "Firing"
@@ -187,7 +179,7 @@ input_pickable = false
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="TriggerArea"]
 position = Vector2( 24, 27 )
-shape = SubResource( 5 )
+shape = ExtResource( 10 )
 
 [node name="Sprite" type="Sprite" parent="."]
 rotation = -1.5708
@@ -204,7 +196,7 @@ range_layer_min = -1
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 visible = false
 position = Vector2( -2, -1 )
-shape = SubResource( 14 )
+shape = ExtResource( 9 )
 
 [node name="AttackCooldown" type="Timer" parent="."]
 one_shot = true
@@ -293,7 +285,7 @@ angle = 720.0
 angle_random = 1.0
 scale_amount = 4.0
 scale_amount_random = 0.5
-color_ramp = SubResource( 9 )
+color_ramp = ExtResource( 11 )
 
 [node name="CollidingPoint" type="Position2D" parent="Gun"]
 position = Vector2( 213, 0 )

@@ -6,7 +6,7 @@
 [ext_resource path="res://Shaders/Lights/General.GradientTexture2D.tres" type="Texture" id=4]
 [ext_resource path="res://Player/Sprites/Lights/Light.GradientTexture2D.tres" type="Texture" id=5]
 [ext_resource path="res://Player/Sprites/Segment-0.png" type="Texture" id=6]
-[ext_resource path="res://Player/Player.Body.Curve_0.tres" type="Curve" id=7]
+[ext_resource path="res://Player/Player.Body.width_curve.tres" type="Curve" id=7]
 [ext_resource path="res://UI/MainMenu.gd" type="Script" id=8]
 
 [sub_resource type="DynamicFont" id=3]

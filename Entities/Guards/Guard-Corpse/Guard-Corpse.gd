@@ -8,6 +8,8 @@ func FiftyFifty() -> bool:
 
 func _ready():
 	global_position = init_pos
+	$Position2D.global_position = glbl.head_pos
+
 	$BloodSplash.emitting = true
 	randomize()
 
@@ -55,3 +57,29 @@ func DecapLimb(limb:String) -> void:
 			get_node("Torso/" + limb + "-Blood").queue_free()
 	else:
 		get_node("Torso/" + limb + "/" + limb_n + "-BloodSplatterDecap").queue_free()
+
+func _physics_process(_delta):
+	BloodTrail()
+
+var blood_trails = false
+func BloodTrail() -> void:
+	$Position2D.global_position = glbl.head_pos
+
+	if blood_trails:
+		$Position2D.global_position = glbl.head_pos
+		if glbl.moving or glbl.attacking:
+			if $BloodTrail.points.size() <= 30:
+				$BloodTrail.add_point($Position2D.position)
+			else:
+				blood_trails = false
+
+
+
+func _on_Position2D_tree_entered():
+	$Position2D.global_position = glbl.head_pos
+func _on_BloodTrail_tree_entered():
+	BloodTrail()
+func _on_BloodTrailTrigger_body_entered(body):
+	if body.get_name() == "Head":
+		blood_trails = true
+		$BloodTrailTrigger.queue_free()

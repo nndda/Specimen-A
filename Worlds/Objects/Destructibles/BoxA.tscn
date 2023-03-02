@@ -14,7 +14,7 @@ extents = Vector2( 16, 16 )
 
 [sub_resource type="OccluderPolygon2D" id=18]
 cull_mode = 2
-polygon = PoolVector2Array( -16, -16, -16, 16, 16, 16, 16, -16 )
+polygon = PoolVector2Array( -15, -15, -15, 15, 15, 15, 15, -15 )
 
 [node name="BoxA" type="RigidBody2D"]
 collision_layer = 16

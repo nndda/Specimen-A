@@ -45,14 +45,16 @@ func UpdateLightPath() -> void:
 
 var health_bar_offsets : PoolRealArray = PoolRealArray([
 	0.02,0.04 ])
-onready var health_bar = $"../HealthUI"
+#onready var health_bar = $"../HealthUI"
+onready var health_bar = $"../HealthUIS"
 func UpdateHealthUI() -> void:
 	if health_bar.visible:
-		health_bar_offsets[0] = range_lerp(glbl.health,100.0,0.0,0.02,0.96)
-		health_bar_offsets[1] = range_lerp(glbl.health,100.0,0.0,0.04,0.98)
+		
+#		health_bar_offsets[0] = range_lerp(glbl.health,100.0,0.0,0.02,0.96)
+#		health_bar_offsets[1] = range_lerp(glbl.health,100.0,0.0,0.04,0.98)
 
-		health_bar_offsets[0] = clamp(health_bar_offsets[0],0.02,0.96)
-		health_bar_offsets[1] = clamp(health_bar_offsets[1],0.04,0.98)
+#		health_bar_offsets[0] = clamp(health_bar_offsets[0],0.02,0.96)
+#		health_bar_offsets[1] = clamp(health_bar_offsets[1],0.04,0.98)
 
 		for n in ( get_point_count() ):
 			if health_bar.get_point_count() <= n:
@@ -60,8 +62,9 @@ func UpdateHealthUI() -> void:
 			else:
 				health_bar.points[n] = points[n]
 
-		health_bar.gradient.offsets[1] = health_bar_offsets[0]
-		health_bar.gradient.offsets[2] = health_bar_offsets[1]
+#		health_bar.gradient.offsets[1] = health_bar_offsets[0]
+#		health_bar.gradient.offsets[2] = health_bar_offsets[1]
+		pass
 
 func _ready():
 	InitCollisionShape()

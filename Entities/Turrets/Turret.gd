@@ -1,7 +1,7 @@
 extends StaticBody2D
 
-var health = 80
-var max_health = 80
+var health = 60
+var max_health = 60
 var dead = false
 
 var triggered = false
@@ -11,6 +11,8 @@ onready var line_of_sight = $Gun/LineOfSight
 var fire_clear = false
 onready var line_of_fire = $Gun/LineOfSight/LineOfFire
 var fire_ready = false
+
+export(NodePath) var custom_trigger
 
 export(NodePath) var particle_node
 
@@ -30,6 +32,12 @@ func _ready():
 	clear = init_cooldown == 0
 	$AttackCooldown.wait_time = cooldown
 
+	if get_node_or_null(custom_trigger) != null:
+		$TriggerArea.queue_free()
+# warning-ignore:return_value_discarded
+		get_node(custom_trigger).connect(
+			"body_entered",self,"_on_TriggerArea_body_entered"
+			)
 
 
 var ot = true
@@ -99,7 +107,8 @@ func _on_TriggerArea_body_entered(body):
 		triggered = true
 		$AttackCooldown.start(cooldown)
 #		print("> on: " + str(self) + " is: " + str(triggered))
-		$TriggerArea.queue_free()
+		if get_node_or_null(custom_trigger) == null:
+			$TriggerArea.queue_free()
 
 
 

@@ -9,7 +9,7 @@ extends CollisionObject2D
 #export(YieldItem) var yield_item = YieldItem.MetalScraps
 #export(float,0,1) var yield_chance = 0.5
 
-export(float) var health = 100.0
+export(float) var health = 70.0
 
 export(NodePath) var particle_node
 

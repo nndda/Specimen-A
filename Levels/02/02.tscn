@@ -1,4 +1,4 @@
-[gd_scene load_steps=86 format=2]
+[gd_scene load_steps=62 format=2]
 
 [ext_resource path="res://Worlds/Tilesets/Tileset.TileMap.tscn" type="PackedScene" id=1]
 [ext_resource path="res://Worlds/GlobalModulate.tscn" type="PackedScene" id=2]
@@ -12,1028 +12,42 @@
 [ext_resource path="res://Shaders/Lights/LCorner.tscn" type="PackedScene" id=10]
 [ext_resource path="res://Shaders/Lights/LSideL1.tscn" type="PackedScene" id=11]
 [ext_resource path="res://Shaders/Materials/Mix-Unshaded.CanvasItemMaterial.tres" type="Material" id=12]
-[ext_resource path="res://Levels/LevelHandler.gd" type="Script" id=13]
+[ext_resource path="res://Levels/02/02-NextArea.gd" type="Script" id=13]
 [ext_resource path="res://Worlds/Objects/Destructibles/BoxA.tscn" type="PackedScene" id=14]
 [ext_resource path="res://Worlds/Objects/Destructibles/BoxB.tscn" type="PackedScene" id=15]
 [ext_resource path="res://Worlds/Objects/Destructibles/VentsL1_H1.tscn" type="PackedScene" id=16]
-[ext_resource path="res://Entities/Guards/Guards-Rifle.tscn" type="PackedScene" id=17]
+[ext_resource path="res://Entities/Guards/Guards-Rifle/Guards-Rifle.tscn" type="PackedScene" id=17]
 [ext_resource path="res://Worlds/Objects/Destructibles/Door2_H_NON_1.tscn" type="PackedScene" id=18]
 [ext_resource path="res://Worlds/Objects/Destructibles/Door2_V_NON_1.tscn" type="PackedScene" id=19]
 [ext_resource path="res://Shaders/Lights/LSideWayIndicator.tscn" type="PackedScene" id=20]
 [ext_resource path="res://Levels/02/ShieldHint.gd" type="Script" id=21]
 [ext_resource path="res://Worlds/Objects/Destructibles/BenchA.tscn" type="PackedScene" id=22]
-[ext_resource path="res://Levels/02/02-NextArea.gd" type="Script" id=23]
+[ext_resource path="res://Levels/LevelHandler.gd" type="Script" id=23]
 [ext_resource path="res://Worlds/Objects/Destructibles/ChairA.tscn" type="PackedScene" id=24]
 [ext_resource path="res://Worlds/Objects/Destructibles/TrolleyA.tscn" type="PackedScene" id=25]
-[ext_resource path="res://Entities/Guards/Guards-Shotgun.tscn" type="PackedScene" id=26]
+[ext_resource path="res://Entities/Guards/Guards-Shotgun/Guards-Shotgun.tscn" type="PackedScene" id=26]
+[ext_resource path="res://Entities/Turrets/LightCannon/LightCannon.tscn" type="PackedScene" id=27]
 
 [sub_resource type="RectangleShape2D" id=59]
 extents = Vector2( 240, 96 )
 
-[sub_resource type="RectangleShape2D" id=26]
-extents = Vector2( 128, 144 )
-
-[sub_resource type="RectangleShape2D" id=27]
+[sub_resource type="RectangleShape2D" id=83]
 extents = Vector2( 128, 128 )
 
-[sub_resource type="RectangleShape2D" id=28]
-extents = Vector2( 128, 128 )
+[sub_resource type="RectangleShape2D" id=84]
+extents = Vector2( 64, 128 )
 
-[sub_resource type="RectangleShape2D" id=29]
-extents = Vector2( 96, 96 )
+[sub_resource type="RectangleShape2D" id=87]
+extents = Vector2( 176, 96 )
 
-[sub_resource type="Animation" id=30]
-resource_name = "Firing"
-step = 0.025
-tracks/0/type = "method"
-tracks/0/path = NodePath(".")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/keys = {
-"times": PoolRealArray( 0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9 ),
-"transitions": PoolRealArray( 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 ),
-"values": [ {
-"args": [  ],
-"method": "Fire"
-}, {
-"args": [  ],
-"method": "Fire"
-}, {
-"args": [  ],
-"method": "Fire"
-}, {
-"args": [  ],
-"method": "Fire"
-}, {
-"args": [  ],
-"method": "Fire"
-}, {
-"args": [  ],
-"method": "Fire"
-}, {
-"args": [  ],
-"method": "Fire"
-}, {
-"args": [  ],
-"method": "Fire"
-}, {
-"args": [  ],
-"method": "Fire"
-}, {
-"args": [  ],
-"method": "Fire"
-} ]
-}
-tracks/1/type = "value"
-tracks/1/path = NodePath("BulletPath:modulate")
-tracks/1/interp = 1
-tracks/1/loop_wrap = true
-tracks/1/imported = false
-tracks/1/enabled = true
-tracks/1/keys = {
-"times": PoolRealArray( 0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9 ),
-"transitions": PoolRealArray( 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 ),
-"update": 0,
-"values": [ Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 0.647059 ), Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 0.647059 ), Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 0.647059 ), Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 0.647059 ), Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 0.647059 ) ]
-}
-tracks/2/type = "value"
-tracks/2/path = NodePath("Muzzle:energy")
-tracks/2/interp = 1
-tracks/2/loop_wrap = true
-tracks/2/imported = false
-tracks/2/enabled = true
-tracks/2/keys = {
-"times": PoolRealArray( 0, 0.025, 0.075, 0.1, 0.125, 0.175, 0.2, 0.225, 0.275, 0.3, 0.325, 0.375, 0.4, 0.425, 0.475, 0.5, 0.525, 0.575, 0.6, 0.625, 0.675, 0.7, 0.725, 0.775, 0.8, 0.825, 0.875, 0.9, 0.925, 0.975 ),
-"transitions": PoolRealArray( 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 ),
-"update": 0,
-"values": [ 1.5, 0.0, 0.0, 1.5, 0.0, 0.0, 1.5, 0.0, 0.0, 1.5, 0.0, 0.0, 1.5, 0.0, 0.0, 1.5, 0.0, 0.0, 1.5, 0.0, 0.0, 1.5, 0.0, 0.0, 1.5, 0.0, 0.0, 1.5, 0.0, 0.0 ]
-}
-tracks/3/type = "value"
-tracks/3/path = NodePath("Muzzle/Flash:energy")
-tracks/3/interp = 1
-tracks/3/loop_wrap = true
-tracks/3/imported = false
-tracks/3/enabled = true
-tracks/3/keys = {
-"times": PoolRealArray( 0, 0.05, 0.075, 0.1, 0.15, 0.175, 0.2, 0.25, 0.275, 0.3, 0.35, 0.375, 0.4, 0.45, 0.475, 0.5, 0.55, 0.575, 0.6, 0.65, 0.675, 0.7, 0.75, 0.775, 0.8, 0.85, 0.875, 0.9, 0.95, 0.975 ),
-"transitions": PoolRealArray( 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 ),
-"update": 0,
-"values": [ 2.0, 0.0, 0.0, 2.0, 0.0, 0.0, 2.0, 0.0, 0.0, 2.0, 0.0, 0.0, 2.0, 0.0, 0.0, 2.0, 0.0, 0.0, 2.0, 0.0, 0.0, 2.0, 0.0, 0.0, 2.0, 0.0, 0.0, 2.0, 0.0, 0.0 ]
-}
+[sub_resource type="RectangleShape2D" id=86]
+extents = Vector2( 208, 64 )
 
-[sub_resource type="Animation" id=31]
-length = 0.001
-tracks/0/type = "value"
-tracks/0/path = NodePath("BulletPath:modulate")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/keys = {
-"times": PoolRealArray( 0 ),
-"transitions": PoolRealArray( 1 ),
-"update": 0,
-"values": [ Color( 1, 1, 1, 1 ) ]
-}
-tracks/1/type = "value"
-tracks/1/path = NodePath("Muzzle:energy")
-tracks/1/interp = 1
-tracks/1/loop_wrap = true
-tracks/1/imported = false
-tracks/1/enabled = true
-tracks/1/keys = {
-"times": PoolRealArray( 0 ),
-"transitions": PoolRealArray( 1 ),
-"update": 0,
-"values": [ 0.0 ]
-}
-tracks/2/type = "value"
-tracks/2/path = NodePath("Muzzle/Flash:energy")
-tracks/2/interp = 1
-tracks/2/loop_wrap = true
-tracks/2/imported = false
-tracks/2/enabled = true
-tracks/2/keys = {
-"times": PoolRealArray( 0 ),
-"transitions": PoolRealArray( 1 ),
-"update": 0,
-"values": [ 0.0 ]
-}
+[sub_resource type="RectangleShape2D" id=88]
+extents = Vector2( 120, 96 )
 
-[sub_resource type="Animation" id=32]
-resource_name = "Firing"
-step = 0.025
-tracks/0/type = "method"
-tracks/0/path = NodePath(".")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/keys = {
-"times": PoolRealArray( 0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9 ),
-"transitions": PoolRealArray( 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 ),
-"values": [ {
-"args": [  ],
-"method": "Fire"
-}, {
-"args": [  ],
-"method": "Fire"
-}, {
-"args": [  ],
-"method": "Fire"
-}, {
-"args": [  ],
-"method": "Fire"
-}, {
-"args": [  ],
-"method": "Fire"
-}, {
-"args": [  ],
-"method": "Fire"
-}, {
-"args": [  ],
-"method": "Fire"
-}, {
-"args": [  ],
-"method": "Fire"
-}, {
-"args": [  ],
-"method": "Fire"
-}, {
-"args": [  ],
-"method": "Fire"
-} ]
-}
-tracks/1/type = "value"
-tracks/1/path = NodePath("BulletPath:modulate")
-tracks/1/interp = 1
-tracks/1/loop_wrap = true
-tracks/1/imported = false
-tracks/1/enabled = true
-tracks/1/keys = {
-"times": PoolRealArray( 0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9 ),
-"transitions": PoolRealArray( 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 ),
-"update": 0,
-"values": [ Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 0.647059 ), Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 0.647059 ), Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 0.647059 ), Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 0.647059 ), Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 0.647059 ) ]
-}
-tracks/2/type = "value"
-tracks/2/path = NodePath("Muzzle:energy")
-tracks/2/interp = 1
-tracks/2/loop_wrap = true
-tracks/2/imported = false
-tracks/2/enabled = true
-tracks/2/keys = {
-"times": PoolRealArray( 0, 0.025, 0.075, 0.1, 0.125, 0.175, 0.2, 0.225, 0.275, 0.3, 0.325, 0.375, 0.4, 0.425, 0.475, 0.5, 0.525, 0.575, 0.6, 0.625, 0.675, 0.7, 0.725, 0.775, 0.8, 0.825, 0.875, 0.9, 0.925, 0.975 ),
-"transitions": PoolRealArray( 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 ),
-"update": 0,
-"values": [ 1.5, 0.0, 0.0, 1.5, 0.0, 0.0, 1.5, 0.0, 0.0, 1.5, 0.0, 0.0, 1.5, 0.0, 0.0, 1.5, 0.0, 0.0, 1.5, 0.0, 0.0, 1.5, 0.0, 0.0, 1.5, 0.0, 0.0, 1.5, 0.0, 0.0 ]
-}
-tracks/3/type = "value"
-tracks/3/path = NodePath("Muzzle/Flash:energy")
-tracks/3/interp = 1
-tracks/3/loop_wrap = true
-tracks/3/imported = false
-tracks/3/enabled = true
-tracks/3/keys = {
-"times": PoolRealArray( 0, 0.05, 0.075, 0.1, 0.15, 0.175, 0.2, 0.25, 0.275, 0.3, 0.35, 0.375, 0.4, 0.45, 0.475, 0.5, 0.55, 0.575, 0.6, 0.65, 0.675, 0.7, 0.75, 0.775, 0.8, 0.85, 0.875, 0.9, 0.95, 0.975 ),
-"transitions": PoolRealArray( 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 ),
-"update": 0,
-"values": [ 2.0, 0.0, 0.0, 2.0, 0.0, 0.0, 2.0, 0.0, 0.0, 2.0, 0.0, 0.0, 2.0, 0.0, 0.0, 2.0, 0.0, 0.0, 2.0, 0.0, 0.0, 2.0, 0.0, 0.0, 2.0, 0.0, 0.0, 2.0, 0.0, 0.0 ]
-}
-
-[sub_resource type="Animation" id=33]
-length = 0.001
-tracks/0/type = "value"
-tracks/0/path = NodePath("BulletPath:modulate")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/keys = {
-"times": PoolRealArray( 0 ),
-"transitions": PoolRealArray( 1 ),
-"update": 0,
-"values": [ Color( 1, 1, 1, 1 ) ]
-}
-tracks/1/type = "value"
-tracks/1/path = NodePath("Muzzle:energy")
-tracks/1/interp = 1
-tracks/1/loop_wrap = true
-tracks/1/imported = false
-tracks/1/enabled = true
-tracks/1/keys = {
-"times": PoolRealArray( 0 ),
-"transitions": PoolRealArray( 1 ),
-"update": 0,
-"values": [ 0.0 ]
-}
-tracks/2/type = "value"
-tracks/2/path = NodePath("Muzzle/Flash:energy")
-tracks/2/interp = 1
-tracks/2/loop_wrap = true
-tracks/2/imported = false
-tracks/2/enabled = true
-tracks/2/keys = {
-"times": PoolRealArray( 0 ),
-"transitions": PoolRealArray( 1 ),
-"update": 0,
-"values": [ 0.0 ]
-}
-
-[sub_resource type="RectangleShape2D" id=43]
-extents = Vector2( 216, 232 )
-
-[sub_resource type="Animation" id=44]
-resource_name = "Firing"
-step = 0.025
-tracks/0/type = "method"
-tracks/0/path = NodePath(".")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/keys = {
-"times": PoolRealArray( 0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9 ),
-"transitions": PoolRealArray( 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 ),
-"values": [ {
-"args": [  ],
-"method": "Fire"
-}, {
-"args": [  ],
-"method": "Fire"
-}, {
-"args": [  ],
-"method": "Fire"
-}, {
-"args": [  ],
-"method": "Fire"
-}, {
-"args": [  ],
-"method": "Fire"
-}, {
-"args": [  ],
-"method": "Fire"
-}, {
-"args": [  ],
-"method": "Fire"
-}, {
-"args": [  ],
-"method": "Fire"
-}, {
-"args": [  ],
-"method": "Fire"
-}, {
-"args": [  ],
-"method": "Fire"
-} ]
-}
-tracks/1/type = "value"
-tracks/1/path = NodePath("BulletPath:modulate")
-tracks/1/interp = 1
-tracks/1/loop_wrap = true
-tracks/1/imported = false
-tracks/1/enabled = true
-tracks/1/keys = {
-"times": PoolRealArray( 0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9 ),
-"transitions": PoolRealArray( 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 ),
-"update": 0,
-"values": [ Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 0.647059 ), Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 0.647059 ), Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 0.647059 ), Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 0.647059 ), Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 0.647059 ) ]
-}
-tracks/2/type = "value"
-tracks/2/path = NodePath("Muzzle:energy")
-tracks/2/interp = 1
-tracks/2/loop_wrap = true
-tracks/2/imported = false
-tracks/2/enabled = true
-tracks/2/keys = {
-"times": PoolRealArray( 0, 0.025, 0.075, 0.1, 0.125, 0.175, 0.2, 0.225, 0.275, 0.3, 0.325, 0.375, 0.4, 0.425, 0.475, 0.5, 0.525, 0.575, 0.6, 0.625, 0.675, 0.7, 0.725, 0.775, 0.8, 0.825, 0.875, 0.9, 0.925, 0.975 ),
-"transitions": PoolRealArray( 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 ),
-"update": 0,
-"values": [ 1.5, 0.0, 0.0, 1.5, 0.0, 0.0, 1.5, 0.0, 0.0, 1.5, 0.0, 0.0, 1.5, 0.0, 0.0, 1.5, 0.0, 0.0, 1.5, 0.0, 0.0, 1.5, 0.0, 0.0, 1.5, 0.0, 0.0, 1.5, 0.0, 0.0 ]
-}
-tracks/3/type = "value"
-tracks/3/path = NodePath("Muzzle/Flash:energy")
-tracks/3/interp = 1
-tracks/3/loop_wrap = true
-tracks/3/imported = false
-tracks/3/enabled = true
-tracks/3/keys = {
-"times": PoolRealArray( 0, 0.05, 0.075, 0.1, 0.15, 0.175, 0.2, 0.25, 0.275, 0.3, 0.35, 0.375, 0.4, 0.45, 0.475, 0.5, 0.55, 0.575, 0.6, 0.65, 0.675, 0.7, 0.75, 0.775, 0.8, 0.85, 0.875, 0.9, 0.95, 0.975 ),
-"transitions": PoolRealArray( 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 ),
-"update": 0,
-"values": [ 2.0, 0.0, 0.0, 2.0, 0.0, 0.0, 2.0, 0.0, 0.0, 2.0, 0.0, 0.0, 2.0, 0.0, 0.0, 2.0, 0.0, 0.0, 2.0, 0.0, 0.0, 2.0, 0.0, 0.0, 2.0, 0.0, 0.0, 2.0, 0.0, 0.0 ]
-}
-
-[sub_resource type="Animation" id=45]
-length = 0.001
-tracks/0/type = "value"
-tracks/0/path = NodePath("BulletPath:modulate")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/keys = {
-"times": PoolRealArray( 0 ),
-"transitions": PoolRealArray( 1 ),
-"update": 0,
-"values": [ Color( 1, 1, 1, 1 ) ]
-}
-tracks/1/type = "value"
-tracks/1/path = NodePath("Muzzle:energy")
-tracks/1/interp = 1
-tracks/1/loop_wrap = true
-tracks/1/imported = false
-tracks/1/enabled = true
-tracks/1/keys = {
-"times": PoolRealArray( 0 ),
-"transitions": PoolRealArray( 1 ),
-"update": 0,
-"values": [ 0.0 ]
-}
-tracks/2/type = "value"
-tracks/2/path = NodePath("Muzzle/Flash:energy")
-tracks/2/interp = 1
-tracks/2/loop_wrap = true
-tracks/2/imported = false
-tracks/2/enabled = true
-tracks/2/keys = {
-"times": PoolRealArray( 0 ),
-"transitions": PoolRealArray( 1 ),
-"update": 0,
-"values": [ 0.0 ]
-}
-
-[sub_resource type="Animation" id=46]
-resource_name = "Firing"
-step = 0.025
-tracks/0/type = "method"
-tracks/0/path = NodePath(".")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/keys = {
-"times": PoolRealArray( 0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9 ),
-"transitions": PoolRealArray( 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 ),
-"values": [ {
-"args": [  ],
-"method": "Fire"
-}, {
-"args": [  ],
-"method": "Fire"
-}, {
-"args": [  ],
-"method": "Fire"
-}, {
-"args": [  ],
-"method": "Fire"
-}, {
-"args": [  ],
-"method": "Fire"
-}, {
-"args": [  ],
-"method": "Fire"
-}, {
-"args": [  ],
-"method": "Fire"
-}, {
-"args": [  ],
-"method": "Fire"
-}, {
-"args": [  ],
-"method": "Fire"
-}, {
-"args": [  ],
-"method": "Fire"
-} ]
-}
-tracks/1/type = "value"
-tracks/1/path = NodePath("BulletPath:modulate")
-tracks/1/interp = 1
-tracks/1/loop_wrap = true
-tracks/1/imported = false
-tracks/1/enabled = true
-tracks/1/keys = {
-"times": PoolRealArray( 0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9 ),
-"transitions": PoolRealArray( 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 ),
-"update": 0,
-"values": [ Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 0.647059 ), Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 0.647059 ), Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 0.647059 ), Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 0.647059 ), Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 0.647059 ) ]
-}
-tracks/2/type = "value"
-tracks/2/path = NodePath("Muzzle:energy")
-tracks/2/interp = 1
-tracks/2/loop_wrap = true
-tracks/2/imported = false
-tracks/2/enabled = true
-tracks/2/keys = {
-"times": PoolRealArray( 0, 0.025, 0.075, 0.1, 0.125, 0.175, 0.2, 0.225, 0.275, 0.3, 0.325, 0.375, 0.4, 0.425, 0.475, 0.5, 0.525, 0.575, 0.6, 0.625, 0.675, 0.7, 0.725, 0.775, 0.8, 0.825, 0.875, 0.9, 0.925, 0.975 ),
-"transitions": PoolRealArray( 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 ),
-"update": 0,
-"values": [ 1.5, 0.0, 0.0, 1.5, 0.0, 0.0, 1.5, 0.0, 0.0, 1.5, 0.0, 0.0, 1.5, 0.0, 0.0, 1.5, 0.0, 0.0, 1.5, 0.0, 0.0, 1.5, 0.0, 0.0, 1.5, 0.0, 0.0, 1.5, 0.0, 0.0 ]
-}
-tracks/3/type = "value"
-tracks/3/path = NodePath("Muzzle/Flash:energy")
-tracks/3/interp = 1
-tracks/3/loop_wrap = true
-tracks/3/imported = false
-tracks/3/enabled = true
-tracks/3/keys = {
-"times": PoolRealArray( 0, 0.05, 0.075, 0.1, 0.15, 0.175, 0.2, 0.25, 0.275, 0.3, 0.35, 0.375, 0.4, 0.45, 0.475, 0.5, 0.55, 0.575, 0.6, 0.65, 0.675, 0.7, 0.75, 0.775, 0.8, 0.85, 0.875, 0.9, 0.95, 0.975 ),
-"transitions": PoolRealArray( 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 ),
-"update": 0,
-"values": [ 2.0, 0.0, 0.0, 2.0, 0.0, 0.0, 2.0, 0.0, 0.0, 2.0, 0.0, 0.0, 2.0, 0.0, 0.0, 2.0, 0.0, 0.0, 2.0, 0.0, 0.0, 2.0, 0.0, 0.0, 2.0, 0.0, 0.0, 2.0, 0.0, 0.0 ]
-}
-
-[sub_resource type="Animation" id=47]
-length = 0.001
-tracks/0/type = "value"
-tracks/0/path = NodePath("BulletPath:modulate")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/keys = {
-"times": PoolRealArray( 0 ),
-"transitions": PoolRealArray( 1 ),
-"update": 0,
-"values": [ Color( 1, 1, 1, 1 ) ]
-}
-tracks/1/type = "value"
-tracks/1/path = NodePath("Muzzle:energy")
-tracks/1/interp = 1
-tracks/1/loop_wrap = true
-tracks/1/imported = false
-tracks/1/enabled = true
-tracks/1/keys = {
-"times": PoolRealArray( 0 ),
-"transitions": PoolRealArray( 1 ),
-"update": 0,
-"values": [ 0.0 ]
-}
-tracks/2/type = "value"
-tracks/2/path = NodePath("Muzzle/Flash:energy")
-tracks/2/interp = 1
-tracks/2/loop_wrap = true
-tracks/2/imported = false
-tracks/2/enabled = true
-tracks/2/keys = {
-"times": PoolRealArray( 0 ),
-"transitions": PoolRealArray( 1 ),
-"update": 0,
-"values": [ 0.0 ]
-}
-
-[sub_resource type="RectangleShape2D" id=53]
-extents = Vector2( 136, 128 )
-
-[sub_resource type="RectangleShape2D" id=54]
-extents = Vector2( 136, 128 )
-
-[sub_resource type="Animation" id=55]
-resource_name = "Firing"
-step = 0.025
-tracks/0/type = "method"
-tracks/0/path = NodePath(".")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/keys = {
-"times": PoolRealArray( 0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9 ),
-"transitions": PoolRealArray( 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 ),
-"values": [ {
-"args": [  ],
-"method": "Fire"
-}, {
-"args": [  ],
-"method": "Fire"
-}, {
-"args": [  ],
-"method": "Fire"
-}, {
-"args": [  ],
-"method": "Fire"
-}, {
-"args": [  ],
-"method": "Fire"
-}, {
-"args": [  ],
-"method": "Fire"
-}, {
-"args": [  ],
-"method": "Fire"
-}, {
-"args": [  ],
-"method": "Fire"
-}, {
-"args": [  ],
-"method": "Fire"
-}, {
-"args": [  ],
-"method": "Fire"
-} ]
-}
-tracks/1/type = "value"
-tracks/1/path = NodePath("BulletPath:modulate")
-tracks/1/interp = 1
-tracks/1/loop_wrap = true
-tracks/1/imported = false
-tracks/1/enabled = true
-tracks/1/keys = {
-"times": PoolRealArray( 0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9 ),
-"transitions": PoolRealArray( 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 ),
-"update": 0,
-"values": [ Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 0.647059 ), Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 0.647059 ), Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 0.647059 ), Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 0.647059 ), Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 0.647059 ) ]
-}
-tracks/2/type = "value"
-tracks/2/path = NodePath("Muzzle:energy")
-tracks/2/interp = 1
-tracks/2/loop_wrap = true
-tracks/2/imported = false
-tracks/2/enabled = true
-tracks/2/keys = {
-"times": PoolRealArray( 0, 0.025, 0.075, 0.1, 0.125, 0.175, 0.2, 0.225, 0.275, 0.3, 0.325, 0.375, 0.4, 0.425, 0.475, 0.5, 0.525, 0.575, 0.6, 0.625, 0.675, 0.7, 0.725, 0.775, 0.8, 0.825, 0.875, 0.9, 0.925, 0.975 ),
-"transitions": PoolRealArray( 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 ),
-"update": 0,
-"values": [ 1.5, 0.0, 0.0, 1.5, 0.0, 0.0, 1.5, 0.0, 0.0, 1.5, 0.0, 0.0, 1.5, 0.0, 0.0, 1.5, 0.0, 0.0, 1.5, 0.0, 0.0, 1.5, 0.0, 0.0, 1.5, 0.0, 0.0, 1.5, 0.0, 0.0 ]
-}
-tracks/3/type = "value"
-tracks/3/path = NodePath("Muzzle/Flash:energy")
-tracks/3/interp = 1
-tracks/3/loop_wrap = true
-tracks/3/imported = false
-tracks/3/enabled = true
-tracks/3/keys = {
-"times": PoolRealArray( 0, 0.05, 0.075, 0.1, 0.15, 0.175, 0.2, 0.25, 0.275, 0.3, 0.35, 0.375, 0.4, 0.45, 0.475, 0.5, 0.55, 0.575, 0.6, 0.65, 0.675, 0.7, 0.75, 0.775, 0.8, 0.85, 0.875, 0.9, 0.95, 0.975 ),
-"transitions": PoolRealArray( 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 ),
-"update": 0,
-"values": [ 2.0, 0.0, 0.0, 2.0, 0.0, 0.0, 2.0, 0.0, 0.0, 2.0, 0.0, 0.0, 2.0, 0.0, 0.0, 2.0, 0.0, 0.0, 2.0, 0.0, 0.0, 2.0, 0.0, 0.0, 2.0, 0.0, 0.0, 2.0, 0.0, 0.0 ]
-}
-
-[sub_resource type="Animation" id=56]
-length = 0.001
-tracks/0/type = "value"
-tracks/0/path = NodePath("BulletPath:modulate")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/keys = {
-"times": PoolRealArray( 0 ),
-"transitions": PoolRealArray( 1 ),
-"update": 0,
-"values": [ Color( 1, 1, 1, 1 ) ]
-}
-tracks/1/type = "value"
-tracks/1/path = NodePath("Muzzle:energy")
-tracks/1/interp = 1
-tracks/1/loop_wrap = true
-tracks/1/imported = false
-tracks/1/enabled = true
-tracks/1/keys = {
-"times": PoolRealArray( 0 ),
-"transitions": PoolRealArray( 1 ),
-"update": 0,
-"values": [ 0.0 ]
-}
-tracks/2/type = "value"
-tracks/2/path = NodePath("Muzzle/Flash:energy")
-tracks/2/interp = 1
-tracks/2/loop_wrap = true
-tracks/2/imported = false
-tracks/2/enabled = true
-tracks/2/keys = {
-"times": PoolRealArray( 0 ),
-"transitions": PoolRealArray( 1 ),
-"update": 0,
-"values": [ 0.0 ]
-}
-
-[sub_resource type="Animation" id=71]
-resource_name = "Firing"
-step = 0.025
-tracks/0/type = "method"
-tracks/0/path = NodePath(".")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/keys = {
-"times": PoolRealArray( 0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9 ),
-"transitions": PoolRealArray( 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 ),
-"values": [ {
-"args": [  ],
-"method": "Fire"
-}, {
-"args": [  ],
-"method": "Fire"
-}, {
-"args": [  ],
-"method": "Fire"
-}, {
-"args": [  ],
-"method": "Fire"
-}, {
-"args": [  ],
-"method": "Fire"
-}, {
-"args": [  ],
-"method": "Fire"
-}, {
-"args": [  ],
-"method": "Fire"
-}, {
-"args": [  ],
-"method": "Fire"
-}, {
-"args": [  ],
-"method": "Fire"
-}, {
-"args": [  ],
-"method": "Fire"
-} ]
-}
-tracks/1/type = "value"
-tracks/1/path = NodePath("BulletPath:modulate")
-tracks/1/interp = 1
-tracks/1/loop_wrap = true
-tracks/1/imported = false
-tracks/1/enabled = true
-tracks/1/keys = {
-"times": PoolRealArray( 0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9 ),
-"transitions": PoolRealArray( 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 ),
-"update": 0,
-"values": [ Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 0.647059 ), Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 0.647059 ), Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 0.647059 ), Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 0.647059 ), Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 0.647059 ) ]
-}
-tracks/2/type = "value"
-tracks/2/path = NodePath("Muzzle:energy")
-tracks/2/interp = 1
-tracks/2/loop_wrap = true
-tracks/2/imported = false
-tracks/2/enabled = true
-tracks/2/keys = {
-"times": PoolRealArray( 0, 0.025, 0.075, 0.1, 0.125, 0.175, 0.2, 0.225, 0.275, 0.3, 0.325, 0.375, 0.4, 0.425, 0.475, 0.5, 0.525, 0.575, 0.6, 0.625, 0.675, 0.7, 0.725, 0.775, 0.8, 0.825, 0.875, 0.9, 0.925, 0.975 ),
-"transitions": PoolRealArray( 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 ),
-"update": 0,
-"values": [ 1.5, 0.0, 0.0, 1.5, 0.0, 0.0, 1.5, 0.0, 0.0, 1.5, 0.0, 0.0, 1.5, 0.0, 0.0, 1.5, 0.0, 0.0, 1.5, 0.0, 0.0, 1.5, 0.0, 0.0, 1.5, 0.0, 0.0, 1.5, 0.0, 0.0 ]
-}
-tracks/3/type = "value"
-tracks/3/path = NodePath("Muzzle/Flash:energy")
-tracks/3/interp = 1
-tracks/3/loop_wrap = true
-tracks/3/imported = false
-tracks/3/enabled = true
-tracks/3/keys = {
-"times": PoolRealArray( 0, 0.05, 0.075, 0.1, 0.15, 0.175, 0.2, 0.25, 0.275, 0.3, 0.35, 0.375, 0.4, 0.45, 0.475, 0.5, 0.55, 0.575, 0.6, 0.65, 0.675, 0.7, 0.75, 0.775, 0.8, 0.85, 0.875, 0.9, 0.95, 0.975 ),
-"transitions": PoolRealArray( 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 ),
-"update": 0,
-"values": [ 2.0, 0.0, 0.0, 2.0, 0.0, 0.0, 2.0, 0.0, 0.0, 2.0, 0.0, 0.0, 2.0, 0.0, 0.0, 2.0, 0.0, 0.0, 2.0, 0.0, 0.0, 2.0, 0.0, 0.0, 2.0, 0.0, 0.0, 2.0, 0.0, 0.0 ]
-}
-
-[sub_resource type="Animation" id=72]
-length = 0.001
-tracks/0/type = "value"
-tracks/0/path = NodePath("BulletPath:modulate")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/keys = {
-"times": PoolRealArray( 0 ),
-"transitions": PoolRealArray( 1 ),
-"update": 0,
-"values": [ Color( 1, 1, 1, 1 ) ]
-}
-tracks/1/type = "value"
-tracks/1/path = NodePath("Muzzle:energy")
-tracks/1/interp = 1
-tracks/1/loop_wrap = true
-tracks/1/imported = false
-tracks/1/enabled = true
-tracks/1/keys = {
-"times": PoolRealArray( 0 ),
-"transitions": PoolRealArray( 1 ),
-"update": 0,
-"values": [ 0.0 ]
-}
-tracks/2/type = "value"
-tracks/2/path = NodePath("Muzzle/Flash:energy")
-tracks/2/interp = 1
-tracks/2/loop_wrap = true
-tracks/2/imported = false
-tracks/2/enabled = true
-tracks/2/keys = {
-"times": PoolRealArray( 0 ),
-"transitions": PoolRealArray( 1 ),
-"update": 0,
-"values": [ 0.0 ]
-}
-
-[sub_resource type="RectangleShape2D" id=75]
-extents = Vector2( 87.9999, 95.9999 )
-
-[sub_resource type="RectangleShape2D" id=66]
-extents = Vector2( 192, 64.0004 )
-
-[sub_resource type="RectangleShape2D" id=67]
-extents = Vector2( 192, 64.0008 )
-
-[sub_resource type="RectangleShape2D" id=68]
-extents = Vector2( 192, 64.0008 )
-
-[sub_resource type="RectangleShape2D" id=69]
-extents = Vector2( 226.277, 96 )
-
-[sub_resource type="RectangleShape2D" id=70]
-extents = Vector2( 226.277, 96 )
-
-[sub_resource type="Animation" id=57]
-resource_name = "Firing"
-step = 0.025
-tracks/0/type = "method"
-tracks/0/path = NodePath(".")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/keys = {
-"times": PoolRealArray( 0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9 ),
-"transitions": PoolRealArray( 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 ),
-"values": [ {
-"args": [  ],
-"method": "Fire"
-}, {
-"args": [  ],
-"method": "Fire"
-}, {
-"args": [  ],
-"method": "Fire"
-}, {
-"args": [  ],
-"method": "Fire"
-}, {
-"args": [  ],
-"method": "Fire"
-}, {
-"args": [  ],
-"method": "Fire"
-}, {
-"args": [  ],
-"method": "Fire"
-}, {
-"args": [  ],
-"method": "Fire"
-}, {
-"args": [  ],
-"method": "Fire"
-}, {
-"args": [  ],
-"method": "Fire"
-} ]
-}
-tracks/1/type = "value"
-tracks/1/path = NodePath("BulletPath:modulate")
-tracks/1/interp = 1
-tracks/1/loop_wrap = true
-tracks/1/imported = false
-tracks/1/enabled = true
-tracks/1/keys = {
-"times": PoolRealArray( 0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9 ),
-"transitions": PoolRealArray( 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 ),
-"update": 0,
-"values": [ Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 0.647059 ), Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 0.647059 ), Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 0.647059 ), Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 0.647059 ), Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 0.647059 ) ]
-}
-tracks/2/type = "value"
-tracks/2/path = NodePath("Muzzle:energy")
-tracks/2/interp = 1
-tracks/2/loop_wrap = true
-tracks/2/imported = false
-tracks/2/enabled = true
-tracks/2/keys = {
-"times": PoolRealArray( 0, 0.025, 0.075, 0.1, 0.125, 0.175, 0.2, 0.225, 0.275, 0.3, 0.325, 0.375, 0.4, 0.425, 0.475, 0.5, 0.525, 0.575, 0.6, 0.625, 0.675, 0.7, 0.725, 0.775, 0.8, 0.825, 0.875, 0.9, 0.925, 0.975 ),
-"transitions": PoolRealArray( 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 ),
-"update": 0,
-"values": [ 1.5, 0.0, 0.0, 1.5, 0.0, 0.0, 1.5, 0.0, 0.0, 1.5, 0.0, 0.0, 1.5, 0.0, 0.0, 1.5, 0.0, 0.0, 1.5, 0.0, 0.0, 1.5, 0.0, 0.0, 1.5, 0.0, 0.0, 1.5, 0.0, 0.0 ]
-}
-tracks/3/type = "value"
-tracks/3/path = NodePath("Muzzle/Flash:energy")
-tracks/3/interp = 1
-tracks/3/loop_wrap = true
-tracks/3/imported = false
-tracks/3/enabled = true
-tracks/3/keys = {
-"times": PoolRealArray( 0, 0.05, 0.075, 0.1, 0.15, 0.175, 0.2, 0.25, 0.275, 0.3, 0.35, 0.375, 0.4, 0.45, 0.475, 0.5, 0.55, 0.575, 0.6, 0.65, 0.675, 0.7, 0.75, 0.775, 0.8, 0.85, 0.875, 0.9, 0.95, 0.975 ),
-"transitions": PoolRealArray( 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 ),
-"update": 0,
-"values": [ 2.0, 0.0, 0.0, 2.0, 0.0, 0.0, 2.0, 0.0, 0.0, 2.0, 0.0, 0.0, 2.0, 0.0, 0.0, 2.0, 0.0, 0.0, 2.0, 0.0, 0.0, 2.0, 0.0, 0.0, 2.0, 0.0, 0.0, 2.0, 0.0, 0.0 ]
-}
-
-[sub_resource type="Animation" id=58]
-length = 0.001
-tracks/0/type = "value"
-tracks/0/path = NodePath("BulletPath:modulate")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/keys = {
-"times": PoolRealArray( 0 ),
-"transitions": PoolRealArray( 1 ),
-"update": 0,
-"values": [ Color( 1, 1, 1, 1 ) ]
-}
-tracks/1/type = "value"
-tracks/1/path = NodePath("Muzzle:energy")
-tracks/1/interp = 1
-tracks/1/loop_wrap = true
-tracks/1/imported = false
-tracks/1/enabled = true
-tracks/1/keys = {
-"times": PoolRealArray( 0 ),
-"transitions": PoolRealArray( 1 ),
-"update": 0,
-"values": [ 0.0 ]
-}
-tracks/2/type = "value"
-tracks/2/path = NodePath("Muzzle/Flash:energy")
-tracks/2/interp = 1
-tracks/2/loop_wrap = true
-tracks/2/imported = false
-tracks/2/enabled = true
-tracks/2/keys = {
-"times": PoolRealArray( 0 ),
-"transitions": PoolRealArray( 1 ),
-"update": 0,
-"values": [ 0.0 ]
-}
-
-[sub_resource type="Animation" id=63]
-resource_name = "Firing"
-step = 0.025
-tracks/0/type = "method"
-tracks/0/path = NodePath(".")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/keys = {
-"times": PoolRealArray( 0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9 ),
-"transitions": PoolRealArray( 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 ),
-"values": [ {
-"args": [  ],
-"method": "Fire"
-}, {
-"args": [  ],
-"method": "Fire"
-}, {
-"args": [  ],
-"method": "Fire"
-}, {
-"args": [  ],
-"method": "Fire"
-}, {
-"args": [  ],
-"method": "Fire"
-}, {
-"args": [  ],
-"method": "Fire"
-}, {
-"args": [  ],
-"method": "Fire"
-}, {
-"args": [  ],
-"method": "Fire"
-}, {
-"args": [  ],
-"method": "Fire"
-}, {
-"args": [  ],
-"method": "Fire"
-} ]
-}
-tracks/1/type = "value"
-tracks/1/path = NodePath("BulletPath:modulate")
-tracks/1/interp = 1
-tracks/1/loop_wrap = true
-tracks/1/imported = false
-tracks/1/enabled = true
-tracks/1/keys = {
-"times": PoolRealArray( 0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9 ),
-"transitions": PoolRealArray( 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 ),
-"update": 0,
-"values": [ Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 0.647059 ), Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 0.647059 ), Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 0.647059 ), Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 0.647059 ), Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 0.647059 ) ]
-}
-tracks/2/type = "value"
-tracks/2/path = NodePath("Muzzle:energy")
-tracks/2/interp = 1
-tracks/2/loop_wrap = true
-tracks/2/imported = false
-tracks/2/enabled = true
-tracks/2/keys = {
-"times": PoolRealArray( 0, 0.025, 0.075, 0.1, 0.125, 0.175, 0.2, 0.225, 0.275, 0.3, 0.325, 0.375, 0.4, 0.425, 0.475, 0.5, 0.525, 0.575, 0.6, 0.625, 0.675, 0.7, 0.725, 0.775, 0.8, 0.825, 0.875, 0.9, 0.925, 0.975 ),
-"transitions": PoolRealArray( 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 ),
-"update": 0,
-"values": [ 1.5, 0.0, 0.0, 1.5, 0.0, 0.0, 1.5, 0.0, 0.0, 1.5, 0.0, 0.0, 1.5, 0.0, 0.0, 1.5, 0.0, 0.0, 1.5, 0.0, 0.0, 1.5, 0.0, 0.0, 1.5, 0.0, 0.0, 1.5, 0.0, 0.0 ]
-}
-tracks/3/type = "value"
-tracks/3/path = NodePath("Muzzle/Flash:energy")
-tracks/3/interp = 1
-tracks/3/loop_wrap = true
-tracks/3/imported = false
-tracks/3/enabled = true
-tracks/3/keys = {
-"times": PoolRealArray( 0, 0.05, 0.075, 0.1, 0.15, 0.175, 0.2, 0.25, 0.275, 0.3, 0.35, 0.375, 0.4, 0.45, 0.475, 0.5, 0.55, 0.575, 0.6, 0.65, 0.675, 0.7, 0.75, 0.775, 0.8, 0.85, 0.875, 0.9, 0.95, 0.975 ),
-"transitions": PoolRealArray( 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 ),
-"update": 0,
-"values": [ 2.0, 0.0, 0.0, 2.0, 0.0, 0.0, 2.0, 0.0, 0.0, 2.0, 0.0, 0.0, 2.0, 0.0, 0.0, 2.0, 0.0, 0.0, 2.0, 0.0, 0.0, 2.0, 0.0, 0.0, 2.0, 0.0, 0.0, 2.0, 0.0, 0.0 ]
-}
-
-[sub_resource type="Animation" id=64]
-length = 0.001
-tracks/0/type = "value"
-tracks/0/path = NodePath("BulletPath:modulate")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/keys = {
-"times": PoolRealArray( 0 ),
-"transitions": PoolRealArray( 1 ),
-"update": 0,
-"values": [ Color( 1, 1, 1, 1 ) ]
-}
-tracks/1/type = "value"
-tracks/1/path = NodePath("Muzzle:energy")
-tracks/1/interp = 1
-tracks/1/loop_wrap = true
-tracks/1/imported = false
-tracks/1/enabled = true
-tracks/1/keys = {
-"times": PoolRealArray( 0 ),
-"transitions": PoolRealArray( 1 ),
-"update": 0,
-"values": [ 0.0 ]
-}
-tracks/2/type = "value"
-tracks/2/path = NodePath("Muzzle/Flash:energy")
-tracks/2/interp = 1
-tracks/2/loop_wrap = true
-tracks/2/imported = false
-tracks/2/enabled = true
-tracks/2/keys = {
-"times": PoolRealArray( 0 ),
-"transitions": PoolRealArray( 1 ),
-"update": 0,
-"values": [ 0.0 ]
-}
-
-[sub_resource type="RectangleShape2D" id=65]
-extents = Vector2( 176, 63.9992 )
-
-[sub_resource type="RectangleShape2D" id=81]
-extents = Vector2( 28.9998, 64.0001 )
+[sub_resource type="RectangleShape2D" id=89]
+extents = Vector2( 176, 48 )
 
 [sub_resource type="OccluderPolygon2D" id=34]
 closed = false
@@ -1093,9 +107,9 @@ closed = false
 polygon = PoolVector2Array( 5952, 704, 6016, 704, 6016, 544, 6208, 544, 6208, 480, 6272, 480, 6272, 544, 6464, 544, 6464, 736, 6528, 736, 6528, 800, 6464, 800, 6464, 992, 6016, 992, 6016, 832, 5952, 832 )
 
 [sub_resource type="NavigationPolygon" id=52]
-vertices = PoolVector2Array( 5280, 704, 5728, 704, 5728, 832, 5312, 832, 5312, 864, 5120, 864, 5120, 672, 5152, 672, 5280, 352, 5152, 480, 4704, 352, 4832, 480, 4704, 960, 4832, 960, 4960, 960, 4960, 1088, 4352, 1088, 4352, 960, 2976, 192, 3008, 192, 3008, 320, 2976, 320, 2976, 384, 2720, 384, 2720, 128, 2976, 128, 3872, 352, 3264, 352, 3264, 160, 4032, 160, 4032, 480, 3872, 480, 4416, 480, 4416, 896, 3808, 896, 3808, 480, 1104, -96, 1104, 96, 864, 96, 864, -96 )
-polygons = [ PoolIntArray( 0, 1, 2, 3 ), PoolIntArray( 0, 3, 4, 5, 6, 7 ), PoolIntArray( 8, 0, 7, 9 ), PoolIntArray( 10, 8, 9, 11 ), PoolIntArray( 12, 10, 11, 13 ), PoolIntArray( 13, 14, 15, 16 ), PoolIntArray( 12, 13, 16 ), PoolIntArray( 12, 16, 17 ), PoolIntArray( 18, 19, 20, 21 ), PoolIntArray( 21, 22, 23, 24 ), PoolIntArray( 18, 21, 24 ), PoolIntArray( 25, 18, 24 ), PoolIntArray( 26, 27, 28, 29 ), PoolIntArray( 26, 29, 30, 31 ), PoolIntArray( 30, 32, 33, 34 ), PoolIntArray( 31, 30, 34 ), PoolIntArray( 35, 31, 34 ), PoolIntArray( 36, 37, 38, 39 ) ]
-outlines = [ PoolVector2Array( 4704, 352, 4704, 960, 4352, 960, 4352, 1088, 4960, 1088, 4960, 960, 4832, 960, 4832, 480, 5152, 480, 5152, 672, 5120, 672, 5120, 864, 5312, 864, 5312, 832, 5728, 832, 5728, 704, 5280, 704, 5280, 352 ), PoolVector2Array( 2976, 128, 2720, 128, 2720, 384, 2976, 384, 2976, 320, 3008, 320, 3008, 192, 2976, 192 ), PoolVector2Array( 3872, 480, 3872, 352, 3264, 352, 3264, 160, 4032, 160, 4032, 480, 4416, 480, 4416, 896, 3808, 896, 3808, 480 ), PoolVector2Array( 864, -96, 864, 96, 1104, 96, 1104, -96 ) ]
+vertices = PoolVector2Array( 5280, 704, 5728, 704, 5728, 832, 5312, 832, 5312, 864, 5120, 864, 5120, 672, 5152, 672, 5280, 352, 5152, 480, 4704, 352, 4832, 480, 4704, 960, 4832, 960, 4960, 960, 4960, 1088, 4352, 1088, 4352, 960, 3008, 192, 3008, 160, 3136, 160, 3136, 192, 3168, 192, 3168, 320, 3136, 320, 3008, 320, 3136, 448, 3008, 448, 2976, 192, 2976, 320, 2976, 384, 2720, 384, 2720, 128, 2976, 128, 3872, 352, 3264, 352, 3264, 160, 4032, 160, 4032, 480, 3872, 480, 4416, 480, 4416, 896, 3808, 896, 3808, 480, 1104, -96, 1104, 96, 864, 96, 864, -96 )
+polygons = [ PoolIntArray( 0, 1, 2, 3 ), PoolIntArray( 0, 3, 4, 5, 6, 7 ), PoolIntArray( 8, 0, 7, 9 ), PoolIntArray( 10, 8, 9, 11 ), PoolIntArray( 12, 10, 11, 13 ), PoolIntArray( 13, 14, 15, 16 ), PoolIntArray( 12, 13, 16 ), PoolIntArray( 12, 16, 17 ), PoolIntArray( 18, 19, 20, 21 ), PoolIntArray( 21, 22, 23, 24 ), PoolIntArray( 18, 21, 24, 25 ), PoolIntArray( 24, 26, 27, 25 ), PoolIntArray( 28, 18, 25, 29 ), PoolIntArray( 29, 30, 31, 32 ), PoolIntArray( 28, 29, 32 ), PoolIntArray( 33, 28, 32 ), PoolIntArray( 34, 35, 36, 37 ), PoolIntArray( 34, 37, 38, 39 ), PoolIntArray( 38, 40, 41, 42 ), PoolIntArray( 39, 38, 42 ), PoolIntArray( 43, 39, 42 ), PoolIntArray( 44, 45, 46, 47 ) ]
+outlines = [ PoolVector2Array( 4704, 352, 4704, 960, 4352, 960, 4352, 1088, 4960, 1088, 4960, 960, 4832, 960, 4832, 480, 5152, 480, 5152, 672, 5120, 672, 5120, 864, 5312, 864, 5312, 832, 5728, 832, 5728, 704, 5280, 704, 5280, 352 ), PoolVector2Array( 2976, 128, 2720, 128, 2720, 384, 2976, 384, 2976, 320, 3008, 320, 3008, 448, 3136, 448, 3136, 320, 3168, 320, 3168, 192, 3136, 192, 3136, 160, 3008, 160, 3008, 192, 2976, 192 ), PoolVector2Array( 3872, 480, 3872, 352, 3264, 352, 3264, 160, 4032, 160, 4032, 480, 4416, 480, 4416, 896, 3808, 896, 3808, 480 ), PoolVector2Array( 864, -96, 864, 96, 1104, 96, 1104, -96 ) ]
 
 [sub_resource type="RectangleShape2D" id=76]
 extents = Vector2( 96, 64 )
@@ -1260,10 +274,9 @@ tracks/1/keys = {
 }
 
 [node name="02" type="Node2D"]
-script = ExtResource( 13 )
+script = ExtResource( 23 )
 
 [node name="GlobalModulate" parent="." instance=ExtResource( 2 )]
-visible = true
 
 [node name="BottomLayer" type="CanvasLayer" parent="."]
 layer = -1
@@ -1452,9 +465,6 @@ rotation = 0.0
 [node name="Turret-Rifle4" parent="Objects/Turrets" instance=ExtResource( 8 )]
 position = Vector2( 1472, -64 )
 
-[node name="TriggerArea" parent="Objects/Turrets/Turret-Rifle4" index="1"]
-visible = true
-
 [node name="CollisionShape2D" parent="Objects/Turrets/Turret-Rifle4/TriggerArea" index="0"]
 position = Vector2( -208, 64 )
 shape = SubResource( 59 )
@@ -1479,111 +489,64 @@ text = "The head takes a lot more damage than the body.
 Use the body to shield the head."
 autowrap = true
 
-[node name="Turret-Rifle" parent="Objects/Turrets" instance=ExtResource( 8 )]
-position = Vector2( 2400, 416 )
+[node name="Group1" type="Area2D" parent="Objects/Turrets"]
+position = Vector2( 2304, 512 )
 
-[node name="TriggerArea" parent="Objects/Turrets/Turret-Rifle" index="1"]
-visible = true
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Objects/Turrets/Group1"]
+visible = false
+shape = SubResource( 83 )
 
-[node name="CollisionShape2D" parent="Objects/Turrets/Turret-Rifle/TriggerArea" index="0"]
-position = Vector2( -96, 80 )
-shape = SubResource( 26 )
+[node name="Turret-Rifle" parent="Objects/Turrets/Group1" instance=ExtResource( 8 )]
+position = Vector2( 96, -96 )
+rotation = 2.87979
+custom_trigger = NodePath("..")
 
-[node name="Gun" parent="Objects/Turrets/Turret-Rifle" index="5"]
-rotation = -3.14159
+[node name="Turret-Rifle2" parent="Objects/Turrets/Group1" instance=ExtResource( 8 )]
+position = Vector2( 96, 96 )
+rotation = -2.61799
+custom_trigger = NodePath("..")
 
-[node name="Turret-Rifle2" parent="Objects/Turrets" instance=ExtResource( 8 )]
-position = Vector2( 2400, 608 )
-
-[node name="TriggerArea" parent="Objects/Turrets/Turret-Rifle2" index="1"]
-visible = true
-
-[node name="CollisionShape2D" parent="Objects/Turrets/Turret-Rifle2/TriggerArea" index="0"]
-position = Vector2( -96, -96 )
-shape = SubResource( 27 )
-
-[node name="Gun" parent="Objects/Turrets/Turret-Rifle2" index="5"]
+[node name="Turret-Rifle3" parent="Objects/Turrets/Group1" instance=ExtResource( 8 )]
+position = Vector2( 96, 0 )
 rotation = 3.14159
+custom_trigger = NodePath("..")
 
-[node name="Turret-Rifle3" parent="Objects/Turrets" instance=ExtResource( 8 )]
-position = Vector2( 2464, 512 )
+[node name="Group2" type="Area2D" parent="Objects/Turrets"]
+position = Vector2( 3072, 256 )
 
-[node name="TriggerArea" parent="Objects/Turrets/Turret-Rifle3" index="1"]
-visible = true
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Objects/Turrets/Group2"]
+visible = false
+position = Vector2( 0, 32 )
+shape = SubResource( 84 )
 
-[node name="CollisionShape2D" parent="Objects/Turrets/Turret-Rifle3/TriggerArea" index="0"]
-position = Vector2( -160, 0 )
-shape = SubResource( 28 )
+[node name="Turret-Rifle" parent="Objects/Turrets/Group2" instance=ExtResource( 8 )]
+position = Vector2( 0, 80 )
+rotation = 1.57079
+custom_trigger = NodePath("..")
 
-[node name="Gun" parent="Objects/Turrets/Turret-Rifle3" index="5"]
-rotation = -3.14159
+[node name="Turret-Rifle2" parent="Objects/Turrets/Group2" instance=ExtResource( 8 )]
+position = Vector2( -80, 0 )
+custom_trigger = NodePath("..")
 
-[node name="Turret-Rifle5" parent="Objects/Turrets" instance=ExtResource( 8 )]
-position = Vector2( 2976, 256 )
+[node name="Group3" type="Area2D" parent="Objects/Turrets"]
+position = Vector2( 3616, 256 )
 
-[node name="TriggerArea" parent="Objects/Turrets/Turret-Rifle5" index="1"]
-visible = true
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Objects/Turrets/Group3"]
+visible = false
+shape = SubResource( 87 )
 
-[node name="CollisionShape2D" parent="Objects/Turrets/Turret-Rifle5/TriggerArea" index="0"]
-position = Vector2( 96, 48 )
-
-[node name="Turret-Rifle6" parent="Objects/Turrets" instance=ExtResource( 8 )]
-position = Vector2( 3488, 224 )
+[node name="Turret-Rifle" parent="Objects/Turrets/Group3" instance=ExtResource( 8 )]
+position = Vector2( 0, -48 )
 rotation = 3.14159
+custom_trigger = NodePath("..")
 
-[node name="TriggerArea" parent="Objects/Turrets/Turret-Rifle6" index="1"]
-visible = true
-
-[node name="CollisionShape2D" parent="Objects/Turrets/Turret-Rifle6/TriggerArea" index="0"]
-position = Vector2( -128, -32.0006 )
-shape = SubResource( 29 )
-
-[node name="AnimationPlayer" parent="Objects/Turrets/Turret-Rifle6/Gun" index="8"]
-anims/Firing = SubResource( 30 )
-anims/RESET = SubResource( 31 )
-
-[node name="Turret-Rifle7" parent="Objects/Turrets" instance=ExtResource( 8 )]
-position = Vector2( 3712, 288 )
+[node name="Turret-Rifle3" parent="Objects/Turrets/Group3" instance=ExtResource( 8 )]
+position = Vector2( 0, 32 )
 rotation = 3.14159
+custom_trigger = NodePath("..")
 
-[node name="TriggerArea" parent="Objects/Turrets/Turret-Rifle7" index="1"]
-visible = true
-
-[node name="CollisionShape2D" parent="Objects/Turrets/Turret-Rifle7/TriggerArea" index="0"]
-position = Vector2( 96, 32.0004 )
-shape = SubResource( 29 )
-
-[node name="AnimationPlayer" parent="Objects/Turrets/Turret-Rifle7/Gun" index="8"]
-anims/Firing = SubResource( 32 )
-anims/RESET = SubResource( 33 )
-
-[node name="Turret-Rifle8" parent="Objects/Turrets" instance=ExtResource( 8 )]
-position = Vector2( 4224, 512 )
-
-[node name="TriggerArea" parent="Objects/Turrets/Turret-Rifle8" index="1"]
-visible = true
-
-[node name="CollisionShape2D" parent="Objects/Turrets/Turret-Rifle8/TriggerArea" index="0"]
-position = Vector2( -216, 152 )
-shape = SubResource( 43 )
-
-[node name="AnimationPlayer" parent="Objects/Turrets/Turret-Rifle8/Gun" index="8"]
-anims/Firing = SubResource( 44 )
-anims/RESET = SubResource( 45 )
-
-[node name="Turret-Rifle9" parent="Objects/Turrets" instance=ExtResource( 8 )]
-position = Vector2( 3840, 544 )
-
-[node name="TriggerArea" parent="Objects/Turrets/Turret-Rifle9" index="1"]
-visible = true
-
-[node name="CollisionShape2D" parent="Objects/Turrets/Turret-Rifle9/TriggerArea" index="0"]
-position = Vector2( 176, 128 )
-shape = SubResource( 43 )
-
-[node name="AnimationPlayer" parent="Objects/Turrets/Turret-Rifle9/Gun" index="8"]
-anims/Firing = SubResource( 46 )
-anims/RESET = SubResource( 47 )
+[node name="LightCanon" parent="Objects/Turrets" instance=ExtResource( 27 )]
+position = Vector2( 1184, 0 )
 
 [node name="Decor" type="Node2D" parent="Objects"]
 
@@ -1905,183 +868,112 @@ position = Vector2( 1872, -48 )
 
 [node name="Entities" type="Node2D" parent="."]
 
-[node name="Guard-Rifle5" parent="Entities" instance=ExtResource( 17 )]
-position = Vector2( 2864, 192 )
-rotation = 0.261799
-
-[node name="CollisionShape2D" parent="Entities/Guard-Rifle5/TriggerArea" index="0"]
-position = Vector2( 8.8374, 63.8899 )
-rotation = -0.261799
-shape = SubResource( 53 )
-
-[node name="Guard-Rifle6" parent="Entities" instance=ExtResource( 17 )]
-position = Vector2( 2816, 288 )
-
-[node name="CollisionShape2D" parent="Entities/Guard-Rifle6/TriggerArea" index="0"]
-position = Vector2( 40, -32 )
-shape = SubResource( 54 )
-
-[node name="AnimationPlayer" parent="Entities/Guard-Rifle6/Gun" index="6"]
-anims/Firing = SubResource( 55 )
-anims/RESET = SubResource( 56 )
-
-[node name="Guard-Rifle16" parent="Entities" instance=ExtResource( 17 )]
-position = Vector2( 2752, 224 )
-
-[node name="CollisionShape2D" parent="Entities/Guard-Rifle16/TriggerArea" index="0"]
-position = Vector2( 104, 32 )
-shape = SubResource( 54 )
-
-[node name="AnimationPlayer" parent="Entities/Guard-Rifle16/Gun" index="6"]
-anims/Firing = SubResource( 71 )
-anims/RESET = SubResource( 72 )
-
 [node name="Guard-Rifle" parent="Entities" instance=ExtResource( 17 )]
-position = Vector2( 5216, 496 )
-rotation = 1.0472
+position = Vector2( 1056, -64 )
+rotation = 2.35619
 
 [node name="TriggerArea" parent="Entities/Guard-Rifle" index="0"]
 visible = true
 
-[node name="CollisionShape2D" parent="Entities/Guard-Rifle/TriggerArea" index="0"]
-position = Vector2( 70.3538, 22.1431 )
-rotation = 0.523598
-shape = SubResource( 75 )
+[node name="Guards1" type="Area2D" parent="Entities"]
+position = Vector2( 2848, 256 )
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Entities/Guards1"]
+visible = false
+position = Vector2( 80, 0 )
+shape = SubResource( 86 )
 
 [node name="Guard-Rifle2" parent="Entities" instance=ExtResource( 17 )]
-position = Vector2( 6048, 720 )
-rotation = 3.14159
-
-[node name="TriggerArea" parent="Entities/Guard-Rifle2" index="0"]
-visible = true
-
-[node name="CollisionShape2D" parent="Entities/Guard-Rifle2/TriggerArea" index="0"]
-position = Vector2( 224, -47.9987 )
-shape = SubResource( 66 )
+position = Vector2( 2896, 176 )
+rotation = 0.261799
+custom_trigger = NodePath("../Guards1")
 
 [node name="Guard-Rifle3" parent="Entities" instance=ExtResource( 17 )]
-position = Vector2( 6080, 768 )
-rotation = 3.14159
+position = Vector2( 2816, 256 )
+custom_trigger = NodePath("../Guards1")
 
-[node name="TriggerArea" parent="Entities/Guard-Rifle3" index="0"]
-visible = true
+[node name="Guards2" type="Area2D" parent="Entities"]
+position = Vector2( 3616, 256 )
 
-[node name="CollisionShape2D" parent="Entities/Guard-Rifle3/TriggerArea" index="0"]
-position = Vector2( 256, 0.00128174 )
-shape = SubResource( 67 )
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Entities/Guards2"]
+visible = false
+position = Vector2( -8, 0 )
+shape = SubResource( 88 )
 
 [node name="Guard-Rifle4" parent="Entities" instance=ExtResource( 17 )]
-position = Vector2( 6048, 816 )
-rotation = 3.14159
-
-[node name="TriggerArea" parent="Entities/Guard-Rifle4" index="0"]
-visible = true
-
-[node name="CollisionShape2D" parent="Entities/Guard-Rifle4/TriggerArea" index="0"]
-position = Vector2( 224, 48.0009 )
-shape = SubResource( 68 )
-
-[node name="Guard-Rifle7" parent="Entities" instance=ExtResource( 17 )]
 position = Vector2( 3776, 208 )
 rotation = 3.14159
+custom_trigger = NodePath("../Guards2")
 
-[node name="TriggerArea" parent="Entities/Guard-Rifle7" index="0"]
-visible = true
-
-[node name="CollisionShape2D" parent="Entities/Guard-Rifle7/TriggerArea" index="0"]
-position = Vector2( 160.001, -47.9996 )
-shape = SubResource( 69 )
-
-[node name="Guard-Rifle8" parent="Entities" instance=ExtResource( 17 )]
-position = Vector2( 3792, 288 )
-rotation = 3.14159
-
-[node name="TriggerArea" parent="Entities/Guard-Rifle8" index="0"]
-visible = true
-
-[node name="CollisionShape2D" parent="Entities/Guard-Rifle8/TriggerArea" index="0"]
-position = Vector2( 176, 32.0004 )
-shape = SubResource( 70 )
-
-[node name="AnimationPlayer" parent="Entities/Guard-Rifle8/Gun" index="6"]
-anims/Firing = SubResource( 57 )
-anims/RESET = SubResource( 58 )
-
-[node name="Guard-Rifle10" parent="Entities" instance=ExtResource( 17 )]
-position = Vector2( 4176, 560 )
-rotation = -3.14159
-
-[node name="TriggerArea" parent="Entities/Guard-Rifle10" index="0"]
-visible = true
-
-[node name="CollisionShape2D" parent="Entities/Guard-Rifle10/TriggerArea" index="0"]
-position = Vector2( 160, -176 )
-
-[node name="Guard-Rifle12" parent="Entities" instance=ExtResource( 17 )]
-position = Vector2( 4160, 704 )
-rotation = -2.35619
-
-[node name="TriggerArea" parent="Entities/Guard-Rifle12" index="0"]
-visible = true
-
-[node name="CollisionShape2D" parent="Entities/Guard-Rifle12/TriggerArea" index="0"]
-position = Vector2( 101.823, -192.333 )
-
-[node name="Guard-Rifle13" parent="Entities" instance=ExtResource( 17 )]
-position = Vector2( 3888, 800 )
-rotation = -1.309
-
-[node name="TriggerArea" parent="Entities/Guard-Rifle13" index="0"]
-visible = true
-
-[node name="CollisionShape2D" parent="Entities/Guard-Rifle13/TriggerArea" index="0"]
-position = Vector2( 114.544, 118.387 )
-
-[node name="AnimationPlayer" parent="Entities/Guard-Rifle13/Gun" index="6"]
-anims/Firing = SubResource( 63 )
-anims/RESET = SubResource( 64 )
-
-[node name="Guard-Rifle14" parent="Entities" instance=ExtResource( 17 )]
-position = Vector2( 4640, 1008 )
-rotation = -3.14159
-
-[node name="TriggerArea" parent="Entities/Guard-Rifle14" index="0"]
-visible = true
-
-[node name="CollisionShape2D" parent="Entities/Guard-Rifle14/TriggerArea" index="0"]
-position = Vector2( 112, -16.0005 )
-shape = SubResource( 65 )
-
-[node name="Guard-Rifle15" parent="Entities" instance=ExtResource( 17 )]
-position = Vector2( 4560, 1040 )
-rotation = -2.61799
-
-[node name="TriggerArea" parent="Entities/Guard-Rifle15" index="0"]
-visible = true
-
-[node name="CollisionShape2D" parent="Entities/Guard-Rifle15/TriggerArea" index="0"]
-position = Vector2( 27.7124, -16 )
-rotation = -0.523598
-shape = SubResource( 65 )
-
-[node name="Area2D" type="Area2D" parent="Entities"]
-position = Vector2( 896, -8.00355e-11 )
-rotation = -3.14159
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Entities/Area2D"]
-position = Vector2( 18.9998, -0.000145443 )
-shape = SubResource( 81 )
+[node name="Guard-Rifle5" parent="Entities" instance=ExtResource( 17 )]
+position = Vector2( 3728, 320 )
+rotation = -2.87979
+custom_trigger = NodePath("../Guards2")
 
 [node name="Guard-Shotgun" parent="Entities" instance=ExtResource( 26 )]
-position = Vector2( 896, 0 )
-custom_trigger = NodePath("../Area2D")
+position = Vector2( 3744, 256 )
+rotation = 3.14159
+custom_trigger = NodePath("../Guards2")
+
+[node name="Guards3" type="Area2D" parent="Entities"]
+position = Vector2( 3824, 576 )
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Entities/Guards3"]
+position = Vector2( 160, -80 )
+shape = SubResource( 89 )
+
+[node name="Guard-Rifle6" parent="Entities" instance=ExtResource( 17 )]
+position = Vector2( 4064, 544 )
+rotation = -2.61799
+custom_trigger = NodePath("../Guards3")
+
+[node name="Guard-Rifle7" parent="Entities" instance=ExtResource( 17 )]
+position = Vector2( 3904, 752 )
+rotation = -1.57079
+custom_trigger = NodePath("../Guards3")
+
+[node name="Guard-Rifle8" parent="Entities" instance=ExtResource( 17 )]
+position = Vector2( 4064, 752 )
+rotation = -1.83259
+custom_trigger = NodePath("../Guards3")
+
+[node name="Guard-Shotgun2" parent="Entities" instance=ExtResource( 26 )]
+position = Vector2( 3984, 656 )
+rotation = -1.83259
+custom_trigger = NodePath("../Guards3")
+
+[node name="Guard-Shotgun3" parent="Entities" instance=ExtResource( 26 )]
+position = Vector2( 4176, 688 )
+rotation = -2.61799
+custom_trigger = NodePath("../Guards3")
+
+[node name="Guards4" type="Area2D" parent="Entities"]
+position = Vector2( 4480, 1088 )
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Entities/Guards4"]
+position = Vector2( 160, -80 )
+shape = SubResource( 89 )
+
+[node name="Guard-Rifle9" parent="Entities" instance=ExtResource( 17 )]
+position = Vector2( 4400, 992 )
+rotation = -3.40339
+custom_trigger = NodePath("../Guards4")
+
+[node name="Guard-Rifle10" parent="Entities" instance=ExtResource( 17 )]
+position = Vector2( 4560, 1056 )
+rotation = -2.61799
+custom_trigger = NodePath("../Guards4")
+
+[node name="Guard-Shotgun4" parent="Entities" instance=ExtResource( 26 )]
+position = Vector2( 4624, 1024 )
+rotation = -3.14159
+custom_trigger = NodePath("../Guards4")
 
 [node name="TopLayer-1" type="CanvasLayer" parent="."]
 follow_viewport_enable = true
 follow_viewport_scale = 1.2
 
 [node name="GlobalModulate" parent="TopLayer-1" instance=ExtResource( 2 )]
-visible = true
 
 [node name="TileMap" parent="TopLayer-1" instance=ExtResource( 1 )]
 tile_data = PoolIntArray( -917436, -1073741806, 0, -851900, -1073741806, 0, -786364, -1073741806, 0, -720828, -1073741806, 0, -655329, -1610612718, 0, -655326, -1610612718, 0, -655292, -1073741806, 0, -589793, -1610612718, 0, -589790, -1610612718, 0, -589756, 1610612756, 0, -589755, 1610612754, 0, -589754, 1610612754, 0, -589753, 1610612754, 0, -589752, 1610612754, 0, -589751, 1610612754, 0, -589750, 1610612754, 0, -589749, 1610612754, 0, -589748, 1610612754, 0, -589747, 1610612754, 0, -524257, -1610612718, 0, -524254, -1610612718, 0, -524220, -1073741806, 0, -458721, -1610612718, 0, -458718, -1610612718, 0, -458684, -1073741806, 0, -393185, -1610612718, 0, -393182, -1610612718, 0, -393148, -1073741806, 0, -327649, -1610612718, 0, -327646, -1610612718, 0, -327631, -1073741806, 0, -327612, -1073741806, 0, -262113, -1610612718, 0, -262110, -1610612718, 0, -262095, -1073741806, 0, -262076, 1610612757, 0, -262075, 21, 0, -196585, 18, 0, -196584, 18, 0, -196583, 18, 0, -196582, 18, 0, -196581, 18, 0, -196580, 18, 0, -196579, 18, 0, -196578, 18, 0, -196577, 19, 0, -196576, 18, 0, -196575, 18, 0, -196574, -1610612715, 0, -196559, -1073741806, 0, -196539, -1073741806, 0, -131041, -1073741806, 0, -131023, 1610612756, 0, -131022, 1610612754, 0, -131021, 1610612754, 0, -131020, 1610612754, 0, -131019, 1610612754, 0, -131018, 1610612754, 0, -131017, 1610612754, 0, -131016, 1610612754, 0, -131015, 1610612754, 0, -131014, 1610612754, 0, -131013, 1610612754, 0, -131012, 1610612754, 0, -131011, 1610612754, 0, -131010, 1610612754, 0, -131009, 1610612754, 0, -131008, 1610612754, 0, -131007, 1610612754, 0, -131006, 1610612754, 0, -131005, 1610612754, 0, -131004, 1610612754, 0, -131003, -1610612715, 0, -65505, -1073741806, 0, -65487, -1610612718, 0, 31, -1073741806, 0, 49, -1610612718, 0, 65567, -1073741806, 0, 65585, -1610612718, 0, 131096, 18, 0, 131097, 18, 0, 131098, 18, 0, 131099, 21, 0, 131103, -1073741806, 0, 131111, 1073741862, 0, 131112, 1073741862, 0, 131113, -536870891, 0, 131121, -1610612718, 0, 196635, -1073741806, 0, 196639, -1073741806, 0, 196657, -1610612718, 0, 196699, -1610612718, 0, 262171, -1073741806, 0, 262175, -1073741806, 0, 262193, -1610612718, 0, 262211, 18, 0, 262212, 18, 0, 262213, 18, 0, 262214, -1073741804, 0, 262215, 18, 0, 262216, 18, 0, 262217, 18, 0, 262218, 18, 0, 262219, 18, 0, 262235, -1610612718, 0, 327707, -1073741806, 0, 327711, -1073741806, 0, 327729, -1610612718, 0, 327750, -1073741806, 0, 327771, -1610612718, 0, 393265, -1610612718, 0, 393286, -1073741806, 0, 393307, -1610612718, 0, 458822, -1073741806, 0, 458843, -1610612718, 0, 524358, -1073741806, 0, 524379, -1610612718, 0, 589894, -1073741806, 0, 589915, -1610612718, 0, 589921, -1073741803, 0, 589922, 1610612754, 0, 589923, 1610612754, 0, 589924, 1610612754, 0, 589925, 1610612754, 0, 589926, 21, 0, 655430, -1073741806, 0, 655451, -1610612718, 0, 655457, -1610612718, 0, 655462, 1610612756, 0, 655463, 1610612754, 0, 655464, 1610612754, 0, 655465, 1610612754, 0, 655466, 1610612754, 0, 655467, 1610612754, 0, 655468, 1610612754, 0, 655469, 1610612754, 0, 655470, 1610612754, 0, 655471, 1610612754, 0, 655472, 1610612754, 0, 655473, 1610612754, 0, 655474, 1610612754, 0, 655475, 1610612754, 0, 655476, 1610612754, 0, 655477, 1610612754, 0, 655478, -1073741804, 0, 655479, 1610612754, 0, 655480, 1610612754, 0, 655481, 1610612754, 0, 655482, 1610612754, 0, 655483, 1610612754, 0, 655484, 1610612754, 0, 655485, 1610612754, 0, 655486, 1610612754, 0, 655487, 1610612754, 0, 655488, 1610612754, 0, 720966, -1073741806, 0, 720987, -1610612718, 0, 720993, -1610612718, 0, 720998, -1073741806, 0, 721014, -1073741806, 0, 786502, -1073741806, 0, 786529, -1610612718, 0, 786534, -1073741806, 0, 786550, -1073741806, 0, 786566, -1073741806, 0, 852038, -1073741806, 0, 852059, -1610612718, 0, 852065, -1610612718, 0, 852070, -1073741806, 0, 852086, -1073741806, 0, 852101, -1073741806, 0, 852102, -1073741806, 0, 917574, -1073741806, 0, 917595, 1610612756, 0, 917596, 1610612754, 0, 917597, 1610612754, 0, 917598, 1610612754, 0, 917599, 1610612754, 0, 917600, 1610612754, 0, 917601, -1610612716, 0, 917602, 1610612754, 0, 917603, 1610612754, 0, 917604, 1610612754, 0, 917606, -1073741806, 0, 917637, -1073741806, 0, 917638, -1073741806, 0, 983110, -1073741806, 0, 983131, -1610612718, 0, 983142, -1073741806, 0, 983173, -1073741806, 0, 983174, -1073741806, 0, 1048646, -1073741806, 0, 1048667, -1610612718, 0, 1048709, -1073741806, 0, 1048710, -1073741806, 0, 1114182, -1073741806, 0, 1114190, -1073741803, 0, 1114191, 1610612754, 0, 1114192, 1610612754, 0, 1114193, 1610612754, 0, 1114194, 1610612754, 0, 1114195, 1610612754, 0, 1114196, 1610612754, 0, 1114197, 1610612754, 0, 1114198, 1610612754, 0, 1114199, 1610612754, 0, 1114200, 1610612754, 0, 1114201, 1610612754, 0, 1114202, 1610612754, 0, 1114203, 20, 0, 1114245, -1073741806, 0, 1114246, -1073741806, 0, 1179718, 1610612756, 0, 1179719, 1610612754, 0, 1179720, 1610612754, 0, 1179721, 1610612754, 0, 1179722, 1610612754, 0, 1179723, 1610612754, 0, 1179724, 1610612754, 0, 1179725, 1610612754, 0, 1179726, 1610612754, 0, 1179727, 1610612754, 0, 1179739, -1073741806, 0, 1179781, -1073741806, 0, 1179782, -1073741806, 0, 1179798, 536870933, 0, 1245254, -1073741806, 0, 1245275, -1073741806, 0, 1245317, -1073741806, 0, 1245318, -1073741806, 0, 1245334, -536870874, 0, 1310790, -1073741806, 0, 1310811, -1073741806, 0, 1310853, -1073741806, 0, 1310854, -1073741806, 0, 1310870, -536870874, 0, 1376326, -1073741806, 0, 1376347, -1073741806, 0, 1376389, -1073741806, 0, 1376390, -1073741806, 0, 1376401, 536870930, 0, 1376402, 536870930, 0, 1376403, 536870930, 0, 1376404, 536870930, 0, 1376405, 536870930, 0, 1376406, -2147483628, 0, 1441883, -1073741806, 0, 1441925, -1073741806, 0, 1441926, -1073741806, 0, 1507447, -536870891, 0, 1507461, -536870894, 0, 1507462, -536870894, 0, 1572983, -2147483630, 0, 1572997, -536870894, 0, 1572998, -536870894, 0, 1638519, -2147483628, 0, 1638520, 1073741842, 0, 1638521, 1073741842, 0, 1638522, 1073741842, 0, 1638523, -536870891, 0, 1638533, -1073741806, 0, 1638534, -1073741806, 0, 1704059, -536870894, 0, 1704069, -1073741806, 0, 1704070, -1073741806, 0, 1769595, -536870894, 0, 1769599, 536870933, 0, 1769600, -536870874, 0, 1769601, -536870874, 0, 1769602, -1073741803, 0, 1769603, -1073741804, 0, 1769604, 1610612754, 0, 1769605, 20, 0, 1769606, -1073741806, 0, 1835138, -1073741806, 0, 1835139, -1073741806, 0, 1835141, -1073741806, 0, 1835142, -1073741806, 0, 1835153, 536870930, 0, 1835154, 536870930, 0, 1835155, 536870930, 0, 1835156, 536870930, 0, 1835157, 536870930, 0, 1835158, -536870892, 0, 1900674, -1073741806, 0, 1900675, -1073741806, 0, 1900677, -1073741806, 0, 1900678, -1073741806, 0, 1900694, -536870894, 0, 1966210, -1073741806, 0, 1966211, -1073741806, 0, 1966230, -536870894, 0, 2031766, -536870894, 0, 2031770, 536870950, 0, 2097302, -536870894, 0, 2097305, 536870933, 0, 2097306, 536870950, 0, 2162838, -536870894, 0, 2162841, 536870932, 0, 2162842, 536870930, 0, 2228374, -536870894, 0 )
@@ -2142,13 +1034,14 @@ occluder = SubResource( 61 )
 occluder = SubResource( 62 )
 
 [node name="NavigationPolygonInstance" type="NavigationPolygonInstance" parent="."]
+visible = false
 navpoly = SubResource( 52 )
 
 [node name="Camera2D" parent="." instance=ExtResource( 7 )]
 
 [node name="NextArea" type="Area2D" parent="."]
 position = Vector2( 6224, 384 )
-script = ExtResource( 23 )
+script = ExtResource( 13 )
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="NextArea"]
 position = Vector2( 16, -64 )
@@ -2218,25 +1111,4 @@ follow_viewport_enable = true
 [connection signal="animation_finished" from="PostFX/FadeOut/AnimationPlayer" to="NextArea" method="_on_AnimationPlayer_animation_finished"]
 
 [editable path="Objects/Turrets/Turret-Rifle4"]
-[editable path="Objects/Turrets/Turret-Rifle"]
-[editable path="Objects/Turrets/Turret-Rifle2"]
-[editable path="Objects/Turrets/Turret-Rifle3"]
-[editable path="Objects/Turrets/Turret-Rifle5"]
-[editable path="Objects/Turrets/Turret-Rifle6"]
-[editable path="Objects/Turrets/Turret-Rifle7"]
-[editable path="Objects/Turrets/Turret-Rifle8"]
-[editable path="Objects/Turrets/Turret-Rifle9"]
-[editable path="Entities/Guard-Rifle5"]
-[editable path="Entities/Guard-Rifle6"]
-[editable path="Entities/Guard-Rifle16"]
 [editable path="Entities/Guard-Rifle"]
-[editable path="Entities/Guard-Rifle2"]
-[editable path="Entities/Guard-Rifle3"]
-[editable path="Entities/Guard-Rifle4"]
-[editable path="Entities/Guard-Rifle7"]
-[editable path="Entities/Guard-Rifle8"]
-[editable path="Entities/Guard-Rifle10"]
-[editable path="Entities/Guard-Rifle12"]
-[editable path="Entities/Guard-Rifle13"]
-[editable path="Entities/Guard-Rifle14"]
-[editable path="Entities/Guard-Rifle15"]

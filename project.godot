@@ -12,6 +12,7 @@ config_version=4
 
 config/name="Specimen A"
 boot_splash/show_image=false
+boot_splash/bg_color=Color( 0.027451, 0.00392157, 0.00392157, 1 )
 config/icon="res://icon.png"
 
 [autoload]

@@ -1,0 +1,21 @@
+[gd_scene load_steps=3 format=2]
+
+[ext_resource path="res://Shaders/Materials/Add.CanvasItemMaterial.tres" type="Material" id=1]
+[ext_resource path="res://Shaders/Particles/BulletSpark.color_ramp.tres" type="Gradient" id=2]
+
+[node name="BulletSpark" type="CPUParticles2D"]
+modulate = Color( 0.956863, 0.619608, 0.113725, 1 )
+material = ExtResource( 1 )
+amount = 4
+lifetime = 0.2
+explosiveness = 1.0
+direction = Vector2( 0, -1 )
+spread = 90.0
+gravity = Vector2( 0, 0 )
+initial_velocity = 240.0
+initial_velocity_random = 0.8
+angle = 720.0
+angle_random = 1.0
+scale_amount = 4.0
+scale_amount_random = 0.5
+color_ramp = ExtResource( 2 )

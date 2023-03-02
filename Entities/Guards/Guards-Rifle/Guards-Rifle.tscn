@@ -1,0 +1,222 @@
+[gd_scene load_steps=17 format=2]
+
+[ext_resource path="res://Scripts/VisibilityHandler.tscn" type="PackedScene" id=1]
+[ext_resource path="res://Shaders/Particles/BulletSpark.tscn" type="PackedScene" id=2]
+[ext_resource path="res://Shaders/Materials/Mix-Unshaded.CanvasItemMaterial.tres" type="Material" id=3]
+[ext_resource path="res://Shaders/Lights/General.GradientTexture2D.tres" type="Texture" id=4]
+[ext_resource path="res://Shaders/Particles/muzzle.png" type="Texture" id=5]
+[ext_resource path="res://Entities/Enntities.png" type="Texture" id=6]
+[ext_resource path="res://Entities/Guards/Guards.gd" type="Script" id=7]
+[ext_resource path="res://Entities/Gun-Rifle.gd" type="Script" id=8]
+[ext_resource path="res://Entities/Guards/Guards.Gun.Light.Occluder.occluder.tres" type="OccluderPolygon2D" id=9]
+[ext_resource path="res://Entities/Guards/Guards.Sprite.LightHelmet.Occluder.occluder.tres" type="OccluderPolygon2D" id=10]
+[ext_resource path="res://Entities/Guards/Guards.Gun.Muzzle.Flash.texture.tres" type="Texture" id=11]
+[ext_resource path="res://Entities/Guards/Guards.CollisionShape2D.tres" type="Shape2D" id=12]
+[ext_resource path="res://Entities/Guards/Guards.Gun.BulletPath.gradient.tres" type="Gradient" id=13]
+[ext_resource path="res://Entities/Guards/Guards-Rifle/Guards-Rifle.Gun.AnimationPlayer.Firing.tres" type="Animation" id=14]
+
+[sub_resource type="CanvasItemMaterial" id=6]
+blend_mode = 1
+
+[sub_resource type="Animation" id=7]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/path = NodePath("Muzzle/Flash:energy")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ 0.0 ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("Muzzle:energy")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ 0.0 ]
+}
+tracks/2/type = "value"
+tracks/2/path = NodePath("BulletPath:modulate")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ Color( 1, 1, 1, 1 ) ]
+}
+
+[node name="Guard-Rifle" type="KinematicBody2D"]
+collision_layer = 17
+collision_mask = 17
+script = ExtResource( 7 )
+cooldown = 2.0
+
+[node name="TriggerArea" type="Area2D" parent="."]
+visible = false
+input_pickable = false
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="TriggerArea"]
+polygon = PoolVector2Array( -32, 32, -32, -32, 224, -160, 224, 160 )
+
+[node name="Sprite" type="Sprite" parent="."]
+rotation = -1.5708
+texture = ExtResource( 6 )
+region_enabled = true
+region_rect = Rect2( 96, 192, 64, 64 )
+
+[node name="GeneralLight" type="Light2D" parent="Sprite"]
+texture = ExtResource( 4 )
+color = Color( 1, 1, 1, 0.941176 )
+mode = 2
+range_layer_min = -1
+
+[node name="LightHelmet" type="Light2D" parent="Sprite"]
+position = Vector2( 2, 0 )
+texture = ExtResource( 4 )
+offset = Vector2( 0, -4 )
+texture_scale = 0.6
+color = Color( 0.956863, 0.619608, 0.113725, 1 )
+range_layer_min = -1
+shadow_enabled = true
+shadow_item_cull_mask = 2049
+
+[node name="Occluder" type="LightOccluder2D" parent="Sprite/LightHelmet"]
+self_modulate = Color( 1, 1, 1, 0 )
+light_mask = 2048
+position = Vector2( 0, -1 )
+occluder = ExtResource( 10 )
+light_mask = 2048
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2( -2, -1 )
+shape = ExtResource( 12 )
+
+[node name="AttackCooldown" type="Timer" parent="."]
+one_shot = true
+
+[node name="NavigationAgent2D" type="NavigationAgent2D" parent="."]
+avoidance_enabled = true
+radius = 38.0
+
+[node name="UpdatePlayerPos" type="Timer" parent="NavigationAgent2D"]
+process_mode = 0
+autostart = true
+
+[node name="KeepDistance" type="Node2D" parent="."]
+visible = false
+
+[node name="Line2D" type="Line2D" parent="KeepDistance"]
+points = PoolVector2Array( -64, 0, 32, 0 )
+default_color = Color( 0.898039, 0, 0, 0.168627 )
+
+[node name="Position2D" type="Position2D" parent="KeepDistance"]
+position = Vector2( -25, 0 )
+
+[node name="Gun" type="Node2D" parent="."]
+position = Vector2( 14, 5 )
+rotation = -1.5708
+script = ExtResource( 8 )
+
+[node name="Light" type="Light2D" parent="Gun"]
+position = Vector2( 0, 4 )
+texture = ExtResource( 4 )
+texture_scale = 3.0
+mode = 2
+range_layer_min = -1
+shadow_enabled = true
+shadow_gradient_length = 30.0
+shadow_item_cull_mask = 2049
+
+[node name="Occluder" type="LightOccluder2D" parent="Gun/Light"]
+self_modulate = Color( 1, 1, 1, 0 )
+light_mask = 2048
+position = Vector2( 0, -1 )
+occluder = ExtResource( 9 )
+light_mask = 2048
+
+[node name="Muzzle" type="Light2D" parent="Gun"]
+position = Vector2( -4.76837e-07, 15 )
+rotation = 3.14159
+texture = ExtResource( 5 )
+texture_scale = 0.5
+color = Color( 0.956863, 0.619608, 0.113725, 1 )
+energy = 0.0
+range_layer_min = -1
+
+[node name="Flash" type="Light2D" parent="Gun/Muzzle"]
+light_mask = 65
+position = Vector2( -5.34058e-05, 12 )
+texture = ExtResource( 11 )
+texture_scale = 2.0
+color = Color( 0.956863, 0.619608, 0.113725, 1 )
+energy = 0.0
+range_layer_min = -1
+range_item_cull_mask = 65
+shadow_enabled = true
+shadow_buffer_size = 32
+shadow_item_cull_mask = 65
+
+[node name="BulletPath" type="Line2D" parent="Gun"]
+material = SubResource( 6 )
+points = PoolVector2Array( 0, 0, 0, 110 )
+width = 1.0
+default_color = Color( 0.956863, 0.619608, 0.113725, 1 )
+gradient = ExtResource( 13 )
+
+[node name="LineOfSight" type="RayCast2D" parent="Gun"]
+visible = false
+enabled = true
+cast_to = Vector2( 0, 156 )
+collision_mask = 4
+collide_with_areas = true
+
+[node name="LineOfFire" type="RayCast2D" parent="Gun/LineOfSight"]
+enabled = true
+cast_to = Vector2( 0, 156 )
+collision_mask = 4
+collide_with_areas = true
+
+[node name="BulletSpark" parent="Gun" instance=ExtResource( 2 )]
+visible = false
+position = Vector2( 0, 111 )
+
+[node name="CollidingPoint" type="Position2D" parent="Gun"]
+
+[node name="ColorRect" type="ColorRect" parent="Gun/CollidingPoint"]
+visible = false
+material = ExtResource( 3 )
+margin_left = -2.0
+margin_top = -2.0
+margin_right = 2.0
+margin_bottom = 2.0
+color = Color( 1, 0, 0, 1 )
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="Gun"]
+anims/Firing = ExtResource( 14 )
+anims/RESET = SubResource( 7 )
+
+[node name="VisibilityHandler" parent="." instance=ExtResource( 1 )]
+position = Vector2( 1.90735e-06, 1.90735e-06 )
+scale = Vector2( 6.4, 6.4 )
+process_parent = true
+physics_process_parent = true
+
+[connection signal="area_entered" from="TriggerArea" to="." method="_on_TriggerArea_area_entered"]
+[connection signal="body_entered" from="TriggerArea" to="." method="_on_TriggerArea_body_entered"]
+[connection signal="timeout" from="AttackCooldown" to="." method="_on_AttackCooldown_timeout"]
+[connection signal="path_changed" from="NavigationAgent2D" to="." method="_on_NavigationAgent2D_path_changed"]
+[connection signal="velocity_computed" from="NavigationAgent2D" to="." method="_on_NavigationAgent2D_velocity_computed"]
+[connection signal="timeout" from="NavigationAgent2D/UpdatePlayerPos" to="." method="_on_UpdatePlayerPos_timeout"]
+[connection signal="animation_finished" from="Gun/AnimationPlayer" to="." method="Weapon_AnimationFinished"]

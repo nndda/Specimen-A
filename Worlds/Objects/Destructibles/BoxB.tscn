@@ -14,7 +14,7 @@ extents = Vector2( 16, 16 )
 
 [sub_resource type="OccluderPolygon2D" id=18]
 cull_mode = 2
-polygon = PoolVector2Array( -16, -16, -16, 16, 16, 16, 16, -16 )
+polygon = PoolVector2Array( -15, -15, -15, 15, 15, 15, 15, -15 )
 
 [node name="BoxB" type="RigidBody2D"]
 collision_layer = 16
@@ -24,7 +24,6 @@ physics_material_override = SubResource( 19 )
 linear_damp = 20.0
 angular_damp = 20.0
 script = ExtResource( 2 )
-yield_chance = 0.25
 health = 10.0
 particle_node = NodePath("GlassShardsL")
 destroy_objects = [ NodePath("Sprite") ]

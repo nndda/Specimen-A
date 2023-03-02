@@ -8,6 +8,8 @@ var allow_move : bool = true
 var moving : bool
 var moving_f : float
 
+var attacking : bool
+
 var head_pos : Vector2
 var head_canvas_pos : Vector2
 
@@ -93,6 +95,7 @@ func _process(_delta):
 	)
 
 	skill_current = wrapi(skill_current,0,skills_discovered)
+	worm_length = sum_array(worm_length_array)
 
 var gameplay_ui_layer
 func PopUpPoints(value : float, pos : Vector2) -> void:

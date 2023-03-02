@@ -4,15 +4,16 @@ extends Node2D
 func _ready():
 	$"Tile-Wall_3D".GenerateLayers()
 
-	if get_tree().has_group("SHOW"):
-		for dbg in get_tree().get_nodes_in_group("SHOW"):
-			dbg.show()
+#	if get_tree().has_group("SHOW"):
+#		for dbg in get_tree().get_nodes_in_group("SHOW"):
+#			if dbg is Node2D:
+#				if !dbg.visible:
+#					print(dbg)
+#					dbg.show()
+#				dbg.show()
+#			dbg.visible = true
 	RemoveEditorItems()
 	glbl.gameplay_ui_layer = $UI
-
-#func _process(_delta):
-#	if $UI.get_child_count() >= 2:
-#		$UI.get_child(0).call_deferred("queue_free")
 
 func RemoveEditorItems() -> void:
 	if get_tree().has_group("DBG"):

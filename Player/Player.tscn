@@ -1,21 +1,36 @@
-[gd_scene load_steps=59 format=2]
+[gd_scene load_steps=55 format=2]
 
 [ext_resource path="res://Player/Sprites/Segment-0.png" type="Texture" id=1]
 [ext_resource path="res://Player/Player.Body.gd" type="Script" id=2]
 [ext_resource path="res://Player/Player.Head.gd" type="Script" id=3]
 [ext_resource path="res://Player/Sprites/Lights/Light.GradientTexture2D.tres" type="Texture" id=4]
-[ext_resource path="res://Player/Player.Body.Curve_0.tres" type="Curve" id=5]
+[ext_resource path="res://Player/Player.Body.width_curve.tres" type="Curve" id=5]
 [ext_resource path="res://Player/Sprites/Texture.png" type="Texture" id=6]
 [ext_resource path="res://Shaders/Materials/Mix-Unshaded.CanvasItemMaterial.tres" type="Material" id=7]
 [ext_resource path="res://UI/Cursors/Arrow.png" type="Texture" id=8]
 [ext_resource path="res://UI/Cursors/Cross.png" type="Texture" id=9]
 [ext_resource path="res://Player/CollisionBody.Shape.tres" type="Shape2D" id=10]
 [ext_resource path="res://Player/DamageBody.Area2D.gd" type="Script" id=11]
-[ext_resource path="res://UI/UI.png" type="Texture" id=12]
+[ext_resource path="res://Player/UI/LowHealthOverlay.texture.tres" type="Texture" id=12]
 [ext_resource path="res://UI/Default.theme" type="Theme" id=13]
 [ext_resource path="res://UI/Fonts/Silver.L.DynamicFont.tres" type="DynamicFont" id=14]
 [ext_resource path="res://Player/UI.gd" type="Script" id=15]
 [ext_resource path="res://Scripts/DebugVars.gd" type="Script" id=16]
+[ext_resource path="res://Player/Sprites/Lights/Lights.curve.tres" type="Curve2D" id=17]
+[ext_resource path="res://Shaders/Materials/Add-Unshaded.CanvasItemMaterial.tres" type="Material" id=18]
+[ext_resource path="res://Player/UI/HealthUI.gradient.tres" type="Gradient" id=19]
+[ext_resource path="res://Player/Sprites/ImpactParticles-Blood.scale_amount_curve.tres" type="Curve" id=20]
+[ext_resource path="res://Player/Head.Light.texture.tres" type="Texture" id=21]
+[ext_resource path="res://Player/Head.AreaShake.CollisionShape2D.shape.tres" type="Shape2D" id=22]
+[ext_resource path="res://Player/UI/AttackIndicator.texture_under.tres" type="Texture" id=23]
+[ext_resource path="res://Player/UI/AttackIndicator.texture_progress.tres" type="Texture" id=24]
+[ext_resource path="res://Player/Light.texture.tres" type="Texture" id=25]
+[ext_resource path="res://Player/UI/AttackCooldown.texture_progress.tres" type="Texture" id=26]
+[ext_resource path="res://Player/UI/Skills.EMPBurst.texture.tres" type="Texture" id=27]
+[ext_resource path="res://Player/UI/Skills.SynthesizeAcids.texture.tres" type="Texture" id=28]
+[ext_resource path="res://Player/UI/Skills.Frame.texture.tres" type="Texture" id=29]
+[ext_resource path="res://Player/UI/Skills.Hover.texture.tres" type="Texture" id=30]
+[ext_resource path="res://Player/UI/Skills.DischargeShrapnel.texture.tres" type="Texture" id=31]
 
 [sub_resource type="Animation" id=4]
 resource_name = "Idle"
@@ -251,15 +266,6 @@ tracks/1/keys = {
 "values": [ Color( 1, 1, 1, 1 ) ]
 }
 
-[sub_resource type="Curve2D" id=3]
-_data = {
-"points": PoolVector2Array( 0, 0, 0, 0, -27, 4, 0, 0, 0, 0, -184, -28, 0, 0, 0, 0, -315, -65, 0, 0, 0, 0, -431, -46, 0, 0, 0, 0, -493, 3, 0, 0, 0, 0, -566, 40, 0, 0, 0, 0, -717, 40 )
-}
-
-[sub_resource type="Gradient" id=17]
-offsets = PoolRealArray( 0.0227273, 0.318182, 0.636364, 1 )
-colors = PoolColorArray( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 1, 1, 0, 0, 1 )
-
 [sub_resource type="Animation" id=13]
 resource_name = "Blink"
 loop = true
@@ -295,6 +301,43 @@ tracks/0/keys = {
 resource_name = "Health"
 
 [sub_resource type="Animation" id=16]
+length = 0.001
+
+[sub_resource type="Animation" id=51]
+resource_name = "Blink"
+loop = true
+tracks/0/type = "value"
+tracks/0/path = NodePath(".:self_modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.5 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ Color( 1, 1, 1, 0.490196 ), Color( 1, 1, 1, 1 ) ]
+}
+
+[sub_resource type="Animation" id=52]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/path = NodePath(".:self_modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ Color( 1, 1, 1, 0.882353 ) ]
+}
+
+[sub_resource type="Animation" id=53]
+resource_name = "Health"
+
+[sub_resource type="Animation" id=54]
 length = 0.001
 
 [sub_resource type="Animation" id=6]
@@ -352,40 +395,6 @@ tracks/1/keys = {
 "values": [ 0.0 ]
 }
 
-[sub_resource type="CanvasItemMaterial" id=40]
-blend_mode = 1
-light_mode = 1
-
-[sub_resource type="Curve" id=41]
-_data = [ Vector2( 0, 1 ), 0.0, 1.4, 0, 0, Vector2( 1, 0 ), 0.0, 0.0, 0, 0 ]
-
-[sub_resource type="Gradient" id=26]
-interpolation_mode = 2
-offsets = PoolRealArray( 0, 0.833333 )
-colors = PoolColorArray( 1, 1, 1, 1, 1, 1, 1, 0 )
-
-[sub_resource type="GradientTexture2D" id=27]
-gradient = SubResource( 26 )
-width = 96
-height = 96
-fill = 1
-fill_from = Vector2( 0.5, 0.5 )
-fill_to = Vector2( 0.9, 0.1 )
-
-[sub_resource type="CircleShape2D" id=28]
-radius = 140.0
-
-[sub_resource type="CircleShape2D" id=29]
-radius = 180.0
-
-[sub_resource type="Gradient" id=18]
-colors = PoolColorArray( 1, 1, 1, 1, 0, 0, 0, 1 )
-
-[sub_resource type="GradientTexture2D" id=19]
-gradient = SubResource( 18 )
-fill = 1
-fill_from = Vector2( 0.5, 0.5 )
-
 [sub_resource type="Animation" id=20]
 resource_name = "Blink"
 length = 0.8
@@ -416,65 +425,6 @@ tracks/0/keys = {
 "update": 0,
 "values": [ Color( 1, 0, 0, 0 ) ]
 }
-
-[sub_resource type="Gradient" id=23]
-interpolation_mode = 1
-offsets = PoolRealArray( 0, 0.258621, 0.310345, 0.54023 )
-colors = PoolColorArray( 1, 1, 1, 0, 1, 0, 0, 0.0627451, 1, 1, 1, 0, 1, 1, 1, 0 )
-
-[sub_resource type="GradientTexture2D" id=24]
-flags = 0
-gradient = SubResource( 23 )
-width = 256
-height = 256
-fill = 1
-fill_from = Vector2( 0.5, 0.5 )
-
-[sub_resource type="Gradient" id=22]
-interpolation_mode = 1
-offsets = PoolRealArray( 0, 0.298851, 0.333333, 0.356322 )
-colors = PoolColorArray( 1, 1, 1, 0, 1, 0, 0, 0.231373, 0.730134, 0.0256688, 0.0256688, 1, 1, 1, 1, 0 )
-
-[sub_resource type="GradientTexture2D" id=25]
-flags = 0
-gradient = SubResource( 22 )
-width = 256
-height = 256
-fill = 1
-fill_from = Vector2( 0.5, 0.5 )
-
-[sub_resource type="Gradient" id=31]
-interpolation_mode = 1
-offsets = PoolRealArray( 0, 0.281609, 0.310345, 0.344828 )
-colors = PoolColorArray( 1, 1, 1, 0, 1, 0, 0, 0.231373, 1, 0.992157, 0.992157, 0.537255, 1, 1, 1, 0 )
-
-[sub_resource type="GradientTexture2D" id=32]
-flags = 0
-gradient = SubResource( 31 )
-width = 256
-height = 256
-fill = 1
-fill_from = Vector2( 0.5, 0.5 )
-
-[sub_resource type="AtlasTexture" id=42]
-atlas = ExtResource( 12 )
-region = Rect2( 32, 64, 32, 32 )
-
-[sub_resource type="AtlasTexture" id=43]
-atlas = ExtResource( 12 )
-region = Rect2( 32, 96, 32, 32 )
-
-[sub_resource type="AtlasTexture" id=44]
-atlas = ExtResource( 12 )
-region = Rect2( 32, 128, 32, 32 )
-
-[sub_resource type="AtlasTexture" id=45]
-atlas = ExtResource( 12 )
-region = Rect2( 64, 64, 32, 32 )
-
-[sub_resource type="AtlasTexture" id=46]
-atlas = ExtResource( 12 )
-region = Rect2( 96, 64, 32, 32 )
 
 [sub_resource type="Animation" id=47]
 length = 0.001
@@ -536,16 +486,6 @@ tracks/0/keys = {
 "update": 0,
 "values": [ Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 0 ) ]
 }
-
-[sub_resource type="Gradient" id=36]
-offsets = PoolRealArray( 0.618321, 0.881679, 1 )
-colors = PoolColorArray( 1, 1, 1, 0, 1, 1, 1, 0.377358, 1, 1, 1, 0.760784 )
-
-[sub_resource type="GradientTexture2D" id=37]
-flags = 4
-gradient = SubResource( 36 )
-fill = 1
-fill_from = Vector2( 0.5, 0.5 )
 
 [sub_resource type="Animation" id=38]
 resource_name = "Beating"
@@ -620,7 +560,7 @@ anims/RESET = SubResource( 34 )
 
 [node name="Lights" type="Path2D" parent="Body"]
 self_modulate = Color( 0.501961, 0.6, 1, 0 )
-curve = SubResource( 3 )
+curve = ExtResource( 17 )
 
 [node name="0" type="PathFollow2D" parent="Body/Lights"]
 position = Vector2( -27, 4 )
@@ -672,7 +612,7 @@ points = PoolVector2Array( -45, 59, -108, 31, -113, 1, -102, -23, -76, -41, -43,
 width = 2.0
 width_curve = ExtResource( 5 )
 default_color = Color( 1, 0, 0, 1 )
-gradient = SubResource( 17 )
+gradient = ExtResource( 19 )
 
 [node name="Visuals" type="AnimationPlayer" parent="HealthUI"]
 autoplay = "Blink"
@@ -682,6 +622,24 @@ anims/RESET = SubResource( 14 )
 [node name="Updates" type="AnimationPlayer" parent="HealthUI"]
 anims/Health = SubResource( 15 )
 anims/RESET = SubResource( 16 )
+
+[node name="HealthUIS" type="Line2D" parent="."]
+self_modulate = Color( 1, 1, 1, 0.882353 )
+material = ExtResource( 7 )
+points = PoolVector2Array( -45, 59, -108, 31, -113, 1, -102, -23, -76, -41, -43, -56, -27, -37, -8, 1 )
+width = 2.0
+width_curve = ExtResource( 5 )
+default_color = Color( 1, 0, 0, 1 )
+gradient = ExtResource( 19 )
+
+[node name="Visuals" type="AnimationPlayer" parent="HealthUIS"]
+autoplay = "Blink"
+anims/Blink = SubResource( 51 )
+anims/RESET = SubResource( 52 )
+
+[node name="Updates" type="AnimationPlayer" parent="HealthUIS"]
+anims/Health = SubResource( 53 )
+anims/RESET = SubResource( 54 )
 
 [node name="Head" type="KinematicBody2D" parent="."]
 collision_layer = 5
@@ -718,7 +676,7 @@ anims/Open = SubResource( 6 )
 anims/RESET = SubResource( 7 )
 
 [node name="ImpactParticles-Blood" type="CPUParticles2D" parent="Head/Mouth"]
-material = SubResource( 40 )
+material = ExtResource( 18 )
 position = Vector2( 17, -2 )
 emitting = false
 amount = 24
@@ -735,7 +693,7 @@ angle = 720.0
 angle_random = 1.0
 scale_amount = 6.0
 scale_amount_random = 0.3
-scale_amount_curve = SubResource( 41 )
+scale_amount_curve = ExtResource( 20 )
 color = Color( 0.898039, 0, 0, 1 )
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Head"]
@@ -743,8 +701,8 @@ visible = false
 position = Vector2( 2, 0 )
 shape = ExtResource( 10 )
 
-[node name="Light2D" type="Light2D" parent="Head"]
-texture = SubResource( 27 )
+[node name="Light" type="Light2D" parent="Head"]
+texture = ExtResource( 21 )
 texture_scale = 4.07
 color = Color( 1, 0.505882, 0.505882, 1 )
 mode = 2
@@ -769,8 +727,7 @@ input_pickable = false
 monitoring = false
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Head/AreaShake"]
-visible = false
-shape = SubResource( 28 )
+shape = ExtResource( 22 )
 
 [node name="AreaEMP" type="Area2D" parent="Head"]
 visible = false
@@ -779,11 +736,11 @@ monitoring = false
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Head/AreaEMP"]
 visible = false
-shape = SubResource( 29 )
+shape = ExtResource( 22 )
 
-[node name="Light2D" type="Light2D" parent="."]
+[node name="Light" type="Light2D" parent="."]
 editor_only = true
-texture = SubResource( 19 )
+texture = ExtResource( 25 )
 texture_scale = 9.52
 energy = 8.82
 mode = 2
@@ -817,8 +774,8 @@ material = ExtResource( 7 )
 margin_right = 256.0
 margin_bottom = 256.0
 value = 65.0
-texture_under = SubResource( 24 )
-texture_progress = SubResource( 25 )
+texture_under = ExtResource( 23 )
+texture_progress = ExtResource( 24 )
 fill_mode = 4
 
 [node name="AttackCooldown" type="TextureProgress" parent="UI"]
@@ -826,8 +783,8 @@ material = ExtResource( 7 )
 margin_right = 256.0
 margin_bottom = 256.0
 value = 12.0
-texture_under = SubResource( 24 )
-texture_progress = SubResource( 32 )
+texture_under = ExtResource( 23 )
+texture_progress = ExtResource( 26 )
 fill_mode = 4
 
 [node name="Control" type="Control" parent="UI"]
@@ -852,19 +809,19 @@ self_modulate = Color( 0.733333, 0.709804, 0.709804, 1 )
 margin_left = 324.0
 margin_right = 356.0
 margin_bottom = 32.0
-texture = SubResource( 42 )
+texture = ExtResource( 31 )
 
 [node name="Frame" type="TextureRect" parent="UI/Control/Skills/DischargeShrapnel"]
 self_modulate = Color( 0.733333, 0.709804, 0.709804, 1 )
 anchor_right = 1.0
 anchor_bottom = 1.0
-texture = SubResource( 43 )
+texture = ExtResource( 29 )
 
 [node name="Hover" type="TextureRect" parent="UI/Control/Skills/DischargeShrapnel"]
 modulate = Color( 0.898039, 0, 0, 1 )
 anchor_right = 1.0
 anchor_bottom = 1.0
-texture = SubResource( 44 )
+texture = ExtResource( 30 )
 
 [node name="CapBar" type="Control" parent="UI/Control/Skills/DischargeShrapnel"]
 anchor_right = 1.0
@@ -882,20 +839,20 @@ self_modulate = Color( 0.733333, 0.709804, 0.709804, 1 )
 margin_left = 368.0
 margin_right = 400.0
 margin_bottom = 32.0
-texture = SubResource( 45 )
+texture = ExtResource( 27 )
 
 [node name="Frame" type="TextureRect" parent="UI/Control/Skills/EMPBurst"]
 self_modulate = Color( 0.733333, 0.709804, 0.709804, 1 )
 anchor_right = 1.0
 anchor_bottom = 1.0
-texture = SubResource( 43 )
+texture = ExtResource( 29 )
 
 [node name="Hover" type="TextureRect" parent="UI/Control/Skills/EMPBurst"]
 visible = false
 modulate = Color( 0.898039, 0, 0, 1 )
 anchor_right = 1.0
 anchor_bottom = 1.0
-texture = SubResource( 44 )
+texture = ExtResource( 30 )
 
 [node name="CapBar" type="Control" parent="UI/Control/Skills/EMPBurst"]
 anchor_right = 1.0
@@ -913,20 +870,20 @@ self_modulate = Color( 0.733333, 0.709804, 0.709804, 1 )
 margin_left = 412.0
 margin_right = 444.0
 margin_bottom = 32.0
-texture = SubResource( 46 )
+texture = ExtResource( 28 )
 
 [node name="Frame" type="TextureRect" parent="UI/Control/Skills/SynthesizeAcids"]
 self_modulate = Color( 0.733333, 0.709804, 0.709804, 1 )
 anchor_right = 1.0
 anchor_bottom = 1.0
-texture = SubResource( 43 )
+texture = ExtResource( 29 )
 
 [node name="Hover" type="TextureRect" parent="UI/Control/Skills/SynthesizeAcids"]
 visible = false
 modulate = Color( 0.898039, 0, 0, 1 )
 anchor_right = 1.0
 anchor_bottom = 1.0
-texture = SubResource( 44 )
+texture = ExtResource( 30 )
 
 [node name="CapBar" type="Control" parent="UI/Control/Skills/SynthesizeAcids"]
 anchor_right = 1.0
@@ -983,7 +940,7 @@ modulate = Color( 1, 1, 1, 0 )
 self_modulate = Color( 0.788235, 0.0392157, 0.0392157, 1 )
 anchor_right = 1.0
 anchor_bottom = 1.0
-texture = SubResource( 37 )
+texture = ExtResource( 12 )
 expand = true
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="UI/LowHealthOverlay"]
