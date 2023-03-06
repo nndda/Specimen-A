@@ -1,15 +1,23 @@
-extends VisibilityNotifier2D
+extends VisibleOnScreenEnabler2D
 
-func _enter_tree():
-	self.show()
+var visibility_query : Array[CanvasItem]
 
-func _ready():
-	var err = connect( "ready", get_parent(), "hide" )
-	if err != 0:
-		push_warning(" > on : " + str( self ) + ", " + str(err))
-#	print( " > on : " + str( self ) + ", " + str(err) )
+func _on_tree_entered():
+	for c in get_parent().get_children():
+		if c != self and c is CanvasItem:
+				visibility_query.append(c)
+#	get_parent().connect( "child_entered_tree", Callable( self, "append_visibility_query" ) )
+	get_parent().connect( "child_exiting_tree", Callable( self, "remove_visibility_query" ) )
 
-func _on_VisibilityHandler_screen_entered():
-	get_parent().show()
-func _on_VisibilityHandler_screen_exited():
-	get_parent().hide()
+#func append_visibility_query(c) -> void:
+#	if c != self and c is CanvasItem:
+#		visibility_query.append(c)
+func remove_visibility_query(c) -> void:
+	visibility_query.erase(c)
+
+func _on_screen_entered():
+	for c in visibility_query:
+		c.show()
+func _on_screen_exited():
+	for c in visibility_query:
+		c.hide()

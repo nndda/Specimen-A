@@ -1,4 +1,4 @@
-extends KinematicBody2D
+extends CharacterBody2D
 
 var easer					= 0.0
 var speed					= 360.0
@@ -16,7 +16,7 @@ var attack_cooldown			= 2.5
 var attack_speed			= 22.0
 
 var attack_distance_max		: float = 32.0 * 12.0
-var attack_pos : PoolVector2Array = [Vector2(),Vector2()]
+var attack_pos : Array[Vector2] = [Vector2(),Vector2()]
 
 func OpenMouth(n:float) -> void:
 	$Mouth/Jaw_0.rotation_degrees = n*-30
@@ -76,11 +76,11 @@ func AttackHandler() -> void:
 func _ready():
 #	$AreaShake/CollisionShape2D.set_deferred("disabled",true)
 #	print($AreaShake/CollisionShape2D.disabled)
-	$AreaShake.monitorable	= false
-	$AreaShake.monitoring	= false
+#	$AreaShake.monitorable	= false
+#	$AreaShake.monitoring	= false
 	
-	$DestroyThrough.add_exception($FaceObstacle)
-	$FaceObstacle.add_exception($DestroyThrough)
+#	$DestroyThrough.add_exception($FaceObstacle)
+#	$FaceObstacle.add_exception($DestroyThrough)
 	MonitorVariables()
 
 
@@ -100,8 +100,8 @@ func _process(delta):
 	$"../UI/Arrow".offset.x		= (glbl.moving_f * 60) + 68
 
 
-	$"../UI/AttackIndicator".rect_position = glbl.head_canvas_pos - $"../UI/AttackIndicator".rect_size / 2
-	$"../UI/AttackCooldown".rect_position = glbl.head_canvas_pos - $"../UI/AttackCooldown".rect_size / 2
+	$"../UI/AttackIndicator".position = glbl.head_canvas_pos - $"../UI/AttackIndicator".size / 2
+	$"../UI/AttackCooldown".position = glbl.head_canvas_pos - $"../UI/AttackCooldown".size / 2
 
 
 	$FaceObstacle.look_at(get_global_mouse_position())
@@ -126,10 +126,12 @@ func _physics_process(delta):
 	attack_distance_max = (12.0 * 32.0) * (attack_strength / 60)
 
 	if !attacking:
-		velo = move_and_slide(
+		velo = (
 			( float(glbl.moving_f) *
 			( ( speed ) * global_position.direction_to(get_global_mouse_position()) ) )
 		)
+		velocity = velo
+		move_and_slide()
 	else:
 		velo = attack_speed * attack_dir
 		var collision = move_and_collide(velo)
@@ -144,8 +146,8 @@ func _physics_process(delta):
 					$"Mouth/ImpactParticles-Blood".emitting = true
 					ShakeCam()
 #					$AreaShake/CollisionShape2D.set_deferred("disabled",true)
-					$AreaShake.monitorable	= false
-					$AreaShake.monitoring	= false
+#					$AreaShake.monitorable	= false
+#					$AreaShake.monitoring	= false
 
 				else:
 					if collision != null:
@@ -156,14 +158,14 @@ func _physics_process(delta):
 
 						ShakeCam()
 #						$AreaShake/CollisionShape2D.set_deferred("disabled",true)
-						$AreaShake.monitorable	= false
-						$AreaShake.monitoring	= false
+#						$AreaShake.monitorable	= false
+#						$AreaShake.monitoring	= false
 
 		if collision != null:
 			ShakeCam()
 #			$AreaShake/CollisionShape2D.set_deferred("disabled",true)
-			$AreaShake.monitorable	= false
-			$AreaShake.monitoring	= false
+#			$AreaShake.monitorable	= false
+#			$AreaShake.monitoring	= false
 			velo = velo.bounce(collision.normal)
 			ResetAtkDmg()
 			attacking = false
@@ -215,7 +217,7 @@ func DamagePlayer(power:float) -> void:
 		$"../UI/Control/HealthBar/AnimationPlayer".play("Visible")
 
 func MonitorVariables() -> void:
-	$"../Dbg/VBoxContainer".data = [
+	$"../DBG/VBoxContainer".data = [
 		"fps",	Engine.get_frames_per_second(),
 		"body length",	round(glbl.worm_length),
 		"head pos",	glbl.head_pos.round(),
@@ -223,3 +225,4 @@ func MonitorVariables() -> void:
 		"attacking",	glbl.attacking,
 		"health",	round(glbl.health),
 	]
+

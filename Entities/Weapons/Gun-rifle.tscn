@@ -1,0 +1,214 @@
+[gd_scene load_steps=12 format=3 uid="uid://d35rqaqdqkt6x"]
+
+[ext_resource type="Script" path="res://Entities/Weapons/Gun.gd" id="1_njox0"]
+[ext_resource type="Script" path="res://Entities/Weapons/Gun-Rifle.gd" id="2_4luqg"]
+[ext_resource type="PackedScene" uid="uid://b084k80tg1y62" path="res://Worlds/GlobalModulate.tscn" id="2_cd3vp"]
+[ext_resource type="Texture2D" uid="uid://d1y5v4sd3axmk" path="res://Shaders/Lights/General.GradientTexture2D.tres" id="3_vp8a8"]
+[ext_resource type="Texture2D" uid="uid://cgmofnkdo20sl" path="res://Shaders/Particles/muzzle.png" id="4_vkikv"]
+[ext_resource type="PackedScene" uid="uid://dc3jwfr08ejes" path="res://Entities/Weapons/BulletPath.tscn" id="5_j7t08"]
+[ext_resource type="PackedScene" uid="uid://dgh25kwhgv2hd" path="res://Entities/Weapons/BulletSpark.tscn" id="6_nqlb2"]
+
+[sub_resource type="Animation" id="Animation_gmvwc"]
+resource_name = "Firing"
+length = 1.5
+step = 0.025
+tracks/0/type = "method"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1, 1.1),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1),
+"values": [{
+"args": [],
+"method": &"Fire"
+}, {
+"args": [],
+"method": &"Fire"
+}, {
+"args": [],
+"method": &"Fire"
+}, {
+"args": [],
+"method": &"Fire"
+}, {
+"args": [],
+"method": &"Fire"
+}, {
+"args": [],
+"method": &"Fire"
+}, {
+"args": [],
+"method": &"Fire"
+}, {
+"args": [],
+"method": &"Fire"
+}, {
+"args": [],
+"method": &"Fire"
+}, {
+"args": [],
+"method": &"Fire"
+}, {
+"args": [],
+"method": &"Fire"
+}, {
+"args": [],
+"method": &"Fire"
+}]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("../Muzzle:energy")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.025, 0.075, 0.1, 0.125, 0.175, 0.2, 0.225, 0.275, 0.3, 0.325, 0.375, 0.4, 0.425, 0.475, 0.5, 0.525, 0.575, 0.6, 0.625, 0.675, 0.7, 0.725, 0.775, 0.8, 0.825, 0.875, 0.9, 0.925, 0.975, 1, 1.025, 1.075, 1.1, 1.125, 1.175),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1),
+"update": 0,
+"values": [1.5, 0.0, 0.0, 1.5, 0.0, 0.0, 1.5, 0.0, 0.0, 1.5, 0.0, 0.0, 1.5, 0.0, 0.0, 1.5, 0.0, 0.0, 1.5, 0.0, 0.0, 1.5, 0.0, 0.0, 1.5, 0.0, 0.0, 1.5, 0.0, 0.0, 1.5, 0.0, 0.0, 1.5, 0.0, 0.0]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("../Muzzle/Flash:energy")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0, 0.05, 0.075, 0.1, 0.15, 0.175, 0.2, 0.25, 0.275, 0.3, 0.35, 0.375, 0.4, 0.45, 0.475, 0.5, 0.55, 0.575, 0.6, 0.65, 0.675, 0.7, 0.75, 0.775, 0.8, 0.85, 0.875, 0.9, 0.95, 0.975, 1, 1.05, 1.075, 1.1, 1.15, 1.175),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1),
+"update": 0,
+"values": [2.0, 0.0, 0.0, 2.0, 0.0, 0.0, 2.0, 0.0, 0.0, 2.0, 0.0, 0.0, 2.0, 0.0, 0.0, 2.0, 0.0, 0.0, 2.0, 0.0, 0.0, 2.0, 0.0, 0.0, 2.0, 0.0, 0.0, 2.0, 0.0, 0.0, 2.0, 0.0, 0.0, 2.0, 0.0, 0.0]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("../BulletPath:modulate")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0, 0.075, 0.1, 0.175, 0.2, 0.275, 0.3, 0.375, 0.4, 0.475, 0.5, 0.575, 0.6, 0.675, 0.7, 0.775, 0.8, 0.875, 0.9, 0.975, 1, 1.075, 1.1, 1.175),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 1), Color(1, 1, 1, 0.647059), Color(1, 1, 1, 1), Color(1, 1, 1, 0.647059), Color(1, 1, 1, 1), Color(1, 1, 1, 0.647059), Color(1, 1, 1, 1), Color(1, 1, 1, 0.647059), Color(1, 1, 1, 1), Color(1, 1, 1, 0.647059), Color(1, 1, 1, 1), Color(1, 1, 1, 0.647059), Color(1, 1, 1, 1), Color(1, 1, 1, 0.647059), Color(1, 1, 1, 1), Color(1, 1, 1, 0.647059), Color(1, 1, 1, 1), Color(1, 1, 1, 0.647059), Color(1, 1, 1, 1), Color(1, 1, 1, 0.647059), Color(1, 1, 1, 1), Color(1, 1, 1, 0.647059), Color(1, 1, 1, 1), Color(1, 1, 1, 0.647059)]
+}
+
+[sub_resource type="Animation" id="Animation_7e8xh"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("../Muzzle:energy")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [0.0]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("../Muzzle/Flash:energy")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [0.0]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("../BulletPath:modulate")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(1, 1, 1, 0)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_3c7i6"]
+_data = {
+"Firing": SubResource("Animation_gmvwc"),
+"RESET": SubResource("Animation_7e8xh")
+}
+
+[sub_resource type="OccluderPolygon2D" id="OccluderPolygon2D_f7l6a"]
+closed = false
+cull_mode = 1
+polygon = PackedVector2Array(69, -34, -3, -2, -3, 2, 68, 34)
+
+[node name="Gun-Rifle" type="Node2D"]
+script = ExtResource("1_njox0")
+
+[node name="GlobalModulate" parent="." instance=ExtResource("2_cd3vp")]
+
+[node name="ColorRect" type="ColorRect" parent="."]
+visible = false
+offset_left = -173.0
+offset_top = -164.0
+offset_right = 221.0
+offset_bottom = 169.0
+color = Color(0.12549, 0.12549, 0.12549, 1)
+
+[node name="FireFunction" type="Node" parent="."]
+script = ExtResource("2_4luqg")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="FireFunction"]
+libraries = {
+"": SubResource("AnimationLibrary_3c7i6")
+}
+
+[node name="Light" type="PointLight2D" parent="."]
+position = Vector2(2, 0)
+color = Color(1, 0.886275, 0.764706, 1)
+shadow_enabled = true
+texture = ExtResource("3_vp8a8")
+texture_scale = 3.0
+
+[node name="LightOccluder2D" type="LightOccluder2D" parent="Light"]
+self_modulate = Color(1, 1, 1, 0)
+occluder = SubResource("OccluderPolygon2D_f7l6a")
+
+[node name="Muzzle" type="PointLight2D" parent="."]
+position = Vector2(26, 0)
+rotation = 1.57079
+color = Color(0.956863, 0.619608, 0.113725, 1)
+energy = 0.0
+shadow_enabled = true
+texture = ExtResource("4_vkikv")
+texture_scale = 0.5
+
+[node name="Flash" type="PointLight2D" parent="Muzzle"]
+position = Vector2(-2.09808e-05, 10)
+energy = 0.0
+texture = ExtResource("3_vp8a8")
+texture_scale = 3.0
+
+[node name="LineOfSight" type="RayCast2D" parent="."]
+visible = false
+target_position = Vector2(220, 0)
+collision_mask = 5
+
+[node name="LineOfFire" type="RayCast2D" parent="LineOfSight"]
+target_position = Vector2(220, 0)
+collision_mask = 5
+
+[node name="BulletPath" parent="." instance=ExtResource("5_j7t08")]
+modulate = Color(1, 1, 1, 0)
+
+[node name="BulletSpark" parent="." instance=ExtResource("6_nqlb2")]
+position = Vector2(215, 0)
+
+[node name="CollidingPoint" type="Node2D" parent="."]
+
+[node name="CollidingPointDefault" type="Node2D" parent="."]
+position = Vector2(215, 0)

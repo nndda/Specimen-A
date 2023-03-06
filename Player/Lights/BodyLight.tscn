@@ -1,0 +1,8 @@
+[gd_scene load_steps=2 format=3 uid="uid://18w32fckqjmb"]
+
+[ext_resource type="Texture2D" uid="uid://bhkp5aqqwmolv" path="res://Player/Lights/BodyLight.GradientTexture2D.tres" id="1_yvyph"]
+
+[node name="BodyLight" type="PointLight2D"]
+energy = 1.9
+range_item_cull_mask = 1024
+texture = ExtResource("1_yvyph")

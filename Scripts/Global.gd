@@ -1,5 +1,9 @@
 extends Node2D
 
+#enum item_id {
+#	flower,grass,dirt
+#}
+
 var top_scale = 1.1
 
 var camera : Object
@@ -15,12 +19,11 @@ var head_canvas_pos : Vector2
 
 var worm_segment_max : int = 56
 var worm_length : float
-var worm_length_array : Array
+var worm_length_array : Array[float]
 
 var worm_body
 
 var health : float = 100.0
-
 
 
 
@@ -34,30 +37,16 @@ enum skill {
 #var skills_discovered : int = 0
 var skills_discovered : int = 4 # Dbg purpose
 
-#var skills = {
-#
-#	skill.DischargeShrapnel : {
-#		"ready"		: false,
-#	},
-#
-#	skill.EMPBurst : {
-#		"ready"		: false,
-#	},
-#
-#	skill.SynthesizeAcids : {
-#		"ready"		: false,
-#	},
-#}
 var shrapnel_current : int = 0
 var emp_charge : int = 0
 var acid : int = 0
 
 
 
-func sum_array(array:PoolRealArray) -> float:
+func sum_array(array:Array[float]) -> float:
 	var t = 0.0
 	for n in array:
-		 t += n
+		t += n
 	return t
 
 #	CONFIG
@@ -66,9 +55,6 @@ var cfg = {
 	"optimal_graphic"			: false,
 	"show_damage"				: true,
 }
-
-
-
 
 
 func _process(_delta):
@@ -92,9 +78,9 @@ func _process(_delta):
 
 	moving_f = clamp( moving_f, 0.0,
 		float(glbl.head_pos.distance_to(get_global_mouse_position()) >= 25)
-	)
-
-	skill_current = wrapi(skill_current,0,skills_discovered)
+		
+)
+#	skill_current = wrapi(skill_current,0,skills_discovered)
 	worm_length = sum_array(worm_length_array)
 
 var gameplay_ui_layer

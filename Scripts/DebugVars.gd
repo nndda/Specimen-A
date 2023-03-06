@@ -1,6 +1,6 @@
 extends VBoxContainer
 
-export(Array) var data
+@export var data : Array
 
 func _enter_tree():
 	if data.size() % 2 != 0:
@@ -11,8 +11,8 @@ func _process(_delta):
 
 func set_vars() -> void:
 
-	if get_child_count() < data.size() / 2:
-		for varn in data.size() / 2:
+	if get_child_count() < float(data.size()) / 2:
+		for varn in float(data.size()) / 2:
 
 			var container = HBoxContainer.new()
 			var label = Label.new()
@@ -28,7 +28,7 @@ func set_vars() -> void:
 
 			add_child( container )
 
-	elif get_child_count() == data.size() / 2:
+	elif get_child_count() == float(data.size()) / 2:
 		mon_vars()
 
 
@@ -36,5 +36,5 @@ func mon_vars() -> void:
 
 	for chd in get_children():
 
-		chd.get_child(0).text = str( data[ chd.get_position_in_parent() * 2 ] )
-		chd.get_child(1).text = str( data[ chd.get_position_in_parent() * 2 + 1 ] )
+		chd.get_child(0).text = str( data[ chd.get_index() * 2 ] )
+		chd.get_child(1).text = str( data[ chd.get_index() * 2 + 1 ] )

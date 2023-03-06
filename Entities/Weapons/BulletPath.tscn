@@ -1,0 +1,14 @@
+[gd_scene load_steps=3 format=3 uid="uid://dc3jwfr08ejes"]
+
+[ext_resource type="Material" uid="uid://ud64atwxfe5s" path="res://Shaders/Materials/Add-Unshaded.CanvasItemMaterial.tres" id="1_v6jqx"]
+
+[sub_resource type="Gradient" id="Gradient_igbat"]
+offsets = PackedFloat32Array(0.572327, 0.754717, 0.861635)
+colors = PackedColorArray(0.956863, 0.619608, 0.113725, 0, 0.956863, 0.619608, 0.113725, 0.673913, 0.956863, 0.619608, 0.113725, 1)
+
+[node name="BulletPath" type="Line2D"]
+material = ExtResource("1_v6jqx")
+points = PackedVector2Array(0, 0, 216, 0)
+width = 2.0
+default_color = Color(0.956863, 0.619608, 0.113725, 1)
+gradient = SubResource("Gradient_igbat")

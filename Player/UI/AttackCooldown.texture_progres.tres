@@ -1,0 +1,10 @@
+[gd_resource type="GradientTexture2D" load_steps=2 format=3 uid="uid://dmf6sl1cpnp2x"]
+
+[ext_resource type="Gradient" uid="uid://csl6cqr4psobg" path="res://Player/UI/AttackCooldown.texture_progres.gradient.tres" id="1_7a3wx"]
+
+[resource]
+gradient = ExtResource("1_7a3wx")
+width = 256
+height = 256
+fill = 1
+fill_from = Vector2(0.5, 0.5)
