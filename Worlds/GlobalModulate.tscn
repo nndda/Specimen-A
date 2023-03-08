@@ -1,61 +1,7 @@
-[gd_scene load_steps=4 format=3 uid="uid://b084k80tg1y62"]
+[gd_scene load_steps=2 format=3 uid="uid://b084k80tg1y62"]
 
-[sub_resource type="Animation" id="Animation_k5ow4"]
-length = 0.001
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath(".:visible")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 1,
-"values": [false]
-}
-
-[sub_resource type="Animation" id="Animation_dm1mu"]
-resource_name = "Show"
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath(".:visible")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0, 0.1),
-"transitions": PackedFloat32Array(1, 1),
-"update": 1,
-"values": [false, true]
-}
-tracks/1/type = "method"
-tracks/1/imported = false
-tracks/1/enabled = true
-tracks/1/path = NodePath("AnimationPlayer")
-tracks/1/interp = 1
-tracks/1/loop_wrap = true
-tracks/1/keys = {
-"times": PackedFloat32Array(1),
-"transitions": PackedFloat32Array(1),
-"values": [{
-"args": [],
-"method": &"clear_queue"
-}]
-}
-
-[sub_resource type="AnimationLibrary" id="AnimationLibrary_3do52"]
-_data = {
-"RESET": SubResource("Animation_k5ow4"),
-"Show": SubResource("Animation_dm1mu")
-}
+[ext_resource type="Script" path="res://Worlds/GlobalModulate.gd" id="1_t0m5r"]
 
 [node name="GlobalModulate" type="CanvasModulate"]
-visible = false
 color = Color(0.121569, 0.0352941, 0.0352941, 1)
-
-[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
-autoplay = "Show"
-libraries = {
-"": SubResource("AnimationLibrary_3do52")
-}
+script = ExtResource("1_t0m5r")

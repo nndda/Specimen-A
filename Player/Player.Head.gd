@@ -1,6 +1,6 @@
 extends CharacterBody2D
 
-var easer					= 0.0
+#var easer					= 0.0
 var speed					= 360.0
 
 var face_obstacle			= false
@@ -118,76 +118,48 @@ func _process(delta):
 
 var velo
 var attack_velo	: Vector2
+var collision
 func _physics_process(delta):
 
-	easer += ( 0.1 * 1.0 if glbl.moving else -1.0 )
-	easer = clamp(easer,0.0,1.0)
-
-	attack_distance_max = (12.0 * 32.0) * (attack_strength / 60)
+	attack_distance_max = ( 12.0 * 32.0 ) * (attack_strength / 60)
+	$"DestroyThrough-A".monitoring = attacking
 
 	if !attacking:
 		velo = (
-			( float(glbl.moving_f) *
+			( float( glbl.moving_f ) *
 			( ( speed ) * global_position.direction_to(get_global_mouse_position()) ) )
 		)
 		velocity = velo
 		move_and_slide()
 	else:
-		velo = attack_speed * attack_dir
-		var collision = move_and_collide(velo)
+		velo			= attack_speed * attack_dir
+		collision		= move_and_collide(velo)
 
-		attack_pos[1] = glbl.head_pos
-
-		if $DestroyThrough.is_colliding():
-			if $DestroyThrough.get_collider().has_method("Damage"):
-
-				if $DestroyThrough.get_collider().health - attack_strength <= 0:
-					$DestroyThrough.get_collider().Damage( $DestroyThrough.get_collider().health )
-					$"Mouth/ImpactParticles-Blood".emitting = true
-					ShakeCam()
-#					$AreaShake/CollisionShape2D.set_deferred("disabled",true)
-#					$AreaShake.monitorable	= false
-#					$AreaShake.monitoring	= false
-
-				else:
-					if collision != null:
-						if collision.collider.has_method("Damage"):
-							$"Mouth/ImpactParticles-Blood".emitting = true
-							collision.collider.Damage(attack_strength)
-							ResetAtkDmg()
-
-						ShakeCam()
-#						$AreaShake/CollisionShape2D.set_deferred("disabled",true)
-#						$AreaShake.monitorable	= false
-#						$AreaShake.monitoring	= false
+		attack_pos[1]	= glbl.head_pos
 
 		if collision != null:
+			velo = velo.bounce( collision.get_normal() )
 			ShakeCam()
-#			$AreaShake/CollisionShape2D.set_deferred("disabled",true)
-#			$AreaShake.monitorable	= false
-#			$AreaShake.monitoring	= false
-			velo = velo.bounce(collision.normal)
 			ResetAtkDmg()
 			attacking = false
 
 		if attack_pos[0].distance_to(attack_pos[1]) >= attack_distance_max:
+			velo -= Vector2(
+				2.0 * delta,
+				2.0 * delta )
 			ResetAtkDmg()
-			velo.x -= 2.0 * delta
-			velo.y -= 2.0 * delta
-#			$AreaShake/CollisionShape2D.set_deferred("disabled",true)
 			attacking = false
 
-		velo.x = clamp(velo.x,0.0,attack_speed * attack_dir.x)
-		velo.y = clamp(velo.y,0.0,attack_speed * attack_dir.y)
+		velo = clamp( velo, Vector2.ZERO, attack_speed * attack_dir )
 
 	if glbl.moving_f > 0 and !attacking:
-		self.look_at(get_global_mouse_position())
+		self.look_at( get_global_mouse_position() )
 
-	$"../UI/AttackCooldown".visible = ($AttackCooldown.time_left > 0)
+	$"../UI/AttackCooldown".visible = ( $AttackCooldown.time_left > 0 )
 	glbl.attacking = attacking
 
 func ShakeCam() -> void:
-	glbl.camera.ShakeStart(
+	cam.ShakeStart(
 		15 + ( 25 * ( attack_strength / 100 ) ),
 		0.95,
 		16 + 8 * ( attack_strength / 100 ) )
@@ -213,16 +185,36 @@ func DamagePlayer(power:float) -> void:
 #			)
 #		)
 		glbl.health -= power_total
-		$"../Body/AnimationPlayer/Hit".play("Hit")
-		$"../UI/Control/HealthBar/AnimationPlayer".play("Visible")
+		$"../Body/Lights/AnimationPlayer/Hit".play("Hit")
+#		$"../Body/AnimationPlayer/Hit".play("Hit")
+#		$"../UI/Control/HealthBar/AnimationPlayer".play("Visible")
 
 func MonitorVariables() -> void:
 	$"../DBG/VBoxContainer".data = [
-		"fps",	Engine.get_frames_per_second(),
-		"body length",	round(glbl.worm_length),
-		"head pos",	glbl.head_pos.round(),
-		"moving",	glbl.moving,
-		"attacking",	glbl.attacking,
-		"health",	round(glbl.health),
+		"fps",				Engine.get_frames_per_second(),
+		"body length",		round(glbl.worm_length),
+		"head pos",			glbl.head_pos.round(),
+		"moving",			glbl.moving,
+		"attacking",		glbl.attacking,
+		"health",			round(glbl.health),
 	]
 
+
+func _on_DestroyThroughA_body_entered(body):
+	if body.has_method("Damage"):
+
+		if body.health - attack_strength <= 0:
+			body.Damage( body.health )
+
+		else:
+			body.Damage( attack_strength )
+
+		ShakeCam()
+
+#		else:
+#			if collision != null:
+#				if collision.has_method("Damage"):
+#					collision.Damage(attack_strength)
+#					ResetAtkDmg()
+#				ShakeCam()
+		

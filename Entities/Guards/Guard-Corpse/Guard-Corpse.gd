@@ -1,16 +1,17 @@
 extends Node2D
 
-var init_pos : Vector2 = Vector2.ZERO
-@export var use_init_pos : bool = true
+#var init_pos : Vector2 = Vector2.ZERO
+#@export var use_init_pos : bool = true
+#@export var active = false
 
 func FiftyFifty() -> bool:
 	randomize()
 	return true if randf() >= 0.5 else false
 
 func _ready():
-	if use_init_pos:
-		global_position = init_pos
-		look_at(glbl.head_pos)
+#	if use_init_pos:
+#		global_position = init_pos
+#		look_at(glbl.head_pos)
 
 	$Reposition.global_position = glbl.head_pos
 
@@ -21,13 +22,11 @@ func _ready():
 
 	$Torso/Head.rotation_degrees = randf_range(-30,30)
 
-#	$Torso/RArm.rotation_degrees		= rand_range(-90,30)
 	$Torso/RArm.rotation_degrees		= randf_range(-75,-30)
 	$Torso/RArm/Hand.rotation_degrees	= randf_range(0,180)
 	$Torso/LArm.rotation_degrees		= randf_range(-90,30)
 	$Torso/LArm/Hand.rotation_degrees	= randf_range(0,180)
 
-#	$Torso/RLeg.rotation_degrees		= rand_range(-15,30)
 	$Torso/RLeg.rotation_degrees		= randf_range(30,75)
 	$Torso/RLeg/Feet.rotation_degrees	= randf_range(0,-60)
 	$Torso/LLeg.rotation_degrees		= randf_range(-15,30)
@@ -35,19 +34,14 @@ func _ready():
 
 	$Torso.region_rect = (
 		Rect2(96.0,320.0,32.0,32.0) if randf() >= 0.8 else
-		Rect2(128.0,320.0,32.0,32.0)
-		)
+		Rect2(128.0,320.0,32.0,32.0) )
 
-#	if randf() >= 0.8:
-#		$Torso.region_rect = Rect2(96.0,320.0,32.0,32.0)
-#	else:
-#		$Torso.region_rect = Rect2(128.0,320.0,32.0,32.0)
+	for limb in [
+		"RArm","LArm","RLeg","LLeg" ]:
+		DecapLimb(limb)
 
-
-	DecapLimb("RArm")
-	DecapLimb("LArm")
-	DecapLimb("RLeg")
-	DecapLimb("LLeg")
+#	$VisibilityHandler.show()
+#	visible = active
 
 
 func DecapLimb(limb:String) -> void:
@@ -82,6 +76,7 @@ func DecapLimb(limb:String) -> void:
 		get_node(		"Torso/" + limb + "/" + limb_n + "-BloodSplattersDecap" ).queue_free()
 
 func _physics_process(_delta):
+#	visible = active
 	BloodTrail()
 
 var blood_trails = false
@@ -106,3 +101,4 @@ func _on_BloodTrailTrigger_body_entered(body):
 	if body.get_name() == "Head":
 		blood_trails = true
 		$BloodTrailTrigger.queue_free()
+

@@ -1,8 +1,7 @@
-[gd_scene load_steps=12 format=3 uid="uid://d35rqaqdqkt6x"]
+[gd_scene load_steps=11 format=3 uid="uid://d35rqaqdqkt6x"]
 
 [ext_resource type="Script" path="res://Entities/Weapons/Gun.gd" id="1_njox0"]
 [ext_resource type="Script" path="res://Entities/Weapons/Gun-Rifle.gd" id="2_4luqg"]
-[ext_resource type="PackedScene" uid="uid://b084k80tg1y62" path="res://Worlds/GlobalModulate.tscn" id="2_cd3vp"]
 [ext_resource type="Texture2D" uid="uid://d1y5v4sd3axmk" path="res://Shaders/Lights/General.GradientTexture2D.tres" id="3_vp8a8"]
 [ext_resource type="Texture2D" uid="uid://cgmofnkdo20sl" path="res://Shaders/Particles/muzzle.png" id="4_vkikv"]
 [ext_resource type="PackedScene" uid="uid://dc3jwfr08ejes" path="res://Entities/Weapons/BulletPath.tscn" id="5_j7t08"]
@@ -10,7 +9,7 @@
 
 [sub_resource type="Animation" id="Animation_gmvwc"]
 resource_name = "Firing"
-length = 1.5
+length = 1.175
 step = 0.025
 tracks/0/type = "method"
 tracks/0/imported = false
@@ -148,16 +147,7 @@ polygon = PackedVector2Array(69, -34, -3, -2, -3, 2, 68, 34)
 
 [node name="Gun-Rifle" type="Node2D"]
 script = ExtResource("1_njox0")
-
-[node name="GlobalModulate" parent="." instance=ExtResource("2_cd3vp")]
-
-[node name="ColorRect" type="ColorRect" parent="."]
-visible = false
-offset_left = -173.0
-offset_top = -164.0
-offset_right = 221.0
-offset_bottom = 169.0
-color = Color(0.12549, 0.12549, 0.12549, 1)
+line_of_sight = NodePath("LineOfSight")
 
 [node name="FireFunction" type="Node" parent="."]
 script = ExtResource("2_4luqg")
@@ -171,12 +161,14 @@ libraries = {
 position = Vector2(2, 0)
 color = Color(1, 0.886275, 0.764706, 1)
 shadow_enabled = true
+shadow_item_cull_mask = 32
 texture = ExtResource("3_vp8a8")
 texture_scale = 3.0
 
 [node name="LightOccluder2D" type="LightOccluder2D" parent="Light"]
 self_modulate = Color(1, 1, 1, 0)
 occluder = SubResource("OccluderPolygon2D_f7l6a")
+occluder_light_mask = 32
 
 [node name="Muzzle" type="PointLight2D" parent="."]
 position = Vector2(26, 0)
@@ -189,6 +181,7 @@ texture_scale = 0.5
 
 [node name="Flash" type="PointLight2D" parent="Muzzle"]
 position = Vector2(-2.09808e-05, 10)
+color = Color(0.956863, 0.619608, 0.113725, 1)
 energy = 0.0
 texture = ExtResource("3_vp8a8")
 texture_scale = 3.0
@@ -197,15 +190,18 @@ texture_scale = 3.0
 visible = false
 target_position = Vector2(220, 0)
 collision_mask = 5
+collide_with_areas = true
 
 [node name="LineOfFire" type="RayCast2D" parent="LineOfSight"]
 target_position = Vector2(220, 0)
 collision_mask = 5
+collide_with_areas = true
 
 [node name="BulletPath" parent="." instance=ExtResource("5_j7t08")]
 modulate = Color(1, 1, 1, 0)
 
 [node name="BulletSpark" parent="." instance=ExtResource("6_nqlb2")]
+visible = false
 position = Vector2(215, 0)
 
 [node name="CollidingPoint" type="Node2D" parent="."]

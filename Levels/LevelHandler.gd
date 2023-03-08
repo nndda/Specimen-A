@@ -1,14 +1,34 @@
 extends Node2D
 
+func _enter_tree():
+	glbl.current_scene = self
+
+func _ready():
+	add_child(
+		preload(
+			"res://Worlds/GlobalModulate.tscn"
+			).instantiate()
+	)
+	glbl.update_layers()
+	for layer in glbl.layer:
+		dbg.print_header(str(self),str(layer))
+		for inst in self.get_node(layer).get_children():
+			if inst is InstancePlaceholder:
+				printt(
+					"|", str(Time.get_datetime_string_from_system(false,true)," Instancing: " + str(inst))
+					)
+				inst.create_instance()
+		print()
 
 
 
+#
+#@export_category("Dialogue")
+#@export_multiline var dialogue_lines : Array[String]
 
-
-@export_category("Dialogue")
-@export_multiline var dialogue_lines : Array[String]
-
-
+#func _ready():
+#	for dbg_itm in get_tree().get_nodes_in_group("DBG"):
+#		dbg_itm.queue_free()
 
 
 

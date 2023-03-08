@@ -17,9 +17,10 @@ func InitCollisionShape() -> void:
 #		print(shape_node.get_name())
 
 func UpdateCollisionShape() -> void:
-	for sgmnt in glbl.worm_segment_max - 2:
-		damage_area.get_child(sgmnt).shape.a	= points[sgmnt]
-		damage_area.get_child(sgmnt).shape.b	= points[sgmnt+1]
+	if glbl.moving or $"../Head".attacking:
+		for sgmnt in glbl.worm_segment_max - 2:
+			damage_area.get_child(sgmnt).shape.a	= points[sgmnt]
+			damage_area.get_child(sgmnt).shape.b	= points[sgmnt+1]
 
 
 func UpdateWormLength() -> void:
@@ -125,17 +126,18 @@ func _on_Hit_animation_started(anim_name):
 #		print("Hit started")
 		$"../Head".invincible = true
 
-		health_bar.visible = true
-		health_bar.modulate.a = 1.0
+#		health_bar.visible = true
+#		health_bar.modulate.a = 1.0
 
 func _on_Hit_animation_finished(anim_name):
 	if anim_name == "Hit":
 #		print("Hit finished")
 		$"../Head".invincible = false
-		$AnimationPlayer/Hit.play("FadeOutHealthBar")
+#		$AnimationPlayer/Hit.play("FadeOutHealthBar")
 
 	if anim_name == "FadeOutHealthBar":
-		health_bar.visible = false
+#		health_bar.visible = false
+		pass
 
 
 

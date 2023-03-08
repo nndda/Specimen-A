@@ -1,25 +1,40 @@
-[gd_scene load_steps=4 format=3 uid="uid://p0ltgasv8yib"]
+[gd_scene load_steps=5 format=3 uid="uid://p0ltgasv8yib"]
 
 [ext_resource type="PackedScene" uid="uid://baiwsrdc0aog7" path="res://Entities/Guards/Guard.tscn" id="1_vbx3q"]
-[ext_resource type="PackedScene" uid="uid://b084k80tg1y62" path="res://Worlds/GlobalModulate.tscn" id="2_vo2as"]
+[ext_resource type="PackedScene" uid="uid://c44yomx1glpfj" path="res://Entities/Guards/Guard-Corpse/Guard-Corpse.tscn" id="2_8rb38"]
 [ext_resource type="PackedScene" uid="uid://d35rqaqdqkt6x" path="res://Entities/Weapons/Gun-rifle.tscn" id="3_p8ma6"]
+
+[sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_ympee"]
+light_mode = 1
 
 [node name="Guard-Rifle" instance=ExtResource("1_vbx3q")]
 weapon_node = NodePath("Gun-Rifle")
+corpse_scene = NodePath("Guards-Corpse")
 
-[node name="GlobalModulate" parent="." index="0" instance=ExtResource("2_vo2as")]
+[node name="Guards-Corpse" parent="." index="0" instance=ExtResource("2_8rb38")]
+visible = false
 
-[node name="ColorRect" type="ColorRect" parent="." index="1"]
-offset_left = -173.0
-offset_top = -164.0
-offset_right = 221.0
-offset_bottom = 169.0
-color = Color(0.12549, 0.12549, 0.12549, 1)
+[node name="Label" type="Label" parent="." index="1"]
+material = SubResource("CanvasItemMaterial_ympee")
+offset_left = 11.0
+offset_top = -35.0
+offset_right = 51.0
+offset_bottom = -12.0
+
+[node name="GeneralArea" parent="." index="3"]
+collision_layer = 17
+collision_mask = 17
 
 [node name="LightHelmet" parent="Sprite2D" index="1"]
 shadow_color = Color(0.0588235, 0.0117647, 0.0117647, 1)
 
 [node name="Gun-Rifle" parent="." index="8" instance=ExtResource("3_p8ma6")]
 position = Vector2(12, 5)
+
+[node name="Line2D" parent="KeepDistance" index="0"]
+visible = false
+
+[node name="Position2D" parent="KeepDistance" index="1"]
+visible = false
 
 [editable path="Gun-Rifle"]

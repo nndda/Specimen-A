@@ -1,4 +1,4 @@
-[gd_scene load_steps=29 format=3 uid="uid://mjd5n5bhhtyf"]
+[gd_scene load_steps=34 format=3 uid="uid://mjd5n5bhhtyf"]
 
 [ext_resource type="Curve" uid="uid://cpc6bywf3chpy" path="res://Player/Body.width_curve.tres" id="1_8mgss"]
 [ext_resource type="Texture2D" uid="uid://ca7grqyyc8raf" path="res://Player/Sprites/Segment-0.png" id="1_tfqx0"]
@@ -105,6 +105,94 @@ _data = {
 "RESET": SubResource("Animation_i73mt")
 }
 
+[sub_resource type="Animation" id="Animation_lntnx"]
+resource_name = "Hit"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("../..:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 1), Color(1, 0, 0, 1), Color(1, 1, 1, 1), Color(1, 0, 0, 1), Color(1, 1, 1, 1), Color(1, 0, 0, 1), Color(1, 1, 1, 1), Color(1, 0, 0, 1), Color(1, 1, 1, 1), Color(1, 0, 0, 1), Color(1, 1, 1, 1)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("../../../UI/HealthBar:modulate")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(1, 1, 1, 1)]
+}
+
+[sub_resource type="Animation" id="Animation_u1eg8"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("../..:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(1, 1, 1, 1)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("../../../UI/HealthBar:modulate")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(1, 1, 1, 1)]
+}
+
+[sub_resource type="Animation" id="Animation_cxbw2"]
+resource_name = "FadeOutHealthBar"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("../../../UI/HealthBar:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.4, 1),
+"transitions": PackedFloat32Array(1, 0.5, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 1), Color(1, 1, 1, 1), Color(1, 1, 1, 0)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("../..:modulate")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(1, 1, 1, 1)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_87jn6"]
+_data = {
+"FadeOutHealthBar": SubResource("Animation_cxbw2"),
+"Hit": SubResource("Animation_lntnx"),
+"RESET": SubResource("Animation_u1eg8")
+}
+
 [sub_resource type="Animation" id="Animation_w72yn"]
 resource_name = "Open"
 loop_mode = 1
@@ -181,6 +269,9 @@ angle_max = 720.0
 scale_min = 2.0
 scale_max = 4.0
 color = Color(1, 0, 0, 1)
+
+[sub_resource type="SeparationRayShape2D" id="SeparationRayShape2D_gdoay"]
+length = 70.0
 
 [sub_resource type="Animation" id="Animation_13ibh"]
 resource_name = "Blink"
@@ -270,6 +361,11 @@ libraries = {
 "": SubResource("AnimationLibrary_yw4d2")
 }
 
+[node name="Hit" type="AnimationPlayer" parent="Body/Lights/AnimationPlayer"]
+libraries = {
+"": SubResource("AnimationLibrary_87jn6")
+}
+
 [node name="DamageCollision" type="Area2D" parent="."]
 script = ExtResource("5_4h1ol")
 
@@ -326,9 +422,20 @@ shadow_color = Color(0.0588235, 0.0117647, 0.0117647, 1)
 texture = ExtResource("9_ic0gl")
 texture_scale = 4.0
 
-[node name="DestroyThrough" type="RayCast2D" parent="Head"]
+[node name="DestroyThrough-R" type="RayCast2D" parent="Head"]
+visible = false
+enabled = false
 target_position = Vector2(70, 0)
 collision_mask = 16
+
+[node name="DestroyThrough-A" type="Area2D" parent="Head"]
+collision_layer = 16
+collision_mask = 16
+input_pickable = false
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Head/DestroyThrough-A"]
+rotation = -1.57079
+shape = SubResource("SeparationRayShape2D_gdoay")
 
 [node name="FaceObstacle" type="RayCast2D" parent="Head"]
 target_position = Vector2(40, 0)
@@ -337,6 +444,8 @@ target_position = Vector2(40, 0)
 
 [node name="AreaShake" type="Area2D" parent="Head"]
 visible = false
+collision_layer = 16
+collision_mask = 16
 monitoring = false
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Head/AreaShake"]
@@ -344,6 +453,8 @@ shape = ExtResource("9_7nb4d")
 
 [node name="AreaEMP" type="Area2D" parent="Head"]
 visible = false
+collision_layer = 16
+collision_mask = 16
 monitoring = false
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Head/AreaEMP"]
@@ -390,6 +501,16 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 
+[node name="HealthBar" type="ColorRect" parent="UI"]
+anchors_preset = 12
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = -8.0
+grow_horizontal = 2
+grow_vertical = 0
+color = Color(0.898039, 0, 0, 1)
+
 [node name="DBG" type="CanvasLayer" parent="."]
 layer = 5
 
@@ -399,4 +520,7 @@ offset_bottom = 248.0
 script = ExtResource("16_u7job")
 
 [connection signal="tree_entered" from="Body/Lights" to="Body" method="_on_Lights_tree_entered"]
+[connection signal="animation_finished" from="Body/Lights/AnimationPlayer/Hit" to="Body" method="_on_Hit_animation_finished"]
+[connection signal="animation_started" from="Body/Lights/AnimationPlayer/Hit" to="Body" method="_on_Hit_animation_started"]
 [connection signal="timeout" from="Head/AttackCooldown" to="Head" method="_on_AttackCooldown_timeout"]
+[connection signal="body_entered" from="Head/DestroyThrough-A" to="Head" method="_on_DestroyThroughA_body_entered"]

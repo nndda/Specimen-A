@@ -1,13 +1,15 @@
-[gd_scene load_steps=5 format=3 uid="uid://b7e66gctiqgta"]
+[gd_scene load_steps=4 format=3 uid="uid://b7e66gctiqgta"]
 
-[ext_resource type="PackedScene" uid="uid://b084k80tg1y62" path="res://Worlds/GlobalModulate.tscn" id="1_32cxx"]
 [ext_resource type="Script" path="res://Levels/LevelHandler.gd" id="1_74iwo"]
-[ext_resource type="PackedScene" path="res://Entities/Guards/Guard-Corpse/Guard-Corpse.tscn" id="3_ms3r3"]
 [ext_resource type="PackedScene" uid="uid://mjd5n5bhhtyf" path="res://Player/Player.tscn" id="4_r8r4v"]
+
+[sub_resource type="NavigationPolygon" id="NavigationPolygon_ak24g"]
+vertices = PackedVector2Array(640, -624, 784, 608, -760, 568, -736, -544)
+polygons = Array[PackedInt32Array]([PackedInt32Array(0, 1, 2, 3)])
+outlines = Array[PackedVector2Array]([PackedVector2Array(-736, -544, -760, 568, 784, 608, 640, -624)])
 
 [node name="02" type="Node2D"]
 script = ExtResource("1_74iwo")
-dialogue_lines = Array[String](["This is very kuul", "But man, it just lack somet"])
 
 [node name="ColorRect" type="ColorRect" parent="."]
 offset_left = -952.0
@@ -16,49 +18,28 @@ offset_right = 952.0
 offset_bottom = 560.0
 color = Color(0.729412, 0.729412, 0.729412, 1)
 
-[node name="GlobalModulate" parent="." instance=ExtResource("1_32cxx")]
-
 [node name="Objects" type="Node2D" parent="."]
 
 [node name="Corpses" type="Node2D" parent="Objects"]
 
-[node name="Guards-Corpse-3" parent="Objects/Corpses" instance=ExtResource("3_ms3r3")]
-position = Vector2(-320, -104)
-use_init_pos = false
+[node name="Guards-Corpse" parent="Objects/Corpses" instance_placeholder="res://Entities/Guards/Guard-Corpse/Guard-Corpse.tscn"]
+position = Vector2(-368, -224)
+rotation = 0.75212
 
-[node name="Guards-Corpse-6" parent="Objects/Corpses" instance=ExtResource("3_ms3r3")]
-position = Vector2(-88, -56)
-rotation = 1.17952
-use_init_pos = false
+[node name="Guards-Corpse-2" parent="Objects/Corpses" instance_placeholder="res://Entities/Guards/Guard-Corpse/Guard-Corpse.tscn"]
+position = Vector2(16, -256)
+rotation = 2.09671
 
-[node name="Guards-Corpse-7" parent="Objects/Corpses" instance=ExtResource("3_ms3r3")]
-position = Vector2(-280, 48)
-rotation = -0.48589
-use_init_pos = false
-
-[node name="Guards-Corpse-8" parent="Objects/Corpses" instance=ExtResource("3_ms3r3")]
-position = Vector2(16.0001, 120)
-rotation = 0.138452
-use_init_pos = false
-
-[node name="Guards-Corpse-4" parent="Objects/Corpses" instance=ExtResource("3_ms3r3")]
-position = Vector2(-184, 144)
-rotation = -1.18832
-use_init_pos = false
-
-[node name="Guards-Corpse-9" parent="Objects/Corpses" instance=ExtResource("3_ms3r3")]
-position = Vector2(-144, -184)
-rotation = 0.184138
-use_init_pos = false
-
-[node name="Guards-Corpse-10" parent="Objects/Corpses" instance=ExtResource("3_ms3r3")]
-position = Vector2(336, -152)
-rotation = 0.184138
-use_init_pos = false
-
-[node name="Guards-Corpse-5" parent="Objects/Corpses" instance=ExtResource("3_ms3r3")]
-position = Vector2(160, -72)
-rotation = 1.83851
-use_init_pos = false
+[node name="Particles" type="Node2D" parent="Objects"]
 
 [node name="Player" parent="." instance=ExtResource("4_r8r4v")]
+
+[node name="Entities" type="Node2D" parent="."]
+
+[node name="Guard-Rifle" parent="Entities" instance_placeholder="res://Entities/Guards/Guard-Rifle/Guard-Rifle.tscn"]
+position = Vector2(216, 264)
+
+[node name="NavigationRegion2D" type="NavigationRegion2D" parent="."]
+navigation_polygon = SubResource("NavigationPolygon_ak24g")
+
+[connection signal="tree_entered" from="Entities/Guard-Rifle" to="Entities/Guard-Rifle" method="_on_tree_entered" flags=18]

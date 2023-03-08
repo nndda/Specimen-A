@@ -4,9 +4,24 @@ extends Node2D
 #	flower,grass,dirt
 #}
 
+
+var current_scene : Object
+
+
+var layer : Array[String] = [
+	"Objects/Corpses",
+	"Objects/Particles",
+	"Objects",
+	"Entities" ]
+var layer_dict : Dictionary = {}
+func update_layers() -> void:
+	for itm in layer:
+		layer_dict[itm] = current_scene.get_node(itm)
+
+
 var top_scale = 1.1
 
-var camera : Object
+#var camera : Object
 
 var allow_move : bool = true
 var moving : bool
@@ -77,17 +92,18 @@ func _process(_delta):
 		moving_f -= 0.085
 
 	moving_f = clamp( moving_f, 0.0,
-		float(glbl.head_pos.distance_to(get_global_mouse_position()) >= 25)
+		float(
+			head_pos.distance_to(get_global_mouse_position() ) >= 25)
 		
 )
 #	skill_current = wrapi(skill_current,0,skills_discovered)
 	worm_length = sum_array(worm_length_array)
 
-var gameplay_ui_layer
-func PopUpPoints(value : float, pos : Vector2) -> void:
-	if glbl.cfg.show_damage:
-		var label = load("res://UI/PointsLabel.tscn").instance()
-		label.text = str(round(value))
-		label.init_pos = pos
-		gameplay_ui_layer.call_deferred("add_child",label)
+#var gameplay_ui_layer
+#func PopUpPoints(value : float, pos : Vector2) -> void:
+#	if glbl.cfg.show_damage:
+#		var label = load("res://UI/PointsLabel.tscn").instance()
+#		label.text = str(round(value))
+#		label.init_pos = pos
+#		gameplay_ui_layer.call_deferred("add_child",label)
 

@@ -13,7 +13,9 @@ func _on_tree_entered():
 #	if c != self and c is CanvasItem:
 #		visibility_query.append(c)
 func remove_visibility_query(c) -> void:
-	visibility_query.erase(c)
+	if c is CanvasItem:
+		if visibility_query.has(c):
+			visibility_query.erase(c)
 
 func _on_screen_entered():
 	for c in visibility_query:

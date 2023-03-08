@@ -1,4 +1,4 @@
-[gd_scene load_steps=15 format=3 uid="uid://c44yomx1glpfj"]
+[gd_scene load_steps=14 format=3 uid="uid://c44yomx1glpfj"]
 
 [ext_resource type="Script" path="res://Entities/Guards/Guard-Corpse/Guard-Corpse.gd" id="1_iomh3"]
 [ext_resource type="Texture2D" uid="uid://bi0x6glg40d2i" path="res://Shaders/Particles/BloodTrail.png" id="2_iwxdb"]
@@ -6,7 +6,6 @@
 [ext_resource type="Texture2D" uid="uid://cjbaixgux1478" path="res://Entities/Entities.png" id="4_taqyw"]
 [ext_resource type="PackedScene" uid="uid://8kiy8gyp7sbw" path="res://Shaders/Particles/BloodSplattersDecap.tscn" id="5_5o3f3"]
 [ext_resource type="Texture2D" uid="uid://ugmsvtacu0k8" path="res://Shaders/Particles/BloodSplatters.png" id="6_yv0g6"]
-[ext_resource type="PackedScene" uid="uid://bn801wox8wl0f" path="res://Scripts/VisibilityHandler.tscn" id="7_osxnb"]
 
 [sub_resource type="Curve" id="Curve_co7jn"]
 _data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(0.523684, 0.865031), -1.16564, -1.34969, 0, 0, Vector2(1, 0.288344), 0.0, 0.0, 0, 0]
@@ -81,6 +80,7 @@ position = Vector2(64, -64)
 scale = Vector2(4, 4)
 
 [node name="BloodSplatters-3" parent="BloodSplattersS" instance=ExtResource("3_nd872")]
+visible = false
 position = Vector2(64, 96)
 scale = Vector2(4, 4)
 
@@ -232,10 +232,6 @@ explosiveness = 0.87
 fract_delta = false
 local_coords = true
 draw_order = 0
-
-[node name="VisibilityHandler" parent="." instance=ExtResource("7_osxnb")]
-position = Vector2(2.38419e-07, -3.8147e-06)
-scale = Vector2(12.8, 12.8)
 
 [connection signal="tree_entered" from="Reposition" to="." method="_on_Reposition_tree_entered"]
 [connection signal="tree_entered" from="BloodTrail" to="." method="_on_BloodTrail_tree_entered"]

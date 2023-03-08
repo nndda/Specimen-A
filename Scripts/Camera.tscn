@@ -15,6 +15,5 @@ script = ExtResource("1_ybuwx")
 
 [node name="Duration" type="Timer" parent="Shake"]
 
-[connection signal="tree_entered" from="." to="." method="_on_tree_entered"]
 [connection signal="timeout" from="Shake/Frequency" to="." method="_on_Frequency_timeout"]
 [connection signal="timeout" from="Shake/Duration" to="." method="_on_Duration_timeout"]

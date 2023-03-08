@@ -11,13 +11,20 @@ var init_pos : Vector2
 #	var lifetime_v : float
 #	var emitting : bool
 
+#func _enter_tree():
+
 func _ready():
+
+#	if get_parent() != glbl.layer_dict["Objects/Particles"]:
+#		$VisibleOnScreenEnabler2D.queue_free()
+	self.show()
+
 	if custom_init_pos:
 		global_position = init_pos
 	
 	self.one_shot = stay
 	copytimer.one_shot = stay
-	copytimer.wait_time = self.lifetime# * speed_scale + 0.1
+	copytimer.wait_time = self.lifetime * self.speed_scale + 0.1
 	self.add_child(copytimer)
 	self.emitting = true
 

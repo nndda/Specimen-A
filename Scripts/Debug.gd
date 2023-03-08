@@ -3,8 +3,9 @@ extends Node
 func quote(text:String) -> String:
 	return "\"" + text + "\""
 
-func err_unexpected_value(variable:String,value:String) -> void:
-	push_error(quote(variable) + " is " + value)
+func value_is(variable:String,value:String) -> String:
+	return str(quote(variable) + " is " + value)
+#	push_error(quote(variable) + " is " + value)
 
 # debug stuff
 func header(at_str, on_str) -> String:
@@ -29,5 +30,5 @@ func print_table(header_ : Array, content : Array) -> void:
 
 	else:
 		printt( "|" , header_[0], header_[1] )
-		for n in content.size() / 2:
+		for n in content.size() * 0.5:
 			printt( "|" , content[n*2], content[n*2+1] )

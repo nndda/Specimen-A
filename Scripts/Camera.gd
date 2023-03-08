@@ -3,7 +3,7 @@ extends Camera2D
 #func _on_tree_entered():
 #	glbl.camera = self
 
-@onready var shake_tween = create_tween().bind_node(self)
+@onready var shake_tween #.bind_node(self)
 
 var shaking		: bool = false
 var shake_power	: float = 0.0
@@ -17,7 +17,7 @@ func ShakeStart( power:float, time:float = 0.8, frequency:float = 16 ) -> void:
 
 func Shake() -> void:
 	randomize()
-
+	shake_tween = create_tween().bind_node(self)
 	shake_tween.tween_property(
 		self, "offset", Vector2(
 			randf_range(-shake_power,shake_power),
@@ -55,4 +55,4 @@ func _on_Frequency_timeout():
 func _on_Duration_timeout():
 	shake_power = 0
 	shaking = false
-	$ShakeTween/Frequency.stop()
+	$Shake/Frequency.stop()

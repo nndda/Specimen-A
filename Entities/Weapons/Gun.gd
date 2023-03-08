@@ -6,9 +6,9 @@ var firing	: bool = false
 @export_node_path("Area2D","RayCast2D")		var line_of_sight
 @export_node_path("AnimationPlayer")		var firing_animation_player = NodePath("FireFunction/AnimationPlayer")
 
-@onready var trigger_area	: NodePath	= NodePath(get_parent().custom_trigger)
+var trigger_area	: NodePath#= NodePath(get_parent().custom_trigger)
 @onready var on_line		: bool		= false
-
+	
 
 func _on_line(object) -> void:
 	if (
@@ -23,6 +23,11 @@ func _off_line(object) -> void:
 
 
 func _ready():
+
+	if get_parent().custom_trigger == null:
+		trigger_area	= NodePath("../TriggerArea")
+	else:
+		trigger_area	= NodePath(get_parent().custom_trigger)
 
 	if get_node(line_of_sight) != null:
 
@@ -40,18 +45,17 @@ func _ready():
 				get_node(line_of_sight).connect( signal_off, Callable(self,"_off_line") )
 
 	else:
-		dbg.err_unexpected_value("weapon_node","null")
+		push_error( dbg.value_is("weapon_node","null") )
 
 	if get_node_or_null(firing_animation_player) != null:
 		get_node(firing_animation_player).connect(
 			"animation_finished",
 			Callable(get_parent(),"Weapon_AnimationFinished"))
 	else:
-		dbg.err_unexpected_value("firing_animation_player","null")
+		push_error( dbg.value_is("firing_animation_player","null") )
 
 
 func _process(_delta):
-
 	get_parent().firing = firing
 
 
@@ -63,4 +67,4 @@ func _physics_process(_delta):
 			on_line = get_node(line_of_sight).is_colliding()
 
 func Fire() -> void:
-	firing_animation_player.play("Firing")
+	get_node(firing_animation_player).play("Firing")

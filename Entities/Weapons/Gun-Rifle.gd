@@ -6,21 +6,23 @@ extends Node
 @onready var line_of_sight = $"../LineOfSight"
 @onready var line_of_fire = $"../LineOfSight/LineOfFire"
 @onready var bullet_path = $"../BulletPath"
-@onready var bullet_spark
+@onready var bullet_spark = $"../BulletSpark"
 
 @onready var colliding_point = $"../CollidingPoint"
 
 func Fire() -> void:
 	randomize()
+	cam.ShakeStart( 5.0, 0.09, 32.0 )
 	line_of_fire.rotation_degrees	= randf_range(-2.25,2.25)
 	bullet_path.rotation_degrees	= line_of_fire.rotation_degrees
-	cam.ShakeStart
+#	cam.ShakeStart
 
 func _physics_process(_delta):
 	if wielder.triggered:
-			bullet_path.visible		= get_parent().firing
+			
 			bullet_path.points[0]	= Vector2(0,0)
 			bullet_spark.visible	= line_of_fire.is_colliding()
+			bullet_path.visible		= $AnimationPlayer.is_playing()# and bullet_spark.visible
 
 			line_of_fire.enabled	= $AnimationPlayer.is_playing()
 
@@ -34,4 +36,9 @@ func _physics_process(_delta):
 
 			else:
 				bullet_path.points[1] = Vector2(0,110)
-				bullet_path.points[1] = $CollidingPointDefault.position
+				bullet_path.points[1] = $"../CollidingPointDefault".position
+
+
+#func _on_animation_player_started(anim_name):
+#	if anim_name == "Firing":
+#		cam.ShakeStart( 5.0, 0.09, 32.0 )
