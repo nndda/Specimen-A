@@ -8,6 +8,7 @@
 light_mode = 1
 
 [node name="Guard-Rifle" instance=ExtResource("1_vbx3q")]
+rotate_weight = 1.0
 weapon_node = NodePath("Gun-Rifle")
 corpse_scene = NodePath("Guards-Corpse")
 
@@ -15,6 +16,7 @@ corpse_scene = NodePath("Guards-Corpse")
 visible = false
 
 [node name="Label" type="Label" parent="." index="1"]
+visible = false
 material = SubResource("CanvasItemMaterial_ympee")
 offset_left = 11.0
 offset_top = -35.0

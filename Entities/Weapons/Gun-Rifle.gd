@@ -17,6 +17,9 @@ func Fire() -> void:
 	bullet_path.rotation_degrees	= line_of_fire.rotation_degrees
 #	cam.ShakeStart
 
+#func _ready():
+#	line_of_fire.add_exception_rid()
+
 func _physics_process(_delta):
 	if wielder.triggered:
 			
