@@ -1,5 +1,7 @@
 extends Node2D
 
+var is_ready = false
+
 #var init_pos : Vector2 = Vector2.ZERO
 #@export var use_init_pos : bool = true
 #@export var active = false
@@ -8,6 +10,8 @@ func FiftyFifty() -> bool:
 	randomize()
 	return true if randf() >= 0.5 else false
 
+func _enter_tree():
+	show()
 func _ready():
 #	if use_init_pos:
 #		global_position = init_pos
@@ -40,9 +44,9 @@ func _ready():
 		"RArm","LArm","RLeg","LLeg" ]:
 		DecapLimb(limb)
 
-#	$VisibilityHandler.show()
 #	visible = active
-
+	is_ready = true
+	$VisibilityHandler.show()
 
 func DecapLimb(limb:String) -> void:
 
@@ -83,13 +87,14 @@ var blood_trails = false
 func BloodTrail() -> void:
 #	$Reposition.global_position = glbl.head_pos
 
-	if blood_trails:
+	if blood_trails and visible:
 		$Reposition.global_position = glbl.head_pos
 		if glbl.moving or glbl.attacking:
 			if $BloodTrail.points.size() <= 50:
 				$BloodTrail.add_point($Reposition.position)
 			else:
 				blood_trails = false
+				process_mode = Node.PROCESS_MODE_DISABLED
 
 
 

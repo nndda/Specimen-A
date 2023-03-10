@@ -1,4 +1,4 @@
-[gd_scene load_steps=14 format=3 uid="uid://c44yomx1glpfj"]
+[gd_scene load_steps=15 format=3 uid="uid://c44yomx1glpfj"]
 
 [ext_resource type="Script" path="res://Entities/Guards/Guard-Corpse/Guard-Corpse.gd" id="1_iomh3"]
 [ext_resource type="Texture2D" uid="uid://bi0x6glg40d2i" path="res://Shaders/Particles/BloodTrail.png" id="2_iwxdb"]
@@ -6,6 +6,7 @@
 [ext_resource type="Texture2D" uid="uid://cjbaixgux1478" path="res://Entities/Entities.png" id="4_taqyw"]
 [ext_resource type="PackedScene" uid="uid://8kiy8gyp7sbw" path="res://Shaders/Particles/BloodSplattersDecap.tscn" id="5_5o3f3"]
 [ext_resource type="Texture2D" uid="uid://ugmsvtacu0k8" path="res://Shaders/Particles/BloodSplatters.png" id="6_yv0g6"]
+[ext_resource type="PackedScene" uid="uid://bn801wox8wl0f" path="res://Scripts/VisibilityHandler.tscn" id="7_hi21c"]
 
 [sub_resource type="Curve" id="Curve_co7jn"]
 _data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(0.523684, 0.865031), -1.16564, -1.34969, 0, 0, Vector2(1, 0.288344), 0.0, 0.0, 0, 0]
@@ -65,7 +66,6 @@ end_cap_mode = 2
 round_precision = 4
 
 [node name="BloodTrailTrigger" type="Area2D" parent="."]
-visible = false
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="BloodTrailTrigger"]
 shape = SubResource("RectangleShape2D_x6pst")
@@ -232,6 +232,11 @@ explosiveness = 0.87
 fract_delta = false
 local_coords = true
 draw_order = 0
+
+[node name="VisibilityHandler" parent="." instance=ExtResource("7_hi21c")]
+visible = false
+position = Vector2(0, -1.01089e-05)
+scale = Vector2(9.6, 9.6)
 
 [connection signal="tree_entered" from="Reposition" to="." method="_on_Reposition_tree_entered"]
 [connection signal="tree_entered" from="BloodTrail" to="." method="_on_BloodTrail_tree_entered"]
