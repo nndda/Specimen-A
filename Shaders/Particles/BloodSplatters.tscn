@@ -35,6 +35,7 @@ texture = ExtResource("1_j3kmr")
 one_shot = true
 speed_scale = 2.0
 explosiveness = 1.0
+local_coords = true
 script = ExtResource("2_exox2")
 stay = true
 
