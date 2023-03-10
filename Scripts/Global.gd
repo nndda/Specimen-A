@@ -11,6 +11,7 @@ var current_scene : Object
 var layer : Array[String] = [
 	"Objects/Corpses",
 	"Objects/Particles",
+	"Objects/Statics",
 	"Objects",
 	"Entities" ]
 var layer_dict : Dictionary = {}
