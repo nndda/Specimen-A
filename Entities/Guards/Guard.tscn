@@ -68,17 +68,21 @@ shape = ExtResource("4_yu3yv")
 avoidance_enabled = true
 radius = 32.0
 max_neighbors = 5
+debug_enabled = true
+debug_use_custom = true
+debug_path_custom_color = Color(0, 1, 1, 1)
 
 [node name="UpdatePlayerPos" type="Timer" parent="NavigationAgent2D"]
+process_callback = 0
 
 [node name="KeepDistance" type="Node2D" parent="."]
 visible = false
 
 [node name="Line2D" type="Line2D" parent="KeepDistance"]
-points = PackedVector2Array(-64, 0, 32, 0)
+points = PackedVector2Array(-144, 0, 32, 0)
 
 [node name="Position2D" type="Node2D" parent="KeepDistance"]
-position = Vector2(-25, 0)
+position = Vector2(-136, 0)
 
 [node name="VisibilityHandler" parent="." instance=ExtResource("5_37bcv")]
 visible = false
@@ -91,6 +95,5 @@ scale = Vector2(8, 8)
 [connection signal="area_entered" from="GeneralArea" to="." method="_on_general_area_entered"]
 [connection signal="area_exited" from="GeneralArea" to="." method="_on_general_area_exited"]
 [connection signal="timeout" from="AttackCooldown" to="." method="_on_AttackCooldown_timeout"]
-[connection signal="path_changed" from="NavigationAgent2D" to="." method="_on_NavigationAgent2D_path_changed"]
 [connection signal="velocity_computed" from="NavigationAgent2D" to="." method="_on_NavigationAgent2D_velocity_computed"]
 [connection signal="timeout" from="NavigationAgent2D/UpdatePlayerPos" to="." method="_on_UpdatePlayerPos_timeout"]
