@@ -1,0 +1,8 @@
+[gd_scene load_steps=2 format=3 uid="uid://c3nsbmhfcxmu"]
+
+[ext_resource type="Texture2D" uid="uid://cjbaixgux1478" path="res://Entities/Entities.png" id="1_8rqy1"]
+
+[node name="Turret-Destroyed" type="Sprite2D"]
+texture = ExtResource("1_8rqy1")
+region_enabled = true
+region_rect = Rect2(128, 32, 64, 64)

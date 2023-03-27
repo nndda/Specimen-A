@@ -15,10 +15,6 @@ func Fire() -> void:
 	cam.ShakeStart( 5.0, 0.09, 32.0 )
 	line_of_fire.rotation_degrees	= randf_range(-2.25,2.25)
 	bullet_path.rotation_degrees	= line_of_fire.rotation_degrees
-#	cam.ShakeStart
-
-#func _ready():
-#	line_of_fire.add_exception_rid()
 
 func _physics_process(_delta):
 	if wielder.triggered:

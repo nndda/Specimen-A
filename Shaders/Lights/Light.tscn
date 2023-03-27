@@ -1,0 +1,97 @@
+[gd_scene load_steps=11 format=3 uid="uid://dgmfdfnnvk3qx"]
+
+[ext_resource type="Script" path="res://Shaders/Lights/Light.gd" id="1_1ad8k"]
+[ext_resource type="PackedScene" uid="uid://dwnj5shb6eoqy" path="res://Scripts/DebugTestField.tscn" id="2_tx104"]
+[ext_resource type="Texture2D" uid="uid://cjbaixgux1478" path="res://Entities/Entities.png" id="3_w5fkn"]
+[ext_resource type="Texture2D" uid="uid://2yox23da6ga" path="res://Worlds/Tilesets/Tileset.png" id="4_7wnuu"]
+[ext_resource type="Texture2D" uid="uid://siw2jprbqhps" path="res://Shaders/Lights/General.L.GradientTexture2D.tres" id="5_rqanb"]
+[ext_resource type="PackedScene" uid="uid://bn801wox8wl0f" path="res://Scripts/VisibilityHandler.tscn" id="6_b3uk3"]
+
+[sub_resource type="Animation" id="Animation_0cmn5"]
+resource_name = "Flick_0"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("PointLight2D:energy")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.3, 0.4, 0.5, 1),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1),
+"update": 0,
+"values": [1.0, 1.0, 0.0, 1.0, 1.0]
+}
+
+[sub_resource type="Animation" id="Animation_diu3l"]
+resource_name = "Flick_1"
+length = 2.0
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("PointLight2D:energy")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 2),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1, 1),
+"update": 0,
+"values": [1.0, 1.0, 0.0, 1.0, 1.0, 0.0, 1.0, 1.0]
+}
+
+[sub_resource type="Animation" id="Animation_64miy"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("PointLight2D:energy")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [1.0]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_cg14a"]
+_data = {
+"Flick_0": SubResource("Animation_0cmn5"),
+"Flick_1": SubResource("Animation_diu3l"),
+"RESET": SubResource("Animation_64miy")
+}
+
+[node name="Light" type="Node2D"]
+script = ExtResource("1_1ad8k")
+
+[node name="DebugTestField" parent="." instance=ExtResource("2_tx104")]
+visible = false
+
+[node name="Sprite2D" type="Sprite2D" parent="DebugTestField"]
+position = Vector2(-32, 0)
+texture = ExtResource("3_w5fkn")
+region_enabled = true
+region_rect = Rect2(96, 192, 64, 64)
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture = ExtResource("4_7wnuu")
+offset = Vector2(0, 12)
+region_enabled = true
+region_rect = Rect2(64, 96, 32, 32)
+
+[node name="PointLight2D" type="PointLight2D" parent="."]
+blend_mode = 2
+range_layer_min = -1
+range_layer_max = 3
+shadow_enabled = true
+shadow_color = Color(0.0588235, 0.0117647, 0.0117647, 1)
+texture = ExtResource("5_rqanb")
+
+[node name="VisibilityHandler" parent="." instance=ExtResource("6_b3uk3")]
+visible = false
+position = Vector2(-3.8147e-06, -3.8147e-06)
+scale = Vector2(9.6, 9.6)
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+"": SubResource("AnimationLibrary_cg14a")
+}

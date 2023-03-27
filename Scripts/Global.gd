@@ -4,6 +4,9 @@ extends Node2D
 #	flower,grass,dirt
 #}
 
+var enemy_exception_bodies : Array[PhysicsBody2D]
+#func update_exception_bodies(bodies : Array[PhysicsBody2D]) -> void:
+#	player_exception_bodies.append_array()
 
 var current_scene : Object
 
@@ -15,23 +18,21 @@ var layer : Array[String] = [
 	"Objects",
 	"Entities" ]
 var layer_dict : Dictionary = {}
-func update_layers() -> void:
-	for itm in layer:
-		layer_dict[itm] = current_scene.get_node(itm)
+func update_layers() -> void: for itm in layer: layer_dict[itm] = current_scene.get_node(itm)
 
-
+var current_objects : Array
 var top_scale = 1.1
 
 #var camera : Object
 
-var allow_move : bool = true
-var moving : bool
-var moving_f : float
+var allow_move		: bool = true
+var moving			: bool
+var moving_f		: float
 
-var attacking : bool
+var attacking		: bool
 
-var head_pos : Vector2
-var head_canvas_pos : Vector2
+var head_pos		: Vector2
+var head_canvas_pos	: Vector2
 
 var worm_segment_max : int = 56
 var worm_length : float
@@ -41,7 +42,7 @@ var worm_body
 
 var health : float = 100.0
 
-
+var is_shake_by_player : bool = false
 
 var skill_current = skill.none
 enum skill {
@@ -61,8 +62,7 @@ var acid : int = 0
 
 func sum_array(array:Array[float]) -> float:
 	var t = 0.0
-	for n in array:
-		t += n
+	for n in array: t += n
 	return t
 
 #	CONFIG
@@ -70,33 +70,22 @@ var cfg = {
 	"always_show_health_bar"	: false,
 	"optimal_graphic"			: false,
 	"show_damage"				: true,
-}
+	}
 
 
 func _process(_delta):
 
-#	if Input.is_action_pressed("Skill1"):
-#		health -= 2.0
-#	if Input.is_action_pressed("Skill2"):
-#		health += 2.0
+	health = clamp( health, 0.0, 100.0 )
 
-	health = clamp(health,0.0,100.0)
+	if allow_move: moving = true if Input.is_action_pressed( "Move" ) else false
+	else: moving = false
 
-	if allow_move:
-		moving = true if Input.is_action_pressed("Move") else false
-	else:
-		moving = false
-
-	if moving:
-		moving_f += 0.1
-	else:
-		moving_f -= 0.085
+	if moving: moving_f	+= 0.1
+	else: moving_f		-= 0.085
 
 	moving_f = clamp( moving_f, 0.0,
-		float(
-			head_pos.distance_to(get_global_mouse_position() ) >= 25)
-		
-)
+	float( head_pos.distance_to( get_global_mouse_position() ) >= 25 )
+		)
 #	skill_current = wrapi(skill_current,0,skills_discovered)
 	worm_length = sum_array(worm_length_array)
 

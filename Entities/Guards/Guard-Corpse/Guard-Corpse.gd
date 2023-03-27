@@ -13,18 +13,14 @@ func FiftyFifty() -> bool:
 func _enter_tree():
 	show()
 func _ready():
-#	if use_init_pos:
-#		global_position = init_pos
-#		look_at(glbl.head_pos)
-
 	$Reposition.global_position = glbl.head_pos
 
 	$BloodSplash.emitting = true
 	randomize()
 
-	$Torso.rotation_degrees += randf_range(-5,5)
+	$Torso.rotation_degrees				+= randf_range(-5,5)
 
-	$Torso/Head.rotation_degrees = randf_range(-30,30)
+	$Torso/Head.rotation_degrees		= randf_range(-30,30)
 
 	$Torso/RArm.rotation_degrees		= randf_range(-75,-30)
 	$Torso/RArm/Hand.rotation_degrees	= randf_range(0,180)
@@ -40,16 +36,13 @@ func _ready():
 		Rect2(96.0,320.0,32.0,32.0) if randf() >= 0.8 else
 		Rect2(128.0,320.0,32.0,32.0) )
 
-	for limb in [
-		"RArm","LArm","RLeg","LLeg" ]:
-		DecapLimb(limb)
+	for limb in [ "RArm","LArm","RLeg","LLeg" ]: DecapLimb(limb)
 
 #	visible = active
 	is_ready = true
 	$VisibilityHandler.show()
 
 func DecapLimb(limb:String) -> void:
-
 	var limb_n = "Hand" if limb.ends_with("Arm") else "Feet"
 
 #	dbg.print_header(self,"DecapLimb()")

@@ -1,0 +1,13 @@
+[gd_scene load_steps=2 format=3 uid="uid://dqiq5hu0ksnej"]
+
+[sub_resource type="SeparationRayShape2D" id="SeparationRayShape2D_gdoay"]
+length = 70.0
+
+[node name="DestroyThrough-A" type="Area2D"]
+collision_layer = 273
+collision_mask = 273
+input_pickable = false
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+rotation = -1.57079
+shape = SubResource("SeparationRayShape2D_gdoay")

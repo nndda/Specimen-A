@@ -1,26 +1,19 @@
 extends Node
 
-func quote(text:String) -> String:
-	return "\"" + text + "\""
+func quote(text:String) -> String: return "\"" + text + "\""
 
-func value_is(variable:String,value:String) -> String:
-	return str(quote(variable) + " is " + value)
-#	push_error(quote(variable) + " is " + value)
+func value_is(variable:String,value) -> String: return str(
+	quote( variable ) + " is " + str( value ) )
 
 # debug stuff
-func header(at_str, on_str) -> String:
-	return str(
-		" ================ at: "
-		+ str(at_str)
-		+ ", on: "
-		+ str(on_str)
-		)
-func print_header(at_str, on_str) -> void:
-	print_rich(
-		" [color=cyan]"		+ " ================ at: "		+ "[/color]" +
+func header(at_str, on_str) -> String: return str(
+	" ================ at: "		+ str(at_str)
+	+ ", on: "						+ str(on_str) )
+func print_header(at_str, on_str) -> void: print_rich(
+		" [color=cyan]"		+ " [ at: "		+ "[/color]" +
 		" [color=white]"	+ str(at_str)					+ "[/color]" +
 		" [color=cyan]"		+ ", on: "						+ "[/color]" +
-		" [color=white]"	+ str(on_str)					+ "[/color]"
+		" [color=white]"	+ str(on_str)					+ "[/color] ]"
 		)
 
 func print_table(header_ : Array, content : Array) -> void:

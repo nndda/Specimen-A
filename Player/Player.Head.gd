@@ -74,6 +74,12 @@ func AttackHandler() -> void:
 
 
 func _ready():
+	
+#	cam.connect("shaking_started",Callable(self,"ShakeStarted"))
+#	cam.connect("shaking_finished",Callable(self,"ShakeFinished"))
+#	$AreaShake.set_deferred("monitorable",false)
+	
+#	$AreaShake.monitorable = false
 #	$AreaShake/CollisionShape2D.set_deferred("disabled",true)
 #	print($AreaShake/CollisionShape2D.disabled)
 #	$AreaShake.monitorable	= false
@@ -85,6 +91,7 @@ func _ready():
 
 
 func _process(delta):
+
 	MonitorVariables()
 
 #	glbl.health += ( 2.5 * delta ) * 1 if !invincible else 0.5
@@ -131,6 +138,10 @@ func _physics_process(delta):
 		)
 		velocity = velo
 		move_and_slide()
+
+		if $AreaShake.monitorable:
+			ShakeFinished()
+		
 	else:
 		velo			= attack_speed * attack_dir
 		collision		= move_and_collide(velo)
@@ -163,6 +174,18 @@ func ShakeCam() -> void:
 		15 + ( 25 * ( attack_strength / 100 ) ),
 		0.95,
 		16 + 8 * ( attack_strength / 100 ) )
+	ShakeStarted()
+func ShakeStarted() -> void:
+	glbl.is_shake_by_player = true
+#	$AreaShake.set_deferred("monitorable",true)
+#	print("ShakeStarted")
+#	$AreaShake.monitorable = true
+func ShakeFinished() -> void:
+	glbl.is_shake_by_player = false
+#	$AreaShake.set_deferred("monitorable",false)
+#	print("ShakeFinished")
+#	$AreaShake.monitorable = false
+
 
 func ResetAtkDmg() -> void:
 #	if reset:

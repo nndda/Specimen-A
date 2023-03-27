@@ -1,0 +1,12 @@
+[gd_scene load_steps=2 format=3 uid="uid://t00ensmubosb"]
+
+[ext_resource type="PackedScene" uid="uid://dgmfdfnnvk3qx" path="res://Shaders/Lights/Light.tscn" id="1_rpj0g"]
+
+[node name="PointCorner" instance=ExtResource("1_rpj0g")]
+
+[node name="Sprite2D" parent="." index="1"]
+offset = Vector2(4, 4)
+region_rect = Rect2(96, 96, 32, 32)
+
+[node name="PointLight2D" parent="." index="2"]
+position = Vector2(-8, -8)

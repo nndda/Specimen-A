@@ -1,0 +1,46 @@
+[gd_scene load_steps=5 format=3 uid="uid://c152ot7ob213r"]
+
+[ext_resource type="Texture2D" uid="uid://b7bnbcwgl1ps8" path="res://Shaders/Particles/GlassShards.png" id="1_on3nt"]
+[ext_resource type="Script" path="res://Shaders/Particles/ParticlesHandler.gd" id="2_4is71"]
+
+[sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_pvaee"]
+particles_animation = true
+particles_anim_h_frames = 4
+particles_anim_v_frames = 1
+particles_anim_loop = false
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_isupf"]
+particle_flag_disable_z = true
+spread = 180.0
+gravity = Vector3(0, 0, 0)
+initial_velocity_min = 10.0
+initial_velocity_max = 20.0
+angular_velocity_max = 30.0
+orbit_velocity_min = 0.0
+orbit_velocity_max = 0.0
+angle_min = -720.0
+angle_max = 720.0
+scale_min = 0.75
+scale_max = 0.9
+color = Color(0.258824, 0.258824, 0.258824, 1)
+anim_offset_max = 1.0
+attractor_interaction_enabled = false
+
+[node name="GlassShards" type="GPUParticles2D"]
+modulate = Color(1, 1, 1, 0.623529)
+material = SubResource("CanvasItemMaterial_pvaee")
+emitting = false
+amount = 40
+process_material = SubResource("ParticleProcessMaterial_isupf")
+texture = ExtResource("1_on3nt")
+lifetime = 3.0
+one_shot = true
+speed_scale = 2.0
+explosiveness = 0.79
+local_coords = true
+script = ExtResource("2_4is71")
+stay = true
+
+[node name="VisibleOnScreenEnabler2D" type="VisibleOnScreenEnabler2D" parent="."]
+position = Vector2(4.76837e-07, -2.86102e-06)
+scale = Vector2(3.2, 3.2)

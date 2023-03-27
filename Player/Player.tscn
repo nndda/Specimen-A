@@ -1,4 +1,4 @@
-[gd_scene load_steps=34 format=3 uid="uid://mjd5n5bhhtyf"]
+[gd_scene load_steps=35 format=3 uid="uid://mjd5n5bhhtyf"]
 
 [ext_resource type="Curve" uid="uid://cpc6bywf3chpy" path="res://Player/Body.width_curve.tres" id="1_8mgss"]
 [ext_resource type="Texture2D" uid="uid://ca7grqyyc8raf" path="res://Player/Sprites/Segment-0.png" id="1_tfqx0"]
@@ -10,13 +10,14 @@
 [ext_resource type="Script" path="res://Player/Player.Head.gd" id="6_01yml"]
 [ext_resource type="Texture2D" uid="uid://bdvyd3nbu8826" path="res://UI/Cursors/Cross.png" id="8_4yjjr"]
 [ext_resource type="Shape2D" uid="uid://bckhilh6un6wl" path="res://Player/Head.CollisionShape2D.tres" id="8_r88gq"]
-[ext_resource type="Shape2D" uid="uid://0gdtsoj6h613" path="res://Player/Area.CollisionShape2D.tres" id="9_7nb4d"]
 [ext_resource type="Texture2D" uid="uid://cix4worf0f6hk" path="res://UI/Cursors/Arrow.png" id="9_7uy1q"]
 [ext_resource type="Script" path="res://Player/Player.UI.gd" id="9_dcp3e"]
 [ext_resource type="Texture2D" uid="uid://cnjkvl2okf07r" path="res://Player/Head.Light.tres" id="9_ic0gl"]
 [ext_resource type="Texture2D" uid="uid://dm2bi3d3tjkt8" path="res://Player/UI/AttackIndicator.texture_under.tres" id="10_cgkkv"]
 [ext_resource type="Texture2D" uid="uid://cawxr7kd8og66" path="res://Player/UI/AttackIndicator.texture_progres.tres" id="11_frthm"]
+[ext_resource type="Shape2D" uid="uid://0gdtsoj6h613" path="res://Player/Area.CollisionShape2D.tres" id="11_ufsfa"]
 [ext_resource type="Texture2D" uid="uid://dmf6sl1cpnp2x" path="res://Player/UI/AttackCooldown.texture_progres.tres" id="12_gqrry"]
+[ext_resource type="PackedScene" uid="uid://bkda31jn1iyum" path="res://Player/Bodies/AreaEmp.tscn" id="13_2xkcd"]
 [ext_resource type="Script" path="res://Scripts/DebugVars.gd" id="16_u7job"]
 
 [sub_resource type="Animation" id="Animation_c8lpg"]
@@ -372,7 +373,7 @@ collision_mask = 5
 script = ExtResource("5_4h1ol")
 
 [node name="Head" type="CharacterBody2D" parent="."]
-collision_layer = 5
+collision_layer = 517
 collision_mask = 5
 motion_mode = 1
 script = ExtResource("6_01yml")
@@ -424,7 +425,7 @@ range_layer_max = 3
 shadow_enabled = true
 shadow_color = Color(0.0588235, 0.0117647, 0.0117647, 1)
 texture = ExtResource("9_ic0gl")
-texture_scale = 8.0
+texture_scale = 4.5
 
 [node name="DestroyThrough-R" type="RayCast2D" parent="Head"]
 visible = false
@@ -433,8 +434,8 @@ target_position = Vector2(70, 0)
 collision_mask = 16
 
 [node name="DestroyThrough-A" type="Area2D" parent="Head"]
-collision_layer = 16
-collision_mask = 16
+collision_layer = 273
+collision_mask = 273
 input_pickable = false
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Head/DestroyThrough-A"]
@@ -447,22 +448,15 @@ target_position = Vector2(40, 0)
 [node name="FaceObstacle-Pos" type="Node2D" parent="Head"]
 
 [node name="AreaShake" type="Area2D" parent="Head"]
-visible = false
-collision_layer = 16
-collision_mask = 16
+collision_layer = 256
+collision_mask = 256
 monitoring = false
+monitorable = false
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Head/AreaShake"]
-shape = ExtResource("9_7nb4d")
+shape = ExtResource("11_ufsfa")
 
-[node name="AreaEMP" type="Area2D" parent="Head"]
-visible = false
-collision_layer = 16
-collision_mask = 16
-monitoring = false
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Head/AreaEMP"]
-shape = ExtResource("9_7nb4d")
+[node name="AreaEMP" parent="Head" instance=ExtResource("13_2xkcd")]
 
 [node name="UI" type="CanvasLayer" parent="."]
 layer = 5
@@ -529,4 +523,4 @@ script = ExtResource("16_u7job")
 [connection signal="animation_finished" from="Body/Lights/AnimationPlayer/Hit" to="Body" method="_on_Hit_animation_finished"]
 [connection signal="animation_started" from="Body/Lights/AnimationPlayer/Hit" to="Body" method="_on_Hit_animation_started"]
 [connection signal="timeout" from="Head/AttackCooldown" to="Head" method="_on_AttackCooldown_timeout"]
-[connection signal="body_entered" from="Head/DestroyThrough-A" to="Head" method="_on_DestroyThroughA_body_entered"]
+[connection signal="body_entered" from="Head/DestroyThrough-A" to="Head" method="_on_DestroyThroughA_body_entered" flags=3]

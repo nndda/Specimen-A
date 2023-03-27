@@ -8,7 +8,7 @@ extends Node2D
 
 #@export_category("CanvasLayer")
 @export_node_path("CanvasLayer") var top_layer
-@export_node_path("CanvasLayer") var bottom_layer
+#@export_node_path("CanvasLayer") var bottom_layer
 
 @onready var max_scale = glbl.top_scale
 
@@ -16,12 +16,14 @@ signal layers_generated
 
 func GenerateLayers() -> void:
 
-	get_node(bottom_layer).add_child( preload( "res://Worlds/GlobalModulate.tscn" ).instantiate() )
-	get_node(bottom_layer).follow_viewport_enabled = true
-	get_node(bottom_layer).follow_viewport_scale = 1
-
+#	for sandwich_layer in [
+#		get_node(top_layer),
+#		get_node(bottom_layer) ]:
 	get_node(top_layer).add_child( preload( "res://Worlds/GlobalModulate.tscn" ).instantiate() )
 	get_node(top_layer).follow_viewport_enabled = true
+	get_node(top_layer).show()
+
+#	get_node(bottom_layer).follow_viewport_scale = 1
 	get_node(top_layer).follow_viewport_scale = max_scale
 
 	for n in depth:
@@ -29,7 +31,7 @@ func GenerateLayers() -> void:
 		var layer		: CanvasLayer	= CanvasLayer.new()
 		var map_layer	: TileMap		= get_node(map).duplicate()
 
-		layer.layer						= -1
+		layer.layer						= 0
 		layer.follow_viewport_enabled	= true
 		layer.follow_viewport_scale		= remap( n, 0, depth-1, 1.0, max_scale )
 
@@ -60,10 +62,15 @@ func GenerateLayers() -> void:
 
 	var map_top_layer	: TileMap		= get_node(map).duplicate()
 #	map_top_layer.modulate = Color.DARK_RED
-	map_top_layer.modulate = Color("#070101")
+#	map_top_layer.modulate = Color("#070101")
+	for tilemap in get_node(top_layer).get_children():
+		if tilemap is TileMap:
+			tilemap.modulate = Color("#070101")
+
 	get_node(top_layer).call_deferred( "add_child", map_top_layer)
 	
 
 	get_node(map).queue_free()
+	get_node(map_decor).queue_free()
 	get_node(map_decor_light).queue_free()
 	emit_signal("layers_generated")

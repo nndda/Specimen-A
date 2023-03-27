@@ -1,0 +1,70 @@
+[gd_scene load_steps=6 format=3 uid="uid://bgooaf7wwemem"]
+
+[ext_resource type="Script" path="res://Levels/Intro/Intro-Map.gd" id="1_632fd"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_k4dhy"]
+line_spacing = 0.0
+font_size = 32
+
+[sub_resource type="Gradient" id="Gradient_ds1df"]
+interpolation_mode = 1
+offsets = PackedFloat32Array(0, 0.6, 1)
+colors = PackedColorArray(0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_kk4jh"]
+gradient = SubResource("Gradient_ds1df")
+width = 256
+
+[sub_resource type="LabelSettings" id="LabelSettings_0wavp"]
+font_size = 24
+
+[node name="Intro-Map" type="Node2D"]
+script = ExtResource("1_632fd")
+
+[node name="Node2D" type="Node2D" parent="."]
+position = Vector2(-24, 0)
+
+[node name="Terrestrial" type="Label" parent="Node2D"]
+offset_left = 72.0
+offset_top = 192.0
+offset_right = 91.0
+offset_bottom = 236.0
+text = "🜨"
+label_settings = SubResource("LabelSettings_k4dhy")
+horizontal_alignment = 1
+metadata/_edit_lock_ = true
+
+[node name="Jovian" type="Label" parent="Node2D"]
+offset_left = 606.0
+offset_top = 203.0
+offset_right = 638.0
+offset_bottom = 240.0
+text = "♃"
+label_settings = SubResource("LabelSettings_k4dhy")
+horizontal_alignment = 1
+metadata/_edit_lock_ = true
+
+[node name="Line2D" type="Line2D" parent="Node2D"]
+position = Vector2(304, 132)
+points = PackedVector2Array(-208, 88, 288, 88)
+width = 2.0
+texture = SubResource("GradientTexture2D_kk4jh")
+texture_mode = 1
+metadata/_edit_lock_ = true
+
+[node name="Line2D-2" type="Line2D" parent="Node2D"]
+position = Vector2(854, 132)
+points = PackedVector2Array(-208, 88, 288, 88)
+width = 2.0
+metadata/_edit_lock_ = true
+
+[node name="Label" type="Label" parent="."]
+offset_left = 312.0
+offset_top = 240.0
+offset_right = 352.0
+offset_bottom = 259.0
+text = "5.6 AU"
+label_settings = SubResource("LabelSettings_0wavp")
+
+[node name="Camera2D" type="Camera2D" parent="."]
+position = Vector2(384, 216)

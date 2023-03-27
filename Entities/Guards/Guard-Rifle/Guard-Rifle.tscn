@@ -8,7 +8,6 @@
 light_mode = 1
 
 [node name="Guard-Rifle" instance=ExtResource("1_vbx3q")]
-rotate_weight = 1.0
 weapon_node = NodePath("Gun-Rifle")
 corpse_scene = NodePath("Guards-Corpse")
 
@@ -33,10 +32,10 @@ shadow_color = Color(0.0588235, 0.0117647, 0.0117647, 1)
 [node name="Gun-Rifle" parent="." index="8" instance=ExtResource("3_p8ma6")]
 position = Vector2(12, 5)
 
-[node name="Line2D" parent="KeepDistance" index="0"]
+[node name="Position2D" parent="KeepDistance" index="0"]
 visible = false
 
-[node name="Position2D" parent="KeepDistance" index="1"]
+[node name="Line2D" parent="KeepDistance" index="3"]
 visible = false
 
 [editable path="Gun-Rifle"]

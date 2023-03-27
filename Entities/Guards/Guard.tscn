@@ -15,20 +15,25 @@ cull_mode = 1
 polygon = PackedVector2Array(13, 1.99997, 6.99999, -4.00002, 4.99999, -3.00001, -1.00001, -3, -3.00001, -3.99999, -9, 2.00002)
 
 [node name="Guard" type="CharacterBody2D"]
-collision_layer = 17
+collision_layer = 0
 collision_mask = 17
 motion_mode = 1
 script = ExtResource("1_wqy3n")
+rotate_weight = 1.0
 cooldown = 2.0
 
 [node name="TriggerArea" type="Area2D" parent="."]
 visible = false
+collision_layer = 512
+collision_mask = 512
 
 [node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="TriggerArea"]
 polygon = PackedVector2Array(-24, -32, -24, 32, 256, 160, 256, -160)
 
 [node name="GeneralArea" type="Area2D" parent="."]
 visible = false
+collision_layer = 512
+collision_mask = 512
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="GeneralArea"]
 shape = SubResource("CircleShape2D_wehjl")
@@ -78,16 +83,34 @@ process_callback = 0
 [node name="KeepDistance" type="Node2D" parent="."]
 visible = false
 
-[node name="Line2D" type="Line2D" parent="KeepDistance"]
-points = PackedVector2Array(-144, 0, 32, 0)
-
 [node name="Position2D" type="Node2D" parent="KeepDistance"]
 position = Vector2(-136, 0)
 
-[node name="VisibilityHandler" parent="." instance=ExtResource("5_37bcv")]
+[node name="n1" type="Node2D" parent="KeepDistance"]
+position = Vector2(-128, 0)
+
+[node name="n2" type="Node2D" parent="KeepDistance"]
+
+[node name="Line2D" type="Line2D" parent="KeepDistance"]
+points = PackedVector2Array(-144, 0, 32, 0)
+
+[node name="KeepMove" type="Node2D" parent="."]
 visible = false
-position = Vector2(3.8147e-06, 3.8147e-06)
-scale = Vector2(8, 8)
+
+[node name="Position2D" type="Node2D" parent="KeepMove"]
+
+[node name="n1" type="Node2D" parent="KeepMove"]
+position = Vector2(0, -96)
+
+[node name="n2" type="Node2D" parent="KeepMove"]
+position = Vector2(0, 96)
+
+[node name="Line2D" type="Line2D" parent="KeepMove"]
+points = PackedVector2Array(0, -96, 0, 96)
+
+[node name="VisibilityHandler" parent="." instance=ExtResource("5_37bcv")]
+position = Vector2(-5.72205e-06, -5.72205e-06)
+scale = Vector2(12.8, 12.8)
 
 [connection signal="is_triggered" from="." to="." method="_on_is_triggered" flags=6]
 [connection signal="area_entered" from="TriggerArea" to="." method="_on_TriggerArea_area_entered"]
