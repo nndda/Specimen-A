@@ -1,0 +1,46 @@
+[gd_scene load_steps=6 format=3 uid="uid://lgi518g62db8"]
+
+[ext_resource type="Texture2D" uid="uid://2yox23da6ga" path="res://Worlds/Tilesets/Tileset.png" id="1_q6dkp"]
+[ext_resource type="Script" path="res://Worlds/Objects/Destructibles/DestructiblesBody.gd" id="1_rjp6r"]
+
+[sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_vhdpc"]
+
+[sub_resource type="OccluderPolygon2D" id="OccluderPolygon2D_awlni"]
+cull_mode = 1
+polygon = PackedVector2Array(-16, -16, -16, 16, 16, 16, 16, -16)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_ybfam"]
+size = Vector2(30, 30)
+
+[node name="BoxA-0" type="RigidBody2D"]
+position = Vector2(32, 0)
+collision_layer = 16
+collision_mask = 17
+mass = 6.0
+gravity_scale = 0.0
+linear_damp_mode = 1
+linear_damp = 85.0
+angular_damp_mode = 1
+angular_damp = 85.0
+script = ExtResource("1_rjp6r")
+health = 1.0
+particles_scene = "res://Shaders/Particles/GlassShards.tscn"
+root_node = NodePath(".")
+
+[node name="LightOccluder2D" type="LightOccluder2D" parent="."]
+visible = false
+material = SubResource("CanvasItemMaterial_vhdpc")
+occluder = SubResource("OccluderPolygon2D_awlni")
+sdf_collision = false
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture = ExtResource("1_q6dkp")
+region_enabled = true
+region_rect = Rect2(32, 288, 32, 32)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("RectangleShape2D_ybfam")
+
+[node name="VisibleOnScreenEnabler2D" type="VisibleOnScreenEnabler2D" parent="."]
+position = Vector2(1.90735e-06, 1.90735e-06)
+scale = Vector2(3.2, 3.2)
