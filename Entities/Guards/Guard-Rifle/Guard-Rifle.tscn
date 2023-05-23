@@ -1,4 +1,4 @@
-[gd_scene load_steps=5 format=3 uid="uid://p0ltgasv8yib"]
+[gd_scene load_steps=6 format=3 uid="uid://p0ltgasv8yib"]
 
 [ext_resource type="PackedScene" uid="uid://baiwsrdc0aog7" path="res://Entities/Guards/Guard.tscn" id="1_vbx3q"]
 [ext_resource type="PackedScene" uid="uid://c44yomx1glpfj" path="res://Entities/Guards/Guard-Corpse/Guard-Corpse.tscn" id="2_8rb38"]
@@ -6,6 +6,11 @@
 
 [sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_ympee"]
 light_mode = 1
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_a8sde"]
+resource_local_to_scene = true
+radius = 16.0
+height = 48.0
 
 [node name="Guard-Rifle" instance=ExtResource("1_vbx3q")]
 weapon_node = NodePath("Gun-Rifle")
@@ -28,6 +33,9 @@ collision_mask = 17
 
 [node name="LightHelmet" parent="Sprite2D" index="1"]
 shadow_color = Color(0.0588235, 0.0117647, 0.0117647, 1)
+
+[node name="CollisionShape2D" parent="." index="5"]
+shape = SubResource("CapsuleShape2D_a8sde")
 
 [node name="Gun-Rifle" parent="." index="8" instance=ExtResource("3_p8ma6")]
 position = Vector2(12, 5)
