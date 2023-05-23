@@ -1,0 +1,54 @@
+[gd_scene load_steps=9 format=3 uid="uid://en87r33e4ys0"]
+
+[ext_resource type="PackedScene" uid="uid://c152ot7ob213r" path="res://Shaders/Particles/GlassShards.tscn" id="1_rui31"]
+[ext_resource type="Material" uid="uid://ud64atwxfe5s" path="res://Shaders/Materials/Add-Unshaded.CanvasItemMaterial.tres" id="2_fo10u"]
+[ext_resource type="Script" path="res://Shaders/Particles/OneTimeParticles.gd" id="3_waacd"]
+
+[sub_resource type="Gradient" id="Gradient_v4dc0"]
+offsets = PackedFloat32Array(0, 0.679688, 0.945313)
+colors = PackedColorArray(1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 1)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_f4vpo"]
+gradient = SubResource("Gradient_v4dc0")
+
+[sub_resource type="Curve" id="Curve_k8jw0"]
+_data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="CurveTexture" id="CurveTexture_uak0h"]
+curve = SubResource("Curve_k8jw0")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_iibnu"]
+particle_flag_disable_z = true
+spread = 50.0
+gravity = Vector3(0, 98, 0)
+initial_velocity_max = 50.0
+angular_velocity_min = -200.0
+angular_velocity_max = 200.0
+orbit_velocity_min = 0.0
+orbit_velocity_max = 0.0
+linear_accel_min = 15.0
+linear_accel_max = 15.0
+angle_min = -720.0
+angle_max = 720.0
+scale_max = 3.0
+scale_curve = SubResource("CurveTexture_uak0h")
+color = Color(0.956863, 0.639216, 0.113725, 1)
+color_ramp = SubResource("GradientTexture1D_f4vpo")
+attractor_interaction_enabled = false
+
+[node name="GlassShardsSparks" instance=ExtResource("1_rui31")]
+self_modulate = Color(0.0588235, 0.0117647, 0.0117647, 1)
+
+[node name="Sparks" type="GPUParticles2D" parent="." index="1"]
+process_mode = 3
+material = ExtResource("2_fo10u")
+emitting = false
+amount = 24
+process_material = SubResource("ParticleProcessMaterial_iibnu")
+one_shot = true
+explosiveness = 1.0
+randomness = 0.1
+fract_delta = false
+local_coords = true
+script = ExtResource("3_waacd")
