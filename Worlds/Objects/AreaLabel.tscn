@@ -1,0 +1,13 @@
+[gd_scene load_steps=2 format=3 uid="uid://cytk410u3hy8c"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_2yns2"]
+font_size = 42
+
+[node name="AreaLabel" type="Label"]
+offset_right = 65.0
+offset_bottom = 50.0
+text = "Cargo"
+label_settings = SubResource("LabelSettings_2yns2")
+horizontal_alignment = 1
+vertical_alignment = 1
+uppercase = true
