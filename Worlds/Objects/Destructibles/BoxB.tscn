@@ -1,0 +1,8 @@
+[gd_scene load_steps=2 format=3 uid="uid://cvvpdd6dbvq8a"]
+
+[ext_resource type="PackedScene" uid="uid://lgi518g62db8" path="res://Worlds/Objects/Destructibles/BoxA.tscn" id="1_p0alu"]
+
+[node name="BoxB-0" instance=ExtResource("1_p0alu")]
+
+[node name="Sprite2D" parent="." index="1"]
+region_rect = Rect2(64, 288, 32, 32)
