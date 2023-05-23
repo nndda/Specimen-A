@@ -1,0 +1,14 @@
+[gd_scene load_steps=2 format=3 uid="uid://dlsk0on3syube"]
+
+[ext_resource type="PackedScene" uid="uid://lgi518g62db8" path="res://Worlds/Objects/Destructibles/BoxA.tscn" id="1_xydk2"]
+
+[node name="ChairA-0" instance=ExtResource("1_xydk2")]
+
+[node name="Sprite2D" parent="." index="1"]
+region_rect = Rect2(32, 384, 32, 32)
+
+[node name="CollisionShape2D" parent="." index="2"]
+disabled = true
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="." index="4"]
+polygon = PackedVector2Array(-14, -8, -14, 15, 14, 15, 14, -8, 11, -8, 11, 9, -11, 9, -11, -8)
