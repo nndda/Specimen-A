@@ -1,0 +1,35 @@
+[gd_scene load_steps=2 format=3 uid="uid://df27duiamunf0"]
+
+[ext_resource type="PackedScene" uid="uid://c44yomx1glpfj" path="res://Entities/Guards/Guard-Corpse/Guard-Corpse.tscn" id="1_40f08"]
+
+[node name="Guards-Corpse" instance=ExtResource("1_40f08")]
+
+[node name="Torso" parent="." index="5"]
+region_rect = Rect2(224, 320, 32, 32)
+
+[node name="Head" parent="Torso" index="0"]
+region_rect = Rect2(192, 288, 32, 32)
+
+[node name="RArm" parent="Torso" index="2"]
+region_rect = Rect2(192, 352, 32, 32)
+
+[node name="Hand" parent="Torso/RArm" index="0"]
+region_rect = Rect2(192, 384, 32, 32)
+
+[node name="LArm" parent="Torso" index="4"]
+region_rect = Rect2(192, 352, 32, 32)
+
+[node name="Hand" parent="Torso/LArm" index="0"]
+region_rect = Rect2(192, 384, 32, 32)
+
+[node name="RLeg" parent="Torso" index="6"]
+region_rect = Rect2(192, 416, 32, 32)
+
+[node name="Feet" parent="Torso/RLeg" index="0"]
+region_rect = Rect2(192, 448, 32, 32)
+
+[node name="LLeg" parent="Torso" index="8"]
+region_rect = Rect2(192, 416, 32, 32)
+
+[node name="Feet" parent="Torso/LLeg" index="0"]
+region_rect = Rect2(192, 448, 32, 32)
