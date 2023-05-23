@@ -19,7 +19,6 @@ collision_layer = 0
 collision_mask = 17
 motion_mode = 1
 script = ExtResource("1_wqy3n")
-rotate_weight = 1.0
 cooldown = 2.0
 
 [node name="TriggerArea" type="Area2D" parent="."]
@@ -32,8 +31,8 @@ polygon = PackedVector2Array(-24, -32, -24, 32, 256, 160, 256, -160)
 
 [node name="GeneralArea" type="Area2D" parent="."]
 visible = false
-collision_layer = 512
-collision_mask = 512
+collision_layer = 768
+collision_mask = 768
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="GeneralArea"]
 shape = SubResource("CircleShape2D_wehjl")
@@ -109,8 +108,8 @@ position = Vector2(0, 96)
 points = PackedVector2Array(0, -96, 0, 96)
 
 [node name="VisibilityHandler" parent="." instance=ExtResource("5_37bcv")]
-position = Vector2(-5.72205e-06, -5.72205e-06)
-scale = Vector2(12.8, 12.8)
+position = Vector2(-7.62939e-06, 16)
+scale = Vector2(22.4, 20.8)
 
 [connection signal="is_triggered" from="." to="." method="_on_is_triggered" flags=6]
 [connection signal="area_entered" from="TriggerArea" to="." method="_on_TriggerArea_area_entered"]

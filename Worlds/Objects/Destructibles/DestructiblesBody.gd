@@ -1,32 +1,26 @@
-extends StaticBody2D
+extends PhysicsBody2D
 
-@export_range(20.0,80.0) var health : float = 40.0
-@export_file("*.tscn") var particles_scene
+@export_range(1.0,80.0)		var health : float = 40.0
+@export_file("*.tscn")		var particles_scene : String
+@export_node_path("Node2D")	var root_node : NodePath
 
 var particles : Array
 
-func _ready(): for p in 3: particles.append( load( particles_scene ).instantiate())
+func _ready() -> void: for p in 3: particles.append(
+    load( particles_scene ).instantiate() )
 
-func Damage(power:float) -> void:
-
-	print(dbg.value_is("damage",power))
-
-	EmitParticles()
-
-	health		-= power
-
-	if health <= 0:
-		$"../Sprite2D".hide()
-		$"../Sprite2D-2".hide()
-		$CollisionShape2D.set_deferred("disabled",true)
-
-		if $"../FreeTimer".time_left <= 3.0: $"../FreeTimer".start()
+func Damage( power : float ) -> void:
+    print( dbg.value_is( "damage", power ) )
+    EmitParticles()
+    health -= power
+    if health <= 0: get_node( root_node ).queue_free()
 
 func EmitParticles() -> void:
-	if particles.size() > 0:
-		particles[0].custom_init_pos = true
-		particles[0].init_pos = global_position
-		glbl.layer_dict["Objects/Particles"].add_child(particles[0])
-		particles.remove_at(0)
+    if particles.size() > 0:
+        particles[0].custom_init_pos	= true
+        particles[0].init_pos			= global_position
+        glbl.layer_dict[ "Objects/Particles" ].add_child( particles[ 0 ] )
+        particles.remove_at(0)
 
-func _on_free_timer_timeout(): get_parent().queue_free()
+func _on_free_timer_timeout() -> void:
+    get_node( root_node ).queue_free()

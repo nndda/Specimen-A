@@ -1,242 +1,173 @@
 extends CharacterBody2D
 
-@export var health : float = 50
-@export var speed : float = 80.0
-
-@export var moving_away = false
-@export var stationary = false
-#@export var rotate_weight : float = 0.8
-@export_range(0.0,1.0) var rotate_weight = 0.8
-
+@export var health		: float = 50
+@export var speed		: float = 80.0
+@export var moving_away	: bool = false
+@export var stationary	: bool = false
+#@export_range( 0.0, 1.0 )
+#var rotate_weight		: float = 0.8
 
 @export_group("Nodes")
-@export_node_path("PathFollow2D")	var path
-@export_node_path("Area2D")			var custom_trigger
-@export_node_path("Node2D")			var weapon_node
-#@export_file("*.tscn")				var corpse_scene : String = "res://Entities/Guards/Guard-Corpse/Guard-Corpse.tscn"
-@export_node_path("Node2D")			var corpse_scene
-@export_file("*.tscn")				var blood_scene : String = "res://Shaders/Particles/BloodSplatters.tscn"
-var weapon
-var triggered = false
-var firing = false
+@export_node_path("PathFollow2D") var path		: NodePath
+@export_node_path("Area2D") var custom_trigger	: NodePath
+@export_node_path("Node2D") var weapon_node		: NodePath
+@export_node_path("Node2D") var corpse_scene	: NodePath
+@export_file("*.tscn")
+var blood_scene : String = "res://Shaders/Particles/BloodSplatters.tscn"
+
+var weapon		: Object
+var triggered	: bool = false
+var firing		: bool = false
 signal is_triggered
 
+@export_group( "Timing" )
+@export_range( 0.0, 5.0, 0.1 ) var init_cooldown : float = 0.0
+@export_range( 0.8, 5.0, 0.1 ) var cooldown		 : float = 0.8
+var fire_clear	: bool = false
+var fire_ready	: bool = false
+var clear		: bool = true
+var player_near	: bool = false
 
-@export_group("Timing")
-@export_range(0.0,5.0,0.1) var init_cooldown = 0.0
-@export_range(0.8,5.0,0.1) var cooldown = 0.8
-var fire_clear = false
-var fire_ready = false
-
-var clear = true
-
-var player_near = false
-
-
-
-signal path_changed(path)
+signal path_changed( path )
 signal target_reached
-@onready var nav_agent = $NavigationAgent2D
+@onready var nav_agent : Object = $NavigationAgent2D
 
-var velo		: Vector2
+var velo			: Vector2
 var move_direction	: Vector2
 
+func GetPlayerPos() -> Vector2: return glbl.head_pos
 
-func GetPlayerPos() -> Vector2:
-	return glbl.head_pos
+func _ready() -> void:
 
+    printt( "-", self.get_name(), corpse_scene, global_position )
 
-func _ready():
+    corpse = get_node( corpse_scene )
+    corpse.reparent( glbl.layer_dict[ "Objects/Corpses" ] )
 
-	corpse = get_node(corpse_scene)
-	corpse.reparent(glbl.layer_dict["Objects/Corpses"])
-	corpse.modulate.a = 0.8
-	corpse.z_as_relative = false
-	corpse.z_index = -100
+    corpse.modulate.a	 = 0.8
+    corpse.z_as_relative = false
+    corpse.z_index		 = -100
 
-	if get_node_or_null(weapon_node) != null:
-		weapon = get_node(weapon_node)
-	else:
-		push_error( dbg.value_is("weapon_node","null") )
+    weapon = get_node( weapon_node )
 
-	clear = init_cooldown == 0
-	$AttackCooldown.wait_time = cooldown
+    clear = init_cooldown == 0.0
+    $AttackCooldown.wait_time = cooldown
 
-	if custom_trigger != null:
-		$TriggerArea.queue_free()
-		get_node(custom_trigger).connect( "body_entered", Callable( self, "_on_TriggerArea_body_entered" ) )
-	else:
-		custom_trigger = NodePath("TriggerArea") # Set default
+    if get_node_or_null( custom_trigger ) != null:
+        $TriggerArea.queue_free()
+        get_node( custom_trigger ).connect( "body_entered",
+        Callable( self, "_on_TriggerArea_body_entered" ) )
+    else: custom_trigger = NodePath( "TriggerArea" ) # Set default
 
-	if stationary:
-		nav_agent = null
+    if stationary:
+        nav_agent = null
+        for free_itms in [ $KeepDistance, $KeepMove, $NavigationAgent2D ]:
+            free_itms.queue_free()
 
-		for free_itms in [ $KeepDistance, $KeepMove, $NavigationAgent2D ]:
-			free_itms.queue_free()
+    else:
+        for hidden_itms in [ $KeepDistance, $KeepMove ]:
+            for hidden_items in hidden_itms.get_children():
+                hidden_items.hide()
 
-	else:
-		for hidden_itms in [ $KeepDistance, $KeepMove ]:
-			for hidden_items in hidden_itms.get_children():
-				hidden_items.hide()
+    $VisibilityHandler.show()
 
-	$VisibilityHandler.show()
+func _process( _delta ) -> void:
 
-func _process(_delta):
+    corpse.global_position = global_position
+    corpse.look_at( glbl.head_pos )
 
-	corpse.global_position = global_position
-	corpse.look_at(glbl.head_pos)
+    if triggered:
+        rotation_degrees = wrapf( rotation_degrees, 0, 360 )
+        fire_clear = fire_ready and weapon.on_line
 
-	if player_near and cam.shaking:
-		triggered = true
+    else:
+        if player_near and cam.shaking: triggered = true
 
-	if triggered:
-		rotation_degrees = wrapf(rotation_degrees,0,360)
-	else:
-		if path != null:
-			global_position = get_node(path).global_position
-			global_rotation = get_node(path).global_rotation
+        if get_node_or_null( path ) != null:
+            global_position = get_node( path ).global_position
+            global_rotation = get_node( path ).global_rotation
 
-	fire_clear	= triggered and fire_ready and weapon.on_line
-	if fire_clear:
-		weapon.Fire()
-		fire_ready = false
+    if fire_clear:
+        weapon.Fire()
+        fire_ready = false
 
-func _physics_process(_delta):
-	if triggered:
+func _physics_process( _delta ) -> void : if triggered:
+    look_at( glbl.head_pos )
+    if !stationary:	nav_agent.set_velocity( Vector2( speed, speed ) )
+    else:			$Sprite2D.rotation_degrees = -rotation_degrees
 
-#		$Seeker.look_at(glbl.head_pos)
-#		$Seeker.rotation_degrees = wrapf($Seeker.rotation_degrees,-180,180)
+func Weapon_AnimationFinished( anim ) -> void:
+    if anim == "Firing": $AttackCooldown.start( cooldown )
+func _on_AttackCooldown_timeout() -> void: fire_ready = true
 
-#		weapon.rotation = lerp_angle(
-#			weapon.rotation, (
-#				glbl.head_pos - weapon.global_position
-#				).normalized().angle(), rotate_weight)
+var blood	: Object
+var corpse	: Object
 
-#		rotation = lerp_angle( rotation, $Seeker.rotation, rotate_weight)
-		rotation = lerp_angle(
-			rotation, (
-				glbl.head_pos - global_position
-				).normalized().angle(), rotate_weight)
+func Damage( power : float ) -> void:
 
-		if !stationary:
-			nav_agent.set_velocity(Vector2(speed,speed))
+    if !triggered: emit_signal( "is_triggered" )
+    health -= power
 
-#			$Label.rotation_degrees = -rotation_degrees
-#			$Label.text = str(move_direction)
+    if health <= 0:
+        corpse.z_as_relative = true
+        corpse.z_index = 0
+        queue_free()
 
-		else:
-			$Sprite2D.rotation_degrees = -rotation_degrees
-
-#		look_at(glbl.head_pos)
-
-#	else:
-#		if path_enabled:
-#
-
-
-func Weapon_AnimationFinished(anim):
-	if anim == "Firing":
-		$AttackCooldown.start(cooldown)
-func _on_AttackCooldown_timeout():
-	fire_ready = true
-
-var blood
-var corpse
-
-func Damage(power:float) -> void:
-
-	print(dbg.value_is("damage",power))
-
-	health		-= power
-
-	if health <= 0:
-		corpse.z_as_relative = true
-		corpse.z_index = 0
-		queue_free()
-
-	else:
-		blood	= load(blood_scene).instantiate()
-		blood.custom_init_pos = true
-		blood.init_pos = global_position
-		glbl.layer_dict["Objects/Particles"].add_child(blood)
+    else:
+        blood					= load( blood_scene ).instantiate()
+        blood.custom_init_pos	= true
+        blood.init_pos			= global_position
+        glbl.layer_dict[ "Objects/Particles" ].add_child( blood )
 
 
 
-var arrived = false
-func SetTargetPos(pos:Vector2) -> void:
-	arrived = false
-	nav_agent.target_position = pos
+var arrived : bool = false
+func SetTargetPos( pos : Vector2 ) -> void:
+    arrived = false
+    nav_agent.target_position = pos
 
 var direction : Vector2
-func _on_NavigationAgent2D_velocity_computed(safe_velocity):
-	if !nav_agent.is_navigation_finished():
-		velo = safe_velocity
-		velocity = velo * direction# * speed
-		move_and_slide()
-	elif !arrived:
-		arrived = true
-		nav_agent.emit_signal("path_changed")
-	
-func _on_UpdatePlayerPos_timeout():
-#	print()
-#	printt("|","timeout",str(round(global_position.distance_to(glbl.head_pos))))
-	if global_position.distance_to(glbl.head_pos) >= 32.0 * 5.0:
-		if !moving_away:
-#			printt("|",dbg.value_is("to glbl.head_pos",glbl.head_pos.round()))
-			direction = global_position.direction_to(glbl.head_pos)
-			#speed = 65 #* (remap(global_position.distance_to(glbl.head_pos),0,32*5,0,1) * 1.2)
-			SetTargetPos(glbl.head_pos)
-	else:
-		$KeepDistance.rotation_degrees = randf_range(-15,15)
-#		printt("|",dbg.value_is("moving away",$KeepDistance/Position2D.global_position.round()))
-		randomize()
-		var pos_rand = Vector2(
-			randf_range( $KeepDistance/n1.position.x, $KeepDistance/n2.position.x ),
-			randf_range( $KeepMove/n1.position.y, $KeepMove/n2.position.y )
-		)
-		$KeepDistance/Position2D.position = pos_rand
+func _on_NavigationAgent2D_velocity_computed( safe_velocity ) -> void:
+    if !nav_agent.is_navigation_finished():
+        velo = safe_velocity
+        velocity = velo * direction
+        move_and_slide()
+    elif !arrived:
+        arrived = true
+        nav_agent.emit_signal("path_changed")
 
-		direction = global_position.direction_to($KeepDistance/Position2D.global_position)
-		SetTargetPos($KeepDistance/Position2D.global_position)
+func _on_UpdatePlayerPos_timeout() -> void:
+    if global_position.distance_to( glbl.head_pos ) >= 160.0:
+        if !moving_away:
+            direction = global_position.direction_to( glbl.head_pos )
+            SetTargetPos( glbl.head_pos )
+    else:
+        randomize()
+        $KeepDistance.rotation_degrees = randf_range( -15, 15 )
+        var pos_rand = Vector2(
+            randf_range( $KeepDistance/n1.position.x,	$KeepDistance/n2.position.x ),
+            randf_range( $KeepMove/n1.position.y,		$KeepMove/n2.position.y ) )
+        $KeepDistance/Position2D.position = pos_rand
 
-#		direction = global_position.direction_to($KeepDistance/Position2D.global_position)
-#		SetTargetPos($KeepDistance/Position2D.global_position)
+        direction = global_position.direction_to( $KeepDistance/Position2D.global_position )
+        SetTargetPos( $KeepDistance/Position2D.global_position )
 
+func _on_TriggerArea_body_entered( body ) -> void:
+    if body.get_name() == "Head": emit_signal( "is_triggered" )
+func _on_TriggerArea_area_entered( area ) -> void:
+    if area.get_name() == "DamageCollision": emit_signal( "is_triggered" )
 
+func _on_is_triggered() -> void: if !triggered:
+    triggered = true
+    printt( "", self.get_name(), dbg.value_is( "triggered", "true" ) )
+    $AttackCooldown.start( cooldown )
 
+    for f in [ "GeneralArea", "TriggerArea" ]:
+        if get_node_or_null( f ) != null: get_node( f ).queue_free()
+    if get_node_or_null( path ) != null: get_node( path ).queue_free()
+    if !stationary: $NavigationAgent2D/UpdatePlayerPos.start()
 
-
-
-func _on_TriggerArea_body_entered(body):
-	if body.get_name() == "Head":
-		emit_signal("is_triggered")
-func _on_TriggerArea_area_entered(area):
-	if area.get_name() == "DamageCollision":
-		emit_signal("is_triggered")
-
-func _on_is_triggered() -> void:
-	triggered = true
-	printt( "|", dbg.value_is("triggered","true") )
-	$AttackCooldown.start(cooldown)
-	if get_node_or_null("GeneralArea") != null:
-		$GeneralArea.queue_free()
-	if get_node_or_null("TriggerArea") != null:
-		$TriggerArea.queue_free()
-#	if custom_trigger != null:
-#		get_node(custom_trigger).queue_free()
-	if path != null:
-		get_node(path).queue_free()
-	if !stationary:
-		$NavigationAgent2D/UpdatePlayerPos.start()
-
-
-
-func _on_general_area_entered(area):
-	if area.get_name() == "ShakeArea":
-		player_near = true
-func _on_general_area_exited(area):
-	if area.get_name() == "ShakeArea":
-		player_near = false
-
-
-
+func _on_general_area_entered( area ) -> void:
+    if area.get_name() == "ShakeArea": player_near = true
+func _on_general_area_exited( area ) -> void:
+    if area.get_name() == "ShakeArea": player_near = false
