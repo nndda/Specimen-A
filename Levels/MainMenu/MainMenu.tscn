@@ -1,0 +1,191 @@
+[gd_scene load_steps=4 format=3 uid="uid://d2ei0jpujevnx"]
+
+[ext_resource type="Script" path="res://Levels/MainMenu/MainMenu.gd" id="1_rq2ke"]
+[ext_resource type="FontFile" uid="uid://q0pw558k8hk2" path="res://UI/Fonts/Silver.ttf" id="2_3s4r0"]
+
+[sub_resource type="Theme" id="Theme_e4thq"]
+default_font = ExtResource("2_3s4r0")
+default_font_size = 24
+
+[node name="MainMenu" type="Node2D"]
+script = ExtResource("1_rq2ke")
+start = NodePath("Control/VBoxContainer/Start")
+config = NodePath("Control/VBoxContainer/Config")
+exit = NodePath("Control/VBoxContainer/Exit")
+quality = NodePath("Control/ConfigWindow/Quality/OptionButton")
+resolution = NodePath("Control/ConfigWindow/Resolution/OptionButton")
+fullscreen = NodePath("Control/ConfigWindow/Fullscreen/CheckButton")
+master = NodePath("Control/ConfigWindow/Master/HSlider")
+sfx = NodePath("Control/ConfigWindow/SFX/HSlider")
+bgm = NodePath("Control/ConfigWindow/BGM/HSlider")
+
+[node name="Camera2D" type="Camera2D" parent="."]
+position = Vector2(384, 216)
+
+[node name="Control" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 768.0
+offset_bottom = 432.0
+theme = SubResource("Theme_e4thq")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Control"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -40.0
+offset_top = -44.0
+offset_right = 40.0
+offset_bottom = 45.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Start" type="Button" parent="Control/VBoxContainer"]
+layout_mode = 2
+text = "Start"
+
+[node name="Config" type="Button" parent="Control/VBoxContainer"]
+layout_mode = 2
+text = "Config"
+
+[node name="Exit" type="Button" parent="Control/VBoxContainer"]
+layout_mode = 2
+text = "Exit"
+
+[node name="ConfirmationDialog" type="ConfirmationDialog" parent="Control/VBoxContainer/Exit"]
+title = "Confirm..."
+size = Vector2i(200, 93)
+min_size = Vector2i(200, 60)
+dialog_text = "Exit the game?"
+
+[node name="ConfigWindow" type="VBoxContainer" parent="Control"]
+visible = false
+layout_mode = 0
+offset_left = 32.0
+offset_top = 32.0
+offset_right = 320.0
+offset_bottom = 72.0
+
+[node name="Display" type="Label" parent="Control/ConfigWindow"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Display"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Quality" type="HBoxContainer" parent="Control/ConfigWindow"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="Control/ConfigWindow/Quality"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Quality"
+vertical_alignment = 1
+
+[node name="OptionButton" type="OptionButton" parent="Control/ConfigWindow/Quality"]
+layout_mode = 2
+size_flags_horizontal = 3
+alignment = 1
+item_count = 2
+selected = 0
+popup/item_0/text = "High"
+popup/item_0/id = 0
+popup/item_1/text = "Low"
+popup/item_1/id = 1
+
+[node name="Resolution" type="HBoxContainer" parent="Control/ConfigWindow"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="Control/ConfigWindow/Resolution"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Resolution"
+vertical_alignment = 1
+
+[node name="OptionButton" type="OptionButton" parent="Control/ConfigWindow/Resolution"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_pressed_color = Color(1, 1, 1, 1)
+theme_override_colors/font_hover_color = Color(1, 1, 1, 1)
+theme_override_colors/font_hover_pressed_color = Color(1, 1, 1, 1)
+theme_override_colors/font_focus_color = Color(1, 1, 1, 1)
+theme_override_colors/font_disabled_color = Color(1, 1, 1, 1)
+theme_override_colors/font_outline_color = Color(1, 1, 1, 1)
+alignment = 1
+item_count = 3
+selected = 0
+popup/item_0/text = "768 x 432"
+popup/item_0/id = 0
+popup/item_1/text = "1280 x 720"
+popup/item_1/id = 1
+popup/item_2/text = "1920 x 1080"
+popup/item_2/id = 2
+
+[node name="Fullscreen" type="HBoxContainer" parent="Control/ConfigWindow"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="Control/ConfigWindow/Fullscreen"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Fullscreen"
+vertical_alignment = 1
+
+[node name="CheckButton" type="CheckButton" parent="Control/ConfigWindow/Fullscreen"]
+layout_mode = 2
+text = "on"
+
+[node name="Sound" type="Label" parent="Control/ConfigWindow"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Sound"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Master" type="HBoxContainer" parent="Control/ConfigWindow"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="Control/ConfigWindow/Master"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Master"
+vertical_alignment = 1
+
+[node name="HSlider" type="HSlider" parent="Control/ConfigWindow/Master"]
+layout_mode = 2
+size_flags_horizontal = 3
+value = 50.0
+
+[node name="SFX" type="HBoxContainer" parent="Control/ConfigWindow"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="Control/ConfigWindow/SFX"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Sound Effects"
+vertical_alignment = 1
+
+[node name="HSlider" type="HSlider" parent="Control/ConfigWindow/SFX"]
+layout_mode = 2
+size_flags_horizontal = 3
+value = 50.0
+
+[node name="BGM" type="HBoxContainer" parent="Control/ConfigWindow"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="Control/ConfigWindow/BGM"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Music"
+vertical_alignment = 1
+
+[node name="HSlider" type="HSlider" parent="Control/ConfigWindow/BGM"]
+layout_mode = 2
+size_flags_horizontal = 3
+value = 50.0
+
+[connection signal="pressed" from="Control/VBoxContainer/Exit" to="." method="_on_exit_pressed"]
+[connection signal="confirmed" from="Control/VBoxContainer/Exit/ConfirmationDialog" to="." method="_on_exit_confirmation_dialog_confirmed"]
