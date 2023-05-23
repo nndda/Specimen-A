@@ -30,20 +30,23 @@ window/size/viewport_height=432
 window/size/extend_to_title=true
 window/size/window_width_override=1024
 window/size/window_height_override=576
-mouse_cursor/custom_image="res://UI/Cursors/Dot.png"
 window/stretch/mode="viewport"
+mouse_cursor/custom_image="res://UI/Cursors/Dot.png"
 
 [editor]
 
 movie_writer/movie_file="C:/Users/Asus/Pictures/_Artworks/#OnGoing/22_ngj3/vids/video.avi"
 movie_writer/fps=30
-naming/node_name_num_separator=3
 naming/scene_name_casing=1
+
+[filesystem]
+
+import/blender/enabled=false
 
 [gui]
 
-theme/custom_font="res://UI/Fonts/Silver.ttf"
 fonts/dynamic_fonts/use_oversampling=false
+theme/custom_font="res://UI/Fonts/Silver.ttf"
 
 [importer_defaults]
 
@@ -84,13 +87,31 @@ Attack={
 
 [rendering]
 
+occlusion_culling/bvh_build_quality=0
+textures/canvas_textures/default_texture_filter=0
+textures/canvas_textures/default_texture_repeat=2
 renderer/rendering_method="gl_compatibility"
 renderer/rendering_method.mobile="gl_compatibility"
+lights_and_shadows/directional_shadow/size=256
+lights_and_shadows/directional_shadow/size.mobile=256
+lights_and_shadows/directional_shadow/soft_shadow_filter_quality=0
+lights_and_shadows/positional_shadow/soft_shadow_filter_quality=0
+2d/shadow_atlas/size=128
 textures/default_filters/anisotropic_filtering_level=0
 environment/ssao/quality=0
 environment/ssil/quality=0
 anti_aliasing/screen_space_roughness_limiter/enabled=false
+anti_aliasing/screen_space_roughness_limiter/amount=0.01
+anti_aliasing/screen_space_roughness_limiter/limit=0.01
+textures/decals/filter=0
+textures/light_projectors/filter=0
 environment/glow/upscale_mode=0
+environment/screen_space_reflection/roughness_quality=0
+environment/volumetric_fog/use_filter=0
 environment/defaults/default_clear_color=Color(0, 0, 0, 1)
-textures/canvas_textures/default_texture_filter=0
-textures/canvas_textures/default_texture_repeat=2
+lights_and_shadows/positional_shadow/atlas_size=256
+lights_and_shadows/positional_shadow/atlas_size.mobile=256
+lights_and_shadows/positional_shadow/atlas_quadrant_0_subdiv=0
+lights_and_shadows/positional_shadow/atlas_quadrant_1_subdiv=0
+lights_and_shadows/positional_shadow/atlas_quadrant_2_subdiv=0
+lights_and_shadows/positional_shadow/atlas_quadrant_3_subdiv=0
