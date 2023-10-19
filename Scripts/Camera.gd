@@ -2,21 +2,21 @@ extends Camera2D
 
 @onready var shake_tween : Tween
 
-var shaking		: bool = false
-var shake_power	: float = 0.0
+var shaking     : bool = false
+var shake_power : float = 0.0
 
-func ShakeStart(
+func shake_start(
     power : float,
     time : float = 0.8,
     frequency : float = 16
     ) -> void:
     if power >= shake_power:
-        shake_power	= power
-        shaking		= true
+        shake_power = power
+        shaking = true
         $Shake/Duration.start( time )
         $Shake/Frequency.start( 1 / frequency )
 
-func Shake() -> void:
+func shake() -> void:
     randomize()
     shake_tween = create_tween().bind_node( self )
     shake_tween.tween_property(
@@ -32,23 +32,23 @@ func Shake() -> void:
 
     shake_tween.play()
 
-var visload_entity			: Array
-var visload_running			: bool = true
-var visload_path_follow		: PathFollow2D
-var current_objects_list	: Array[ Vector2 ]
+var visload_entity          : Array
+var visload_running         : bool = true
+var visload_path_follow     : PathFollow2D
+var current_objects_list    : Array[ Vector2 ]
 
-func InitVisualLoading() -> void:
+func init_visual_loading() -> void:
     $ColorRect/AnimationPlayer.play( "RESET" )
 
-    visload_running		 = true
+    visload_running = true
 
-    cam.following		 = false
-    cam.enabled			 = true
+    cam.following = false
+    cam.enabled = true
 
-    var visload_path	 : Path2D = Path2D.new()
-    var visload_path_fol : PathFollow2D = PathFollow2D.new()
-    var visload_curve	 : Curve2D = Curve2D.new()
-    var tween			 : Tween = create_tween().bind_node( self )
+    var visload_path        : Path2D        = Path2D.new()
+    var visload_path_fol    : PathFollow2D  = PathFollow2D.new()
+    var visload_curve       : Curve2D       = Curve2D.new()
+    var tween               : Tween         = create_tween().bind_node( self )
 
     visload_path.add_child( visload_path_fol )
     glbl.current_scene.call_deferred( "add_child", visload_path )
@@ -70,20 +70,20 @@ func InitVisualLoading() -> void:
 
     print( current_objects_list )
 
-    visload_path.curve	= visload_curve
-    visload_path_follow	= visload_path_fol
+    visload_path.curve = visload_curve
+    visload_path_follow = visload_path_fol
 
     tween.tween_property(
         visload_path_fol, "progress_ratio",
         1.0, glbl.current_objects.size() * 0.45 )
     tween.connect(
-        "finished", Callable( self, "FinishedVisualLoading" ) )
+        "finished", Callable( self, "finished_visual_loading" ) )
     tween.set_ease( Tween.EASE_OUT )
     tween.play()
 
-func FinishedVisualLoading() -> void:
+func finished_visual_loading() -> void:
 
-    print( "FinishedVisualLoading()" )
+    print( "finished_visual_loading()" )
 
     for e in visload_entity:
         e.queue_free()
@@ -92,8 +92,8 @@ func FinishedVisualLoading() -> void:
     visload_entity.clear()
     current_objects_list.clear()
 
-    cam.following	= true
-    cam.enabled		= true
+    cam.following = true
+    cam.enabled = true
 
     $ColorRect/AnimationPlayer.play( "fade_out" )
     visload_running = false
@@ -113,11 +113,13 @@ func _process( _delta ) -> void:
             0.0, get_viewport_rect().size.y,
             -1.0, 1.0 )
 
-    else: if visload_path_follow != null:
-            if visload_running: global_position = visload_path_follow.global_position
+    else:
+        if visload_path_follow != null:
+            if visload_running:
+                global_position = visload_path_follow.global_position
 
-func _on_Frequency_timeout() -> void: Shake()
+func _on_Frequency_timeout() -> void: shake()
 func _on_Duration_timeout() -> void:
-    shake_power		= 0
-    shaking			= false
+    shake_power = 0
+    shaking = false
     $Shake/Frequency.stop()

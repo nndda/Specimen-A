@@ -3,8 +3,8 @@ extends Node2D
 var damage : float = 4.25
 var firing : bool = false
 
-@export_node_path("Area2D","RayCast2D")	var line_of_sight
-@export_node_path("AnimationPlayer")	var firing_animation_player\
+@export_node_path("Area2D","RayCast2D") var line_of_sight
+@export_node_path("AnimationPlayer")    var firing_animation_player\
 = NodePath("FireFunction/AnimationPlayer")
 
 var trigger_area : NodePath
@@ -19,12 +19,13 @@ func _ready() -> void:
 
     if get_parent().get_node_or_null( get_parent().custom_trigger ) == null:
             trigger_area = NodePath( "../TriggerArea" )
-    else:	trigger_area = NodePath( get_parent().custom_trigger )
+    else:   trigger_area = NodePath( get_parent().custom_trigger )
 
-#	if not get_node( trigger_area ) is CollisionObject2D:
-#		push_error( dbg.value_is( trigger_area, "!CollisionObject2D" ) )
+#    if not get_node( trigger_area ) is CollisionObject2D:
+#        push_error( dbg.value_is( trigger_area, "!CollisionObject2D" ) )
 
-    if get_node_or_null( line_of_sight ) != null:
+    if  get_node_or_null( line_of_sight ) != null and\
+        line_of_sight is CollisionObject2D:
 
         printt( "", self.get_name(),
         "line_of_sight : " + str( get_node( line_of_sight ).get_class() ) )
@@ -58,4 +59,4 @@ func _physics_process( _delta ) -> void:
     if get_parent().triggered: if get_node( line_of_sight ) is RayCast2D:
         on_line = get_node( line_of_sight ).is_colliding()
 
-func Fire() -> void: get_node( firing_animation_player ).play( "Firing" )
+func fire() -> void: get_node( firing_animation_player ).play( "Firing" )

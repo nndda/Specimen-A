@@ -1,6 +1,6 @@
 extends GPUParticles2D
 
-var free_timer : Timer = Timer.new()
+@onready var free_timer : Timer = Timer.new()
 
 #func _enter_tree() -> void:
 #	emitting = true
@@ -8,7 +8,6 @@ var free_timer : Timer = Timer.new()
 func _ready() -> void:
     show()
     emitting = true
-
 
     call_deferred( "add_child", free_timer )
     free_timer.start( lifetime )

@@ -27,7 +27,7 @@ func _process( _delta ) -> void:
 
             SkewDirection.UP:
     #===================================================================================================
-    #			UP											# 0,	-1
+    #           UP   0, -1
                 #Bottom-Right
                 polygon[0] = (
                     ( position + ( texture.get_size() / 2.0 ) )
@@ -50,7 +50,7 @@ func _process( _delta ) -> void:
 
             SkewDirection.DOWN:
     #===================================================================================================
-    #			DOWN											# 0,	1
+    #           DOWN   0, 1
                 # Top-Left
                 polygon[2] = (
                     ( position + ( texture.get_size() / -2.0 ) )
@@ -72,7 +72,7 @@ func _process( _delta ) -> void:
 
             SkewDirection.LEFT:
     #===================================================================================================
-    #			LEFT										# -1, 0
+    #           LEFT   -1, 0
                 #Bottom-Right
                 polygon[0] = (
                     ( position + ( texture.get_size() / 2.0 ) )
@@ -94,7 +94,7 @@ func _process( _delta ) -> void:
 
             SkewDirection.RIGHT:
     #===================================================================================================
-    #			RIGHT										# 1, 0
+    #           RIGHT   1, 0
                 # Bottom-Left
                 polygon[1] = (
                     ( position + ( Vector2( -texture.get_width(), texture.get_height() ) / 2.0) )

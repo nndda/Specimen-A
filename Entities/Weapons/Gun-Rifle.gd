@@ -10,28 +10,28 @@ extends Node
 
 @onready var colliding_point = $"../CollidingPoint"
 
-func Fire() -> void:
+func fire() -> void:
     randomize()
-    cam.ShakeStart( 5.0, 0.09, 32.0 )
-    line_of_fire.rotation_degrees	= randf_range(-2.25,2.25)
-    bullet_path.rotation_degrees	= line_of_fire.rotation_degrees
+    cam.shake_start( 5.0, 0.09, 32.0 )
+    line_of_fire.rotation_degrees   = randf_range( -2.25, 2.25 )
+    bullet_path.rotation_degrees    = line_of_fire.rotation_degrees
 
 func _physics_process(_delta):
     if wielder.triggered:
 
-            bullet_path.points[0]	= Vector2(0,0)
-            bullet_spark.visible	= line_of_fire.is_colliding()
-            bullet_path.visible		= $AnimationPlayer.is_playing()# and bullet_spark.visible
+            bullet_path.points[0]   = Vector2.ZERO
+            bullet_spark.visible    = line_of_fire.is_colliding()
+            bullet_path.visible     = $AnimationPlayer.is_playing()# and bullet_spark.visible
 
-            line_of_fire.enabled	= $AnimationPlayer.is_playing()
+            line_of_fire.enabled    = $AnimationPlayer.is_playing()
 
             if line_of_fire.is_colliding():
-                colliding_point.global_position	= line_of_fire.get_collision_point()
-                bullet_path.points[1]			= colliding_point.position
+                colliding_point.global_position = line_of_fire.get_collision_point()
+                bullet_path.points[1] = colliding_point.position
 
-                bullet_spark.global_position	= colliding_point.global_position
-                if line_of_fire.get_collider().has_method("DamagePlayer"):
-                    line_of_fire.get_collider().DamagePlayer(randf_range(8,12))
+                bullet_spark.global_position = colliding_point.global_position
+                if line_of_fire.get_collider().has_method( "damage_player" ):
+                    line_of_fire.get_collider().damage_player( randf_range( 8, 12 ) )
 
             else:
                 bullet_path.points[1] = Vector2(0,110)
@@ -39,5 +39,5 @@ func _physics_process(_delta):
 
 
 #func _on_animation_player_started(anim_name):
-#	if anim_name == "Firing":
-#		cam.ShakeStart( 5.0, 0.09, 32.0 )
+#   if anim_name == "Firing":
+#       cam.shake_start( 5.0, 0.09, 32.0 )

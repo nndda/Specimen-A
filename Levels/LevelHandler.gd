@@ -14,9 +14,7 @@ func _ready() -> void:
         dbg.print_header( self, layer )
         for inst in self.get_node(layer).get_children():
             if inst is InstancePlaceholder:
-                printt(
-                    "", str( Time.get_datetime_string_from_system( false, true ),
-                    " Instancing: " + str( inst ) ) )
+                printt(" Instancing: " + str( inst ) )
 
                 inst.create_instance()
                 inst.queue_free()
@@ -26,9 +24,9 @@ func _ready() -> void:
     for layer in glbl.layer: for inst in self.get_node( layer ).get_children():
         if inst is CharacterBody2D: glbl.current_objects.append( inst )
 
-    cam.InitVisualLoading()
+    cam.init_visual_loading()
 
-    get_node( pseudo_3d_generator ).GenerateLayers()
+    get_node( pseudo_3d_generator ).generate_layers()
 
     printt( ">", float( Time.get_ticks_msec() - t1 ) / 1000 )
     printt( ">", Time.get_datetime_string_from_system( false, true ), self )
