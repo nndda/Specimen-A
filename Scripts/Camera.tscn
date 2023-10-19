@@ -68,6 +68,7 @@ script = ExtResource("1_ybuwx")
 [node name="Duration" type="Timer" parent="Shake"]
 
 [node name="ColorRect" type="ColorRect" parent="."]
+visible = false
 z_index = 100
 offset_left = -8.0
 offset_top = -8.0
