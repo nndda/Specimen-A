@@ -3,9 +3,11 @@
 [resource]
 background_mode = 3
 background_color = Color(1, 1, 1, 1)
+ambient_light_color = Color(0.898039, 0, 0, 1)
+ambient_light_energy = 2.86
 tonemap_mode = 2
-tonemap_exposure = 0.8
-tonemap_white = 8.0
+tonemap_exposure = 3.81
+tonemap_white = 6.8
 glow_blend_mode = 1
 fog_light_color = Color(0, 0, 0, 1)
 adjustment_enabled = true
