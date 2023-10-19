@@ -4,7 +4,7 @@
 [ext_resource type="Texture2D" uid="uid://cjbaixgux1478" path="res://Entities/Entities.png" id="2_17aew"]
 [ext_resource type="Texture2D" uid="uid://d1y5v4sd3axmk" path="res://Shaders/Lights/General.GradientTexture2D.tres" id="3_7ft35"]
 [ext_resource type="Shape2D" uid="uid://dsstw8sd6tnpd" path="res://Entities/Guards/Guard.CollisionShape2D.tres" id="4_yu3yv"]
-[ext_resource type="PackedScene" uid="uid://bn801wox8wl0f" path="res://Scripts/VisibilityHandler.tscn" id="5_37bcv"]
+[ext_resource type="PackedScene" uid="uid://jtsjs2slrit2" path="res://Scripts/VisibilityHandlerV2.tscn" id="5_jekor"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_wehjl"]
 radius = 128.0
@@ -107,9 +107,11 @@ position = Vector2(0, 96)
 [node name="Line2D" type="Line2D" parent="KeepMove"]
 points = PackedVector2Array(0, -96, 0, 96)
 
-[node name="VisibilityHandler" parent="." instance=ExtResource("5_37bcv")]
-position = Vector2(-7.62939e-06, 16)
-scale = Vector2(22.4, 20.8)
+[node name="VisibilityHandler" parent="." instance=ExtResource("5_jekor")]
+
+[node name="N" parent="VisibilityHandler" index="0"]
+position = Vector2(2.38419e-07, -2.14577e-06)
+scale = Vector2(4.8, 4.8)
 
 [connection signal="is_triggered" from="." to="." method="_on_is_triggered" flags=6]
 [connection signal="area_entered" from="TriggerArea" to="." method="_on_TriggerArea_area_entered"]
@@ -119,3 +121,5 @@ scale = Vector2(22.4, 20.8)
 [connection signal="timeout" from="AttackCooldown" to="." method="_on_AttackCooldown_timeout"]
 [connection signal="velocity_computed" from="NavigationAgent2D" to="." method="_on_NavigationAgent2D_velocity_computed"]
 [connection signal="timeout" from="NavigationAgent2D/UpdatePlayerPos" to="." method="_on_UpdatePlayerPos_timeout"]
+
+[editable path="VisibilityHandler"]
