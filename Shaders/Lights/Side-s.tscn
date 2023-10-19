@@ -5,8 +5,8 @@
 
 [node name="Side-S" instance=ExtResource("1_hup13")]
 
-[node name="Sprite2D" parent="." index="2"]
+[node name="Sprite2D" parent="." index="1"]
 region_rect = Rect2(32, 96, 32, 32)
 
-[node name="PointLight2D" parent="." index="3"]
+[node name="PointLight2D" parent="." index="2"]
 texture = ExtResource("2_x0mc3")
