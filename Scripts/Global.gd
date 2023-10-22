@@ -33,7 +33,7 @@ var worm_body           : Object
 
 var health              : float = 100.0
 
-var is_shake_by_player  : bool = false
+signal camera_shaken_by_player
 
 var skill_current       : int = skill.none
 

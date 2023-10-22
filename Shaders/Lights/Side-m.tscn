@@ -5,8 +5,14 @@
 
 [node name="Side-M" instance=ExtResource("1_1m6lk")]
 
-[node name="Sprite2D" parent="." index="2"]
+[node name="Sprite2D" parent="." index="1"]
 region_rect = Rect2(128, 96, 64, 32)
 
-[node name="PointLight2D" parent="." index="3"]
+[node name="PointLight2D" parent="." index="2"]
 texture = ExtResource("2_gnopq")
+
+[node name="VisibleOnScreenEnabler2D" parent="VisibilityHandler" index="0"]
+position = Vector2(3.8147e-06, -3.8147e-06)
+scale = Vector2(14.4, 8)
+
+[editable path="VisibilityHandler"]

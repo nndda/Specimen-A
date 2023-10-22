@@ -10,3 +10,9 @@ region_rect = Rect2(32, 96, 32, 32)
 
 [node name="PointLight2D" parent="." index="2"]
 texture = ExtResource("2_x0mc3")
+
+[node name="VisibleOnScreenEnabler2D" parent="VisibilityHandler" index="0"]
+position = Vector2(-3.8147e-06, -3.8147e-06)
+scale = Vector2(12.8, 8)
+
+[editable path="VisibilityHandler"]
