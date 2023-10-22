@@ -1,0 +1,43 @@
+[gd_scene load_steps=8 format=3 uid="uid://dhlug8mk05d7y"]
+
+[ext_resource type="PackedScene" uid="uid://c44yomx1glpfj" path="res://Entities/Guards/Guard-Corpse/Guard-Corpse.tscn" id="1_enapk"]
+[ext_resource type="Texture2D" uid="uid://bguqtuqjeoiw6" path="res://Entities/Guards/Crew-Corpse/Crew-Corpse.Torso.png" id="2_hvp7f"]
+[ext_resource type="Texture2D" uid="uid://whmrva52u0on" path="res://Entities/Guards/Crew-Corpse/Crew-Corpse.Head.png" id="3_31muy"]
+[ext_resource type="Texture2D" uid="uid://ce0epf4i21w76" path="res://Entities/Guards/Crew-Corpse/Crew-Corpse.Arm.png" id="4_hjq3m"]
+[ext_resource type="Texture2D" uid="uid://bk7sgr4vk6xr0" path="res://Entities/Guards/Crew-Corpse/Crew-Corpse.Hand.png" id="5_2jdjd"]
+[ext_resource type="Texture2D" uid="uid://iqm84rl2qpit" path="res://Entities/Guards/Crew-Corpse/Crew-Corpse.Leg.png" id="6_cmdri"]
+[ext_resource type="Texture2D" uid="uid://p67102ot3nfq" path="res://Entities/Guards/Crew-Corpse/Crew-Corpse.Foot.png" id="7_qkr1r"]
+
+[node name="Crew-Corpse" instance=ExtResource("1_enapk")]
+
+[node name="Torso" parent="." index="5"]
+texture = ExtResource("2_hvp7f")
+
+[node name="Head" parent="Torso" index="0"]
+texture = ExtResource("3_31muy")
+
+[node name="RArm" parent="Torso" index="2"]
+texture = ExtResource("4_hjq3m")
+
+[node name="Hand" parent="Torso/RArm" index="0"]
+texture = ExtResource("5_2jdjd")
+
+[node name="LArm" parent="Torso" index="4"]
+texture = ExtResource("4_hjq3m")
+
+[node name="Hand" parent="Torso/LArm" index="0"]
+texture = ExtResource("5_2jdjd")
+
+[node name="RLeg" parent="Torso" index="6"]
+texture = ExtResource("6_cmdri")
+
+[node name="Feet" parent="Torso/RLeg" index="0"]
+texture = ExtResource("7_qkr1r")
+
+[node name="LLeg" parent="Torso" index="8"]
+texture = ExtResource("6_cmdri")
+
+[node name="Feet" parent="Torso/LLeg" index="0"]
+texture = ExtResource("7_qkr1r")
+
+[editable path="VisibilityHandler"]
