@@ -7,94 +7,6 @@
 [ext_resource type="PackedScene" uid="uid://dc3jwfr08ejes" path="res://Entities/Weapons/BulletPath.tscn" id="5_j7t08"]
 [ext_resource type="PackedScene" uid="uid://dgh25kwhgv2hd" path="res://Entities/Weapons/BulletSpark.tscn" id="6_nqlb2"]
 
-[sub_resource type="Animation" id="Animation_gmvwc"]
-resource_name = "Firing"
-length = 1.175
-step = 0.025
-tracks/0/type = "method"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath(".")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1, 1.1),
-"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1),
-"values": [{
-"args": [],
-"method": &"Fire"
-}, {
-"args": [],
-"method": &"Fire"
-}, {
-"args": [],
-"method": &"Fire"
-}, {
-"args": [],
-"method": &"Fire"
-}, {
-"args": [],
-"method": &"Fire"
-}, {
-"args": [],
-"method": &"Fire"
-}, {
-"args": [],
-"method": &"Fire"
-}, {
-"args": [],
-"method": &"Fire"
-}, {
-"args": [],
-"method": &"Fire"
-}, {
-"args": [],
-"method": &"Fire"
-}, {
-"args": [],
-"method": &"Fire"
-}, {
-"args": [],
-"method": &"Fire"
-}]
-}
-tracks/1/type = "value"
-tracks/1/imported = false
-tracks/1/enabled = true
-tracks/1/path = NodePath("../Muzzle:energy")
-tracks/1/interp = 1
-tracks/1/loop_wrap = true
-tracks/1/keys = {
-"times": PackedFloat32Array(0, 0.025, 0.075, 0.1, 0.125, 0.175, 0.2, 0.225, 0.275, 0.3, 0.325, 0.375, 0.4, 0.425, 0.475, 0.5, 0.525, 0.575, 0.6, 0.625, 0.675, 0.7, 0.725, 0.775, 0.8, 0.825, 0.875, 0.9, 0.925, 0.975, 1, 1.025, 1.075, 1.1, 1.125, 1.175),
-"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1),
-"update": 0,
-"values": [1.5, 0.0, 0.0, 1.5, 0.0, 0.0, 1.5, 0.0, 0.0, 1.5, 0.0, 0.0, 1.5, 0.0, 0.0, 1.5, 0.0, 0.0, 1.5, 0.0, 0.0, 1.5, 0.0, 0.0, 1.5, 0.0, 0.0, 1.5, 0.0, 0.0, 1.5, 0.0, 0.0, 1.5, 0.0, 0.0]
-}
-tracks/2/type = "value"
-tracks/2/imported = false
-tracks/2/enabled = true
-tracks/2/path = NodePath("../Muzzle/Flash:energy")
-tracks/2/interp = 1
-tracks/2/loop_wrap = true
-tracks/2/keys = {
-"times": PackedFloat32Array(0, 0.05, 0.075, 0.1, 0.15, 0.175, 0.2, 0.25, 0.275, 0.3, 0.35, 0.375, 0.4, 0.45, 0.475, 0.5, 0.55, 0.575, 0.6, 0.65, 0.675, 0.7, 0.75, 0.775, 0.8, 0.85, 0.875, 0.9, 0.95, 0.975, 1, 1.05, 1.075, 1.1, 1.15, 1.175),
-"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1),
-"update": 0,
-"values": [2.0, 0.0, 0.0, 2.0, 0.0, 0.0, 2.0, 0.0, 0.0, 2.0, 0.0, 0.0, 2.0, 0.0, 0.0, 2.0, 0.0, 0.0, 2.0, 0.0, 0.0, 2.0, 0.0, 0.0, 2.0, 0.0, 0.0, 2.0, 0.0, 0.0, 2.0, 0.0, 0.0, 2.0, 0.0, 0.0]
-}
-tracks/3/type = "value"
-tracks/3/imported = false
-tracks/3/enabled = true
-tracks/3/path = NodePath("../BulletPath:modulate")
-tracks/3/interp = 1
-tracks/3/loop_wrap = true
-tracks/3/keys = {
-"times": PackedFloat32Array(0, 0.075, 0.1, 0.175, 0.2, 0.275, 0.3, 0.375, 0.4, 0.475, 0.5, 0.575, 0.6, 0.675, 0.7, 0.775, 0.8, 0.875, 0.9, 0.975, 1, 1.075, 1.1, 1.175),
-"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1),
-"update": 0,
-"values": [Color(1, 1, 1, 1), Color(1, 1, 1, 0.647059), Color(1, 1, 1, 1), Color(1, 1, 1, 0.647059), Color(1, 1, 1, 1), Color(1, 1, 1, 0.647059), Color(1, 1, 1, 1), Color(1, 1, 1, 0.647059), Color(1, 1, 1, 1), Color(1, 1, 1, 0.647059), Color(1, 1, 1, 1), Color(1, 1, 1, 0.647059), Color(1, 1, 1, 1), Color(1, 1, 1, 0.647059), Color(1, 1, 1, 1), Color(1, 1, 1, 0.647059), Color(1, 1, 1, 1), Color(1, 1, 1, 0.647059), Color(1, 1, 1, 1), Color(1, 1, 1, 0.647059), Color(1, 1, 1, 1), Color(1, 1, 1, 0.647059), Color(1, 1, 1, 1), Color(1, 1, 1, 0.647059)]
-}
-
 [sub_resource type="Animation" id="Animation_7e8xh"]
 length = 0.001
 tracks/0/type = "value"
@@ -132,6 +44,94 @@ tracks/2/keys = {
 "transitions": PackedFloat32Array(1),
 "update": 0,
 "values": [Color(1, 1, 1, 0)]
+}
+
+[sub_resource type="Animation" id="Animation_gmvwc"]
+resource_name = "Firing"
+length = 1.175
+step = 0.025
+tracks/0/type = "method"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1, 1.1),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1),
+"values": [{
+"args": [],
+"method": &"fire"
+}, {
+"args": [],
+"method": &"fire"
+}, {
+"args": [],
+"method": &"fire"
+}, {
+"args": [],
+"method": &"fire"
+}, {
+"args": [],
+"method": &"fire"
+}, {
+"args": [],
+"method": &"fire"
+}, {
+"args": [],
+"method": &"fire"
+}, {
+"args": [],
+"method": &"fire"
+}, {
+"args": [],
+"method": &"fire"
+}, {
+"args": [],
+"method": &"fire"
+}, {
+"args": [],
+"method": &"fire"
+}, {
+"args": [],
+"method": &"fire"
+}]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("../Muzzle:energy")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.025, 0.075, 0.1, 0.125, 0.175, 0.2, 0.225, 0.275, 0.3, 0.325, 0.375, 0.4, 0.425, 0.475, 0.5, 0.525, 0.575, 0.6, 0.625, 0.675, 0.7, 0.725, 0.775, 0.8, 0.825, 0.875, 0.9, 0.925, 0.975, 1, 1.025, 1.075, 1.1, 1.125, 1.175),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1),
+"update": 0,
+"values": [1.5, 0.0, 0.0, 1.5, 0.0, 0.0, 1.5, 0.0, 0.0, 1.5, 0.0, 0.0, 1.5, 0.0, 0.0, 1.5, 0.0, 0.0, 1.5, 0.0, 0.0, 1.5, 0.0, 0.0, 1.5, 0.0, 0.0, 1.5, 0.0, 0.0, 1.5, 0.0, 0.0, 1.5, 0.0, 0.0]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("../Muzzle/Flash:energy")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0, 0.05, 0.075, 0.1, 0.15, 0.175, 0.2, 0.25, 0.275, 0.3, 0.35, 0.375, 0.4, 0.45, 0.475, 0.5, 0.55, 0.575, 0.6, 0.65, 0.675, 0.7, 0.75, 0.775, 0.8, 0.85, 0.875, 0.9, 0.95, 0.975, 1, 1.05, 1.075, 1.1, 1.15, 1.175),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1),
+"update": 0,
+"values": [2.0, 0.0, 0.0, 2.0, 0.0, 0.0, 2.0, 0.0, 0.0, 2.0, 0.0, 0.0, 2.0, 0.0, 0.0, 2.0, 0.0, 0.0, 2.0, 0.0, 0.0, 2.0, 0.0, 0.0, 2.0, 0.0, 0.0, 2.0, 0.0, 0.0, 2.0, 0.0, 0.0, 2.0, 0.0, 0.0]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("../BulletPath:modulate")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0, 0.075, 0.1, 0.175, 0.2, 0.275, 0.3, 0.375, 0.4, 0.475, 0.5, 0.575, 0.6, 0.675, 0.7, 0.775, 0.8, 0.875, 0.9, 0.975, 1, 1.075, 1.1, 1.175),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 1), Color(1, 1, 1, 0.647059), Color(1, 1, 1, 1), Color(1, 1, 1, 0.647059), Color(1, 1, 1, 1), Color(1, 1, 1, 0.647059), Color(1, 1, 1, 1), Color(1, 1, 1, 0.647059), Color(1, 1, 1, 1), Color(1, 1, 1, 0.647059), Color(1, 1, 1, 1), Color(1, 1, 1, 0.647059), Color(1, 1, 1, 1), Color(1, 1, 1, 0.647059), Color(1, 1, 1, 1), Color(1, 1, 1, 0.647059), Color(1, 1, 1, 1), Color(1, 1, 1, 0.647059), Color(1, 1, 1, 1), Color(1, 1, 1, 0.647059), Color(1, 1, 1, 1), Color(1, 1, 1, 0.647059), Color(1, 1, 1, 1), Color(1, 1, 1, 0.647059)]
 }
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_3c7i6"]
