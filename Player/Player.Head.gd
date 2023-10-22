@@ -138,7 +138,7 @@ func _physics_process( delta ) -> void:
         velocity = velo
         move_and_slide()
 
-        if $AreaShake.monitorable: shake_finished()
+#        if $AreaShake.monitorable: shake_finished()
 
     else:
         velo            = attack_speed * attack_dir
@@ -170,10 +170,13 @@ func shake_cam() -> void:
         ( attack_strength / 4 ) + 15, #15 + ( 25 * ( attack_strength / 100 ) ),
         0.95,
         ( ( 2 * attack_strength ) / 25 ) + 16 ) #16 + 8 * ( attack_strength / 100 ) )
-    shake_started()
+    glbl.emit_signal("camera_shaken_by_player")
+#    shake_started()
 
-func shake_started() -> void: glbl.is_shake_by_player = true
-func shake_finished() -> void: glbl.is_shake_by_player = false
+#func shake_started() -> void:
+#    glbl.is_shake_by_player = true
+#func shake_finished() -> void:
+#    glbl.is_shake_by_player = false
 
 func reset_atk_dmg() -> void:
     open_mouth( 0 )

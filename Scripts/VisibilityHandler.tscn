@@ -2,10 +2,12 @@
 
 [ext_resource type="Script" path="res://Scripts/VisibilityHandler.gd" id="1_75ufu"]
 
-[node name="VisibilityHandler" type="VisibleOnScreenEnabler2D"]
-process_mode = 3
+[node name="VisibilityHandler" type="Node"]
 script = ExtResource("1_75ufu")
 
-[connection signal="screen_entered" from="." to="." method="_on_screen_entered"]
-[connection signal="screen_exited" from="." to="." method="_on_screen_exited"]
-[connection signal="tree_entered" from="." to="." method="_on_tree_entered"]
+[node name="VisibleOnScreenEnabler2D" type="VisibleOnScreenEnabler2D" parent="."]
+process_mode = 3
+
+[connection signal="ready" from="." to="." method="_on_ready"]
+[connection signal="screen_entered" from="VisibleOnScreenEnabler2D" to="." method="_on_screen_entered"]
+[connection signal="screen_exited" from="VisibleOnScreenEnabler2D" to="." method="_on_screen_exited"]

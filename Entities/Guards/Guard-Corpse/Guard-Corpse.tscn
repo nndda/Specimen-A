@@ -234,10 +234,13 @@ local_coords = true
 draw_order = 0
 
 [node name="VisibilityHandler" parent="." instance=ExtResource("7_hi21c")]
-visible = false
-position = Vector2(0, -1.01089e-05)
-scale = Vector2(9.6, 9.6)
+
+[node name="VisibleOnScreenEnabler2D" parent="VisibilityHandler" index="0"]
+position = Vector2(-1.90735e-06, -3.8147e-06)
+scale = Vector2(6.4, 6.4)
 
 [connection signal="tree_entered" from="Reposition" to="." method="_on_Reposition_tree_entered"]
 [connection signal="tree_entered" from="BloodTrail" to="." method="_on_BloodTrail_tree_entered"]
 [connection signal="body_entered" from="BloodTrailTrigger" to="." method="_on_BloodTrailTrigger_body_entered"]
+
+[editable path="VisibilityHandler"]

@@ -69,11 +69,6 @@ func _ready() -> void:
             for hidden_items in hidden_itms.get_children():
                 hidden_items.hide()
 
-#    $VisibilityHandler.show()
-    $VisibilityHandler/N.show()
-    $VisibilityHandler/N.connect( "screen_entered", Callable( self, "show" ) )
-    $VisibilityHandler/N.connect( "screen_exited",  Callable( self, "hide" ) )
-
 func _process( _delta ) -> void:
 
     corpse.global_position = global_position
@@ -94,7 +89,7 @@ func _process( _delta ) -> void:
         weapon.fire()
         fire_ready = false
     
-    $VisibilityHandler/N.global_position = global_position
+#    $VisibilityHandler/N.global_position = global_position
 
 func _physics_process( _delta ) -> void : if triggered:
     look_at( glbl.head_pos )

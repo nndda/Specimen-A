@@ -47,3 +47,4 @@ visible = false
 visible = false
 
 [editable path="Gun-Rifle"]
+[editable path="VisibilityHandler"]

@@ -37,7 +37,6 @@ func _ready() -> void:
     for limb in [ "RArm","LArm","RLeg","LLeg" ]: decap_limb( limb )
 
     is_ready = true
-    $VisibilityHandler.show()
 
 func decap_limb( limb : String ) -> void:
     var limb_n = "Hand" if limb.ends_with( "Arm" ) else "Feet"
