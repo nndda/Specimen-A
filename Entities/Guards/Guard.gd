@@ -16,9 +16,10 @@ extends CharacterBody2D
 var blood_scene : String = "res://Shaders/Particles/BloodSplatters.tscn"
 
 var weapon      : Object
-var triggered   : bool = false
+var is_triggered   : bool = false
 var firing      : bool = false
-signal is_triggered
+signal triggered
+signal killed
 
 @export_group( "Timing" )
 @export_range( 0.0, 5.0, 0.1 ) var init_cooldown    : float = 0.0
@@ -35,14 +36,14 @@ signal target_reached
 var velo            : Vector2
 var move_direction  : Vector2
 
-func get_player_pos() -> Vector2: return glbl.head_pos
+func get_player_pos() -> Vector2: return Global.head_pos
 
 func _ready() -> void:
 
     printt( "-", self.get_name(), corpse_scene, global_position )
 
     corpse = get_node( corpse_scene )
-    corpse.reparent( glbl.layer_dict[ "Objects/Corpses" ] )
+    corpse.reparent( Global.layer_dict[ "Objects/Corpses" ] )
 
     corpse.modulate.a       = 0.8
     corpse.z_as_relative    = false
@@ -72,14 +73,14 @@ func _ready() -> void:
 func _process( _delta ) -> void:
 
     corpse.global_position = global_position
-    corpse.look_at( glbl.head_pos )
+    corpse.look_at( Global.head_pos )
 
-    if triggered:
+    if is_triggered:
         rotation_degrees = wrapf( rotation_degrees, 0, 360 )
         fire_clear = fire_ready and weapon.on_line
 
     else:
-        if player_near and cam.shaking: triggered = true
+        if player_near and cam.shaking: is_triggered = true
 
         if get_node_or_null( path ) != null:
             global_position = get_node( path ).global_position
@@ -89,10 +90,10 @@ func _process( _delta ) -> void:
         weapon.fire()
         fire_ready = false
     
-#    $VisibilityHandler/N.global_position = global_position
+    $VisibilityHandler/VisibleOnScreenEnabler2D.global_position = global_position
 
-func _physics_process( _delta ) -> void : if triggered:
-    look_at( glbl.head_pos )
+func _physics_process( _delta ) -> void : if is_triggered:
+    look_at( Global.head_pos )
     if !stationary: nav_agent.set_velocity( Vector2( speed, speed ) )
     else:           $Sprite2D.rotation_degrees = -rotation_degrees
 
@@ -104,8 +105,10 @@ var blood   : Object
 var corpse  : Object
 
 func damage( power : float ) -> void:
+    
+    print(self," damaged :", power)
 
-    if !triggered: emit_signal( "is_triggered" )
+    if !is_triggered: emit_signal( "triggered" )
     health -= power
 
     if health <= 0:
@@ -117,7 +120,7 @@ func damage( power : float ) -> void:
         blood                   = load( blood_scene ).instantiate()
         blood.custom_init_pos   = true
         blood.init_pos          = global_position
-        glbl.layer_dict[ "Objects/Particles" ].add_child( blood )
+        Global.layer_dict[ "Objects/Particles" ].add_child( blood )
 
 
 
@@ -137,10 +140,10 @@ func _on_NavigationAgent2D_velocity_computed( safe_velocity ) -> void:
         nav_agent.emit_signal("path_changed")
 
 func _on_UpdatePlayerPos_timeout() -> void:
-    if global_position.distance_to( glbl.head_pos ) >= 160.0:
+    if global_position.distance_to( Global.head_pos ) >= 160.0:
         if !moving_away:
-            direction = global_position.direction_to( glbl.head_pos )
-            set_target_pos( glbl.head_pos )
+            direction = global_position.direction_to( Global.head_pos )
+            set_target_pos( Global.head_pos )
     else:
         randomize()
         $KeepDistance.rotation_degrees = randf_range( -15, 15 )
@@ -153,13 +156,13 @@ func _on_UpdatePlayerPos_timeout() -> void:
         set_target_pos( $KeepDistance/Position2D.global_position )
 
 func _on_TriggerArea_body_entered( body ) -> void:
-    if body.get_name() == "Head": emit_signal( "is_triggered" )
+    if body.get_name() == "Head": emit_signal( "triggered" )
 func _on_TriggerArea_area_entered( area ) -> void:
-    if area.get_name() == "DamageCollision": emit_signal( "is_triggered" )
+    if area.get_name() == "DamageCollision": emit_signal( "triggered" )
 
-func _on_is_triggered() -> void: if !triggered:
-    triggered = true
-    printt( "", self.get_name(), dbg.value_is( "triggered", "true" ) )
+func _on_triggered() -> void: if !is_triggered:
+    is_triggered = true
+    printt( "", self.get_name(), dbg.value_is( "is_triggered", "true" ) )
     $AttackCooldown.start( cooldown )
 
     for f in [ "GeneralArea", "TriggerArea" ]:
