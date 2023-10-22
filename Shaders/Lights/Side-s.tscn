@@ -1,14 +1,16 @@
-[gd_scene load_steps=3 format=3 uid="uid://bsxfydpk34jgs"]
+[gd_scene load_steps=4 format=3 uid="uid://bsxfydpk34jgs"]
 
 [ext_resource type="PackedScene" uid="uid://dgmfdfnnvk3qx" path="res://Shaders/Lights/Light.tscn" id="1_hup13"]
+[ext_resource type="Texture2D" uid="uid://hp5fg0rs4uqh" path="res://Shaders/Lights/Light.Side-s.png" id="2_w0cq8"]
 [ext_resource type="Texture2D" uid="uid://dxstby6n6k6ln" path="res://Shaders/Lights/General.L-WideGradientTexture2D.tres" id="2_x0mc3"]
 
 [node name="Side-S" instance=ExtResource("1_hup13")]
 
-[node name="Sprite2D" parent="." index="1"]
+[node name="Sprite2D" parent="." index="0"]
+texture = ExtResource("2_w0cq8")
 region_rect = Rect2(32, 96, 32, 32)
 
-[node name="PointLight2D" parent="." index="2"]
+[node name="PointLight2D" parent="." index="1"]
 texture = ExtResource("2_x0mc3")
 
 [node name="VisibleOnScreenEnabler2D" parent="VisibilityHandler" index="0"]

@@ -1,8 +1,10 @@
-[gd_scene load_steps=2 format=3 uid="uid://cvvpdd6dbvq8a"]
+[gd_scene load_steps=3 format=3 uid="uid://cvvpdd6dbvq8a"]
 
 [ext_resource type="PackedScene" uid="uid://lgi518g62db8" path="res://Worlds/Objects/Destructibles/BoxA.tscn" id="1_p0alu"]
+[ext_resource type="Texture2D" uid="uid://j2yovwegvdok" path="res://Worlds/Objects/Destructibles/BoxB.png" id="2_kct7j"]
 
 [node name="BoxB-0" instance=ExtResource("1_p0alu")]
 
 [node name="Sprite2D" parent="." index="1"]
+texture = ExtResource("2_kct7j")
 region_rect = Rect2(64, 288, 32, 32)

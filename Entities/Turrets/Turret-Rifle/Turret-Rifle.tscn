@@ -1,10 +1,11 @@
-[gd_scene load_steps=8 format=3 uid="uid://la4m4o5e78dr"]
+[gd_scene load_steps=9 format=3 uid="uid://la4m4o5e78dr"]
 
 [ext_resource type="PackedScene" uid="uid://baiwsrdc0aog7" path="res://Entities/Guards/Guard.tscn" id="1_2s3nu"]
 [ext_resource type="PackedScene" uid="uid://d35rqaqdqkt6x" path="res://Entities/Weapons/Gun-rifle.tscn" id="2_en8q7"]
 [ext_resource type="PackedScene" uid="uid://dwnj5shb6eoqy" path="res://Scripts/DebugTestField.tscn" id="2_pv4xo"]
 [ext_resource type="PackedScene" uid="uid://c3nsbmhfcxmu" path="res://Entities/Turrets/Turret-Destroyed.tscn" id="3_yqkct"]
-[ext_resource type="Texture2D" uid="uid://cjbaixgux1478" path="res://Entities/Entities.png" id="4_gxx1j"]
+[ext_resource type="Texture2D" uid="uid://bjnbe1b1a2laf" path="res://Entities/Turrets/Turret-Rifle/Turret-Rifle.Base.png" id="4_kel4u"]
+[ext_resource type="Texture2D" uid="uid://jp1ol34cgvye" path="res://Entities/Turrets/Turret-Rifle/Turret-Rifle.Gun.png" id="4_sxw3u"]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_ere1r"]
 resource_local_to_scene = true
@@ -29,6 +30,7 @@ visible = false
 [node name="Turret-Destroyed" parent="." index="1" instance=ExtResource("3_yqkct")]
 
 [node name="Sprite2D" parent="." index="4"]
+texture = ExtResource("4_kel4u")
 region_rect = Rect2(128, 32, 64, 64)
 
 [node name="LightHelmet" parent="Sprite2D" index="1"]
@@ -45,11 +47,7 @@ occluder = SubResource("OccluderPolygon2D_vfqmu")
 
 [node name="Rifle" type="Sprite2D" parent="Gun-Rifle" index="8"]
 position = Vector2(-11, 0)
-texture = ExtResource("4_gxx1j")
-region_enabled = true
-region_rect = Rect2(192, 32, 64, 64)
-
-[node name="VisibilityHandler" parent="." index="11"]
-visible = false
+texture = ExtResource("4_sxw3u")
 
 [editable path="Gun-Rifle"]
+[editable path="VisibilityHandler"]

@@ -1,12 +1,17 @@
-[gd_scene load_steps=15 format=3 uid="uid://c44yomx1glpfj"]
+[gd_scene load_steps=20 format=3 uid="uid://c44yomx1glpfj"]
 
 [ext_resource type="Script" path="res://Entities/Guards/Guard-Corpse/Guard-Corpse.gd" id="1_iomh3"]
 [ext_resource type="Texture2D" uid="uid://bi0x6glg40d2i" path="res://Shaders/Particles/BloodTrail.png" id="2_iwxdb"]
 [ext_resource type="PackedScene" uid="uid://cf1nettbgosmj" path="res://Shaders/Particles/BloodSplatters.tscn" id="3_nd872"]
-[ext_resource type="Texture2D" uid="uid://cjbaixgux1478" path="res://Entities/Entities.png" id="4_taqyw"]
+[ext_resource type="Texture2D" uid="uid://dcvp1phi5gfty" path="res://Entities/Guards/Guard-Corpse/Guard-Corpse.Torso.png" id="4_pbw2m"]
 [ext_resource type="PackedScene" uid="uid://8kiy8gyp7sbw" path="res://Shaders/Particles/BloodSplattersDecap.tscn" id="5_5o3f3"]
+[ext_resource type="Texture2D" uid="uid://ritudckff408" path="res://Entities/Guards/Guard-Corpse/Guard-Corpse.Head.png" id="5_jvhtw"]
 [ext_resource type="Texture2D" uid="uid://ugmsvtacu0k8" path="res://Shaders/Particles/BloodSplatters.png" id="6_yv0g6"]
 [ext_resource type="PackedScene" uid="uid://bn801wox8wl0f" path="res://Scripts/VisibilityHandler.tscn" id="7_hi21c"]
+[ext_resource type="Texture2D" uid="uid://cl32fw1x5hvxu" path="res://Entities/Guards/Guard-Corpse/Guard-Corpse.Arm.png" id="7_y7a3c"]
+[ext_resource type="Texture2D" uid="uid://c8fagirf3n3m2" path="res://Entities/Guards/Guard-Corpse/Guard-Corpse.Hand.png" id="8_i5drm"]
+[ext_resource type="Texture2D" uid="uid://bk0rmup5ee5ej" path="res://Entities/Guards/Guard-Corpse/Guard-Corpse.Leg.png" id="9_mnm3c"]
+[ext_resource type="Texture2D" uid="uid://dc1cbefaqp3tq" path="res://Entities/Guards/Guard-Corpse/Guard-Corpse.Foot.png" id="10_5uunx"]
 
 [sub_resource type="Curve" id="Curve_co7jn"]
 _data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(0.523684, 0.865031), -1.16564, -1.34969, 0, 0, Vector2(1, 0.288344), 0.0, 0.0, 0, 0]
@@ -90,15 +95,13 @@ scale = Vector2(4, 4)
 
 [node name="Torso" type="Sprite2D" parent="."]
 rotation = -1.57079
-texture = ExtResource("4_taqyw")
+texture = ExtResource("4_pbw2m")
 region_enabled = true
-region_rect = Rect2(128, 320, 32, 32)
+region_rect = Rect2(32, 0, 32, 32)
 
 [node name="Head" type="Sprite2D" parent="Torso"]
 position = Vector2(-4.95911e-05, -22)
-texture = ExtResource("4_taqyw")
-region_enabled = true
-region_rect = Rect2(96, 288, 32, 32)
+texture = ExtResource("5_jvhtw")
 
 [node name="RArm-Blood" type="Node2D" parent="Torso"]
 show_behind_parent = true
@@ -109,17 +112,13 @@ position = Vector2(-16, -1)
 
 [node name="RArm" type="Sprite2D" parent="Torso"]
 position = Vector2(-9.00003, -13)
-texture = ExtResource("4_taqyw")
+texture = ExtResource("7_y7a3c")
 offset = Vector2(-14, 0)
-region_enabled = true
-region_rect = Rect2(96, 352, 32, 32)
 
 [node name="Hand" type="Sprite2D" parent="Torso/RArm"]
 position = Vector2(-17, 1.00004)
-texture = ExtResource("4_taqyw")
+texture = ExtResource("8_i5drm")
 offset = Vector2(-2, 2)
-region_enabled = true
-region_rect = Rect2(96, 384, 32, 32)
 
 [node name="Hand-BloodSplattersDecap" parent="Torso/RArm" instance=ExtResource("5_5o3f3")]
 show_behind_parent = true
@@ -135,19 +134,15 @@ position = Vector2(-16, -1)
 
 [node name="LArm" type="Sprite2D" parent="Torso"]
 position = Vector2(9, -14)
-texture = ExtResource("4_taqyw")
+texture = ExtResource("7_y7a3c")
 offset = Vector2(14, 0)
 flip_h = true
-region_enabled = true
-region_rect = Rect2(96, 352, 32, 32)
 
 [node name="Hand" type="Sprite2D" parent="Torso/LArm"]
 position = Vector2(16, 1)
-texture = ExtResource("4_taqyw")
+texture = ExtResource("8_i5drm")
 offset = Vector2(2, 2)
 flip_h = true
-region_enabled = true
-region_rect = Rect2(96, 384, 32, 32)
 
 [node name="Hand-BloodSplattersDecap" parent="Torso/LArm" instance=ExtResource("5_5o3f3")]
 show_behind_parent = true
@@ -164,17 +159,13 @@ rotation = -1.5708
 
 [node name="RLeg" type="Sprite2D" parent="Torso"]
 position = Vector2(-4, 14)
-texture = ExtResource("4_taqyw")
+texture = ExtResource("9_mnm3c")
 offset = Vector2(-2, 16)
-region_enabled = true
-region_rect = Rect2(96, 416, 32, 32)
 
 [node name="Feet" type="Sprite2D" parent="Torso/RLeg"]
 position = Vector2(0, 15)
-texture = ExtResource("4_taqyw")
+texture = ExtResource("10_5uunx")
 offset = Vector2(-2, 3)
-region_enabled = true
-region_rect = Rect2(96, 448, 32, 32)
 
 [node name="Feet-BloodSplattersDecap" type="Node2D" parent="Torso/RLeg"]
 show_behind_parent = true
@@ -194,19 +185,15 @@ rotation = -1.5708
 
 [node name="LLeg" type="Sprite2D" parent="Torso"]
 position = Vector2(4, 15)
-texture = ExtResource("4_taqyw")
+texture = ExtResource("9_mnm3c")
 offset = Vector2(2, 16)
 flip_h = true
-region_enabled = true
-region_rect = Rect2(96, 416, 32, 32)
 
 [node name="Feet" type="Sprite2D" parent="Torso/LLeg"]
 position = Vector2(0, 15)
-texture = ExtResource("4_taqyw")
+texture = ExtResource("10_5uunx")
 offset = Vector2(2, 3)
 flip_h = true
-region_enabled = true
-region_rect = Rect2(96, 448, 32, 32)
 
 [node name="Feet-BloodSplattersDecap" type="Node2D" parent="Torso/LLeg"]
 show_behind_parent = true
@@ -236,8 +223,8 @@ draw_order = 0
 [node name="VisibilityHandler" parent="." instance=ExtResource("7_hi21c")]
 
 [node name="VisibleOnScreenEnabler2D" parent="VisibilityHandler" index="0"]
-position = Vector2(-1.90735e-06, -3.8147e-06)
-scale = Vector2(6.4, 6.4)
+position = Vector2(7.62939e-06, 1.14441e-05)
+scale = Vector2(19.2, 19.2)
 
 [connection signal="tree_entered" from="Reposition" to="." method="_on_Reposition_tree_entered"]
 [connection signal="tree_entered" from="BloodTrail" to="." method="_on_BloodTrail_tree_entered"]

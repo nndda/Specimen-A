@@ -1,7 +1,7 @@
 [gd_scene load_steps=8 format=3 uid="uid://baiwsrdc0aog7"]
 
 [ext_resource type="Script" path="res://Entities/Guards/Guard.gd" id="1_wqy3n"]
-[ext_resource type="Texture2D" uid="uid://cjbaixgux1478" path="res://Entities/Entities.png" id="2_17aew"]
+[ext_resource type="Texture2D" uid="uid://ryy4fypkc3oa" path="res://Entities/Guards/Guard-Rifle/Guard-Rifle.png" id="2_kybeh"]
 [ext_resource type="Texture2D" uid="uid://d1y5v4sd3axmk" path="res://Shaders/Lights/General.GradientTexture2D.tres" id="3_7ft35"]
 [ext_resource type="Shape2D" uid="uid://dsstw8sd6tnpd" path="res://Entities/Guards/Guard.CollisionShape2D.tres" id="4_yu3yv"]
 [ext_resource type="PackedScene" uid="uid://bn801wox8wl0f" path="res://Scripts/VisibilityHandler.tscn" id="5_21ehr"]
@@ -15,7 +15,7 @@ cull_mode = 1
 polygon = PackedVector2Array(13, 1.99997, 6.99999, -4.00002, 4.99999, -3.00001, -1.00001, -3, -3.00001, -3.99999, -9, 2.00002)
 
 [node name="Guard" type="CharacterBody2D"]
-collision_layer = 0
+collision_layer = 17
 collision_mask = 17
 motion_mode = 1
 script = ExtResource("1_wqy3n")
@@ -39,9 +39,7 @@ shape = SubResource("CircleShape2D_wehjl")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 rotation = -1.57079
-texture = ExtResource("2_17aew")
-region_enabled = true
-region_rect = Rect2(96, 192, 64, 64)
+texture = ExtResource("2_kybeh")
 
 [node name="GeneralLight" type="PointLight2D" parent="Sprite2D"]
 color = Color(1, 1, 1, 0.941176)
@@ -113,7 +111,7 @@ points = PackedVector2Array(0, -96, 0, 96)
 position = Vector2(6.67572e-06, 9.53674e-07)
 scale = Vector2(8.8, 8.8)
 
-[connection signal="is_triggered" from="." to="." method="_on_is_triggered" flags=6]
+[connection signal="triggered" from="." to="." method="_on_triggered" flags=6]
 [connection signal="area_entered" from="TriggerArea" to="." method="_on_TriggerArea_area_entered"]
 [connection signal="body_entered" from="TriggerArea" to="." method="_on_TriggerArea_body_entered"]
 [connection signal="area_entered" from="GeneralArea" to="." method="_on_general_area_entered"]

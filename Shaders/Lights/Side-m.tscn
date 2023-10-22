@@ -1,14 +1,15 @@
-[gd_scene load_steps=3 format=3 uid="uid://bel74brvim1aa"]
+[gd_scene load_steps=4 format=3 uid="uid://bel74brvim1aa"]
 
 [ext_resource type="PackedScene" uid="uid://bsxfydpk34jgs" path="res://Shaders/Lights/Side-s.tscn" id="1_1m6lk"]
+[ext_resource type="Texture2D" uid="uid://b6ilq7x5avhjk" path="res://Shaders/Lights/Light.Side-m.png" id="2_7t0pc"]
 [ext_resource type="Texture2D" uid="uid://bj7telnwvm1wf" path="res://Shaders/Lights/General.L-Wide-M.GradientTexture2D.tres" id="2_gnopq"]
 
 [node name="Side-M" instance=ExtResource("1_1m6lk")]
 
-[node name="Sprite2D" parent="." index="1"]
-region_rect = Rect2(128, 96, 64, 32)
+[node name="Sprite2D" parent="." index="0"]
+texture = ExtResource("2_7t0pc")
 
-[node name="PointLight2D" parent="." index="2"]
+[node name="PointLight2D" parent="." index="1"]
 texture = ExtResource("2_gnopq")
 
 [node name="VisibleOnScreenEnabler2D" parent="VisibilityHandler" index="0"]

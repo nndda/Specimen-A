@@ -1,7 +1,7 @@
 [gd_scene load_steps=6 format=3 uid="uid://lgi518g62db8"]
 
-[ext_resource type="Texture2D" uid="uid://2yox23da6ga" path="res://Worlds/Tilesets/Tileset.png" id="1_q6dkp"]
 [ext_resource type="Script" path="res://Worlds/Objects/Destructibles/DestructiblesBody.gd" id="1_rjp6r"]
+[ext_resource type="Texture2D" uid="uid://be0g0rvserdp1" path="res://Worlds/Objects/Destructibles/BoxA.png" id="2_e4rny"]
 
 [sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_vhdpc"]
 
@@ -34,9 +34,7 @@ occluder = SubResource("OccluderPolygon2D_awlni")
 sdf_collision = false
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
-texture = ExtResource("1_q6dkp")
-region_enabled = true
-region_rect = Rect2(32, 288, 32, 32)
+texture = ExtResource("2_e4rny")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource("RectangleShape2D_ybfam")

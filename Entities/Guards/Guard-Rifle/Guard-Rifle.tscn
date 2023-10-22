@@ -1,13 +1,10 @@
-[gd_scene load_steps=6 format=3 uid="uid://p0ltgasv8yib"]
+[gd_scene load_steps=5 format=3 uid="uid://p0ltgasv8yib"]
 
 [ext_resource type="PackedScene" uid="uid://baiwsrdc0aog7" path="res://Entities/Guards/Guard.tscn" id="1_vbx3q"]
 [ext_resource type="PackedScene" uid="uid://c44yomx1glpfj" path="res://Entities/Guards/Guard-Corpse/Guard-Corpse.tscn" id="2_8rb38"]
 [ext_resource type="PackedScene" uid="uid://d35rqaqdqkt6x" path="res://Entities/Weapons/Gun-rifle.tscn" id="3_p8ma6"]
 
-[sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_ympee"]
-light_mode = 1
-
-[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_a8sde"]
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_dggyt"]
 resource_local_to_scene = true
 radius = 16.0
 height = 48.0
@@ -19,25 +16,17 @@ corpse_scene = NodePath("Guards-Corpse")
 [node name="Guards-Corpse" parent="." index="0" instance=ExtResource("2_8rb38")]
 visible = false
 
-[node name="Label" type="Label" parent="." index="1"]
-visible = false
-material = SubResource("CanvasItemMaterial_ympee")
-offset_left = 11.0
-offset_top = -35.0
-offset_right = 51.0
-offset_bottom = -12.0
-
-[node name="GeneralArea" parent="." index="3"]
+[node name="GeneralArea" parent="." index="2"]
 collision_layer = 17
 collision_mask = 17
 
 [node name="LightHelmet" parent="Sprite2D" index="1"]
 shadow_color = Color(0.0588235, 0.0117647, 0.0117647, 1)
 
-[node name="CollisionShape2D" parent="." index="5"]
-shape = SubResource("CapsuleShape2D_a8sde")
+[node name="CollisionShape2D" parent="." index="4"]
+shape = SubResource("CapsuleShape2D_dggyt")
 
-[node name="Gun-Rifle" parent="." index="8" instance=ExtResource("3_p8ma6")]
+[node name="Gun-Rifle" parent="." index="7" instance=ExtResource("3_p8ma6")]
 position = Vector2(12, 5)
 
 [node name="Position2D" parent="KeepDistance" index="0"]
@@ -45,6 +34,9 @@ visible = false
 
 [node name="Line2D" parent="KeepDistance" index="3"]
 visible = false
+
+[node name="VisibilityHandler" parent="." index="10"]
+root_path = NodePath("..")
 
 [editable path="Gun-Rifle"]
 [editable path="VisibilityHandler"]

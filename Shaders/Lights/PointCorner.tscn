@@ -4,11 +4,11 @@
 
 [node name="PointCorner" instance=ExtResource("1_rpj0g")]
 
-[node name="Sprite2D" parent="." index="1"]
-offset = Vector2(4, 4)
+[node name="Sprite2D" parent="." index="0"]
+position = Vector2(-8, -8)
 region_rect = Rect2(96, 96, 32, 32)
 
-[node name="PointLight2D" parent="." index="2"]
+[node name="PointLight2D" parent="." index="1"]
 position = Vector2(-8, -8)
 
 [node name="VisibleOnScreenEnabler2D" parent="VisibilityHandler" index="0"]

@@ -1,7 +1,7 @@
 [gd_scene load_steps=9 format=3 uid="uid://dgmfdfnnvk3qx"]
 
 [ext_resource type="Script" path="res://Shaders/Lights/Light.gd" id="1_1ad8k"]
-[ext_resource type="Texture2D" uid="uid://2yox23da6ga" path="res://Worlds/Tilesets/Tileset.png" id="4_7wnuu"]
+[ext_resource type="Texture2D" uid="uid://gcktcc1y5wpa" path="res://Shaders/Lights/Light.Point.png" id="2_dr7i5"]
 [ext_resource type="Texture2D" uid="uid://siw2jprbqhps" path="res://Shaders/Lights/General.L.GradientTexture2D.tres" id="5_rqanb"]
 [ext_resource type="PackedScene" uid="uid://bn801wox8wl0f" path="res://Scripts/VisibilityHandler.tscn" id="6_b3uk3"]
 
@@ -62,10 +62,7 @@ _data = {
 script = ExtResource("1_1ad8k")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
-texture = ExtResource("4_7wnuu")
-offset = Vector2(0, 12)
-region_enabled = true
-region_rect = Rect2(64, 96, 32, 32)
+texture = ExtResource("2_dr7i5")
 
 [node name="PointLight2D" type="PointLight2D" parent="."]
 blend_mode = 2
