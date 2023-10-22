@@ -1,0 +1,39 @@
+[gd_scene load_steps=6 format=3 uid="uid://bfwoq22877jck"]
+
+[ext_resource type="PackedScene" uid="uid://baiwsrdc0aog7" path="res://Entities/Guards/Guard.tscn" id="1_143es"]
+[ext_resource type="Texture2D" uid="uid://b1qkwpqeqphbq" path="res://Entities/Guards/Crew-Revolver/Crew-Revolver.png" id="2_hxob8"]
+[ext_resource type="PackedScene" uid="uid://dhlug8mk05d7y" path="res://Entities/Guards/Crew-Corpse/Crew-Corpse.tscn" id="2_mkbkj"]
+[ext_resource type="PackedScene" uid="uid://64rnsxgvlnye" path="res://Entities/Weapons/Gun-Revolver.tscn" id="3_k4pk7"]
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_q7lho"]
+resource_local_to_scene = true
+radius = 16.0
+height = 48.0
+
+[node name="Crew-Revolver" instance=ExtResource("1_143es")]
+weapon_node = NodePath("Gun-Revolver")
+corpse_scene = NodePath("Crew-Corpse")
+cooldown = 5.0
+
+[node name="Crew-Corpse" parent="." index="0" instance=ExtResource("2_mkbkj")]
+visible = false
+
+[node name="Sprite2D" parent="." index="3"]
+texture = ExtResource("2_hxob8")
+
+[node name="LightHelmet" parent="Sprite2D" index="1"]
+process_mode = 4
+visible = false
+position = Vector2(-1.99996, 6.00001)
+
+[node name="CollisionShape2D" parent="." index="4"]
+visible = true
+shape = SubResource("CapsuleShape2D_q7lho")
+
+[node name="Gun-Revolver" parent="." index="7" instance=ExtResource("3_k4pk7")]
+
+[node name="VisibilityHandler" parent="." index="10"]
+process_mode = 3
+root_path = NodePath("..")
+
+[editable path="VisibilityHandler"]
