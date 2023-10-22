@@ -4,8 +4,6 @@ var damage : float = 4.25
 var firing : bool = false
 
 @export_node_path("Area2D","RayCast2D") var line_of_sight
-@export_node_path("AnimationPlayer")    var firing_animation_player\
-= NodePath("FireFunction/AnimationPlayer")
 
 var trigger_area : NodePath
 @onready var on_line : bool = false
@@ -47,16 +45,17 @@ func _ready() -> void:
 
     else: push_error( dbg.value_is( "weapon_node", "null" ) )
 
-    if get_node_or_null( firing_animation_player ) != null:
-        get_node( firing_animation_player ).connect(
-            "animation_finished",
-            Callable( get_parent(), "Weapon_AnimationFinished" ) )
-    else:
-        push_error( dbg.value_is( "firing_animation_player", "null" ) )
+#    if get_node_or_null( firing_animation_player ) != null:
+#        get_node( firing_animation_player ).connect(
+    $FireFunction.animation_player.connect(
+        "animation_finished",
+        Callable( get_parent(), "Weapon_AnimationFinished" ) )
+#    else:
+#        push_error( dbg.value_is( "firing_animation_player", "null" ) )
 
 func _process( _delta ) -> void: get_parent().firing = firing
 func _physics_process( _delta ) -> void:
     if get_parent().triggered: if get_node( line_of_sight ) is RayCast2D:
         on_line = get_node( line_of_sight ).is_colliding()
 
-func fire() -> void: get_node( firing_animation_player ).play( "Firing" )
+func fire() -> void: $FireFunction.animation_player.play( "Firing" )
