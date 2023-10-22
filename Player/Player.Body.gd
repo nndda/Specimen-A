@@ -13,8 +13,8 @@ func InitCollisionShape() -> void:
         damage_area.add_child( shape_node )
 
 func UpdateCollisionShape() -> void:
-    if glbl.moving or $"../Head".attacking:
-        for sgmnt in glbl.worm_segment_max - 2:
+    if Global.moving or $"../Head".attacking:
+        for sgmnt in Global.worm_segment_max - 2:
             damage_area.get_child( sgmnt ).shape.a = points[ sgmnt ]
             damage_area.get_child( sgmnt ).shape.b = points[ sgmnt + 1 ]
 
@@ -22,13 +22,13 @@ func UpdateCollisionShape() -> void:
 func UpdateWormLength() -> void:
     var sgmnt_count : int = get_point_count()
     for sgmnt in sgmnt_count - 1:
-        if glbl.worm_length_array.size() <= sgmnt:
-            glbl.worm_length_array.append(
+        if Global.worm_length_array.size() <= sgmnt:
+            Global.worm_length_array.append(
             points[ sgmnt ].distance_to(
             points[ wrapi( sgmnt, 0, sgmnt_count ) + 1 ] )
             )
         else:
-            glbl.worm_length_array[ sgmnt ] = (
+            Global.worm_length_array[ sgmnt ] = (
             points[ sgmnt ].distance_to(
             points[ wrapi( sgmnt, 0, sgmnt_count ) + 1 ] )
             )
@@ -38,7 +38,7 @@ func UpdateLightPath() -> void: if $Lights.visible:
     for n in get_point_count() - 1 :
         $Lights.curve.set_point_position(
         ( get_point_count() - 2) - n, points[ n ] )
-    if glbl.moving and !$Lights/AnimationPlayer.is_playing():
+    if Global.moving and !$Lights/AnimationPlayer.is_playing():
         $Lights/AnimationPlayer.play( "Idle" )
 
 var health_bar_offsets : PackedFloat32Array = [ 0.02, 0.04 ]
@@ -48,8 +48,8 @@ var health_bar_offsets : PackedFloat32Array = [ 0.02, 0.04 ]
 @onready var health_bar : Object
 func UpdateHealthUI() -> void: if health_bar.visible:
 
-#        health_bar_offsets[0] = range_lerp(glbl.health,100.0,0.0,0.02,0.96)
-#        health_bar_offsets[1] = range_lerp(glbl.health,100.0,0.0,0.04,0.98)
+#        health_bar_offsets[0] = range_lerp(Global.health,100.0,0.0,0.02,0.96)
+#        health_bar_offsets[1] = range_lerp(Global.health,100.0,0.0,0.04,0.98)
 
 #        health_bar_offsets[0] = clamp(health_bar_offsets[0],0.02,0.96)
 #        health_bar_offsets[1] = clamp(health_bar_offsets[1],0.04,0.98)
@@ -65,7 +65,7 @@ func UpdateHealthUI() -> void: if health_bar.visible:
 
 func _on_Lights_tree_entered() -> void:
     $Lights.curve.clear_points()
-    for n in glbl.worm_segment_max:
+    for n in Global.worm_segment_max:
         $Lights.curve.add_point( Vector2.ZERO )
 #func _on_Lights_ready():
 #    $Lights/AnimationPlayer.play("Idle")
@@ -76,19 +76,19 @@ func _ready() -> void: InitCollisionShape()
 
 func _process( _delta ) -> void:
 
-    if glbl.cfg.always_show_health_bar: health_bar.visible = true
+    if Global.cfg.always_show_health_bar: health_bar.visible = true
 #    else:
 #        health_bar.visible = $AnimationPlayer/Hit.current_animation == "Hit"
 
-    $Lights.visible = !glbl.cfg.optimal_graphic
+    $Lights.visible = !Global.cfg.optimal_graphic
 
 
 #    $"../UI/LowHealthOverlay".modulate.a = remap(
-#        glbl.health, 50.0, 0.0, 0.0, 1.0 )
+#        Global.health, 50.0, 0.0, 0.0, 1.0 )
 #    $"../UI/LowHealthOverlay".modulate.a = clamp(
 #        $"../UI/LowHealthOverlay".modulate.a, 0, 1 )
 #    $"../UI/LowHealthOverlay/AnimationPlayer".playback_speed = remap(
-#        glbl.health, 50.0, 0.0, 0.8, 1.5 )
+#        Global.health, 50.0, 0.0, 0.8, 1.5 )
 
 
     UpdateWormLength()
@@ -98,11 +98,11 @@ func _process( _delta ) -> void:
 
 func _physics_process( _delta ) -> void:
 
-    if get_point_count() > glbl.worm_segment_max:
-        if glbl.moving_f > 0 or $"../Head".attacking:
+    if get_point_count() > Global.worm_segment_max:
+        if Global.moving_f > 0 or $"../Head".attacking:
             remove_point( 0 )
     else:
-        if glbl.moving_f > 0 or $"../Head".attacking:
+        if Global.moving_f > 0 or $"../Head".attacking:
             add_point( $"../Head".position )
 
 func _on_Hit_animation_started( anim_name ) -> void:

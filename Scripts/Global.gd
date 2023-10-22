@@ -1,7 +1,7 @@
 extends Node2D
 
 var enemy_exception_bodies : Array[ PhysicsBody2D ]
-var current_scene : Object
+var current_scene : Node
 
 var layer : Array[String] = [
     "Objects/Corpses",
@@ -10,8 +10,10 @@ var layer : Array[String] = [
     "Objects",
     "Entities" ]
 var layer_dict : Dictionary = {}
-func update_layers() -> void: for itm in layer:
-    layer_dict[ itm ] = current_scene.get_node( itm )
+func update_layers() -> void:
+    layer_dict.clear()
+    for itm in layer:
+        layer_dict[ itm ] = current_scene.get_node( itm )
 
 var current_objects     : Array
 var top_scale           : float = 1.1

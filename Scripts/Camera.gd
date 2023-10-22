@@ -51,17 +51,17 @@ func init_visual_loading() -> void:
     var tween               : Tween         = create_tween().bind_node( self )
 
     visload_path.add_child( visload_path_fol )
-    glbl.current_scene.call_deferred( "add_child", visload_path )
+    Global.current_scene.call_deferred( "add_child", visload_path )
     visload_path_fol.progress_ratio = 0.0
 
-    for n in glbl.current_objects:
+    for n in Global.current_objects:
         if !current_objects_list.has( n.global_position ):
             current_objects_list.append( n.global_position )
 
     current_objects_list.erase( Vector2.ZERO )
 
     current_objects_list.sort_custom( func( a, b ): return (
-        a.distance_to( glbl.head_pos ) > b.distance_to( glbl.head_pos ) ) )
+        a.distance_to( Global.head_pos ) > b.distance_to( Global.head_pos ) ) )
 
     for i in current_objects_list:
         visload_curve.add_point( i )
@@ -75,7 +75,7 @@ func init_visual_loading() -> void:
 
     tween.tween_property(
         visload_path_fol, "progress_ratio",
-        1.0, glbl.current_objects.size() * 0.45 )
+        1.0, Global.current_objects.size() * 0.45 )
     tween.connect(
         "finished", Callable( self, "finished_visual_loading" ) )
     tween.set_ease( Tween.EASE_OUT )
@@ -88,7 +88,7 @@ func finished_visual_loading() -> void:
     for e in visload_entity:
         e.queue_free()
 
-    glbl.current_objects.clear()
+    Global.current_objects.clear()
     visload_entity.clear()
     current_objects_list.clear()
 
@@ -102,7 +102,7 @@ func finished_visual_loading() -> void:
 var following : bool = false
 func _process( _delta ) -> void:
     if following:
-        global_position = glbl.head_pos
+        global_position = Global.head_pos
 
         drag_horizontal_offset = remap(
             get_viewport().get_mouse_position().x,

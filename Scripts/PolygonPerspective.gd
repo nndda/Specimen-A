@@ -14,7 +14,7 @@ func get_direction( id ) -> Vector2:
     sin( remap( float( id ), 0,4, 0, TAU ) )
     )
 
-@onready var top_scale : float = glbl.top_scale
+@onready var top_scale : float = Global.top_scale
 
 func get_canvas_pos() -> Vector2: return (
 ( get_global_transform_with_canvas().origin * 2 ) /
@@ -34,7 +34,7 @@ func _process( _delta ) -> void:
                     +
                     Vector2( 0, -texture.get_height() )
                     +
-                    ( get_canvas_pos() * texture.get_size() ) + ( get_canvas_pos() * glbl.top_scale )
+                    ( get_canvas_pos() * texture.get_size() ) + ( get_canvas_pos() * Global.top_scale )
                     )
                 # Bottom-Left
                 polygon[1] = (
@@ -42,7 +42,7 @@ func _process( _delta ) -> void:
                     +
                     Vector2( 0, -texture.get_height() )
                     +
-                    ( get_canvas_pos() * texture.get_size() ) + ( get_canvas_pos() * glbl.top_scale )
+                    ( get_canvas_pos() * texture.get_size() ) + ( get_canvas_pos() * Global.top_scale )
                     )
 
 
@@ -57,7 +57,7 @@ func _process( _delta ) -> void:
                     +
                     Vector2( 0, texture.get_height() )
                     +
-                    ( get_canvas_pos() * texture.get_size() ) + ( get_canvas_pos() * glbl.top_scale )
+                    ( get_canvas_pos() * texture.get_size() ) + ( get_canvas_pos() * Global.top_scale )
                     )
                 #Top-Right
                 polygon[3] = (
@@ -65,7 +65,7 @@ func _process( _delta ) -> void:
                     +
                     Vector2( 0, texture.get_height() )
                     +
-                    ( get_canvas_pos() * texture.get_size() ) + ( get_canvas_pos() * glbl.top_scale )
+                    ( get_canvas_pos() * texture.get_size() ) + ( get_canvas_pos() * Global.top_scale )
                     )
 
 
@@ -79,7 +79,7 @@ func _process( _delta ) -> void:
                     +
                     Vector2( -texture.get_width(), 0 )
                     +
-                    ( get_canvas_pos() * texture.get_size() ) + ( get_canvas_pos() * glbl.top_scale )
+                    ( get_canvas_pos() * texture.get_size() ) + ( get_canvas_pos() * Global.top_scale )
                     )
                 #Top-Right
                 polygon[3] = (
@@ -87,7 +87,7 @@ func _process( _delta ) -> void:
                     +
                     Vector2( -texture.get_width(), 0 )
                     +
-                    ( get_canvas_pos() * texture.get_size() ) + ( get_canvas_pos() * glbl.top_scale )
+                    ( get_canvas_pos() * texture.get_size() ) + ( get_canvas_pos() * Global.top_scale )
                     )
 
 
@@ -101,7 +101,7 @@ func _process( _delta ) -> void:
                     +
                     Vector2( texture.get_width(), 0 )
                     +
-                    ( get_canvas_pos() * texture.get_size() ) + ( get_canvas_pos() * glbl.top_scale )
+                    ( get_canvas_pos() * texture.get_size() ) + ( get_canvas_pos() * Global.top_scale )
                     )
                 # Top-Left
                 polygon[2] = (
@@ -109,5 +109,5 @@ func _process( _delta ) -> void:
                     +
                     Vector2( texture.get_width(), 0 )
                     +
-                    ( get_canvas_pos() * texture.get_size() ) + ( get_canvas_pos() * glbl.top_scale )
+                    ( get_canvas_pos() * texture.get_size() ) + ( get_canvas_pos() * Global.top_scale )
                     )

@@ -20,7 +20,7 @@ config/icon="res://icon.png"
 
 [autoload]
 
-glbl="*res://Scripts/Global.gd"
+Global="*res://Scripts/Global.gd"
 dbg="*res://Scripts/Debug.gd"
 cam="*res://Scripts/Camera.tscn"
 

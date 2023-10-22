@@ -34,14 +34,14 @@ func attack_handler() -> void:
 
     if allow_attack:
 
-        match glbl.skill_current:
-            glbl.skill.none:
+        match Global.skill_current:
+            Global.skill.none:
                 attack_out  += 4 if Input.is_action_pressed( "Attack" ) else -4
                 attack_out  = int( clamp( attack_out, 0, 100 ) )
                 open_mouth( float( attack_out ) / 100 )
                 if Input.is_action_pressed( "Attack" ):
                     $"../UI/Arrow".look_at( get_viewport().get_mouse_position() )
-                    $"../UI/Arrow".position     = glbl.head_canvas_pos
+                    $"../UI/Arrow".position     = Global.head_canvas_pos
                     $"../UI/Arrow".modulate.a   = float( attack_out ) / 100
                     $"../UI/Arrow".offset.x     = ( ( 3 * float( attack_out ) ) / 5 ) + 68 #( float( attack_out ) / 100 * 60 ) + 68
                     $FaceObstacle.look_at( get_global_mouse_position() )
@@ -52,22 +52,22 @@ func attack_handler() -> void:
                     $AreaShake.monitorable  = true
                     $AreaShake.monitoring   = true
                     attacking               = true
-                    attack_dir              = glbl.head_pos.direction_to( get_global_mouse_position() )
+                    attack_dir              = Global.head_pos.direction_to( get_global_mouse_position() )
                     attack_strength         = float( attack_out )
                     $AttackCooldown.start( attack_cooldown * ( float( attack_out ) / 100 ) )
-                    attack_pos[0] = glbl.head_pos
+                    attack_pos[0] = Global.head_pos
                     allow_attack = false
 
-#           glbl.skill.DischargeShrapnel:
-#               if Input.is_action_just_pressed("Attack") and glbl.shrapnel_current > 0:
+#           Global.skill.DischargeShrapnel:
+#               if Input.is_action_just_pressed("Attack") and Global.shrapnel_current > 0:
 #                   pass
 #
-#           glbl.skill.EMPBurst:
-#               if Input.is_action_just_pressed("Attack") and glbl.emp_charge > 0:
+#           Global.skill.EMPBurst:
+#               if Input.is_action_just_pressed("Attack") and Global.emp_charge > 0:
 #                   pass
 #
-#           glbl.skill.SynthesizeAcids:
-#               if Input.is_action_just_pressed("Attack") and glbl.acid > 0:
+#           Global.skill.SynthesizeAcids:
+#               if Input.is_action_just_pressed("Attack") and Global.acid > 0:
 #                   pass
 
     $"../UI/AttackIndicator".value      = attack_out
@@ -94,25 +94,25 @@ func _process( delta ) -> void:
 
     monitor_var()
 
-#    glbl.health += ( 2.5 * delta ) * 1 if !invincible else 0.5
-    glbl.health += ( 2.5 * delta )
+#    Global.health += ( 2.5 * delta ) * 1 if !invincible else 0.5
+    Global.health += ( 2.5 * delta )
 
-    glbl.head_pos               = global_position
-    glbl.head_canvas_pos        = get_global_transform_with_canvas().origin
+    Global.head_pos               = global_position
+    Global.head_canvas_pos        = get_global_transform_with_canvas().origin
 
 
     $"../UI/Arrow".look_at(get_viewport().get_mouse_position())
-    $"../UI/Arrow".position     = glbl.head_canvas_pos
-    $"../UI/Arrow".modulate.a   = glbl.moving_f
-    $"../UI/Arrow".offset.x     = ( glbl.moving_f * 60 ) + 68
+    $"../UI/Arrow".position     = Global.head_canvas_pos
+    $"../UI/Arrow".modulate.a   = Global.moving_f
+    $"../UI/Arrow".offset.x     = ( Global.moving_f * 60 ) + 68
 
 
-    $"../UI/AttackIndicator".position = glbl.head_canvas_pos - $"../UI/AttackIndicator".size / 2
-    $"../UI/AttackCooldown".position = glbl.head_canvas_pos - $"../UI/AttackCooldown".size / 2
+    $"../UI/AttackIndicator".position = Global.head_canvas_pos - $"../UI/AttackIndicator".size / 2
+    $"../UI/AttackCooldown".position = Global.head_canvas_pos - $"../UI/AttackCooldown".size / 2
 
 
     $FaceObstacle.look_at(get_global_mouse_position())
-    glbl.allow_move = !$FaceObstacle.is_colliding()
+    Global.allow_move = !$FaceObstacle.is_colliding()
     $"../UI/FaceObstacleIcon".visible = $FaceObstacle.is_colliding()
     if $FaceObstacle.is_colliding(): if Input.is_action_just_pressed( "Move" ):
             $"FaceObstacle-Pos".global_position = $FaceObstacle.get_collision_point()
@@ -132,7 +132,7 @@ func _physics_process( delta ) -> void:
 
     if !attacking:
         velo = (
-            ( float( glbl.moving_f ) *
+            ( float( Global.moving_f ) *
             ( ( speed ) * global_position.direction_to( get_global_mouse_position() ) ) )
         )
         velocity = velo
@@ -144,7 +144,7 @@ func _physics_process( delta ) -> void:
         velo            = attack_speed * attack_dir
         collision       = move_and_collide( velo )
 
-        attack_pos[ 1 ] = glbl.head_pos
+        attack_pos[ 1 ] = Global.head_pos
 
         if collision != null:
             velo = velo.bounce( collision.get_normal() )
@@ -160,23 +160,18 @@ func _physics_process( delta ) -> void:
 
         velo = clamp( velo, Vector2.ZERO, attack_speed * attack_dir )
 
-    if glbl.moving_f > 0 and !attacking: self.look_at( get_global_mouse_position() )
+    if Global.moving_f > 0 and !attacking: self.look_at( get_global_mouse_position() )
 
     $"../UI/AttackCooldown".visible = ( $AttackCooldown.time_left > 0 )
-    glbl.attacking = attacking
+    Global.attacking = attacking
 
 func shake_cam() -> void:
     cam.shake_start(
         ( attack_strength / 4 ) + 15, #15 + ( 25 * ( attack_strength / 100 ) ),
         0.95,
         ( ( 2 * attack_strength ) / 25 ) + 16 ) #16 + 8 * ( attack_strength / 100 ) )
-    glbl.emit_signal("camera_shaken_by_player")
-#    shake_started()
+    Global.emit_signal("camera_shaken_by_player")
 
-#func shake_started() -> void:
-#    glbl.is_shake_by_player = true
-#func shake_finished() -> void:
-#    glbl.is_shake_by_player = false
 
 func reset_atk_dmg() -> void:
     open_mouth( 0 )
@@ -193,7 +188,7 @@ func damage_player( power : float ) -> void: if !invincible:
         power * 1.25 ) * 1.0 if !attacking else 0.0
 
 #    print("DamagePlayer: " + str( power_total ) )
-    glbl.health -= power_total
+    Global.health -= power_total
     $"../Body/Lights/AnimationPlayer/Hit".play( "Hit" )
 #    $"../Body/AnimationPlayer/Hit".play("Hit")
 #    $"../UI/Control/HealthBar/AnimationPlayer".play("Visible")
@@ -201,11 +196,11 @@ func damage_player( power : float ) -> void: if !invincible:
 func monitor_var() -> void:
     $"../DBG/VBoxContainer".data = [
         "fps",              Engine.get_frames_per_second(),
-        "body length",      round(glbl.worm_length),
-        "head pos",         glbl.head_pos.round(),
-        "moving",           glbl.moving,
-        "attacking",        glbl.attacking,
-        "health",           round(glbl.health),
+        "body length",      round(Global.worm_length),
+        "head pos",         Global.head_pos.round(),
+        "moving",           Global.moving,
+        "attacking",        Global.attacking,
+        "health",           round(Global.health),
         ]
 
 

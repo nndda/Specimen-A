@@ -15,7 +15,7 @@ var init_pos : Vector2
 
 func _ready():
 
-#	if get_parent() != glbl.layer_dict["Objects/Particles"]:
+#	if get_parent() != Global.layer_dict["Objects/Particles"]:
 #		$VisibleOnScreenEnabler2D.queue_free()
     self.show()
 

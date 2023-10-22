@@ -7,7 +7,7 @@ extends Node2D
 
 @export_node_path("CanvasLayer") var top_layer : NodePath
 
-@onready var max_scale : float = glbl.top_scale
+@onready var max_scale : float = Global.top_scale
 
 signal layers_generated
 
@@ -32,12 +32,15 @@ func generate_layers() -> void:
         map_layer.modulate              = Color.WHITE
 
 
-        if n != 0:
-            map_layer.tile_set.set_physics_layer_collision_layer( 0, 0 )
-            map_layer.tile_set.set_physics_layer_collision_mask( 0, 0 )
-        else:
-            map_layer.tile_set.set_physics_layer_collision_layer( 0, 1 )
-            map_layer.tile_set.set_physics_layer_collision_mask( 0, 1 )
+#        if n != 0:
+#            map_layer.tile_set.set_physics_layer_collision_layer( 0, 0 )
+#            map_layer.tile_set.set_physics_layer_collision_mask( 0, 0 )
+#        else:
+#            map_layer.tile_set.set_physics_layer_collision_layer( 0, 1 )
+#            map_layer.tile_set.set_physics_layer_collision_mask( 0, 1 )
+        
+        map_layer.tile_set.set_physics_layer_collision_layer( 0, int( bool( n ) ) )
+        map_layer.tile_set.set_physics_layer_collision_mask( 0, int( bool( n ) ) )
 
         map_layer.tile_set.set_occlusion_layer_light_mask( 0, 0 )
 
@@ -50,7 +53,7 @@ func generate_layers() -> void:
             map_decor_layer.tile_set        = get_node( map_decor ).tile_set.duplicate(true)
 
             if n == 0:
-                printt( "", map_decor_layer.tile_set.get_physics_layers_count(),map_decor_layer.tile_set.get_occlusion_layers_count(), )
+#                printt( "", map_decor_layer.tile_set.get_physics_layers_count(),map_decor_layer.tile_set.get_occlusion_layers_count(), )
                 map_decor_layer.tile_set.set_physics_layer_collision_layer( 0, 1 )
                 map_decor_layer.tile_set.set_physics_layer_collision_mask( 0, 1 )
                 map_decor_layer.tile_set.set_occlusion_layer_light_mask( 0, 1 )
