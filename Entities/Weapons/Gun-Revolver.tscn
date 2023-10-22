@@ -1,0 +1,76 @@
+[gd_scene load_steps=4 format=3 uid="uid://64rnsxgvlnye"]
+
+[ext_resource type="PackedScene" uid="uid://d35rqaqdqkt6x" path="res://Entities/Weapons/Gun-rifle.tscn" id="1_3jml5"]
+
+[sub_resource type="Animation" id="Animation_fdmf3"]
+resource_name = "Firing"
+length = 0.325
+step = 0.025
+tracks/0/type = "method"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"values": [{
+"args": [],
+"method": &"fire"
+}]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("../Muzzle:energy")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.025, 0.075),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [1.5, 0.0, 0.0]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("../Muzzle/Flash:energy")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0, 0.05, 0.075),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [2.0, 0.0, 0.0]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("../BulletPath:modulate")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0, 0.075),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 1), Color(1, 1, 1, 0.647059)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_fb2tj"]
+_data = {
+"Firing": SubResource("Animation_fdmf3")
+}
+
+[node name="Gun-Revolver" instance=ExtResource("1_3jml5")]
+
+[node name="FireFunction" parent="." index="1"]
+animation_player_ = NodePath("Revolver")
+
+[node name="Revolver" type="AnimationPlayer" parent="FireFunction" index="1"]
+libraries = {
+"": SubResource("AnimationLibrary_fb2tj")
+}
+
+[node name="Light" parent="." index="2"]
+texture_scale = 1.8
