@@ -28,9 +28,7 @@ func generate_layers() -> void:
         layer.follow_viewport_enabled   = true
         layer.follow_viewport_scale     = remap( n, 0, depth - 1, 1.0, max_scale )
 
-#        map_layer.tile_set              = map_layer.tile_set.duplicate()
         map_layer.tile_set              = get_node( map ).tile_set.duplicate(true)
-#        map_layer.tile_set              = map_tile_set
         map_layer.modulate              = Color.WHITE
 
 
@@ -49,9 +47,7 @@ func generate_layers() -> void:
 
         if n < depth - 2:
             var map_decor_layer : TileMap   = get_node( map_decor ).duplicate()
-#            map_decor_layer.tile_set        = map_decor_layer.tile_set.duplicate()
             map_decor_layer.tile_set        = get_node( map_decor ).tile_set.duplicate(true)
-#            map_decor_layer.tile_set        = map_decor_tile_set
 
             if n == 0:
                 printt( "", map_decor_layer.tile_set.get_physics_layers_count(),map_decor_layer.tile_set.get_occlusion_layers_count(), )
@@ -68,9 +64,7 @@ func generate_layers() -> void:
             if n == depth - 3:
                 var map_decor_light_layer : TileMap = get_node( map_decor_light ).duplicate()
 
-#                map_decor_light_layer.tile_set = map_decor_light_layer.tile_set.duplicate()
                 map_decor_light_layer.tile_set = get_node( map_decor_light ).tile_set.duplicate(true)
-#                map_decor_light_layer.tile_set = map_decor_light_tile_set
                 layer.call_deferred( "add_child", map_decor_light_layer )
                 map_decor_layer.material = load("res://Shaders/Materials/Add.CanvasItemMaterial.tres")
 
@@ -92,4 +86,3 @@ func generate_layers() -> void:
     for f in [ map, map_decor, map_decor_light ]: get_node( f ).queue_free()
 
     emit_signal("layers_generated")
-#    self.queue_free()
