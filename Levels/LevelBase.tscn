@@ -1,0 +1,61 @@
+[gd_scene load_steps=6 format=3 uid="uid://btklfuqmrtree"]
+
+[ext_resource type="Script" path="res://Levels/LevelHandler.gd" id="1_sic2w"]
+[ext_resource type="PackedScene" uid="uid://qpqkkwm1xinu" path="res://Worlds/Tilesets/Tileset.tscn" id="2_04a13"]
+[ext_resource type="Material" uid="uid://ud64atwxfe5s" path="res://Shaders/Materials/Add-Unshaded.CanvasItemMaterial.tres" id="3_v8kfu"]
+[ext_resource type="Script" path="res://Scripts/Pseudo3DGenerator.gd" id="4_sovdr"]
+[ext_resource type="PackedScene" uid="uid://mjd5n5bhhtyf" path="res://Player/Player.tscn" id="11_unoct"]
+
+[node name="LevelBase" type="Node2D"]
+script = ExtResource("1_sic2w")
+pseudo_3d_generator = NodePath("Pseudo3DGenerator")
+
+[node name="TileFloor" parent="." instance=ExtResource("2_04a13")]
+
+[node name="TileDecor" parent="." instance=ExtResource("2_04a13")]
+
+[node name="TileDecor_L" parent="." instance=ExtResource("2_04a13")]
+material = ExtResource("3_v8kfu")
+
+[node name="TileWall" parent="." instance=ExtResource("2_04a13")]
+modulate = Color(0.956863, 0.619608, 0.113725, 1)
+collision_visibility_mode = 2
+navigation_visibility_mode = 2
+
+[node name="Pseudo3DGenerator" type="Node2D" parent="."]
+script = ExtResource("4_sovdr")
+map = NodePath("../TileWall")
+map_decor = NodePath("../TileDecor")
+map_decor_light = NodePath("../TileDecor_L")
+top_layer = NodePath("../TopLayer")
+
+[node name="Objects" type="Node2D" parent="."]
+
+[node name="Lights" type="Node2D" parent="Objects"]
+
+[node name="Corpses" type="Node2D" parent="Objects"]
+
+[node name="Particles" type="Node2D" parent="Objects"]
+
+[node name="Decors" type="Node2D" parent="Objects"]
+
+[node name="Statics" type="Node2D" parent="Objects"]
+
+[node name="Destructibles" type="Node2D" parent="Objects"]
+
+[node name="Player" parent="." instance=ExtResource("11_unoct")]
+rotation = 1.57079
+
+[node name="Objects+1" type="Node2D" parent="."]
+
+[node name="Decors" type="Node2D" parent="Objects+1"]
+
+[node name="Entities" type="Node2D" parent="."]
+
+[node name="TopLayer" type="CanvasLayer" parent="."]
+follow_viewport_enabled = true
+
+[node name="Tile" parent="TopLayer" instance=ExtResource("2_04a13")]
+modulate = Color(1, 0, 0, 1)
+
+[node name="Tile" parent="TopLayer/Tile" instance=ExtResource("2_04a13")]
