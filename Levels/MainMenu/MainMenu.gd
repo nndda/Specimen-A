@@ -14,7 +14,7 @@ extends Node2D
 @export_node_path( "BaseButton", "Slider" ) var bgm         : NodePath
 
 func _ready() -> void:
-    glbl.current_scene = self
+    Global.current_scene = self
     cam.enabled = false
     $Camera2D.enabled = true
 #	cam.global_position = $Camera2D.global_position
