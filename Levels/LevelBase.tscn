@@ -59,3 +59,8 @@ follow_viewport_enabled = true
 modulate = Color(1, 0, 0, 1)
 
 [node name="Tile" parent="TopLayer/Tile" instance=ExtResource("2_04a13")]
+
+[node name="TopLayer+1" type="CanvasLayer" parent="."]
+
+[node name="Tile" parent="TopLayer+1" instance=ExtResource("2_04a13")]
+modulate = Color(1, 0, 0, 1)
