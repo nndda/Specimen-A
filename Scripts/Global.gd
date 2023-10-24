@@ -18,7 +18,9 @@ func update_layers() -> void:
 var current_objects     : Array
 var top_scale           : float = 1.1
 
-var allow_move          : bool = true
+var player              : Node2D
+
+#var allow_move          : bool = true
 var moving              : bool
 var moving_f            : float
 
@@ -27,7 +29,7 @@ var attacking           : bool
 var head_pos            : Vector2
 var head_canvas_pos     : Vector2
 
-var worm_segment_max    : int = 56
+var worm_segment_max    : int = 34
 var worm_length         : float
 var worm_length_array   : Array[float]
 
@@ -53,8 +55,8 @@ var acid                : int = 0
 
 
 
-func sum_array( array : Array[ float ] ) -> float:
-    var t = 0.0
+func sum_array( array : PackedFloat32Array ) -> float:
+    var t : float = 0.0
     for n in array: t += n
     return t
 
@@ -73,16 +75,17 @@ func _process( _delta ) -> void:
 
     health = clamp( health, 0.0, 100.0 )
 
-    if allow_move: moving = true if (
-        Input.is_action_pressed( "Move" )
-        ) else false
-    else: moving = false
+#    if player != null:
+#        if player.allow_move: moving = true if (
+#            Input.is_action_pressed( "Move" )
+#            ) else false
+#        else: moving = false
+#
+#    if moving: moving_f += 0.1
+#    else: moving_f -= 0.085
+#
+#    moving_f = clamp( moving_f, 0.0,
+#    float( head_pos.distance_to(
+#        get_global_mouse_position() ) >= 25 ) )
 
-    if moving: moving_f += 0.1
-    else: moving_f -= 0.085
-
-    moving_f = clamp( moving_f, 0.0,
-    float( head_pos.distance_to(
-        get_global_mouse_position() ) >= 25 ) )
-
-    worm_length = sum_array( worm_length_array )
+#    worm_length = sum_array( worm_length_array )

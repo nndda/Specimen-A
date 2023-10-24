@@ -321,7 +321,7 @@ offset_bottom = 200.0
 
 [node name="Body" type="Line2D" parent="."]
 light_mask = 1025
-points = PackedVector2Array(-184, 0, -152, 0, -128, 8, -112, 0, -88, 0, -72, 8, -56, -8, -40, -16, -24, -8, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0)
+points = PackedVector2Array(-184, 0, -152, 0, -128, 8, -112, 0, -88, 0, -72, 8, -56, -8, -40, -16, -24, -8, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0)
 width = 28.0
 width_curve = ExtResource("1_8mgss")
 default_color = Color(0.611765, 0.341176, 0.341176, 1)
@@ -519,7 +519,6 @@ offset_right = 216.0
 offset_bottom = 248.0
 script = ExtResource("16_u7job")
 
-[connection signal="tree_entered" from="Body/Lights" to="Body" method="_on_Lights_tree_entered"]
 [connection signal="animation_finished" from="Body/Lights/AnimationPlayer/Hit" to="Body" method="_on_Hit_animation_finished"]
 [connection signal="animation_started" from="Body/Lights/AnimationPlayer/Hit" to="Body" method="_on_Hit_animation_started"]
 [connection signal="timeout" from="Head/AttackCooldown" to="Head" method="_on_AttackCooldown_timeout"]

@@ -1,6 +1,18 @@
 extends Line2D
 
+@onready var head : CharacterBody2D = $"../Head"
 @onready var damage_area : Object = $"../DamageCollision"
+
+var body_segment_max : int = 34
+var body_segment_length_arr : PackedFloat32Array = []
+
+@onready var collision_segments : Array[Node] = []
+@onready var collision_segments_shape : Array[SegmentShape2D] = []
+
+@onready var lights_path : Path2D = $Lights
+@onready var lights_anim : AnimationPlayer = $Lights/AnimationPlayer
+
+
 func InitCollisionShape() -> void:
     for sgmnt in get_point_count() - 2:
         var shape_node : CollisionShape2D = CollisionShape2D.new()
@@ -11,35 +23,44 @@ func InitCollisionShape() -> void:
 
         shape_node.shape = shape
         damage_area.add_child( shape_node )
+        collision_segments.append( shape_node )
+        collision_segments_shape.append( shape )
+
+#    collision_segments = damage_area.get_children()
+#    for shape in collision_segments:
+#        collision_segments_shape.append( shape.shape )
+    
+#    for n in body_segment_max - 2:
+#        print( "collision_segments_shape[ " + str(n) + " ].a = points[ " + str(n) + " ]" )
 
 func UpdateCollisionShape() -> void:
-    if Global.moving or $"../Head".attacking:
-        for sgmnt in Global.worm_segment_max - 2:
-            damage_area.get_child( sgmnt ).shape.a = points[ sgmnt ]
-            damage_area.get_child( sgmnt ).shape.b = points[ sgmnt + 1 ]
+#    if head.moving or head.attacking:
+        for segment in body_segment_max - 2:
+            collision_segments_shape[ segment ].a = points[ segment ]
+            collision_segments_shape[ segment ].b = points[ segment + 1 ]
 
 
 func UpdateWormLength() -> void:
     var sgmnt_count : int = get_point_count()
     for sgmnt in sgmnt_count - 1:
-        if Global.worm_length_array.size() <= sgmnt:
-            Global.worm_length_array.append(
+        if body_segment_length_arr.size() <= sgmnt:
+            body_segment_length_arr.append(
             points[ sgmnt ].distance_to(
             points[ wrapi( sgmnt, 0, sgmnt_count ) + 1 ] )
             )
         else:
-            Global.worm_length_array[ sgmnt ] = (
+            body_segment_length_arr[ sgmnt ] = (
             points[ sgmnt ].distance_to(
             points[ wrapi( sgmnt, 0, sgmnt_count ) + 1 ] )
             )
 
 
-func UpdateLightPath() -> void: if $Lights.visible:
+func UpdateLightPath() -> void: if lights_path.visible:
     for n in get_point_count() - 1 :
-        $Lights.curve.set_point_position(
+        lights_path.curve.set_point_position(
         ( get_point_count() - 2) - n, points[ n ] )
-    if Global.moving and !$Lights/AnimationPlayer.is_playing():
-        $Lights/AnimationPlayer.play( "Idle" )
+    if head.moving and !lights_anim.is_playing():
+        lights_anim.play( "Idle" )
 
 var health_bar_offsets : PackedFloat32Array = [ 0.02, 0.04 ]
 
@@ -63,24 +84,31 @@ func UpdateHealthUI() -> void: if health_bar.visible:
 #        health_bar.gradient.offsets[2] = health_bar_offsets[1]
 
 
-func _on_Lights_tree_entered() -> void:
-    $Lights.curve.clear_points()
-    for n in Global.worm_segment_max:
-        $Lights.curve.add_point( Vector2.ZERO )
+#func _on_Lights_tree_entered() -> void:
+#    lights_path.curve.clear_points()
+#    for n in body_segment_max:
+#        lights_path.curve.add_point( Vector2.ZERO )
+
 #func _on_Lights_ready():
-#    $Lights/AnimationPlayer.play("Idle")
-func _ready() -> void: InitCollisionShape()
+#    lights_anim.play("Idle")
+func _ready() -> void:
+    InitCollisionShape()
+    
+    lights_path.curve.clear_points()
+    for n in body_segment_max:
+        lights_path.curve.add_point( Vector2.ZERO )
+
 #    $"../HealthUI".clear_points()
 
 
 
 func _process( _delta ) -> void:
 
-    if Global.cfg.always_show_health_bar: health_bar.visible = true
+#    if Global.cfg.always_show_health_bar: health_bar.visible = true
 #    else:
 #        health_bar.visible = $AnimationPlayer/Hit.current_animation == "Hit"
 
-    $Lights.visible = !Global.cfg.optimal_graphic
+#    $Lights.visible = !Global.cfg.optimal_graphic
 
 
 #    $"../UI/LowHealthOverlay".modulate.a = remap(
@@ -91,22 +119,23 @@ func _process( _delta ) -> void:
 #        Global.health, 50.0, 0.0, 0.8, 1.5 )
 
 
-    UpdateWormLength()
-    UpdateCollisionShape()
-    UpdateLightPath()
+    if head.moving or head.attacking:
+#        UpdateWormLength()
+        UpdateCollisionShape()
+        UpdateLightPath()
 #	UpdateHealthUI()
 
 func _physics_process( _delta ) -> void:
 
     if get_point_count() > Global.worm_segment_max:
-        if Global.moving_f > 0 or $"../Head".attacking:
+        if head.moving_f > 0 or head.attacking:
             remove_point( 0 )
     else:
-        if Global.moving_f > 0 or $"../Head".attacking:
-            add_point( $"../Head".position )
+        if head.moving_f > 0 or head.attacking:
+            add_point( head.position )
 
 func _on_Hit_animation_started( anim_name ) -> void:
-    if anim_name == "Hit": $"../Head".invincible = true
+    if anim_name == "Hit": head.invincible = true
 #        print("Hit started")
 #        health_bar.visible = true
 #        health_bar.modulate.a = 1.0
@@ -114,7 +143,7 @@ func _on_Hit_animation_started( anim_name ) -> void:
 func _on_Hit_animation_finished( anim_name ) -> void:
     if anim_name == "Hit":
 #        print("Hit finished")
-        $"../Head".invincible = false
+        head.invincible = false
 #        $AnimationPlayer/Hit.play("FadeOutHealthBar")
 
     if anim_name == "FadeOutHealthBar":
