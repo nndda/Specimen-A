@@ -1,113 +1,70 @@
 extends Polygon2D
 
-# apology for this absolute abomination of a script, ill try to clean n optimize it
-
 # create a sprite, convert to polygon2d, n then attach this script
 
 enum SkewDirection { RIGHT, DOWN, LEFT, UP }
 @export var direction : SkewDirection = SkewDirection.UP
-#export(SkewDirection) var direction = SkewDirection.UP
 
-func get_direction( id ) -> Vector2:
-    return Vector2(
-    cos( remap( float( id ), 0,4, 0, TAU ) ),
-    sin( remap( float( id ), 0,4, 0, TAU ) )
+var canvas_rel : Vector2
+var canvas_pos : Vector2
+var texture_rel : PackedVector2Array
+var texture_size : Vector2
+var texture_dir : Vector2
+var polygon_idx : Vector2i
+
+func get_polygon_idx( vec_dir : Vector2i ) -> Vector2i:
+    var rad : float = atan2( vec_dir.y, vec_dir.x )
+    var idx : int = int( remap( rad, -PI * 0.5, PI, 0, 3 ) )
+    return Vector2i(
+        wrapi( idx, 0, 4 ),
+        wrapi( idx + 1, 0, 4 )
     )
 
-@onready var top_scale : float = Global.top_scale
+func _ready() -> void:
 
-func get_canvas_pos() -> Vector2: return (
-( get_global_transform_with_canvas().origin * 2 ) /
-get_viewport_rect().size ) - Vector2.ONE
-#var running = false
+    texture_size = texture.get_size()
+
+    match direction:
+        SkewDirection.UP:   # 0,    0, -1
+            texture_dir = Vector2.UP * texture_size
+            texture_rel = [
+                ( texture_size * 0.5 ) * Vector2( 1, 1 ),
+                ( texture_size * 0.5 ) * Vector2( -1, 1 ),
+            ]
+            
+        SkewDirection.RIGHT:   # 1,    1, 0
+            texture_dir = Vector2.RIGHT * texture_size
+            texture_rel = [
+                ( texture_size * 0.5 ) * Vector2( -1, 1 ),
+                ( texture_size * -0.5 ) * Vector2( 1, 1 ),
+            ]
+
+        SkewDirection.DOWN:   # 2,    0, -1
+            texture_dir = Vector2.DOWN * texture_size
+            texture_rel = [
+                ( texture_size * -0.5 ) * Vector2( 1, 1 ),
+                ( texture_size * 0.5 ) * Vector2( 1, -1 ),
+            ]
+
+        SkewDirection.LEFT:   # 3,    -1, 0
+            texture_dir = Vector2.LEFT * texture_size
+            texture_rel = [
+                ( texture_size * 0.5 ) * Vector2( 1, -1 ),
+                ( texture_size * 0.5 ) * Vector2( 1, 1 ),
+            ]
+
+    polygon_idx = get_polygon_idx( texture_dir.sign() )
+
 func _process( _delta ) -> void:
 
-    if visible:
-        match direction:
+    canvas_pos = ( ( \
+        get_global_transform_with_canvas().origin * 2 ) /\
+        get_viewport_rect().size ) - Vector2.ONE
 
-            SkewDirection.UP:
-    #===================================================================================================
-    #           UP   0, -1
-                #Bottom-Right
-                polygon[0] = (
-                    ( position + ( texture.get_size() / 2.0 ) )
-                    +
-                    Vector2( 0, -texture.get_height() )
-                    +
-                    ( get_canvas_pos() * texture.get_size() ) + ( get_canvas_pos() * Global.top_scale )
-                    )
-                # Bottom-Left
-                polygon[1] = (
-                    ( position + ( Vector2( -texture.get_width(), texture.get_height() ) / 2.0) )
-                    +
-                    Vector2( 0, -texture.get_height() )
-                    +
-                    ( get_canvas_pos() * texture.get_size() ) + ( get_canvas_pos() * Global.top_scale )
-                    )
+    canvas_rel =\
+        texture_dir +\
+        ( canvas_pos * texture_size ) +\
+        ( canvas_pos * Global.top_scale )
 
-
-
-
-            SkewDirection.DOWN:
-    #===================================================================================================
-    #           DOWN   0, 1
-                # Top-Left
-                polygon[2] = (
-                    ( position + ( texture.get_size() / -2.0 ) )
-                    +
-                    Vector2( 0, texture.get_height() )
-                    +
-                    ( get_canvas_pos() * texture.get_size() ) + ( get_canvas_pos() * Global.top_scale )
-                    )
-                #Top-Right
-                polygon[3] = (
-                    ( position + ( Vector2( texture.get_width(), -texture.get_height() ) / 2.0 ) )
-                    +
-                    Vector2( 0, texture.get_height() )
-                    +
-                    ( get_canvas_pos() * texture.get_size() ) + ( get_canvas_pos() * Global.top_scale )
-                    )
-
-
-
-            SkewDirection.LEFT:
-    #===================================================================================================
-    #           LEFT   -1, 0
-                #Bottom-Right
-                polygon[0] = (
-                    ( position + ( texture.get_size() / 2.0 ) )
-                    +
-                    Vector2( -texture.get_width(), 0 )
-                    +
-                    ( get_canvas_pos() * texture.get_size() ) + ( get_canvas_pos() * Global.top_scale )
-                    )
-                #Top-Right
-                polygon[3] = (
-                    ( position + ( Vector2( texture.get_width(), -texture.get_height() ) / 2.0 ) )
-                    +
-                    Vector2( -texture.get_width(), 0 )
-                    +
-                    ( get_canvas_pos() * texture.get_size() ) + ( get_canvas_pos() * Global.top_scale )
-                    )
-
-
-
-            SkewDirection.RIGHT:
-    #===================================================================================================
-    #           RIGHT   1, 0
-                # Bottom-Left
-                polygon[1] = (
-                    ( position + ( Vector2( -texture.get_width(), texture.get_height() ) / 2.0) )
-                    +
-                    Vector2( texture.get_width(), 0 )
-                    +
-                    ( get_canvas_pos() * texture.get_size() ) + ( get_canvas_pos() * Global.top_scale )
-                    )
-                # Top-Left
-                polygon[2] = (
-                    ( position + ( texture.get_size() / -2.0 ) )
-                    +
-                    Vector2( texture.get_width(), 0 )
-                    +
-                    ( get_canvas_pos() * texture.get_size() ) + ( get_canvas_pos() * Global.top_scale )
-                    )
+    polygon[ polygon_idx.x ] = canvas_rel + ( position + texture_rel[ 0 ] )
+    polygon[ polygon_idx.y ] = canvas_rel + ( position + texture_rel[ 1 ] )
