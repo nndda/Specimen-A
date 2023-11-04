@@ -19,8 +19,6 @@ material = ExtResource("3_v8kfu")
 
 [node name="TileWall" parent="." instance=ExtResource("2_04a13")]
 modulate = Color(0.956863, 0.619608, 0.113725, 1)
-collision_visibility_mode = 2
-navigation_visibility_mode = 2
 
 [node name="Pseudo3DGenerator" type="Node2D" parent="."]
 script = ExtResource("4_sovdr")
@@ -28,6 +26,7 @@ map = NodePath("../TileWall")
 map_decor = NodePath("../TileDecor")
 map_decor_light = NodePath("../TileDecor_L")
 top_layer = NodePath("../TopLayer")
+top_layer_2 = NodePath("../TopLayer+1")
 
 [node name="Objects" type="Node2D" parent="."]
 
