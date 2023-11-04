@@ -127,7 +127,7 @@ func _process( _delta ) -> void:
 
 func _physics_process( _delta ) -> void:
 
-    if get_point_count() > Global.worm_segment_max:
+    if get_point_count() > body_segment_max:
         if head.moving_f > 0 or head.attacking:
             remove_point( 0 )
     else:

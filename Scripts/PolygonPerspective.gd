@@ -5,6 +5,7 @@ extends Polygon2D
 enum SkewDirection { RIGHT, DOWN, LEFT, UP }
 @export var direction : SkewDirection = SkewDirection.UP
 
+@onready var viewport_rect_size : Vector2 = get_viewport_rect().size
 var canvas_rel : Vector2
 var canvas_pos : Vector2
 var texture_rel : PackedVector2Array
@@ -55,11 +56,11 @@ func _ready() -> void:
 
     polygon_idx = get_polygon_idx( texture_dir.sign() )
 
-func _process( _delta ) -> void:
+func _process( _delta ) -> void: if visible:
 
     canvas_pos = ( ( \
         get_global_transform_with_canvas().origin * 2 ) /\
-        get_viewport_rect().size ) - Vector2.ONE
+        viewport_rect_size ) - Vector2.ONE
 
     canvas_rel =\
         texture_dir +\

@@ -23,6 +23,7 @@ var attack_pos : PackedVector2Array = [ Vector2.ZERO, Vector2.ZERO ]
 
 var mouse_global_pos : Vector2
 var mouse_viewport_pos : Vector2
+var canvas_position : Vector2
 
 @onready var attack_cooldown_timer : Timer = $AttackCooldown
 
@@ -68,7 +69,7 @@ func attack_handler() -> void:
                 open_mouth( float( attack_out ) * 0.01 )
                 if Input.is_action_pressed( "Attack" ):
                     ui_arrow.look_at( mouse_viewport_pos )
-                    ui_arrow.position     = Global.head_canvas_pos
+                    ui_arrow.position     = canvas_position
                     ui_arrow.modulate.a   = float( attack_out ) * 0.01
                     ui_arrow.offset.x     = ( ( 3 * float( attack_out ) ) * 0.2 ) + 68
                     raycast_obstacle.look_at( mouse_global_pos )
@@ -114,6 +115,8 @@ func _process( delta ) -> void:
     monitor_var()
     mouse_global_pos = get_global_mouse_position()
     mouse_viewport_pos = get_viewport().get_mouse_position()
+    
+    canvas_position =  get_global_transform_with_canvas().origin
 
 #    moving = true if ( Input.is_action_pressed( "Move" ) and allow_move ) else false
     if allow_move:
@@ -138,17 +141,16 @@ func _process( delta ) -> void:
 
 
     ui_arrow.look_at( mouse_viewport_pos )
-    ui_arrow.position     = Global.head_canvas_pos
+    ui_arrow.position     = canvas_position
     ui_arrow.modulate.a   = moving_f
     ui_arrow.offset.x     = ( moving_f * 60 ) + 68
 
 
-    ui_attack_indicator.position    = Global.head_canvas_pos - ui_attack_indicator.size * 0.5
-    ui_attack_cooldown.position     = Global.head_canvas_pos - ui_attack_cooldown.size * 0.5
+    ui_attack_indicator.position    = canvas_position - ui_attack_indicator.size * 0.5
+    ui_attack_cooldown.position     = canvas_position - ui_attack_cooldown.size * 0.5
 
 
     raycast_obstacle.look_at( mouse_global_pos )
-#    Global.allow_move = !raycast_obstacle.is_colliding()
     ui_obstacle.visible = !allow_move
 
     if raycast_obstacle.is_colliding():
@@ -165,9 +167,7 @@ var attack_velo : Vector2
 var collision : KinematicCollision2D
 func _physics_process( delta ) -> void:
 
-    attack_distance_max = 6.4 * attack_strength #( 12.0 * 32.0 ) * ( attack_strength / 60 )
     area_destroy_through.monitoring = attacking
-    
     allow_move = !raycast_obstacle.is_colliding()
 
     if !attacking:
@@ -181,6 +181,7 @@ func _physics_process( delta ) -> void:
 #        if area_shake.monitorable: shake_finished()
 
     else:
+        attack_distance_max = 6.4 * attack_strength #( 12.0 * 32.0 ) * ( attack_strength / 60 )
         velo            = attack_speed * attack_dir
         collision       = move_and_collide( velo )
 
@@ -200,7 +201,8 @@ func _physics_process( delta ) -> void:
 
         velo = clamp( velo, Vector2.ZERO, attack_speed * attack_dir )
 
-    if moving_f > 0 and !attacking: self.look_at( mouse_global_pos )
+    if moving_f > 0 and !attacking:
+        self.look_at( mouse_global_pos )
 
     ui_attack_cooldown.visible = ( attack_cooldown_timer.time_left > 0 )
     Global.attacking = attacking
