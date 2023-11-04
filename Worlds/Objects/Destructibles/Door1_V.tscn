@@ -1,0 +1,54 @@
+[gd_scene load_steps=6 format=3 uid="uid://diomoc1uvn8gh"]
+
+[ext_resource type="Texture2D" uid="uid://dib0atgcudfwa" path="res://Worlds/Objects/Destructibles/Door1R.png" id="1_6lhle"]
+[ext_resource type="Script" path="res://Scripts/PolygonPerspective.gd" id="2_nq1al"]
+[ext_resource type="Script" path="res://Worlds/Objects/Destructibles/DestructiblesBody.gd" id="3_aurhh"]
+[ext_resource type="PackedScene" uid="uid://bn801wox8wl0f" path="res://Scripts/VisibilityHandler.tscn" id="4_mqxrw"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_ucthy"]
+size = Vector2(64, 32)
+
+[node name="Door1_H" type="Node2D"]
+
+[node name="Sprite2D-1" type="Polygon2D" parent="."]
+position = Vector2(8, 0)
+texture = ExtResource("1_6lhle")
+polygon = PackedVector2Array(16, 32, -16, 32, -16, -32, 16, -32)
+uv = PackedVector2Array(32, 64, 0, 64, 0, 0, 32, 0)
+polygons = [PackedInt32Array(0, 1, 2, 3)]
+script = ExtResource("2_nq1al")
+direction = 2
+
+[node name="Sprite2D-2" type="Polygon2D" parent="."]
+position = Vector2(-8, 0)
+texture = ExtResource("1_6lhle")
+polygon = PackedVector2Array(16, 32, -16, 32, -16, -32, 16, -32)
+uv = PackedVector2Array(32, 64, 0, 64, 0, 0, 32, 0)
+polygons = [PackedInt32Array(0, 1, 2, 3)]
+script = ExtResource("2_nq1al")
+direction = 0
+
+[node name="DestructiblesBody" type="StaticBody2D" parent="."]
+script = ExtResource("3_aurhh")
+particles_scene = "res://Shaders/Particles/GlassShards.tscn"
+root_node = NodePath("..")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="DestructiblesBody"]
+rotation = -1.57079
+shape = SubResource("RectangleShape2D_ucthy")
+
+[node name="FreeTimer" type="Timer" parent="."]
+wait_time = 3.0
+one_shot = true
+
+[node name="VisibilityHandler" parent="." instance=ExtResource("4_mqxrw")]
+set_process_mode = 4
+
+[node name="VisibleOnScreenEnabler2D" parent="VisibilityHandler" index="0"]
+position = Vector2(-1.90735e-06, 0)
+rotation = -1.57079
+scale = Vector2(4, 3.2)
+
+[connection signal="timeout" from="FreeTimer" to="DestructiblesBody" method="_on_free_timer_timeout"]
+
+[editable path="VisibilityHandler"]
