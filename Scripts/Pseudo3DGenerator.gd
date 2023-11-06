@@ -10,13 +10,11 @@ extends Node2D
 
 @onready var max_scale : float = Global.top_scale
 
-#@onready var tile_set : TileSet = preload( "res://Worlds/Tilesets/Tileset.map.tres" )
+var maps : Dictionary = {}
+
+@onready var tile_set : TileSet = preload( "res://Worlds/Tilesets/Tileset.map.tres" )
 
 signal layers_generated
-
-func duplicate_tileset( target : TileMap, copy : TileMap ) -> void: target.\
-    call_deferred( "set_tileset", copy.tile_set.\
-    call_deferred( "duplicate", true ) )
 
 func generate_layers() -> void:
     
@@ -36,33 +34,44 @@ func generate_layers() -> void:
         layer.follow_viewport_enabled   = true
         layer.follow_viewport_scale     = remap( n, 0, depth - 1, 1.0, max_scale )
 
-        map_layer.tile_set              = get_node( map ).tile_set.duplicate( true )
+#        map_layer.tile_set              = get_node( map ).tile_set.duplicate( true )
+        map_layer.tile_set              = tile_set.duplicate( true )
         map_layer.modulate              = Color.WHITE
 
         map_layer.tile_set.set_physics_layer_collision_layer( 0, int( n != 0 ) )
         map_layer.tile_set.set_physics_layer_collision_mask( 0, int( n != 0 ) )
+        if n == 0: map_layer.tile_set.remove_physics_layer( 0 )
 
         map_layer.tile_set.set_occlusion_layer_light_mask( 0, 0 )
+        if n != 0: map_layer.tile_set.remove_occlusion_layer( 0 )
+
         map_layer.tile_set.set_navigation_layer_layers( 0, int( n == 0 ) )
+        if n != 0: map_layer.tile_set.remove_navigation_layer( 0 )
 
         layer.call_deferred( "add_child", map_layer )
         layer.call_deferred( "add_child", load( "res://Worlds/GlobalModulate.tscn" ).instantiate())
 
 
         if n < depth - 2:
-            var map_decor_layer : TileMap   = get_node( map_decor ).duplicate()
-            map_decor_layer.tile_set        = get_node( map_decor ).tile_set.duplicate( true )
+            var\
+            map_decor_layer : TileMap   = get_node( map_decor ).duplicate()
+#            map_decor_layer.tile_set    = get_node( map_decor ).tile_set.duplicate( true )
+            map_decor_layer.tile_set    = tile_set.duplicate( true )
 
             map_decor_layer.tile_set.set_physics_layer_collision_layer( 0, int( n == 0 ) )
             map_decor_layer.tile_set.set_physics_layer_collision_mask( 0, int( n == 0 ) )
+            if n != 0: map_decor_layer.tile_set.remove_physics_layer( 0 )
+
             map_decor_layer.tile_set.set_occlusion_layer_light_mask( 0, int( n == 0 ) )
+            if n != 0: map_decor_layer.tile_set.remove_occlusion_layer( 0 )
 
             layer.call_deferred( "add_child", map_decor_layer )
 
             if n == depth - 3:
-                var map_decor_light_layer : TileMap = get_node( map_decor_light ).duplicate()
-
-                map_decor_light_layer.tile_set = get_node( map_decor_light ).tile_set.duplicate( true )
+                var\
+                map_decor_light_layer : TileMap = get_node( map_decor_light ).duplicate()
+#                map_decor_light_layer.tile_set  = get_node( map_decor_light ).tile_set.duplicate( true )
+                map_decor_light_layer.tile_set  = tile_set.duplicate( true )
 
                 layer.call_deferred( "add_child", map_decor_light_layer )
                 map_decor_layer.material = load("res://Shaders/Materials/Add.CanvasItemMaterial.tres")
@@ -74,14 +83,17 @@ func generate_layers() -> void:
 #    map_top_layer.tile_set.add_occlusion_layer( 1 )
 
     map_top_layer.tile_set.set_occlusion_layer_light_mask( 0, 1 )
+
     map_top_layer.tile_set.set_physics_layer_collision_layer( 0, 0 )
     map_top_layer.tile_set.set_physics_layer_collision_mask( 0, 0 )
+    map_top_layer.tile_set.remove_physics_layer( 0 )
 
     for tilemap in get_node( top_layer ).get_children():
         if tilemap is TileMap: tilemap.modulate = Color( "#070101" )
 
     get_node( top_layer ).call_deferred( "add_child", map_top_layer )
 
-    for f in [ map, map_decor, map_decor_light ]: get_node( f ).queue_free()
+    for f in [ map, map_decor, map_decor_light ]:
+        get_node( f ).queue_free()
 
     emit_signal("layers_generated")
