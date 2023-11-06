@@ -206,6 +206,7 @@ func _physics_process( delta ) -> void:
 
     ui_attack_cooldown.visible = ( attack_cooldown_timer.time_left > 0 )
     Global.attacking = attacking
+    Global.moving = moving
 
 func shake_cam() -> void:
     cam.shake_start(
