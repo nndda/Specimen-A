@@ -1,23 +1,38 @@
 extends CharacterBody2D
 
-@export var health      : float = 50
-@export var speed       : float = 80.0
+# Base scene for ALL entities
+
+@export var health : float = 50
+@export var speed : float = 80.0
+## Is the entity moving away or approach the player's head
 @export var moving_away : bool = false
-@export var stationary  : bool = false
+## Is the entity able to move
+@export var stationary : bool = false
+## Is the entity immune to any damage (invincible)
+@export var immune : bool = false
+
 #@export_range( 0.0, 1.0 )
 #var rotate_weight      : float = 0.8
 
 @export_group("Nodes")
-@export_node_path("PathFollow2D") var path      : NodePath
-@export_node_path("Area2D") var custom_trigger  : NodePath
-@export_node_path("Node2D") var weapon_node     : NodePath
-@export_node_path("Node2D") var corpse_scene    : NodePath
-@export_file("*.tscn")
-var blood_scene : String = "res://Shaders/Particles/BloodSplatters.tscn"
 
-var weapon      : Object
-var is_triggered   : bool = false
-var firing      : bool = false
+## Designated 'patrol' path for non-stationary entity. Entity will not follow their path once triggered
+@export_node_path("PathFollow2D") var path_ : NodePath; var path : PathFollow2D
+
+## Custom Area2D trigger that will detect player. Replaced the default TriggerArea node
+@export_node_path("Area2D") var custom_trigger_ : NodePath; var custom_trigger : Area2D
+
+## Weapon scene for the entity
+@export_node_path("Node2D") var weapon_node : NodePath; var weapon : Node2D
+
+## The 'death scene' for when the entity is killed or destroyed
+@export_node_path("Node2D") var corpse_scene : NodePath; var corpse : Node2D
+
+## Particle scene for when the entity is attacked or damaged by the player
+@export_file("*.tscn") var blood_scene : String = "res://Shaders/Particles/BloodSplatters.tscn"; var blood : Node
+
+var is_triggered    : bool = false
+var firing          : bool = false
 signal triggered
 signal killed
 
@@ -40,7 +55,10 @@ func get_player_pos() -> Vector2: return Global.head_pos
 
 func _ready() -> void:
 
-    printt( "-", self.get_name(), corpse_scene, global_position )
+    path = get_node_or_null( path_ )
+    custom_trigger = get_node_or_null( custom_trigger_ )
+
+#    printt( "-", self.get_name(), corpse_scene, global_position )
 
     corpse = get_node( corpse_scene )
     corpse.reparent( Global.layer_dict[ "Objects/Corpses" ] )
@@ -54,11 +72,11 @@ func _ready() -> void:
     clear = init_cooldown == 0.0
     $AttackCooldown.wait_time = cooldown
 
-    if get_node_or_null( custom_trigger ) != null:
+    if custom_trigger != null:
         $TriggerArea.queue_free()
-        get_node( custom_trigger ).connect( "body_entered",
-        Callable( self, "_on_TriggerArea_body_entered" ) )
-    else: custom_trigger = NodePath( "TriggerArea" ) # Set default
+        custom_trigger.connect( "body_entered",
+            Callable( self, "_on_TriggerArea_body_entered" ) )
+    else: custom_trigger_ = NodePath( "TriggerArea" ) # Set default
 
     if stationary:
         nav_agent = null
@@ -82,14 +100,14 @@ func _process( _delta ) -> void:
     else:
         if player_near and cam.shaking: is_triggered = true
 
-        if get_node_or_null( path ) != null:
-            global_position = get_node( path ).global_position
-            global_rotation = get_node( path ).global_rotation
+        if path != null:
+            global_position = path.global_position
+            global_rotation = path.global_rotation
 
     if fire_clear:
         weapon.fire()
         fire_ready = false
-    
+
     $VisibilityHandler/VisibleOnScreenEnabler2D.global_position = global_position
 
 func _physics_process( _delta ) -> void : if is_triggered:
@@ -101,12 +119,9 @@ func Weapon_AnimationFinished( anim ) -> void:
     if anim == "Firing": $AttackCooldown.start( cooldown )
 func _on_AttackCooldown_timeout() -> void: fire_ready = true
 
-var blood   : Object
-var corpse  : Object
-
-func damage( power : float ) -> void:
+func damage( power : float ) -> void: if !immune:
     
-    print(self," damaged :", power)
+    print( self," damaged :", power )
 
     if !is_triggered: emit_signal( "triggered" )
     health -= power
@@ -117,12 +132,11 @@ func damage( power : float ) -> void:
         queue_free()
 
     else:
-        blood                   = load( blood_scene ).instantiate()
-        blood.custom_init_pos   = true
-        blood.init_pos          = global_position
-        Global.layer_dict[ "Objects/Particles" ].add_child( blood )
-
-
+        if !(power <= 5.0):
+            blood                   = load( blood_scene ).instantiate()
+            blood.custom_init_pos   = true
+            blood.init_pos          = global_position
+            Global.layer_dict[ "Objects/Particles" ].add_child( blood )
 
 var arrived : bool = false
 func set_target_pos( pos : Vector2 ) -> void:
@@ -167,7 +181,7 @@ func _on_triggered() -> void: if !is_triggered:
 
     for f in [ "GeneralArea", "TriggerArea" ]:
         if get_node_or_null( f ) != null: get_node( f ).queue_free()
-    if get_node_or_null( path ) != null: get_node( path ).queue_free()
+    if path != null: path.queue_free()
     if !stationary: $NavigationAgent2D/UpdatePlayerPos.start()
 
 func _on_general_area_entered( area ) -> void:

@@ -52,6 +52,7 @@ color = Color(0.956863, 0.619608, 0.113725, 1)
 range_layer_min = -1
 shadow_enabled = true
 shadow_color = Color(0, 0, 0, 0.215686)
+shadow_item_cull_mask = 3
 texture = ExtResource("3_7ft35")
 offset = Vector2(0, -4)
 texture_scale = 0.6
@@ -59,6 +60,7 @@ texture_scale = 0.6
 [node name="LightOccluder2D" type="LightOccluder2D" parent="Sprite2D/LightHelmet"]
 self_modulate = Color(1, 1, 1, 0)
 occluder = SubResource("OccluderPolygon2D_wd8f2")
+occluder_light_mask = 2
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 visible = false
@@ -68,10 +70,8 @@ shape = ExtResource("4_yu3yv")
 
 [node name="NavigationAgent2D" type="NavigationAgent2D" parent="."]
 avoidance_enabled = true
-radius = 32.0
+radius = 40.0
 max_neighbors = 5
-debug_enabled = true
-debug_use_custom = true
 debug_path_custom_color = Color(0, 1, 1, 1)
 
 [node name="UpdatePlayerPos" type="Timer" parent="NavigationAgent2D"]
