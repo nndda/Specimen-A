@@ -272,7 +272,7 @@ scale_max = 4.0
 color = Color(1, 0, 0, 1)
 
 [sub_resource type="SeparationRayShape2D" id="SeparationRayShape2D_gdoay"]
-length = 70.0
+length = 56.0
 
 [sub_resource type="Animation" id="Animation_13ibh"]
 resource_name = "Blink"
@@ -428,10 +428,9 @@ texture = ExtResource("9_ic0gl")
 texture_scale = 4.5
 
 [node name="DestroyThrough-R" type="RayCast2D" parent="Head"]
-visible = false
 enabled = false
-target_position = Vector2(70, 0)
-collision_mask = 16
+target_position = Vector2(56, 0)
+collision_mask = 272
 
 [node name="DestroyThrough-A" type="Area2D" parent="Head"]
 collision_layer = 273
@@ -444,6 +443,7 @@ shape = SubResource("SeparationRayShape2D_gdoay")
 
 [node name="FaceObstacle" type="RayCast2D" parent="Head"]
 target_position = Vector2(40, 0)
+collision_mask = 257
 
 [node name="FaceObstacle-Pos" type="Node2D" parent="Head"]
 
