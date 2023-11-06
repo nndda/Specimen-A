@@ -148,10 +148,10 @@ polygon = PackedVector2Array(62, -32, -3, -2, -3, 2, 62, 32)
 
 [node name="Gun-Rifle" type="Node2D"]
 script = ExtResource("1_njox0")
-line_of_sight = NodePath("LineOfSight")
+line_of_sight_ = NodePath("LineOfSight")
+friendly_sight_ = NodePath("LineOfSight/FriendlySight")
 
 [node name="DebugTestField" parent="." instance=ExtResource("2_1yygh")]
-visible = false
 
 [node name="FireFunction" type="Node" parent="."]
 script = ExtResource("2_4luqg")
@@ -167,7 +167,7 @@ position = Vector2(2, 0)
 color = Color(1, 0.886275, 0.764706, 1)
 blend_mode = 2
 shadow_enabled = true
-shadow_item_cull_mask = 32
+shadow_item_cull_mask = 33
 texture = ExtResource("3_vp8a8")
 texture_scale = 3.0
 
@@ -189,11 +189,11 @@ texture_scale = 0.5
 position = Vector2(-2.09808e-05, 10)
 color = Color(0.956863, 0.619608, 0.113725, 1)
 energy = 0.0
+shadow_enabled = true
 texture = ExtResource("3_vp8a8")
 texture_scale = 3.0
 
 [node name="LineOfSight" type="RayCast2D" parent="."]
-visible = false
 target_position = Vector2(220, 0)
 collision_mask = 4
 collide_with_areas = true
@@ -202,6 +202,10 @@ collide_with_areas = true
 target_position = Vector2(220, 0)
 collision_mask = 5
 collide_with_areas = true
+
+[node name="FriendlySight" type="RayCast2D" parent="LineOfSight"]
+target_position = Vector2(220, 0)
+collision_mask = 16
 
 [node name="BulletPath" parent="." instance=ExtResource("5_j7t08")]
 modulate = Color(1, 1, 1, 0)
