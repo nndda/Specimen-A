@@ -1,0 +1,25 @@
+[gd_scene load_steps=4 format=3 uid="uid://b36sccd6amvf5"]
+
+[ext_resource type="Script" path="res://Entities/Weapons/Shield.gd" id="1_4air0"]
+[ext_resource type="Texture2D" uid="uid://cjbaixgux1478" path="res://Entities/Entities.png" id="2_ttdc4"]
+[ext_resource type="Script" path="res://Worlds/Objects/Destructibles/DestructiblesBody.gd" id="3_3ghli"]
+
+[node name="Shield" type="Node2D"]
+script = ExtResource("1_4air0")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture = ExtResource("2_ttdc4")
+region_enabled = true
+region_rect = Rect2(416, 64, 128, 128)
+
+[node name="StaticBody2D" type="StaticBody2D" parent="."]
+position = Vector2(8, 0)
+collision_layer = 256
+collision_mask = 256
+script = ExtResource("3_3ghli")
+health = 300.0
+root_node = NodePath("..")
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="StaticBody2D"]
+position = Vector2(12, 0)
+polygon = PackedVector2Array(0, -32, 12, -8, 12, 8, 0, 32, -8, 32, -4, 0, -8, -32)
