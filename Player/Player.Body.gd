@@ -3,10 +3,10 @@ extends Line2D
 @onready var head : CharacterBody2D = $"../Head"
 @onready var damage_area : Object = $"../DamageCollision"
 
-var body_segment_max : int = 34
+var body_segment_max : int = 32
 var body_segment_length_arr : PackedFloat32Array = []
 
-@onready var collision_segments : Array[Node] = []
+@onready var collision_segments : Array[CollisionShape2D] = []
 @onready var collision_segments_shape : Array[SegmentShape2D] = []
 
 @onready var lights_path : Path2D = $Lights
@@ -33,11 +33,11 @@ func InitCollisionShape() -> void:
 #    for n in body_segment_max - 2:
 #        print( "collision_segments_shape[ " + str(n) + " ].a = points[ " + str(n) + " ]" )
 
+var body_segment_max_safe : int = body_segment_max - 2
 func UpdateCollisionShape() -> void:
-#    if head.moving or head.attacking:
-        for segment in body_segment_max - 2:
-            collision_segments_shape[ segment ].a = points[ segment ]
-            collision_segments_shape[ segment ].b = points[ segment + 1 ]
+    for segment in body_segment_max_safe:
+        collision_segments_shape[ segment ].a = points[ segment ]
+        collision_segments_shape[ segment ].b = points[ segment + 1 ]
 
 
 func UpdateWormLength() -> void:
@@ -149,9 +149,3 @@ func _on_Hit_animation_finished( anim_name ) -> void:
     if anim_name == "FadeOutHealthBar":
 #        health_bar.visible = false
         pass
-
-
-
-
-
-

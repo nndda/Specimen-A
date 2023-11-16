@@ -106,49 +106,37 @@ func attack_handler() -> void:
 func _enter_tree():
     Global.player = self
 
+func _input( event ): pass
+
 func _ready() -> void:
     monitor_var()
 
-func _process( delta ) -> void:
 
+# TODO: reduce... things in _process
+func _process( delta ) -> void:
 
     monitor_var()
     mouse_global_pos = get_global_mouse_position()
     mouse_viewport_pos = get_viewport().get_mouse_position()
-    
-    canvas_position =  get_global_transform_with_canvas().origin
 
-#    moving = true if ( Input.is_action_pressed( "Move" ) and allow_move ) else false
-    if allow_move:
-        moving = true if (
-        Input.is_action_pressed( "Move" )
-        ) else false
-    else:
-        moving = false
+    canvas_position = get_global_transform_with_canvas().origin
 
-#    moving_f += 0.1 if moving else -0.005
-    if moving:
-        moving_f += 0.1
-    else:
-        moving_f -= 0.085
+    moving = Input.is_action_pressed( "Move" ) and allow_move
+    moving_f += 0.1 if moving else -0.085
+    moving_f = clampf( moving_f, 0.0, float( global_position.distance_to( mouse_global_pos ) >= 25 ) )
 
-    moving_f = clampf( moving_f, 0.0, global_position.distance_to( mouse_global_pos ) >= 25 )
-
-    Global.health += ( 2.5 * delta )
+    Global.health += 2.5 * delta
 
     Global.head_pos               = global_position
-    Global.head_canvas_pos        = get_global_transform_with_canvas().origin
-
+    Global.head_canvas_pos        = canvas_position
 
     ui_arrow.look_at( mouse_viewport_pos )
     ui_arrow.position     = canvas_position
     ui_arrow.modulate.a   = moving_f
     ui_arrow.offset.x     = ( moving_f * 60 ) + 68
 
-
     ui_attack_indicator.position    = canvas_position - ui_attack_indicator.size * 0.5
     ui_attack_cooldown.position     = canvas_position - ui_attack_cooldown.size * 0.5
-
 
     raycast_obstacle.look_at( mouse_global_pos )
     ui_obstacle.visible = !allow_move
@@ -204,15 +192,17 @@ func _physics_process( delta ) -> void:
     if moving_f > 0 and !attacking:
         self.look_at( mouse_global_pos )
 
-    ui_attack_cooldown.visible = ( attack_cooldown_timer.time_left > 0 )
+    ui_attack_cooldown.visible = attack_cooldown_timer.time_left > 0
     Global.attacking = attacking
     Global.moving = moving
 
 func shake_cam() -> void:
-    cam.shake_start(
-        ( attack_strength * 0.25 ) + 15, #15 + ( 25 * ( attack_strength / 100 ) ),
+    Camera.shake_start(
+        ( attack_strength * 0.25 ) + 15,
+        #15 + ( 25 * ( attack_strength / 100 ) ),
         0.95,
-        ( ( 2 * attack_strength ) * 0.04 ) + 16 ) #16 + 8 * ( attack_strength / 100 ) )
+        ( ( 2 * attack_strength ) * 0.04 ) + 16 )
+        #16 + 8 * ( attack_strength / 100 ) )
     Global.emit_signal("camera_shaken_by_player")
 
 
@@ -243,6 +233,7 @@ func monitor_var() -> void:
 #        "head pos",         Global.head_pos.round(),
 #        "moving",           moving,
         "attacking",        Global.attacking,
+        "moving_f",        moving_f,
         "health",           round(Global.health),
         ]
 
@@ -263,3 +254,7 @@ func _on_DestroyThroughA_body_entered( body ) -> void:
 #                   reset_atk_dmg()
 #               shake_cam()
 
+func _on_head_tree_entered():
+    Global.player_physics_head = $"."
+func _on_body_tree_entered():
+    Global.player_physics_body = $"../DamageCollision"
