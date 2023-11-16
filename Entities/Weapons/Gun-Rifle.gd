@@ -15,7 +15,7 @@ extends Node
 
 func fire() -> void:
     randomize()
-    cam.shake_start( 5.0, 0.09, 32.0 )
+    Camera.shake_start( 5.0, 0.09, 32.0 )
     line_of_fire.rotation_degrees   = randf_range( -2.25, 2.25 )
     bullet_path.rotation_degrees    = line_of_fire.rotation_degrees
 
@@ -40,8 +40,3 @@ func _physics_process(_delta):
             else:
                 bullet_path.points[1] = Vector2(0,110)
                 bullet_path.points[1] = $"../CollidingPointDefault".position
-
-
-#func _on_animation_player_started(anim_name):
-#   if anim_name == "Firing":
-#       cam.shake_start( 5.0, 0.09, 32.0 )

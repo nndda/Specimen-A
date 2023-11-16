@@ -152,6 +152,7 @@ line_of_sight_ = NodePath("LineOfSight")
 friendly_sight_ = NodePath("LineOfSight/FriendlySight")
 
 [node name="DebugTestField" parent="." instance=ExtResource("2_1yygh")]
+visible = false
 
 [node name="FireFunction" type="Node" parent="."]
 script = ExtResource("2_4luqg")
