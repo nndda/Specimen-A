@@ -221,6 +221,7 @@ local_coords = true
 draw_order = 0
 
 [node name="VisibilityHandler" parent="." instance=ExtResource("7_hi21c")]
+set_process_mode = 4
 
 [node name="VisibleOnScreenEnabler2D" parent="VisibilityHandler" index="0"]
 position = Vector2(7.62939e-06, 1.14441e-05)

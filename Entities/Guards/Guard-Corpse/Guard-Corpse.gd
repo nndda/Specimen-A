@@ -1,13 +1,15 @@
 extends Node2D
 
 var is_ready : bool = false
+var repos_node : Node2D
+@onready var blood_trail_node : Line2D = $BloodTrail
 
 func fifty2() -> bool:
-    randomize()
-    return [ true, false ].pick_random()
+    randomize(); return [ true, false ].pick_random()
 
 func _enter_tree() -> void: show()
 func _ready() -> void:
+## Generate randomized corpse
     randomize()
     $Reposition.global_position = Global.head_pos
 
@@ -36,48 +38,36 @@ func _ready() -> void:
 func decap_limb( limb : String ) -> void:
     var limb_n = "Hand" if limb.ends_with( "Arm" ) else "Feet"
 
-#    dbg.print_header(self,"decap_limb()")
-#    printt( "|", str(limb) + ", " + str(limb_n) )
-
     if fifty2():
-#        printt( "|", "Torso/" + limb + "/" + limb_n + "-BloodSplattersDecap")
-        get_node( "Torso/" + limb + "/" + limb_n + "-BloodSplattersDecap").show()
+        get_node( "Torso/" + limb + "/" + limb_n + "-BloodSplattersDecap" ).queue_free()
 
-# printt( "|", "Torso/" + limb + "/" + limb_n )
+    else:
+        get_node( "Torso/" + limb + "/" + limb_n + "-BloodSplattersDecap").show()
         get_node( "Torso/" + limb + "/" + limb_n ).queue_free()
 
         if fifty2():
-
-#            printt( "|", "Torso/" + limb + "-Blood" )
+            get_node( "Torso/" + limb + "-Blood" ).queue_free()
+        else:
             get_node( "Torso/" + limb + "-Blood" ).show()
             get_node( "Torso/" + limb + "-Blood" ).rotation_degrees = get_node( "Torso/" + limb ).rotation_degrees
-
-#            printt( "|", "Torso/" + limb )
             get_node( "Torso/" + limb ).queue_free()
 
-        else:
-#            printt( "|", "Torso/" + limb + "-Blood" )
-            get_node( "Torso/" + limb + "-Blood" ).queue_free()
+func _physics_process( _delta ) -> void: if blood_trails: blood_trail()
 
-    else:
-#        printt( "|", "Torso/" + limb + "/" + limb_n + "-BloodSplattersDecap" )
-        get_node( "Torso/" + limb + "/" + limb_n + "-BloodSplattersDecap" ).queue_free()
-
-func _physics_process( _delta ) -> void: blood_trail()
-
-var blood_trails = false
+var blood_trails : bool = false
 func blood_trail() -> void:
-    if blood_trails and visible:
-        $Reposition.global_position = Global.head_pos
+    if visible:
+        repos_node.global_position = Global.head_pos
         if Global.moving or Global.attacking:
-            if $BloodTrail.points.size() <= 50:
-                $BloodTrail.add_point( $Reposition.position )
+            if blood_trail_node.points.size() <= 50:
+                blood_trail_node.add_point( repos_node.position )
             else:
                 blood_trails = false
                 process_mode = Node.PROCESS_MODE_DISABLED
 
 func _on_Reposition_tree_entered() -> void:
-    $Reposition.global_position = Global.head_pos
+    repos_node = $Reposition
+    repos_node.global_position = Global.head_pos
 func _on_BloodTrail_tree_entered() -> void: blood_trail()
 func _on_BloodTrailTrigger_body_entered( body ) -> void:
     if body.get_name() == "Head":
