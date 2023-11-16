@@ -10,26 +10,34 @@ var parent : Node
 var trigger_area : NodePath
 @onready var on_line : bool = false
 
+var player_bodies : Array[Node2D] = []
+
 func _on_line( object ) -> void:
-    on_line = [ "Head", "DamageCollision" ].has( object.get_name() )
+#    on_line = [ "Head", "DamageCollision" ].has( object.get_name() )
+    on_line = player_bodies.has( object )
 func _off_line( object ) -> void:
-    on_line = ![ "Head", "DamageCollision" ].has( object.get_name() )
+#    on_line = ![ "Head", "DamageCollision" ].has( object.get_name() )
+    on_line = !player_bodies.has( object )
 
 func _enter_tree():
     parent = get_parent()
+    player_bodies = [ Global.player_physics_head, Global.player_physics_body ]
 
 func _ready() -> void:
     line_of_sight = get_node_or_null( line_of_sight_ )
     friendly_sight = get_node_or_null( friendly_sight_ )
 
-    if parent.custom_trigger == null:
-            trigger_area = NodePath( "../TriggerArea" )
-    else:   trigger_area = NodePath( parent.custom_trigger_ )
+    trigger_area = NodePath( "../TriggerArea" if parent.custom_trigger == null else parent.custom_trigger_ )
+
+#    if parent.custom_trigger == null:
+#        trigger_area = NodePath( "../TriggerArea" )
+#    else:
+#        trigger_area = NodePath( parent.custom_trigger_ )
 
     if  line_of_sight != null and\
         line_of_sight is CollisionObject2D:
 
-        printt( "", self.get_name(), "line_of_sight : " + str( line_of_sight.get_class() ) )
+#        printt( "", self.get_name(), "line_of_sight : " + str( line_of_sight.get_class() ) )
 
         if line_of_sight is RayCast2D:
             line_of_sight.add_exception( get_node( trigger_area ) )
@@ -42,7 +50,8 @@ func _ready() -> void:
             for signal_off in [ "body_exited", "area_exited" ]:
                 line_of_sight.connect( signal_off, Callable( self, "_off_line" ) )
 
-    else: push_error( dbg.value_is( "weapon_node", "null" ) )
+#    else:
+#        push_error( dbg.value_is( "weapon_node", "null" ) )
 
     $FireFunction.animation_player.connect(
         "animation_finished", Callable( parent, "Weapon_AnimationFinished" ) )
