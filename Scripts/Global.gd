@@ -37,6 +37,9 @@ var worm_body           : Object
 
 var health              : float = 100.0
 
+var player_physics_head : CharacterBody2D
+var player_physics_body : Area2D
+
 signal camera_shaken_by_player
 
 var skill_current       : int = skill.none
@@ -45,15 +48,13 @@ enum skill {
     none,
     DischargeShrapnel,
     EMPBurst,
-    SynthesizeAcids
+    SynthesizeAcids,
 }
 var skills_discovered   : int = 4 # Dbg purpose
 
 var shrapnel_current    : int = 0
 var emp_charge          : int = 0
 var acid                : int = 0
-
-
 
 func sum_array( array : PackedFloat32Array ) -> float:
     var t : float = 0.0
