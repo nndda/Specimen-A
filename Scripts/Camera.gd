@@ -4,6 +4,8 @@ extends Camera2D
 
 var shaking     : bool = false
 var shake_power : float = 0.0
+@onready var timer_freq : Timer = $Shake/Frequency
+@onready var timer_duration : Timer = $Shake/Duration
 
 func shake_start(
     power : float,
@@ -13,8 +15,8 @@ func shake_start(
     if power >= shake_power:
         shake_power = power
         shaking = true
-        $Shake/Duration.start( time )
-        $Shake/Frequency.start( 1 / frequency )
+        timer_duration.start( time )
+        timer_freq.start( 1 / frequency )
 
 func shake() -> void:
     randomize()
@@ -24,8 +26,8 @@ func shake() -> void:
             randf_range( -shake_power, shake_power ),
             randf_range( -shake_power, shake_power )
             )
-            * ( $Shake/Duration.time_left / $Shake/Duration.wait_time ),
-        $Shake/Frequency.wait_time
+            * ( timer_duration.time_left / timer_duration.wait_time ),
+        timer_freq.wait_time
     )
     shake_tween.set_trans( Tween.TRANS_SINE )
     shake_tween.set_ease( Tween.EASE_IN_OUT )
@@ -42,8 +44,8 @@ func init_visual_loading() -> void:
 
     visload_running = true
 
-    cam.following = false
-    cam.enabled = true
+    following = false
+    enabled = true
 
     var visload_path        : Path2D        = Path2D.new()
     var visload_path_fol    : PathFollow2D  = PathFollow2D.new()
@@ -92,12 +94,11 @@ func finished_visual_loading() -> void:
     visload_entity.clear()
     current_objects_list.clear()
 
-    cam.following = true
-    cam.enabled = true
+    following = true
+    enabled = true
 
     $ColorRect/AnimationPlayer.play( "fade_out" )
     visload_running = false
-
 
 var following : bool = false
 func _process( _delta ) -> void:
@@ -122,4 +123,4 @@ func _on_Frequency_timeout() -> void: shake()
 func _on_Duration_timeout() -> void:
     shake_power = 0
     shaking = false
-    $Shake/Frequency.stop()
+    timer_freq.stop()
