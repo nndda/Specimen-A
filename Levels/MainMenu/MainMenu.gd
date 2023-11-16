@@ -15,7 +15,7 @@ extends Node2D
 
 func _ready() -> void:
     Global.current_scene = self
-    cam.enabled = false
+    Camera.enabled = false
     $Camera2D.enabled = true
 #	cam.global_position = $Camera2D.global_position
 
