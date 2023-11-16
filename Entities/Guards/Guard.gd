@@ -46,7 +46,7 @@ var player_near : bool = false
 
 signal path_changed( path )
 signal target_reached
-@onready var nav_agent : Object = $NavigationAgent2D
+@onready var nav_agent : NavigationAgent2D = $NavigationAgent2D
 
 var velo            : Vector2
 var move_direction  : Vector2
@@ -78,6 +78,9 @@ func _ready() -> void:
             Callable( self, "_on_TriggerArea_body_entered" ) )
     else: custom_trigger_ = NodePath( "TriggerArea" ) # Set default
 
+    Global.connect( "camera_shaken_by_player", func():
+        if player_near: emit_signal( "triggered" ) )
+
     if stationary:
         nav_agent = null
         for free_itms in [ $KeepDistance, $KeepMove, $NavigationAgent2D ]:
@@ -98,7 +101,7 @@ func _process( _delta ) -> void:
         fire_clear = fire_ready and weapon.on_line
 
     else:
-        if player_near and cam.shaking: is_triggered = true
+#        if player_near and Camera.shaking: is_triggered = true
 
         if path != null:
             global_position = path.global_position
@@ -110,10 +113,13 @@ func _process( _delta ) -> void:
 
     $VisibilityHandler/VisibleOnScreenEnabler2D.global_position = global_position
 
-func _physics_process( _delta ) -> void : if is_triggered:
-    look_at( Global.head_pos )
-    if !stationary: nav_agent.set_velocity( Vector2( speed, speed ) )
-    else:           $Sprite2D.rotation_degrees = -rotation_degrees
+func _physics_process( _delta ) -> void :
+    if is_triggered:
+        look_at( Global.head_pos )
+        if !stationary:
+            nav_agent.set_velocity( Vector2( speed, speed ) )
+        else:
+            $Sprite2D.rotation_degrees = -rotation_degrees
 
 func Weapon_AnimationFinished( anim ) -> void:
     if anim == "Firing": $AttackCooldown.start( cooldown )
@@ -146,12 +152,18 @@ func set_target_pos( pos : Vector2 ) -> void:
 var direction : Vector2
 func _on_NavigationAgent2D_velocity_computed( safe_velocity ) -> void:
     if !nav_agent.is_navigation_finished():
-        velo = safe_velocity
-        velocity = velo * direction
+        velocity = safe_velocity * direction
         move_and_slide()
     elif !arrived:
         arrived = true
         nav_agent.emit_signal("path_changed")
+
+@onready var keep_distance : Node2D = $KeepDistance
+@onready var keep_distance_pos : Node2D = $KeepDistance/Position2D
+@onready var keep_distance_a : Node2D = $KeepDistance/n1
+@onready var keep_distance_b : Node2D = $KeepDistance/n2
+@onready var keep_move_a : Node2D = $KeepMove/n1
+@onready var keep_move_b : Node2D = $KeepMove/n2
 
 func _on_UpdatePlayerPos_timeout() -> void:
     if global_position.distance_to( Global.head_pos ) >= 160.0:
@@ -160,19 +172,18 @@ func _on_UpdatePlayerPos_timeout() -> void:
             set_target_pos( Global.head_pos )
     else:
         randomize()
-        $KeepDistance.rotation_degrees = randf_range( -15, 15 )
-        var pos_rand = Vector2(
-            randf_range( $KeepDistance/n1.position.x,   $KeepDistance/n2.position.x ),
-            randf_range( $KeepMove/n1.position.y,       $KeepMove/n2.position.y ) )
-        $KeepDistance/Position2D.position = pos_rand
+        keep_distance.rotation_degrees = randf_range( -15, 15 )
+        keep_distance_pos.position = Vector2(
+            randf_range( keep_distance_a.position.x,   keep_distance_b.position.x ),
+            randf_range( keep_move_a.position.y,       keep_move_b.position.y ) )
 
-        direction = global_position.direction_to( $KeepDistance/Position2D.global_position )
-        set_target_pos( $KeepDistance/Position2D.global_position )
+        direction = global_position.direction_to( keep_distance_pos.global_position )
+        set_target_pos( keep_distance_pos.global_position )
 
 func _on_TriggerArea_body_entered( body ) -> void:
-    if body.get_name() == "Head": emit_signal( "triggered" )
+    if body == Global.player_physics_head: emit_signal( "triggered" )
 func _on_TriggerArea_area_entered( area ) -> void:
-    if area.get_name() == "DamageCollision": emit_signal( "triggered" )
+    if area == Global.player_physics_body: emit_signal( "triggered" )
 
 func _on_triggered() -> void: if !is_triggered:
     is_triggered = true
