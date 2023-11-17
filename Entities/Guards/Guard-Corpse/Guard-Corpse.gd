@@ -52,7 +52,10 @@ func decap_limb( limb : String ) -> void:
             get_node( "Torso/" + limb + "-Blood" ).rotation_degrees = get_node( "Torso/" + limb ).rotation_degrees
             get_node( "Torso/" + limb ).queue_free()
 
-func _physics_process( _delta ) -> void: if blood_trails: blood_trail()
+func _process( _delta ) -> void:
+    $VisibilityHandler/VisibleOnScreenEnabler2D.global_position = self.global_position
+func _physics_process( _delta ) -> void:
+    if blood_trails: blood_trail()
 
 var blood_trails : bool = false
 func blood_trail() -> void:
