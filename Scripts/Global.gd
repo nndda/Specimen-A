@@ -72,6 +72,9 @@ var cfg = {
     bgm = 50,
     }
 
+func _enter_tree():
+    init_tile_sets()
+
 func _process( _delta ) -> void:
 
     health = clamp( health, 0.0, 100.0 )
@@ -90,3 +93,21 @@ func _process( _delta ) -> void:
 #        get_global_mouse_position() ) >= 25 ) )
 
 #    worm_length = sum_array( worm_length_array )
+
+var tilemap_depth : int = 8
+
+func init_tile_sets() -> void:
+    for n in tilemap_depth:
+        ResourceSaver.save( preload(
+            "res://Worlds/Tilesets/Tileset.map.tres"),
+            "user://Tileset.map.1-" + str(n) + ".res")
+
+        if n < tilemap_depth - 2:
+            ResourceSaver.save( preload(
+                "res://Worlds/Tilesets/Tileset.map.tres"),
+                "user://Tileset.map.2-" + str(n) + ".res")
+
+            if n == tilemap_depth - 3:
+                ResourceSaver.save( preload(
+                    "res://Worlds/Tilesets/Tileset.map.tres"),
+                    "user://Tileset.map.3-" + str(n) + ".res")

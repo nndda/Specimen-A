@@ -3,7 +3,7 @@ extends Node2D
 @export_node_path( "TileMap" )  var map : NodePath
 @export_node_path( "TileMap" )  var map_decor : NodePath
 @export_node_path( "TileMap" )  var map_decor_light : NodePath
-@export_range( 1, 12 )          var depth : int = 8
+@onready var depth : int = Global.tilemap_depth
 
 @export_node_path("CanvasLayer") var top_layer : NodePath
 @export_node_path("CanvasLayer") var top_layer_2 : NodePath
@@ -11,8 +11,6 @@ extends Node2D
 @onready var max_scale : float = Global.top_scale
 
 var maps : Dictionary = {}
-
-@onready var tile_set : TileSet = preload( "res://Worlds/Tilesets/Tileset.map.tres" )
 
 signal layers_generated
 
@@ -34,8 +32,7 @@ func generate_layers() -> void:
         layer.follow_viewport_enabled   = true
         layer.follow_viewport_scale     = remap( n, 0, depth - 1, 1.0, max_scale )
 
-#        map_layer.tile_set              = get_node( map ).tile_set.duplicate( true )
-        map_layer.tile_set              = tile_set.duplicate( true )
+        map_layer.tile_set              = load( "user://Tileset.map.1-" + str(n) + ".res" )
         map_layer.modulate              = Color.WHITE
 
         map_layer.tile_set.set_physics_layer_collision_layer( 0, int( n != 0 ) )
@@ -55,8 +52,7 @@ func generate_layers() -> void:
         if n < depth - 2:
             var\
             map_decor_layer : TileMap   = get_node( map_decor ).duplicate()
-#            map_decor_layer.tile_set    = get_node( map_decor ).tile_set.duplicate( true )
-            map_decor_layer.tile_set    = tile_set.duplicate( true )
+            map_decor_layer.tile_set    = load( "user://Tileset.map.2-" + str(n) + ".res" )
 
             map_decor_layer.tile_set.set_physics_layer_collision_layer( 0, int( n == 0 ) )
             map_decor_layer.tile_set.set_physics_layer_collision_mask( 0, int( n == 0 ) )
@@ -70,11 +66,9 @@ func generate_layers() -> void:
             if n == depth - 3:
                 var\
                 map_decor_light_layer : TileMap = get_node( map_decor_light ).duplicate()
-#                map_decor_light_layer.tile_set  = get_node( map_decor_light ).tile_set.duplicate( true )
-                map_decor_light_layer.tile_set  = tile_set.duplicate( true )
+                map_decor_light_layer.tile_set  = load( "user://Tileset.map.3-" + str(n) + ".res" )
 
                 layer.call_deferred( "add_child", map_decor_light_layer )
-                map_decor_layer.material = load("res://Shaders/Materials/Add.CanvasItemMaterial.tres")
 
         call_deferred( "add_child", layer )
 
@@ -88,7 +82,7 @@ func generate_layers() -> void:
     map_top_layer.tile_set.set_physics_layer_collision_mask( 0, 0 )
     map_top_layer.tile_set.remove_physics_layer( 0 )
 
-    for tilemap in get_node( top_layer ).get_children():
+    for tilemap in get_node( top_layer ).get_children() + get_node( top_layer_2 ).get_children() :
         if tilemap is TileMap: tilemap.modulate = Color( "#070101" )
 
     get_node( top_layer ).call_deferred( "add_child", map_top_layer )
