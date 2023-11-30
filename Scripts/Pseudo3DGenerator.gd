@@ -15,7 +15,7 @@ var maps : Dictionary = {}
 signal layers_generated
 
 func generate_layers() -> void:
-    
+
     for t in [ top_layer, top_layer_2 ]:
         get_node( t ).add_child( preload( "res://Worlds/GlobalModulate.tscn" ).instantiate() )
         get_node( t ).follow_viewport_scale = max_scale
@@ -82,8 +82,16 @@ func generate_layers() -> void:
     map_top_layer.tile_set.set_physics_layer_collision_mask( 0, 0 )
     map_top_layer.tile_set.remove_physics_layer( 0 )
 
-    for tilemap in get_node( top_layer ).get_children() + get_node( top_layer_2 ).get_children() :
-        if tilemap is TileMap: tilemap.modulate = Color( "#070101" )
+    for tilemap in (
+        get_node( top_layer ).get_children() +
+        get_node( top_layer_2 ).get_children()
+        ):
+        if tilemap is TileMap:
+            tilemap.modulate = Color( "#070101" )
+            if tilemap.tile_set.get_physics_layers_count() >= 1:
+                tilemap.tile_set.remove_physics_layer( 0 )
+            if tilemap.tile_set.get_navigation_layers_count() >= 1:
+                tilemap.tile_set.remove_navigation_layer( 0 )
 
     get_node( top_layer ).call_deferred( "add_child", map_top_layer )
 
