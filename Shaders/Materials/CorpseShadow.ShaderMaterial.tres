@@ -1,0 +1,8 @@
+[gd_resource type="ShaderMaterial" load_steps=2 format=3 uid="uid://dyjvgrb7n14vw"]
+
+[ext_resource type="Shader" path="res://Shaders/Scripts/shadow.gdshader" id="1_ajfdd"]
+
+[resource]
+shader = ExtResource("1_ajfdd")
+shader_parameter/offset = Vector2(1, 2)
+shader_parameter/modulate = Color(0, 0, 0, 0.568627)
