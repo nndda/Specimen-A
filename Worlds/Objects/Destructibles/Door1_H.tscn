@@ -9,7 +9,6 @@
 size = Vector2(64, 32)
 
 [node name="Door1_H" type="Node2D"]
-process_mode = 4
 
 [node name="Sprite2D-1" type="Polygon2D" parent="."]
 position = Vector2(0, -8)
@@ -41,7 +40,6 @@ wait_time = 3.0
 one_shot = true
 
 [node name="VisibilityHandler" parent="." instance=ExtResource("4_mv4g3")]
-process_mode = 4
 
 [node name="VisibleOnScreenEnabler2D" parent="VisibilityHandler" index="0"]
 position = Vector2(0, 4.76837e-07)
