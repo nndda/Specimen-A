@@ -13,7 +13,7 @@ texture = ExtResource("2_7t0pc")
 texture = ExtResource("2_gnopq")
 
 [node name="VisibleOnScreenEnabler2D" parent="VisibilityHandler" index="0"]
-position = Vector2(3.8147e-06, -3.8147e-06)
-scale = Vector2(14.4, 8)
+position = Vector2(7.62939e-06, -6.67572e-06)
+scale = Vector2(14, 7.2)
 
 [editable path="VisibilityHandler"]

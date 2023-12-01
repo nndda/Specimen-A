@@ -72,28 +72,20 @@ func generate_layers() -> void:
 
         call_deferred( "add_child", layer )
 
-    var map_top_layer : TileMap = get_node( map ).duplicate()
-
-#    map_top_layer.tile_set.add_occlusion_layer( 1 )
-
-    map_top_layer.tile_set.set_occlusion_layer_light_mask( 0, 1 )
-
-    map_top_layer.tile_set.set_physics_layer_collision_layer( 0, 0 )
-    map_top_layer.tile_set.set_physics_layer_collision_mask( 0, 0 )
-    map_top_layer.tile_set.remove_physics_layer( 0 )
-
     for tilemap in (
         get_node( top_layer ).get_children() +
-        get_node( top_layer_2 ).get_children()
+        get_node( top_layer_2 ).get_children() +
+        [$"../TopLayer/Tile/Tile"]
         ):
         if tilemap is TileMap:
             tilemap.modulate = Color( "#070101" )
-            if tilemap.tile_set.get_physics_layers_count() >= 1:
-                tilemap.tile_set.remove_physics_layer( 0 )
-            if tilemap.tile_set.get_navigation_layers_count() >= 1:
-                tilemap.tile_set.remove_navigation_layer( 0 )
-
-    get_node( top_layer ).call_deferred( "add_child", map_top_layer )
+            for layer in [
+                "physics_layer",
+                "navigation_layer",
+                "occlusion_layer",
+            ]:
+                if tilemap.tile_set.call( StringName( "get_" + layer + "s_count" ) ) >= 1:
+                    tilemap.tile_set.call( StringName( "remove_" + layer ), 0 )
 
     for f in [ map, map_decor, map_decor_light ]:
         get_node( f ).queue_free()

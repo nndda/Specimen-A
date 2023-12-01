@@ -66,14 +66,16 @@ texture = ExtResource("2_dr7i5")
 
 [node name="PointLight2D" type="PointLight2D" parent="."]
 blend_mode = 2
+range_z_min = -16
+range_z_max = 16
 range_layer_min = -1
 range_layer_max = 3
-shadow_enabled = true
 shadow_color = Color(0.0588235, 0.0117647, 0.0117647, 1)
 texture = ExtResource("5_rqanb")
 
 [node name="VisibilityHandler" parent="." instance=ExtResource("6_b3uk3")]
 set_process_mode = 4
+root_path = NodePath("..")
 
 [node name="VisibleOnScreenEnabler2D" parent="VisibilityHandler" index="0"]
 position = Vector2(-4.05312e-06, 2.86102e-06)
@@ -83,8 +85,5 @@ scale = Vector2(8, 8)
 libraries = {
 "": SubResource("AnimationLibrary_cg14a")
 }
-
-[connection signal="tree_entered" from="." to="." method="_on_tree_entered"]
-[connection signal="tree_exiting" from="." to="." method="_on_tree_exiting"]
 
 [editable path="VisibilityHandler"]

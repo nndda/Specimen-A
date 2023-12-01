@@ -1,8 +1,11 @@
 extends Node2D
 
-func _on_tree_entered():
-    connect( "visibility_changed", func(): $PointLight2D.enabled = visible )
+@onready var light : PointLight2D = $PointLight2D
+@onready var animation_player : AnimationPlayer = $AnimationPlayer
+
+func _ready():
+    connect( "visibility_changed", func(): light.enabled = visible )
     Global.connect( "camera_shaken_by_player", func():\
     if visible:
         if global_position.distance_to( Global.head_pos ) <= 360.0:
-            $AnimationPlayer.play( "Flick_" + [ "0", "1" ].pick_random() ) )
+            animation_player.play( "Flick_" + [ "0", "1" ].pick_random() ) )
