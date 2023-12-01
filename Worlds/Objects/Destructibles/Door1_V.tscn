@@ -8,7 +8,7 @@
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_ucthy"]
 size = Vector2(64, 32)
 
-[node name="Door1_H" type="Node2D"]
+[node name="Door1_V" type="Node2D"]
 
 [node name="Sprite2D-1" type="Polygon2D" parent="."]
 position = Vector2(8, 0)
