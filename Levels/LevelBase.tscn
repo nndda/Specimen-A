@@ -1,9 +1,10 @@
-[gd_scene load_steps=6 format=3 uid="uid://btklfuqmrtree"]
+[gd_scene load_steps=7 format=3 uid="uid://btklfuqmrtree"]
 
 [ext_resource type="Script" path="res://Levels/LevelHandler.gd" id="1_sic2w"]
 [ext_resource type="PackedScene" uid="uid://qpqkkwm1xinu" path="res://Worlds/Tilesets/Tileset.tscn" id="2_04a13"]
 [ext_resource type="Material" uid="uid://ud64atwxfe5s" path="res://Shaders/Materials/Add-Unshaded.CanvasItemMaterial.tres" id="3_v8kfu"]
 [ext_resource type="Script" path="res://Scripts/Pseudo3DGenerator.gd" id="4_sovdr"]
+[ext_resource type="PackedScene" uid="uid://37f75mhp7q61" path="res://UI/PauseMenu.tscn" id="6_2l3p8"]
 [ext_resource type="PackedScene" uid="uid://mjd5n5bhhtyf" path="res://Player/Player.tscn" id="11_unoct"]
 
 [node name="LevelBase" type="Node2D"]
@@ -11,14 +12,19 @@ script = ExtResource("1_sic2w")
 pseudo_3d_generator = NodePath("Pseudo3DGenerator")
 
 [node name="TileFloor" parent="." instance=ExtResource("2_04a13")]
+editor_description = "Floor/ground level tileset"
+rendering_quadrant_size = 4
 
 [node name="TileDecor" parent="." instance=ExtResource("2_04a13")]
+rendering_quadrant_size = 4
 
 [node name="TileDecor_L" parent="." instance=ExtResource("2_04a13")]
 material = ExtResource("3_v8kfu")
+rendering_quadrant_size = 4
 
 [node name="TileWall" parent="." instance=ExtResource("2_04a13")]
 modulate = Color(0.956863, 0.619608, 0.113725, 1)
+rendering_quadrant_size = 4
 
 [node name="Pseudo3DGenerator" type="Node2D" parent="."]
 script = ExtResource("4_sovdr")
@@ -56,10 +62,15 @@ follow_viewport_enabled = true
 
 [node name="Tile" parent="TopLayer" instance=ExtResource("2_04a13")]
 modulate = Color(1, 0, 0, 1)
+rendering_quadrant_size = 4
 
 [node name="Tile" parent="TopLayer/Tile" instance=ExtResource("2_04a13")]
+rendering_quadrant_size = 4
 
 [node name="TopLayer+1" type="CanvasLayer" parent="."]
 
 [node name="Tile" parent="TopLayer+1" instance=ExtResource("2_04a13")]
 modulate = Color(1, 0, 0, 1)
+rendering_quadrant_size = 4
+
+[node name="PauseMenu" parent="." instance=ExtResource("6_2l3p8")]

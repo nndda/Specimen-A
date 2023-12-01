@@ -1,4 +1,4 @@
-[gd_scene load_steps=4 format=3 uid="uid://37f75mhp7q61"]
+[gd_scene load_steps=5 format=3 uid="uid://37f75mhp7q61"]
 
 [ext_resource type="Script" path="res://UI/PauseMenu.gd" id="1_vx8gi"]
 
@@ -15,7 +15,11 @@ fill_from = Vector2(0.5, 0.5)
 fill_to = Vector2(1, 0.2)
 metadata/_snap_enabled = true
 
+[sub_resource type="LabelSettings" id="LabelSettings_hxfm2"]
+font_size = 48
+
 [node name="PauseMenu" type="CanvasLayer"]
+process_mode = 3
 layer = 28
 visible = false
 script = ExtResource("1_vx8gi")
@@ -38,10 +42,11 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="Label" type="Label" parent="Control"]
+[node name="LevelName" type="Label" parent="Control"]
 layout_mode = 0
 offset_left = 16.0
 offset_top = 16.0
 offset_right = 64.0
 offset_bottom = 38.0
 text = "Level name"
+label_settings = SubResource("LabelSettings_hxfm2")

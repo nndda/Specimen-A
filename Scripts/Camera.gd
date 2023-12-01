@@ -1,6 +1,7 @@
 extends Camera2D
 
 @onready var shake_tween : Tween
+var paused : bool = false
 
 var shaking     : bool = false
 var shake_power : float = 0.0
@@ -104,14 +105,18 @@ var following : bool = false
 func _process( _delta ) -> void:
     if following:
         global_position = Global.head_pos
+        var viewport_rect_size : Vector2 = get_viewport_rect().size
+        var mouse_pos : Vector2 =\
+            Vector2.ZERO if paused else\
+            get_viewport().get_mouse_position()
 
         drag_horizontal_offset = remap(
-            get_viewport().get_mouse_position().x,
-            0.0, get_viewport_rect().size.x,
+            mouse_pos.x,
+            0.0, viewport_rect_size.x,
             -1.0, 1.0 )
         drag_vertical_offset = remap(
-            get_viewport().get_mouse_position().y,
-            0.0, get_viewport_rect().size.y,
+            mouse_pos.y,
+            0.0, viewport_rect_size.y,
             -1.0, 1.0 )
 
     else:
