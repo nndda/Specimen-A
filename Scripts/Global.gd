@@ -95,19 +95,20 @@ func _process( _delta ) -> void:
 #    worm_length = sum_array( worm_length_array )
 
 var tilemap_depth : int = 8
+var tile_set : TileSet = preload("res://Worlds/Tilesets/Tileset.map.tres")
 
 func init_tile_sets() -> void:
+    var user_tile_res : Callable = func(n, m):\
+        return "user://Tileset.map." + str(m) + "-" + str(n) + ".res"
+
     for n in tilemap_depth:
-        ResourceSaver.save( preload(
-            "res://Worlds/Tilesets/Tileset.map.tres"),
-            "user://Tileset.map.1-" + str(n) + ".res")
+        DirAccess.remove_absolute( user_tile_res.call(n, 1) )
+        ResourceSaver.save( tile_set, user_tile_res.call(n, 1) )
 
         if n < tilemap_depth - 2:
-            ResourceSaver.save( preload(
-                "res://Worlds/Tilesets/Tileset.map.tres"),
-                "user://Tileset.map.2-" + str(n) + ".res")
+            DirAccess.remove_absolute( user_tile_res.call(n, 2) )
+            ResourceSaver.save( tile_set, user_tile_res.call(n, 2) )
 
             if n == tilemap_depth - 3:
-                ResourceSaver.save( preload(
-                    "res://Worlds/Tilesets/Tileset.map.tres"),
-                    "user://Tileset.map.3-" + str(n) + ".res")
+                DirAccess.remove_absolute( user_tile_res.call(n, 3) )
+                ResourceSaver.save( tile_set, user_tile_res.call(n, 3) )
