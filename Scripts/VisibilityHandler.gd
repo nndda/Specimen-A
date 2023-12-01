@@ -6,6 +6,7 @@ extends Node
 
 func _on_ready():
     $VisibleOnScreenEnabler2D.global_position = root.global_position
+    $VisibleOnScreenEnabler2D.global_rotation = root.global_rotation
     root.visible = false
 
 func _on_screen_entered():
