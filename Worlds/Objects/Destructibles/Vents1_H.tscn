@@ -1,0 +1,14 @@
+[gd_scene load_steps=3 format=3 uid="uid://dtbtuito4gyee"]
+
+[ext_resource type="PackedScene" uid="uid://bwxa1i1dmi3mh" path="res://Worlds/Objects/Destructibles/Door1_H.tscn" id="1_bbmsm"]
+[ext_resource type="Texture2D" uid="uid://dg4fh5s1xxecj" path="res://Worlds/Objects/Destructibles/VentsL1.png" id="2_iybwk"]
+
+[node name="Vents1_H" instance=ExtResource("1_bbmsm")]
+
+[node name="Sprite2D-1" parent="." index="0"]
+texture = ExtResource("2_iybwk")
+
+[node name="Sprite2D-2" parent="." index="1"]
+texture = ExtResource("2_iybwk")
+
+[editable path="VisibilityHandler"]
