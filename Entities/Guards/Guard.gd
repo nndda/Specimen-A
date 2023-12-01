@@ -51,7 +51,7 @@ signal target_reached
 var velo            : Vector2
 var move_direction  : Vector2
 
-func get_player_pos() -> Vector2: return Global.head_pos
+#func get_player_pos() -> Vector2: return Global.head_pos
 
 func _ready() -> void:
 
@@ -111,7 +111,7 @@ func _process( _delta ) -> void:
         weapon.fire()
         fire_ready = false
 
-    $VisibilityHandler/VisibleOnScreenEnabler2D.global_position = global_position
+    $VisibilityHandler/VisibleOnScreenEnabler2D.global_position = self.global_position
 
 func _physics_process( _delta ) -> void :
     if is_triggered:
@@ -126,7 +126,7 @@ func Weapon_AnimationFinished( anim ) -> void:
 func _on_AttackCooldown_timeout() -> void: fire_ready = true
 
 func damage( power : float ) -> void: if !immune:
-    
+
     print( self," damaged :", power )
 
     if !is_triggered: emit_signal( "triggered" )
@@ -181,9 +181,11 @@ func _on_UpdatePlayerPos_timeout() -> void:
         set_target_pos( keep_distance_pos.global_position )
 
 func _on_TriggerArea_body_entered( body ) -> void:
-    if body == Global.player_physics_head: emit_signal( "triggered" )
+#    if body == Global.player_physics_head:
+    emit_signal( "triggered" )
 func _on_TriggerArea_area_entered( area ) -> void:
-    if area == Global.player_physics_body: emit_signal( "triggered" )
+#    if area == Global.player_physics_body:
+    emit_signal( "triggered" )
 
 func _on_triggered() -> void: if !is_triggered:
     is_triggered = true
@@ -195,8 +197,10 @@ func _on_triggered() -> void: if !is_triggered:
     if path != null: path.queue_free()
     if !stationary: $NavigationAgent2D/UpdatePlayerPos.start()
 
-func _on_general_area_entered( area ) -> void:
-    if area.get_name() == "ShakeArea": player_near = true
-func _on_general_area_exited( area ) -> void:
-    if area.get_name() == "ShakeArea": player_near = false
+func _on_GeneralArea_area_entered( area ) -> void:
+#    if area.get_name() == &"AreaShake":
+        player_near = true
+func _on_GeneralArea_area_exited( area ) -> void:
+#    if area.get_name() == &"AreaShake":
+        player_near = false
 

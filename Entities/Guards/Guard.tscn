@@ -1,13 +1,19 @@
-[gd_scene load_steps=8 format=3 uid="uid://baiwsrdc0aog7"]
+[gd_scene load_steps=10 format=3 uid="uid://baiwsrdc0aog7"]
 
 [ext_resource type="Script" path="res://Entities/Guards/Guard.gd" id="1_wqy3n"]
+[ext_resource type="Shader" path="res://Shaders/Scripts/shadow.gdshader" id="2_gr2c2"]
 [ext_resource type="Texture2D" uid="uid://ryy4fypkc3oa" path="res://Entities/Guards/Guard-Rifle/Guard-Rifle.png" id="2_kybeh"]
 [ext_resource type="Texture2D" uid="uid://d1y5v4sd3axmk" path="res://Shaders/Lights/General.GradientTexture2D.tres" id="3_7ft35"]
 [ext_resource type="Shape2D" uid="uid://dsstw8sd6tnpd" path="res://Entities/Guards/Guard.CollisionShape2D.tres" id="4_yu3yv"]
 [ext_resource type="PackedScene" uid="uid://bn801wox8wl0f" path="res://Scripts/VisibilityHandler.tscn" id="5_21ehr"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_wehjl"]
-radius = 128.0
+radius = 248.129
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_iip64"]
+shader = ExtResource("2_gr2c2")
+shader_parameter/offset = Vector2(4, -3)
+shader_parameter/modulate = Color(0, 0, 0, 0.568627)
 
 [sub_resource type="OccluderPolygon2D" id="OccluderPolygon2D_wd8f2"]
 closed = false
@@ -22,28 +28,29 @@ script = ExtResource("1_wqy3n")
 cooldown = 2.0
 
 [node name="TriggerArea" type="Area2D" parent="."]
-visible = false
 collision_layer = 512
 collision_mask = 512
+monitorable = false
 
 [node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="TriggerArea"]
 polygon = PackedVector2Array(-24, -32, -24, 32, 256, 160, 256, -160)
 
 [node name="GeneralArea" type="Area2D" parent="."]
-visible = false
-collision_layer = 768
-collision_mask = 768
+collision_layer = 256
+collision_mask = 256
+monitorable = false
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="GeneralArea"]
 shape = SubResource("CircleShape2D_wehjl")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
+material = SubResource("ShaderMaterial_iip64")
 rotation = -1.57079
 texture = ExtResource("2_kybeh")
 
 [node name="GeneralLight" type="PointLight2D" parent="Sprite2D"]
 color = Color(1, 1, 1, 0.941176)
-energy = 0.6
+energy = 0.45
 blend_mode = 2
 texture = ExtResource("3_7ft35")
 
@@ -114,8 +121,8 @@ scale = Vector2(8.8, 8.8)
 [connection signal="triggered" from="." to="." method="_on_triggered" flags=6]
 [connection signal="area_entered" from="TriggerArea" to="." method="_on_TriggerArea_area_entered"]
 [connection signal="body_entered" from="TriggerArea" to="." method="_on_TriggerArea_body_entered"]
-[connection signal="area_entered" from="GeneralArea" to="." method="_on_general_area_entered"]
-[connection signal="area_exited" from="GeneralArea" to="." method="_on_general_area_exited"]
+[connection signal="area_entered" from="GeneralArea" to="." method="_on_GeneralArea_area_entered"]
+[connection signal="area_exited" from="GeneralArea" to="." method="_on_GeneralArea_area_exited"]
 [connection signal="timeout" from="AttackCooldown" to="." method="_on_AttackCooldown_timeout"]
 [connection signal="velocity_computed" from="NavigationAgent2D" to="." method="_on_NavigationAgent2D_velocity_computed"]
 [connection signal="timeout" from="NavigationAgent2D/UpdatePlayerPos" to="." method="_on_UpdatePlayerPos_timeout"]
