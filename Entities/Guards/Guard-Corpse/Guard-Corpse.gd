@@ -40,7 +40,6 @@ func decap_limb( limb : String ) -> void:
 
     if fifty2():
         get_node( "Torso/" + limb + "/" + limb_n + "-BloodSplattersDecap" ).queue_free()
-
     else:
         get_node( "Torso/" + limb + "/" + limb_n + "-BloodSplattersDecap").show()
         get_node( "Torso/" + limb + "/" + limb_n ).queue_free()
@@ -61,7 +60,7 @@ var blood_trails : bool = false
 func blood_trail() -> void:
     if visible:
         repos_node.global_position = Global.head_pos
-        if Global.moving or Global.attacking:
+        if Global.moving_or_attacking:
             if blood_trail_node.points.size() <= 50:
                 blood_trail_node.add_point( repos_node.position )
             else:

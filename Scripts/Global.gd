@@ -26,6 +26,8 @@ var moving_f            : float
 
 var attacking           : bool
 
+var moving_or_attacking    : bool
+
 var head_pos            : Vector2
 var head_canvas_pos     : Vector2
 
@@ -79,6 +81,8 @@ func _process( _delta ) -> void:
 
     health = clamp( health, 0.0, 100.0 )
 
+    moving_or_attacking = moving or attacking
+
 #    if player != null:
 #        if player.allow_move: moving = true if (
 #            Input.is_action_pressed( "Move" )
@@ -94,7 +98,7 @@ func _process( _delta ) -> void:
 
 #    worm_length = sum_array( worm_length_array )
 
-var tilemap_depth : int = 8
+var tilemap_depth : int = 6
 var tile_set : TileSet = preload("res://Worlds/Tilesets/Tileset.map.tres")
 
 func init_tile_sets() -> void:
