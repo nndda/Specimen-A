@@ -40,7 +40,10 @@ func generate_layers() -> void:
         if n == 0: map_layer.tile_set.remove_physics_layer( 0 )
 
         map_layer.tile_set.set_occlusion_layer_light_mask( 0, 0 )
-        if n != 0: map_layer.tile_set.remove_occlusion_layer( 0 )
+        if n != 0:
+            map_layer.tile_set.remove_occlusion_layer( 0 )
+        elif n == 0:
+            map_layer.tile_set.set_occlusion_layer_light_mask( 0, 32 )
 
         map_layer.tile_set.set_navigation_layer_layers( 0, int( n == 0 ) )
         if n != 0: map_layer.tile_set.remove_navigation_layer( 0 )
