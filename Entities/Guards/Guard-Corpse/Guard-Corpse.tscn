@@ -75,6 +75,7 @@ round_precision = 4
 shape = SubResource("RectangleShape2D_x6pst")
 
 [node name="BloodSplatters" parent="." instance=ExtResource("3_nd872")]
+amount = 6
 
 [node name="BloodSplattersS" type="Node2D" parent="."]
 scale = Vector2(0.25, 0.25)
@@ -84,7 +85,6 @@ position = Vector2(64, -64)
 scale = Vector2(4, 4)
 
 [node name="BloodSplatters-3" parent="BloodSplattersS" instance=ExtResource("3_nd872")]
-visible = false
 position = Vector2(64, 96)
 scale = Vector2(4, 4)
 
