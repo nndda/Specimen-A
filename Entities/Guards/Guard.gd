@@ -39,6 +39,8 @@ signal killed
 @export_group( "Timing" )
 @export_range( 0.0, 5.0, 0.1 ) var init_cooldown    : float = 0.0
 @export_range( 0.8, 5.0, 0.1 ) var cooldown         : float = 0.8
+@onready var cooldown_timer : Timer = $AttackCooldown
+
 var fire_clear  : bool = false
 var fire_ready  : bool = false
 var clear       : bool = true
@@ -51,14 +53,9 @@ signal target_reached
 var velo            : Vector2
 var move_direction  : Vector2
 
-#func get_player_pos() -> Vector2: return Global.head_pos
-
 func _ready() -> void:
-
     path = get_node_or_null( path_ )
     custom_trigger = get_node_or_null( custom_trigger_ )
-
-#    printt( "-", self.get_name(), corpse_scene, global_position )
 
     corpse = get_node( corpse_scene )
     corpse.reparent( Global.layer_dict[ "Objects/Corpses" ] )
@@ -70,13 +67,15 @@ func _ready() -> void:
     weapon = get_node( weapon_node )
 
     clear = init_cooldown == 0.0
-    $AttackCooldown.wait_time = cooldown
+    cooldown_timer.wait_time = cooldown
 
-    if custom_trigger != null:
+    if custom_trigger == null:
+        custom_trigger_ = NodePath( "TriggerArea" ) # Set default
+    else:
         $TriggerArea.queue_free()
+        custom_trigger.collision_mask = 512
         custom_trigger.connect( "body_entered",
             Callable( self, "_on_TriggerArea_body_entered" ) )
-    else: custom_trigger_ = NodePath( "TriggerArea" ) # Set default
 
     Global.connect( "camera_shaken_by_player", func():
         if player_near: emit_signal( "triggered" ) )
@@ -87,9 +86,8 @@ func _ready() -> void:
             free_itms.queue_free()
 
     else:
-        for hidden_itms in [ $KeepDistance, $KeepMove ]:
-            for hidden_items in hidden_itms.get_children():
-                hidden_items.hide()
+        for hidden_item in [ $KeepDistance, $KeepMove ]:
+            hidden_item.visible = false
 
 func _process( _delta ) -> void:
 
@@ -101,8 +99,6 @@ func _process( _delta ) -> void:
         fire_clear = fire_ready and weapon.on_line
 
     else:
-#        if player_near and Camera.shaking: is_triggered = true
-
         if path != null:
             global_position = path.global_position
             global_rotation = path.global_rotation
@@ -113,7 +109,8 @@ func _process( _delta ) -> void:
 
     $VisibilityHandler/VisibleOnScreenEnabler2D.global_position = self.global_position
 
-func _physics_process( _delta ) -> void :
+# TODO:  trigger system is a mess
+func _physics_process( _delta ) -> void:
     if is_triggered:
         look_at( Global.head_pos )
         if !stationary:
@@ -122,7 +119,7 @@ func _physics_process( _delta ) -> void :
             $Sprite2D.rotation_degrees = -rotation_degrees
 
 func Weapon_AnimationFinished( anim ) -> void:
-    if anim == "Firing": $AttackCooldown.start( cooldown )
+    if anim == "Firing": cooldown_timer.start( cooldown )
 func _on_AttackCooldown_timeout() -> void: fire_ready = true
 
 func damage( power : float ) -> void: if !immune:
@@ -144,6 +141,7 @@ func damage( power : float ) -> void: if !immune:
             blood.init_pos          = global_position
             Global.layer_dict[ "Objects/Particles" ].add_child( blood )
 
+# TODO:  navigation is a mess
 var arrived : bool = false
 func set_target_pos( pos : Vector2 ) -> void:
     arrived = false
@@ -175,32 +173,34 @@ func _on_UpdatePlayerPos_timeout() -> void:
         keep_distance.rotation_degrees = randf_range( -15, 15 )
         keep_distance_pos.position = Vector2(
             randf_range( keep_distance_a.position.x,   keep_distance_b.position.x ),
-            randf_range( keep_move_a.position.y,       keep_move_b.position.y ) )
+            randf_range( keep_move_a.position.y,       keep_move_b.position.y )
+            )
 
         direction = global_position.direction_to( keep_distance_pos.global_position )
         set_target_pos( keep_distance_pos.global_position )
 
 func _on_TriggerArea_body_entered( body ) -> void:
-#    if body == Global.player_physics_head:
     emit_signal( "triggered" )
 func _on_TriggerArea_area_entered( area ) -> void:
-#    if area == Global.player_physics_body:
     emit_signal( "triggered" )
 
-func _on_triggered() -> void: if !is_triggered:
-    is_triggered = true
-    printt( "", self.get_name(), dbg.value_is( "is_triggered", "true" ) )
-    $AttackCooldown.start( cooldown )
+func _on_triggered() -> void:
+    if !is_triggered:
+        is_triggered = true
+        printt( "", self.get_name(), " is triggered" )
 
-    for f in [ "GeneralArea", "TriggerArea" ]:
-        if get_node_or_null( f ) != null: get_node( f ).queue_free()
-    if path != null: path.queue_free()
-    if !stationary: $NavigationAgent2D/UpdatePlayerPos.start()
+        cooldown_timer.start( cooldown )
+
+        for f in [ "GeneralArea", "TriggerArea" ]:
+            if get_node_or_null( f ) != null:
+                get_node( f ).queue_free()
+
+        if path != null: path.queue_free()
+
+        if !stationary: $NavigationAgent2D/UpdatePlayerPos.start()
 
 func _on_GeneralArea_area_entered( area ) -> void:
-#    if area.get_name() == &"AreaShake":
-        player_near = true
+    player_near = true
 func _on_GeneralArea_area_exited( area ) -> void:
-#    if area.get_name() == &"AreaShake":
-        player_near = false
+    player_near = false
 
