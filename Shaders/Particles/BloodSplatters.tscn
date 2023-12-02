@@ -11,20 +11,18 @@ particles_anim_loop = false
 
 [sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_jeeyc"]
 particle_flag_disable_z = true
+angle_min = -720.0
+angle_max = 720.0
 spread = 180.0
-gravity = Vector3(0, 0, 0)
 initial_velocity_min = 10.0
 initial_velocity_max = 20.0
 angular_velocity_max = 30.0
-orbit_velocity_min = 0.0
-orbit_velocity_max = 0.0
-angle_min = -720.0
-angle_max = 720.0
+gravity = Vector3(0, 0, 0)
+attractor_interaction_enabled = false
 scale_min = 0.75
 scale_max = 0.9
 color = Color(0.760784, 0.027451, 0.027451, 1)
 anim_offset_max = 1.0
-attractor_interaction_enabled = false
 
 [node name="BloodSplatters" type="GPUParticles2D"]
 modulate = Color(1, 1, 1, 0.784314)
@@ -33,8 +31,8 @@ emitting = false
 amount = 5
 process_material = SubResource("ParticleProcessMaterial_jeeyc")
 texture = ExtResource("1_j3kmr")
+lifetime = 2.0
 one_shot = true
-speed_scale = 2.0
 explosiveness = 1.0
 local_coords = true
 script = ExtResource("2_exox2")
