@@ -11,6 +11,9 @@ func _input(event):
         paused = !paused
         visible = paused
         Camera.paused = paused
+        Global.current_scene.process_mode =\
+            Node.PROCESS_MODE_DISABLED if paused else\
+            Node.PROCESS_MODE_INHERIT
         Input.mouse_mode =\
             Input.MOUSE_MODE_VISIBLE if paused else\
             Input.MOUSE_MODE_CONFINED
