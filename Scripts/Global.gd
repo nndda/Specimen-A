@@ -74,14 +74,11 @@ var cfg = {
     bgm = 50,
     }
 
-func _enter_tree():
-    init_tile_sets()
-
 func _process( _delta ) -> void:
 
     health = clamp( health, 0.0, 100.0 )
 
-    moving_or_attacking = moving or attacking
+    #moving_or_attacking = moving or attacking
 
 #    if player != null:
 #        if player.allow_move: moving = true if (
@@ -97,22 +94,3 @@ func _process( _delta ) -> void:
 #        get_global_mouse_position() ) >= 25 ) )
 
 #    worm_length = sum_array( worm_length_array )
-
-var tilemap_depth : int = 6
-var tile_set : TileSet = preload("res://Worlds/Tilesets/Tileset.map.tres")
-
-func init_tile_sets() -> void:
-    var user_tile_res : Callable = func(n, m):\
-        return "user://Tileset.map." + str(m) + "-" + str(n) + ".res"
-
-    for n in tilemap_depth:
-        DirAccess.remove_absolute( user_tile_res.call(n, 1) )
-        ResourceSaver.save( tile_set, user_tile_res.call(n, 1) )
-
-        if n < tilemap_depth - 2:
-            DirAccess.remove_absolute( user_tile_res.call(n, 2) )
-            ResourceSaver.save( tile_set, user_tile_res.call(n, 2) )
-
-            if n == tilemap_depth - 3:
-                DirAccess.remove_absolute( user_tile_res.call(n, 3) )
-                ResourceSaver.save( tile_set, user_tile_res.call(n, 3) )
