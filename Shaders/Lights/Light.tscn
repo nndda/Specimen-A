@@ -74,7 +74,7 @@ shadow_color = Color(0.0588235, 0.0117647, 0.0117647, 1)
 texture = ExtResource("5_rqanb")
 
 [node name="VisibilityHandler" parent="." instance=ExtResource("6_b3uk3")]
-set_process_mode = 4
+set_process_mode_to = 4
 root_path = NodePath("..")
 
 [node name="VisibleOnScreenEnabler2D" parent="VisibilityHandler" index="0"]
