@@ -1,13 +1,20 @@
-[gd_scene load_steps=6 format=3 uid="uid://lgi518g62db8"]
+[gd_scene load_steps=9 format=3 uid="uid://lgi518g62db8"]
 
 [ext_resource type="Script" path="res://Worlds/Objects/Destructibles/DestructiblesBody.gd" id="1_rjp6r"]
 [ext_resource type="Texture2D" uid="uid://be0g0rvserdp1" path="res://Worlds/Objects/Destructibles/BoxA.png" id="2_e4rny"]
+[ext_resource type="Shader" path="res://Shaders/Scripts/shadow.gdshader" id="2_vl8pp"]
+[ext_resource type="PackedScene" uid="uid://bn801wox8wl0f" path="res://Scripts/VisibilityHandler.tscn" id="4_roe10"]
 
 [sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_vhdpc"]
 
 [sub_resource type="OccluderPolygon2D" id="OccluderPolygon2D_awlni"]
 cull_mode = 1
 polygon = PackedVector2Array(-16, -16, -16, 16, 16, 16, 16, -16)
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_8of72"]
+shader = ExtResource("2_vl8pp")
+shader_parameter/offset = Vector2(2, 2)
+shader_parameter/modulate = Color(0, 0, 0, 0.482353)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_ybfam"]
 size = Vector2(30, 30)
@@ -29,16 +36,23 @@ root_node = NodePath(".")
 
 [node name="LightOccluder2D" type="LightOccluder2D" parent="."]
 visible = false
+modulate = Color(1, 1, 1, 0.443137)
 material = SubResource("CanvasItemMaterial_vhdpc")
 occluder = SubResource("OccluderPolygon2D_awlni")
 sdf_collision = false
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
+material = SubResource("ShaderMaterial_8of72")
 texture = ExtResource("2_e4rny")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource("RectangleShape2D_ybfam")
 
-[node name="VisibleOnScreenEnabler2D" type="VisibleOnScreenEnabler2D" parent="."]
-position = Vector2(1.90735e-06, 1.90735e-06)
-scale = Vector2(3.2, 3.2)
+[node name="VisibilityHandler" parent="." instance=ExtResource("4_roe10")]
+set_process_mode_to = 4
+
+[node name="VisibleOnScreenEnabler2D" parent="VisibilityHandler" index="0"]
+position = Vector2(32, 1.78814e-07)
+scale = Vector2(2, 2)
+
+[editable path="VisibilityHandler"]

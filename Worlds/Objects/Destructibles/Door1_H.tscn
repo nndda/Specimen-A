@@ -40,6 +40,7 @@ wait_time = 3.0
 one_shot = true
 
 [node name="VisibilityHandler" parent="." instance=ExtResource("4_mv4g3")]
+set_process_mode_to = 4
 
 [node name="VisibleOnScreenEnabler2D" parent="VisibilityHandler" index="0"]
 position = Vector2(0, 4.76837e-07)
