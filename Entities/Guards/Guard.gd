@@ -74,11 +74,10 @@ func _ready() -> void:
     else:
         $TriggerArea.queue_free()
         custom_trigger.collision_mask = 512
-        custom_trigger.connect( "body_entered",
-            Callable( self, "_on_TriggerArea_body_entered" ) )
+        custom_trigger.body_entered.connect( _on_TriggerArea_body_entered )
 
-    Global.connect( "camera_shaken_by_player", func():
-        if player_near: emit_signal( "triggered" ) )
+    Global.camera_shaken_by_player.connect( func():
+        if player_near: triggered.emit() )
 
     if stationary:
         nav_agent = null
@@ -126,7 +125,7 @@ func damage( power : float ) -> void: if !immune:
 
     print( self," damaged :", power )
 
-    if !is_triggered: emit_signal( "triggered" )
+    if !is_triggered: triggered.emit()
     health -= power
 
     if health <= 0:
@@ -154,7 +153,7 @@ func _on_NavigationAgent2D_velocity_computed( safe_velocity ) -> void:
         move_and_slide()
     elif !arrived:
         arrived = true
-        nav_agent.emit_signal("path_changed")
+        nav_agent.path_changed.emit()
 
 @onready var keep_distance : Node2D = $KeepDistance
 @onready var keep_distance_pos : Node2D = $KeepDistance/Position2D
@@ -179,10 +178,10 @@ func _on_UpdatePlayerPos_timeout() -> void:
         direction = global_position.direction_to( keep_distance_pos.global_position )
         set_target_pos( keep_distance_pos.global_position )
 
-func _on_TriggerArea_body_entered( body ) -> void:
-    emit_signal( "triggered" )
-func _on_TriggerArea_area_entered( area ) -> void:
-    emit_signal( "triggered" )
+func _on_TriggerArea_body_entered( _body ) -> void:
+    triggered.emit()
+func _on_TriggerArea_area_entered( _area ) -> void:
+    triggered.emit()
 
 func _on_triggered() -> void:
     if !is_triggered:
@@ -199,8 +198,8 @@ func _on_triggered() -> void:
 
         if !stationary: $NavigationAgent2D/UpdatePlayerPos.start()
 
-func _on_GeneralArea_area_entered( area ) -> void:
+func _on_GeneralArea_area_entered( _area ) -> void:
     player_near = true
-func _on_GeneralArea_area_exited( area ) -> void:
+func _on_GeneralArea_area_exited( _area ) -> void:
     player_near = false
 
