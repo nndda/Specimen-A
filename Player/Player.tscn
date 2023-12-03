@@ -1,6 +1,7 @@
-[gd_scene load_steps=35 format=3 uid="uid://mjd5n5bhhtyf"]
+[gd_scene load_steps=41 format=3 uid="uid://mjd5n5bhhtyf"]
 
 [ext_resource type="Curve" uid="uid://cpc6bywf3chpy" path="res://Player/Body.width_curve.tres" id="1_8mgss"]
+[ext_resource type="Script" path="res://Scripts/DebugTestField.gd" id="1_85wao"]
 [ext_resource type="Texture2D" uid="uid://ca7grqyyc8raf" path="res://Player/Sprites/Segment-0.png" id="1_tfqx0"]
 [ext_resource type="PackedScene" uid="uid://18w32fckqjmb" path="res://Player/Lights/BodyLight.tscn" id="3_7gejm"]
 [ext_resource type="Curve2D" uid="uid://cpo3ggpdprdea" path="res://Player/Lights/BodyLight.Curve2D.tres" id="3_50gab"]
@@ -258,15 +259,13 @@ _data = {
 [sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_71rbj"]
 lifetime_randomness = 0.55
 particle_flag_disable_z = true
-direction = Vector3(-1, 0, 0)
-spread = 120.0
-gravity = Vector3(0, 0, 0)
-initial_velocity_min = 75.0
-initial_velocity_max = 80.0
-orbit_velocity_min = 0.0
-orbit_velocity_max = 0.0
 angle_min = -720.0
 angle_max = 720.0
+direction = Vector3(-1, 0, 0)
+spread = 120.0
+initial_velocity_min = 75.0
+initial_velocity_max = 80.0
+gravity = Vector3(0, 0, 0)
 scale_min = 2.0
 scale_max = 4.0
 color = Color(1, 0, 0, 1)
@@ -310,18 +309,67 @@ _data = {
 "RESET": SubResource("Animation_yfkwi")
 }
 
+[sub_resource type="Gradient" id="Gradient_o3wjq"]
+offsets = PackedFloat32Array(0.547059, 0.9, 1)
+colors = PackedColorArray(0.647059, 0.0470588, 0.0509804, 0, 0.647059, 0.0470588, 0.0509804, 0.312292, 0.647059, 0.0470588, 0.0509804, 0.631373)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_qqpd7"]
+gradient = SubResource("Gradient_o3wjq")
+width = 256
+height = 512
+fill = 1
+fill_from = Vector2(0.5, 0.5)
+metadata/_snap_enabled = true
+
+[sub_resource type="Animation" id="Animation_edyag"]
+resource_name = "FadeOut"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.3, 0.9),
+"transitions": PackedFloat32Array(1, 0.5, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 1), Color(1, 1, 1, 1), Color(1, 1, 1, 0)]
+}
+
+[sub_resource type="Animation" id="Animation_av16e"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(1, 1, 1, 1)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_b4x0k"]
+_data = {
+"FadeOut": SubResource("Animation_edyag"),
+"RESET": SubResource("Animation_av16e")
+}
+
 [node name="Player" type="Node2D"]
 
-[node name="ColorRect" type="ColorRect" parent="." groups=["DBG"]]
+[node name="ColorRect" type="ColorRect" parent="."]
 visible = false
 offset_left = -416.0
 offset_top = -104.0
-offset_right = 320.0
-offset_bottom = 200.0
+offset_right = 992.0
+offset_bottom = 568.0
+script = ExtResource("1_85wao")
 
 [node name="Body" type="Line2D" parent="."]
 light_mask = 1025
-points = PackedVector2Array(-184, 0, -152, 0, -128, 8, -112, 0, -88, 0, -72, 8, -56, -8, -40, -16, -24, -8, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0)
+points = PackedVector2Array(-184, 0, -152, 0, -128, 8, -112, 0, -88, 0, -72, 8, -56, -8, -40, -16, -24, -8, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0)
 width = 28.0
 width_curve = ExtResource("1_8mgss")
 default_color = Color(0.611765, 0.341176, 0.341176, 1)
@@ -357,10 +405,10 @@ loop = false
 [node name="2" parent="Body/Lights/2" instance=ExtResource("3_7gejm")]
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="Body/Lights"]
-speed_scale = 1.6
 libraries = {
 "": SubResource("AnimationLibrary_yw4d2")
 }
+speed_scale = 1.6
 
 [node name="Hit" type="AnimationPlayer" parent="Body/Lights/AnimationPlayer"]
 libraries = {
@@ -368,7 +416,7 @@ libraries = {
 }
 
 [node name="DamageCollision" type="Area2D" parent="."]
-collision_layer = 4
+collision_layer = 516
 collision_mask = 4
 script = ExtResource("5_4h1ol")
 
@@ -448,10 +496,10 @@ collision_mask = 257
 [node name="FaceObstacle-Pos" type="Node2D" parent="Head"]
 
 [node name="AreaShake" type="Area2D" parent="Head"]
+visible = false
 collision_layer = 256
 collision_mask = 256
 monitoring = false
-monitorable = false
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Head/AreaShake"]
 shape = ExtResource("11_ufsfa")
@@ -500,16 +548,35 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 
+[node name="HealthLowOverlay" type="TextureRect" parent="UI"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = SubResource("GradientTexture2D_qqpd7")
+
 [node name="HealthBar" type="ColorRect" parent="UI"]
-visible = false
 anchors_preset = 12
 anchor_top = 1.0
 anchor_right = 1.0
 anchor_bottom = 1.0
-offset_top = -8.0
+offset_left = 20.0
+offset_top = -12.0
+offset_right = -20.0
+offset_bottom = -8.0
 grow_horizontal = 2
 grow_vertical = 0
+pivot_offset = Vector2(384, 0)
 color = Color(0.898039, 0, 0, 1)
+
+[node name="HealthTicker" type="Timer" parent="UI/HealthBar"]
+wait_time = 0.5
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="UI/HealthBar"]
+libraries = {
+"": SubResource("AnimationLibrary_b4x0k")
+}
 
 [node name="DBG" type="CanvasLayer" parent="."]
 layer = 5
@@ -519,9 +586,8 @@ offset_right = 216.0
 offset_bottom = 248.0
 script = ExtResource("16_u7job")
 
-[connection signal="animation_finished" from="Body/Lights/AnimationPlayer/Hit" to="Body" method="_on_Hit_animation_finished"]
-[connection signal="animation_started" from="Body/Lights/AnimationPlayer/Hit" to="Body" method="_on_Hit_animation_started"]
 [connection signal="tree_entered" from="DamageCollision" to="Head" method="_on_body_tree_entered"]
 [connection signal="tree_entered" from="Head" to="Head" method="_on_head_tree_entered"]
 [connection signal="timeout" from="Head/AttackCooldown" to="Head" method="_on_AttackCooldown_timeout"]
 [connection signal="body_entered" from="Head/DestroyThrough-A" to="Head" method="_on_DestroyThroughA_body_entered" flags=3]
+[connection signal="timeout" from="UI/HealthBar/HealthTicker" to="UI" method="_on_HealthTicker_timeout"]

@@ -1,88 +1,97 @@
 extends CharacterBody2D
 
+var health              : float = 100.0
+var health_tick         : float = 1.75
+var health_regen        : float = 1.0
+
 var speed               : float = 360.0
 
-var moving              : bool = false
+var moving              := false
 var moving_f            : float
 
-var face_obstacle       : bool = false
+var face_obstacle       := false
 
-var allow_attack        : bool = true
-var allow_move          : bool = true
+var allow_attack        := true
+var allow_move          := true
 
-var attacking           : bool = false
+var attacking           := false
 var attack_strength     : float
-var attack_out          : int
+var attack_out          : float
 var attack_dir          : Vector2
 var attack_cooldown     : float = 2.0
 
 var attack_speed        : float = 22.0
 
 var attack_distance_max : float = 32.0 * 12.0
-var attack_pos : PackedVector2Array = [ Vector2.ZERO, Vector2.ZERO ]
+var attack_pos : PackedVector2Array = [Vector2.ZERO, Vector2.ZERO]
 
 var mouse_global_pos : Vector2
 var mouse_viewport_pos : Vector2
 var canvas_position : Vector2
 
-@onready var attack_cooldown_timer : Timer = $AttackCooldown
+@onready var attack_cooldown_timer := $AttackCooldown
 
-@onready var jaw_a : Sprite2D = $Mouth/Jaw_0
-@onready var jaw_b : Sprite2D = $Mouth/Jaw_1
+@onready var body := $"../Body"
+
+@onready var jaw_a := $Mouth/Jaw_0
+@onready var jaw_b := $Mouth/Jaw_1
+
+@onready var health_ticker := $"../UI/HealthBar/HealthTicker"
 
 # Player UIs
-@onready var ui_attack_indicator : TextureProgressBar = $"../UI/AttackIndicator"
-@onready var ui_attack_cooldown : TextureProgressBar = $"../UI/AttackCooldown"
-@onready var ui_arrow : Sprite2D = $"../UI/Arrow"
+@onready var ui := $"../UI"
+@onready var ui_attack_indicator := $"../UI/AttackIndicator"
+@onready var ui_attack_cooldown := $"../UI/AttackCooldown"
+@onready var ui_arrow := $"../UI/Arrow"
 
-@onready var ui_obstacle : Sprite2D = $"../UI/FaceObstacleIcon"
-@onready var ui_obstacle_pos : Node2D = $"FaceObstacle-Pos"
-@onready var ui_obstacle_anim : AnimationPlayer = $"../UI/FaceObstacleIcon/AnimationPlayer"
+@onready var ui_obstacle := $"../UI/FaceObstacleIcon"
+@onready var ui_obstacle_pos := $"FaceObstacle-Pos"
+@onready var ui_obstacle_anim := $"../UI/FaceObstacleIcon/AnimationPlayer"
 
 # Physics
-@onready var raycast_obstacle : RayCast2D = $FaceObstacle
-@onready var raycast_destroy_through : RayCast2D = $"DestroyThrough-R"
+@onready var raycast_obstacle := $FaceObstacle
+@onready var raycast_destroy_through := $"DestroyThrough-R"
 
-@onready var area_destroy_through : Area2D = $"DestroyThrough-A"
-@onready var area_shake : Area2D = $AreaShake
+@onready var area_destroy_through := $"DestroyThrough-A"
+@onready var area_shake := $AreaShake
 
 
-func open_mouth( n : float ) -> void:
+func open_mouth(n : float) -> void:
     jaw_a.rotation_degrees = n * -30.0
     jaw_a.rotation_degrees = clampf(
-        jaw_a.rotation_degrees, -30.0, 0.0 )
+        jaw_a.rotation_degrees, -30.0, 0.0)
 
     jaw_b.rotation_degrees = n * 30.0
     jaw_b.rotation_degrees = clampf(
-        jaw_b.rotation_degrees + n * 30.0, 0.0, 30.0 )
+        jaw_b.rotation_degrees + n * 30.0, 0.0, 30.0)
 
 func attack_handler() -> void:
 
-    ui_attack_indicator.visible = Input.is_action_pressed( "Attack" ) and allow_attack
+    ui_attack_indicator.visible = Input.is_action_pressed(&"Attack") and allow_attack
 
     if allow_attack:
 
         match Global.skill_current:
             Global.skill.none:
-                attack_out  += 4 if Input.is_action_pressed( "Attack" ) else -4
-                attack_out  = int( clamp( attack_out, 0, 100 ) )
-                open_mouth( float( attack_out ) * 0.01 )
-                if Input.is_action_pressed( "Attack" ):
-                    ui_arrow.look_at( mouse_viewport_pos )
+                attack_out  += 4 if Input.is_action_pressed(&"Attack") else -4
+                attack_out  = int(clampf(attack_out, 0, 100))
+                open_mouth(float(attack_out) * 0.01)
+                if Input.is_action_pressed(&"Attack"):
+                    ui_arrow.look_at(mouse_viewport_pos)
                     ui_arrow.position     = canvas_position
-                    ui_arrow.modulate.a   = float( attack_out ) * 0.01
-                    ui_arrow.offset.x     = ( ( 3 * float( attack_out ) ) * 0.2 ) + 68
-                    raycast_obstacle.look_at( mouse_global_pos )
-                    self.look_at( mouse_global_pos )
+                    ui_arrow.modulate.a   = float(attack_out) * 0.01
+                    ui_arrow.offset.x     = ((3 * float(attack_out)) * 0.2) + 68
+                    raycast_obstacle.look_at(mouse_global_pos)
+                    self.look_at(mouse_global_pos)
 
-                if Input.is_action_just_released( "Attack" ):
+                if Input.is_action_just_released(&"Attack"):
                     area_shake.monitorable  = true
                     area_shake.monitoring   = true
                     attacking               = true
-                    attack_dir              = global_position.direction_to( mouse_global_pos )
-                    attack_strength         = float( attack_out )
+                    attack_dir              = global_position.direction_to(mouse_global_pos)
+                    attack_strength         = float(attack_out)
 
-                    attack_cooldown_timer.start( attack_cooldown * ( float( attack_out ) * 0.01 ) )
+                    attack_cooldown_timer.start(attack_cooldown * (float(attack_out) * 0.01))
                     attack_pos[0]           = global_position
                     allow_attack            = false
 
@@ -101,19 +110,17 @@ func attack_handler() -> void:
     ui_attack_indicator.value      = attack_out
     ui_attack_cooldown.max_value   = 100
     ui_attack_cooldown.value       = (
-        ( attack_cooldown_timer.time_left / attack_cooldown_timer.wait_time ) * 100 )
+        (attack_cooldown_timer.time_left / attack_cooldown_timer.wait_time) * 100)
 
 func _enter_tree():
     Global.player = self
-
-func _input( event ): pass
 
 func _ready() -> void:
     monitor_var()
 
 
 # TODO: reduce... things in _process
-func _process( delta ) -> void:
+func _process(_delta) -> void:
 
     monitor_var()
     mouse_global_pos = get_global_mouse_position()
@@ -121,110 +128,104 @@ func _process( delta ) -> void:
 
     canvas_position = get_global_transform_with_canvas().origin
 
-    moving = Input.is_action_pressed( "Move" ) and allow_move
+    moving = Input.is_action_pressed(&"Move") and allow_move
     moving_f += 0.1 if moving else -0.085
-    moving_f = clampf( moving_f, 0.0, float( global_position.distance_to( mouse_global_pos ) >= 25 ) )
-
-    Global.health += 2.5 * delta
+    moving_f = clampf(moving_f, 0.0, float(global_position.distance_to(mouse_global_pos) >= 25))
 
     Global.head_pos               = global_position
     Global.head_canvas_pos        = canvas_position
 
-    ui_arrow.look_at( mouse_viewport_pos )
+    ui_arrow.look_at(mouse_viewport_pos)
     ui_arrow.position     = canvas_position
     ui_arrow.modulate.a   = moving_f
-    ui_arrow.offset.x     = ( moving_f * 60 ) + 68
+    ui_arrow.offset.x     = moving_f * 60 + 68
 
     ui_attack_indicator.position    = canvas_position - ui_attack_indicator.size * 0.5
     ui_attack_cooldown.position     = canvas_position - ui_attack_cooldown.size * 0.5
 
-    raycast_obstacle.look_at( mouse_global_pos )
+    raycast_obstacle.look_at(mouse_global_pos)
     ui_obstacle.visible = !allow_move
 
     if raycast_obstacle.is_colliding():
-        if Input.is_action_just_pressed( "Move" ):
+        if Input.is_action_just_pressed(&"Move"):
             ui_obstacle_pos.global_position = raycast_obstacle.get_collision_point()
             ui_obstacle.position = ui_obstacle_pos.get_global_transform_with_canvas().origin
-            ui_obstacle_anim.play( "Blink" )
+            ui_obstacle_anim.play(&"Blink")
 
     attack_handler()
-
 
 var velo : Vector2
 var attack_velo : Vector2
 var collision : KinematicCollision2D
-func _physics_process( delta ) -> void:
+func _physics_process(delta) -> void:
 
     area_destroy_through.monitoring = attacking
     allow_move = !raycast_obstacle.is_colliding()
 
     if !attacking:
         velo = (
-            ( moving_f *
-            ( ( speed ) * global_position.direction_to( mouse_global_pos ) ) )
-        )
+            moving_f * speed
+            * global_position.direction_to(mouse_global_pos)
+            )
         velocity = velo
         move_and_slide()
 
-#        if area_shake.monitorable: shake_finished()
-
     else:
-        attack_distance_max = 6.4 * attack_strength #( 12.0 * 32.0 ) * ( attack_strength / 60 )
-        velo            = attack_speed * attack_dir
-        collision       = move_and_collide( velo )
+        attack_distance_max = 6.4 * attack_strength #(12.0 * 32.0) * (attack_strength / 60)
+        velo = attack_speed * attack_dir
+        collision = move_and_collide(velo)
 
-        attack_pos[ 1 ] = global_position
+        attack_pos[1] = global_position
 
         if collision != null:
-            velo = velo.bounce( collision.get_normal() )
+            velo = velo.bounce(collision.get_normal())
             shake_cam()
             reset_atk_dmg()
             attacking = false
 
-        if attack_pos[0].distance_to( attack_pos[ 1 ] ) >= attack_distance_max:
-#            velo -= Vector2( 2.0 * delta, 2.0 * delta )
+        if attack_pos[0].distance_to(attack_pos[1]) >= attack_distance_max:
             velo -= Vector2.ONE * 2.0 * delta
             reset_atk_dmg()
             attacking = false
 
-        velo = clamp( velo, Vector2.ZERO, attack_speed * attack_dir )
+        velo = clamp(velo, Vector2.ZERO, attack_speed * attack_dir)
 
     if moving_f > 0 and !attacking:
-        self.look_at( mouse_global_pos )
+        look_at(mouse_global_pos)
 
     ui_attack_cooldown.visible = attack_cooldown_timer.time_left > 0
     Global.attacking = attacking
     Global.moving = moving
+    Global.moving_or_attacking = moving or attacking or moving_f > 0
+
+    if Global.moving_or_attacking:
+        body.update_collision_shape()
+        body.update_light_path()
 
 func shake_cam() -> void:
     Camera.shake_start(
-        ( attack_strength * 0.25 ) + 15,
-        #15 + ( 25 * ( attack_strength / 100 ) ),
+        (attack_strength * 0.25) + 15,
+        #15 + (25 * (attack_strength / 100)),
         0.95,
-        ( ( 2 * attack_strength ) * 0.04 ) + 16 )
-        #16 + 8 * ( attack_strength / 100 ) )
-    Global.emit_signal("camera_shaken_by_player")
-
+        ((2 * attack_strength) * 0.04) + 16)
+        #16 + 8 * (attack_strength / 100))
+    Global.camera_shaken_by_player.emit()
 
 func reset_atk_dmg() -> void:
-    open_mouth( 0 )
+    open_mouth(0)
     attack_strength = 0
     attack_out = 0
 
-func _on_AttackCooldown_timeout() -> void: allow_attack = true
+func _on_AttackCooldown_timeout() -> void:
+    allow_attack = true
 
-
-
-var invincible : bool = false
-func damage_player( power : float ) -> void: if !invincible:
-    var power_total : float = (
-        power * 1.25 ) * 1.0 if !attacking else 0.0
-
-#    print("DamagePlayer: " + str( power_total ) )
-    Global.health -= power_total
-    $"../Body/Lights/AnimationPlayer/Hit".play( "Hit" )
-#    $"../Body/AnimationPlayer/Hit".play("Hit")
-#    $"../UI/Control/HealthBar/AnimationPlayer".play("Visible")
+var invincible := false
+func damage_player(power : float) -> void:
+    if !invincible:
+        ui.health_bar.modulate = Color.WHITE
+        if health_ticker.is_stopped():
+            health_ticker.start(health_tick)
+        health = clampf(health - ((power * 1.1) if !attacking else 0.0), 0.0, 100.0)
 
 func monitor_var() -> void:
     $"../DBG/VBoxContainer".data = [
@@ -234,25 +235,17 @@ func monitor_var() -> void:
 #        "moving",           moving,
         "attacking",        Global.attacking,
         "moving_f",        moving_f,
-        "health",           round(Global.health),
-        ]
+        "moving_atking", Global.moving_or_attacking,
+        "health",           round(health),
+       ]
 
 
-func _on_DestroyThroughA_body_entered( body ) -> void:
-    if body.has_method( "damage" ):
-
-        if body.health - attack_strength <= 0:
-                body.damage( body.health )
-        else:   body.damage( attack_strength )
-
+func _on_DestroyThroughA_body_entered(body_node) -> void:
+    if body_node.has_method(&"damage"):
+        body_node.damage(
+            body_node.health if body_node.health - attack_strength <= 0 else\
+            attack_strength )
         shake_cam()
-
-#       else:
-#           if collision != null:
-#               if collision.has_method("damage"):
-#                   collision.damage(attack_strength)
-#                   reset_atk_dmg()
-#               shake_cam()
 
 func _on_head_tree_entered():
     Global.player_physics_head = $"."
