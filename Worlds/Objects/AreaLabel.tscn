@@ -1,6 +1,9 @@
-[gd_scene load_steps=2 format=3 uid="uid://cytk410u3hy8c"]
+[gd_scene load_steps=3 format=3 uid="uid://cytk410u3hy8c"]
+
+[ext_resource type="FontFile" uid="uid://q0pw558k8hk2" path="res://UI/Fonts/Silver.ttf" id="1_0mbub"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_2yns2"]
+font = ExtResource("1_0mbub")
 font_size = 42
 
 [node name="AreaLabel" type="Label"]
