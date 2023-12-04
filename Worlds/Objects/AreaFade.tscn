@@ -1,0 +1,7 @@
+[gd_scene load_steps=2 format=3 uid="uid://d2xtgmn0bm2va"]
+
+[ext_resource type="Texture2D" uid="uid://d1y5v4sd3axmk" path="res://Shaders/Lights/General.GradientTexture2D.tres" id="1_h31qi"]
+
+[node name="AreaFade" type="Sprite2D"]
+z_index = 20
+texture = ExtResource("1_h31qi")
