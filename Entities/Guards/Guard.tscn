@@ -18,7 +18,7 @@ shader_parameter/modulate = Color(0, 0, 0, 0.568627)
 [sub_resource type="OccluderPolygon2D" id="OccluderPolygon2D_wd8f2"]
 closed = false
 cull_mode = 1
-polygon = PackedVector2Array(13, 1.99997, 6.99999, -4.00002, 4.99999, -3.00001, -1.00001, -3, -3.00001, -3.99999, -9, 2.00002)
+polygon = PackedVector2Array(18, 7.99989, 6.99999, -4.00002, 4.99999, -3.00001, -1.00001, -3, -3.00001, -3.99999, -13.9999, 8.00009)
 
 [node name="Guard" type="CharacterBody2D"]
 collision_layer = 17
@@ -55,6 +55,7 @@ blend_mode = 2
 texture = ExtResource("3_7ft35")
 
 [node name="LightHelmet" type="PointLight2D" parent="Sprite2D"]
+position = Vector2(2, -1.06096e-05)
 color = Color(0.956863, 0.619608, 0.113725, 1)
 range_layer_min = -1
 shadow_enabled = true
@@ -66,6 +67,7 @@ texture_scale = 0.6
 
 [node name="LightOccluder2D" type="LightOccluder2D" parent="Sprite2D/LightHelmet"]
 self_modulate = Color(1, 1, 1, 0)
+position = Vector2(-2, 1.06096e-05)
 occluder = SubResource("OccluderPolygon2D_wd8f2")
 occluder_light_mask = 2
 
