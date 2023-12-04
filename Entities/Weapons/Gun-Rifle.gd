@@ -9,7 +9,10 @@ extends Node
 @onready var line_of_sight := $"../LineOfSight"
 @onready var line_of_fire := $"../LineOfSight/LineOfFire"
 @onready var line_of_fire_const := $"../LineOfSight/LineOfFire/Const"
+var line_of_fire_collider : Object
+
 @onready var bullet_path := $"../BulletPath"
+@onready var bullet_path_default_pos := $"../CollidingPointDefault"
 @onready var bullet_spark := $"../BulletSpark"
 
 @onready var colliding_point := $"../CollidingPoint"
@@ -30,30 +33,25 @@ func firing_started(anim : StringName) -> void:
     if anim == &"Firing":
         bullet_path.visible = true
         line_of_fire_const.enabled = true
+
 func firing_ended(anim : StringName) -> void:
     if anim == &"Firing":
         bullet_path.visible = false
         line_of_fire_const.enabled = false
+        bullet_path.points[1] = bullet_path_default_pos.position
 
 func _physics_process(_delta):
     if wielder.triggered:
             hit = line_of_fire.is_colliding()
             bullet_path.points[0] = Vector2.ZERO
             bullet_spark.visible = hit
-            #bullet_path.visible = animation_player.is_playing()# and bullet_spark.visible
-
-            #line_of_fire_const.enabled = animation_player.is_playing()
 
             if hit:
+                line_of_fire_collider = line_of_fire.get_collider()
                 colliding_point.global_position = line_of_fire_const.get_collision_point()
                 bullet_path.points[1] = colliding_point.position
 
                 bullet_spark.global_position = colliding_point.global_position
-                if line_of_fire.get_collider() != null:
-                    if line_of_fire.get_collider().has_method(&"damage_player"):
-                        line_of_fire.get_collider().damage_player(randf_range(
-                                weapon.damage_min, weapon.damage_max))
-
-            else:
-                bullet_path.points[1] = Vector2(0, 110)
-                bullet_path.points[1] = $"../CollidingPointDefault".position
+                if line_of_fire_collider.has_method(&"damage_player"):
+                    line_of_fire_collider.damage_player(randf_range(
+                            weapon.damage_min, weapon.damage_max))
