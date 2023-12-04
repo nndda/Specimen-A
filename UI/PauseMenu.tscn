@@ -1,15 +1,15 @@
-[gd_scene load_steps=5 format=3 uid="uid://37f75mhp7q61"]
+[gd_scene load_steps=6 format=3 uid="uid://37f75mhp7q61"]
 
 [ext_resource type="Script" path="res://UI/PauseMenu.gd" id="1_vx8gi"]
 
 [sub_resource type="Gradient" id="Gradient_6qmkj"]
-offsets = PackedFloat32Array(0.343173, 0.95203)
-colors = PackedColorArray(0, 0, 0, 0, 0, 0, 0, 1)
+offsets = PackedFloat32Array(0.117647, 0.564706, 0.841176, 1)
+colors = PackedColorArray(0, 0, 0, 0.360784, 0, 0, 0, 0.721286, 0, 0, 0, 0.880289, 0, 0, 0, 1)
 
 [sub_resource type="GradientTexture2D" id="GradientTexture2D_t66ph"]
 gradient = SubResource("Gradient_6qmkj")
 width = 256
-height = 512
+height = 256
 fill = 1
 fill_from = Vector2(0.5, 0.5)
 fill_to = Vector2(1, 0.2)
@@ -17,6 +17,9 @@ metadata/_snap_enabled = true
 
 [sub_resource type="LabelSettings" id="LabelSettings_hxfm2"]
 font_size = 48
+
+[sub_resource type="LabelSettings" id="LabelSettings_0heml"]
+font_size = 27
 
 [node name="PauseMenu" type="CanvasLayer"]
 process_mode = 3
@@ -42,11 +45,32 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="LevelName" type="Label" parent="Control"]
-layout_mode = 0
-offset_left = 16.0
-offset_top = 16.0
-offset_right = 64.0
-offset_bottom = 38.0
+[node name="Area" type="MarginContainer" parent="Control"]
+layout_mode = 1
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_top = -89.0
+offset_right = 208.0
+grow_vertical = 0
+theme_override_constants/margin_left = 25
+theme_override_constants/margin_bottom = 12
+
+[node name="LevelName" type="Label" parent="Control/Area"]
+layout_mode = 2
 text = "Level name"
 label_settings = SubResource("LabelSettings_hxfm2")
+vertical_alignment = 2
+
+[node name="Sub" type="Label" parent="Control/Area/LevelName"]
+layout_mode = 1
+anchors_preset = 12
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = -14.0
+offset_bottom = 17.0
+grow_horizontal = 2
+grow_vertical = 0
+text = "Sub Area Name"
+label_settings = SubResource("LabelSettings_0heml")
