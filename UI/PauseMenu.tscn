@@ -1,10 +1,12 @@
-[gd_scene load_steps=6 format=3 uid="uid://37f75mhp7q61"]
+[gd_scene load_steps=8 format=3 uid="uid://37f75mhp7q61"]
 
 [ext_resource type="Script" path="res://UI/PauseMenu.gd" id="1_vx8gi"]
+[ext_resource type="PackedScene" uid="uid://pbhmm4m3qrow" path="res://UI/ButtonBase.tscn" id="2_uh5wo"]
+[ext_resource type="PackedScene" uid="uid://dc65kw5fmo080" path="res://UI/ConfigMenu.tscn" id="3_aj22h"]
 
 [sub_resource type="Gradient" id="Gradient_6qmkj"]
 offsets = PackedFloat32Array(0.117647, 0.564706, 0.841176, 1)
-colors = PackedColorArray(0, 0, 0, 0.360784, 0, 0, 0, 0.721286, 0, 0, 0, 0.880289, 0, 0, 0, 1)
+colors = PackedColorArray(0, 0, 0, 0.517647, 0, 0, 0, 0.721286, 0, 0, 0, 0.880289, 0, 0, 0, 1)
 
 [sub_resource type="GradientTexture2D" id="GradientTexture2D_t66ph"]
 gradient = SubResource("Gradient_6qmkj")
@@ -15,16 +17,15 @@ fill_from = Vector2(0.5, 0.5)
 fill_to = Vector2(1, 0.2)
 metadata/_snap_enabled = true
 
-[sub_resource type="LabelSettings" id="LabelSettings_hxfm2"]
+[sub_resource type="LabelSettings" id="LabelSettings_3fob6"]
 font_size = 48
 
-[sub_resource type="LabelSettings" id="LabelSettings_0heml"]
+[sub_resource type="LabelSettings" id="LabelSettings_gmaom"]
 font_size = 27
 
 [node name="PauseMenu" type="CanvasLayer"]
 process_mode = 3
-layer = 28
-visible = false
+layer = 40
 script = ExtResource("1_vx8gi")
 
 [node name="TextureRect" type="TextureRect" parent="."]
@@ -59,7 +60,7 @@ theme_override_constants/margin_bottom = 12
 [node name="LevelName" type="Label" parent="Control/Area"]
 layout_mode = 2
 text = "Level name"
-label_settings = SubResource("LabelSettings_hxfm2")
+label_settings = SubResource("LabelSettings_3fob6")
 vertical_alignment = 2
 
 [node name="Sub" type="Label" parent="Control/Area/LevelName"]
@@ -73,4 +74,82 @@ offset_bottom = 17.0
 grow_horizontal = 2
 grow_vertical = 0
 text = "Sub Area Name"
-label_settings = SubResource("LabelSettings_0heml")
+label_settings = SubResource("LabelSettings_gmaom")
+
+[node name="Menu" type="HBoxContainer" parent="Control"]
+layout_mode = 1
+anchors_preset = 14
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_top = -8.0
+offset_bottom = 14.0
+grow_horizontal = 2
+grow_vertical = 2
+alignment = 1
+
+[node name="Resume" parent="Control/Menu" instance=ExtResource("2_uh5wo")]
+custom_minimum_size = Vector2(120, 22)
+layout_mode = 2
+mouse_default_cursor_shape = 2
+
+[node name="Label" parent="Control/Menu/Resume" index="0"]
+text = "Resume"
+
+[node name="Shortcut" type="Label" parent="Control/Menu/Resume"]
+layout_mode = 1
+anchors_preset = 12
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 6.0
+offset_top = 2.0
+offset_bottom = 30.0
+grow_horizontal = 2
+grow_vertical = 0
+text = "[Esc]"
+
+[node name="Restart" parent="Control/Menu" instance=ExtResource("2_uh5wo")]
+custom_minimum_size = Vector2(120, 22)
+layout_mode = 2
+mouse_default_cursor_shape = 2
+
+[node name="Label" parent="Control/Menu/Restart" index="0"]
+text = "Restart"
+
+[node name="Achievements" parent="Control/Menu" instance=ExtResource("2_uh5wo")]
+custom_minimum_size = Vector2(120, 22)
+layout_mode = 2
+mouse_default_cursor_shape = 2
+
+[node name="Label" parent="Control/Menu/Achievements" index="0"]
+text = "Achievements"
+
+[node name="Config" parent="Control/Menu" instance=ExtResource("2_uh5wo")]
+custom_minimum_size = Vector2(120, 22)
+layout_mode = 2
+mouse_default_cursor_shape = 2
+
+[node name="Label" parent="Control/Menu/Config" index="0"]
+text = "Config"
+
+[node name="MainMenu" parent="Control/Menu" instance=ExtResource("2_uh5wo")]
+custom_minimum_size = Vector2(120, 22)
+layout_mode = 2
+mouse_default_cursor_shape = 2
+
+[node name="Label" parent="Control/Menu/MainMenu" index="0"]
+text = "Main Menu"
+
+[node name="ConfigMenu" parent="Control" instance=ExtResource("3_aj22h")]
+visible = false
+layout_mode = 1
+
+[connection signal="pressed" from="Control/Menu/Resume" to="." method="_resume_pressed"]
+[connection signal="pressed" from="Control/Menu/Config" to="." method="_config_pressed"]
+
+[editable path="Control/Menu/Resume"]
+[editable path="Control/Menu/Restart"]
+[editable path="Control/Menu/Achievements"]
+[editable path="Control/Menu/Config"]
+[editable path="Control/Menu/MainMenu"]

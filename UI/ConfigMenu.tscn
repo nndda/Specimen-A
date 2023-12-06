@@ -1,0 +1,419 @@
+[gd_scene load_steps=4 format=3 uid="uid://dc65kw5fmo080"]
+
+[ext_resource type="Theme" uid="uid://1eq3q2sr8oo5" path="res://UI/UI.Theme.tres" id="1_7s32y"]
+[ext_resource type="Script" path="res://UI/ConfigMenu.gd" id="2_kilni"]
+[ext_resource type="PackedScene" uid="uid://pbhmm4m3qrow" path="res://UI/ButtonBase.tscn" id="3_8efdb"]
+
+[node name="ConfigMenu" type="MarginContainer"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 120
+theme_override_constants/margin_top = 48
+theme_override_constants/margin_right = 120
+script = ExtResource("2_kilni")
+
+[node name="Menu" type="VBoxContainer" parent="."]
+layout_mode = 2
+theme = ExtResource("1_7s32y")
+
+[node name="Buttons" type="HBoxContainer" parent="Menu"]
+layout_mode = 2
+
+[node name="Back" parent="Menu/Buttons" instance=ExtResource("3_8efdb")]
+custom_minimum_size = Vector2(100, 22)
+layout_mode = 2
+
+[node name="Label" parent="Menu/Buttons/Back" index="0"]
+text = "Back"
+
+[node name="Reset" parent="Menu/Buttons" instance=ExtResource("3_8efdb")]
+custom_minimum_size = Vector2(120, 22)
+layout_mode = 2
+
+[node name="Label" parent="Menu/Buttons/Reset" index="0"]
+text = "Reset settings"
+
+[node name="ConfirmationDialog" type="ConfirmationDialog" parent="Menu/Buttons/Reset"]
+position = Vector2i(0, 36)
+size = Vector2i(240, 100)
+visible = true
+ok_button_text = "Reset settings"
+dialog_text = "This will revert all settings back to its default settings"
+dialog_autowrap = true
+
+[node name="Right" type="HBoxContainer" parent="Menu/Buttons"]
+layout_mode = 2
+size_flags_horizontal = 3
+alignment = 2
+
+[node name="ResetProgress" parent="Menu/Buttons/Right" instance=ExtResource("3_8efdb")]
+custom_minimum_size = Vector2(120, 22)
+layout_mode = 2
+
+[node name="Label" parent="Menu/Buttons/Right/ResetProgress" index="0"]
+text = "Reset progress"
+
+[node name="ConfirmationDialog" type="ConfirmationDialog" parent="Menu/Buttons/Right/ResetProgress"]
+position = Vector2i(0, 36)
+size = Vector2i(240, 100)
+ok_button_text = "Reset progress"
+dialog_text = "This will reset ALL progress, including achievements (Can't be undone)"
+dialog_autowrap = true
+
+[node name="HSeparator" type="HSeparator" parent="Menu"]
+modulate = Color(1, 1, 1, 0)
+layout_mode = 2
+
+[node name="Tab" type="TabContainer" parent="Menu"]
+custom_minimum_size = Vector2(0, 250)
+layout_mode = 2
+
+[node name="Display" type="MarginContainer" parent="Menu/Tab"]
+layout_mode = 2
+theme_override_constants/margin_left = 16
+theme_override_constants/margin_top = 16
+theme_override_constants/margin_right = 16
+theme_override_constants/margin_bottom = 16
+
+[node name="Items" type="VBoxContainer" parent="Menu/Tab/Display"]
+layout_mode = 2
+
+[node name="Resolution" type="HBoxContainer" parent="Menu/Tab/Display/Items"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="Menu/Tab/Display/Items/Resolution"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Resolution"
+vertical_alignment = 1
+
+[node name="OptionButton" type="OptionButton" parent="Menu/Tab/Display/Items/Resolution"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_pressed_color = Color(1, 1, 1, 1)
+theme_override_colors/font_hover_color = Color(1, 1, 1, 1)
+theme_override_colors/font_hover_pressed_color = Color(1, 1, 1, 1)
+theme_override_colors/font_focus_color = Color(1, 1, 1, 1)
+theme_override_colors/font_disabled_color = Color(1, 1, 1, 1)
+theme_override_colors/font_outline_color = Color(1, 1, 1, 1)
+alignment = 1
+item_count = 4
+selected = 0
+popup/item_0/text = "768 x 432"
+popup/item_0/id = 0
+popup/item_1/text = "1280 x 720"
+popup/item_1/id = 1
+popup/item_2/text = "1366 x 768"
+popup/item_2/id = 3
+popup/item_3/text = "1920 x 1080"
+popup/item_3/id = 2
+
+[node name="Fullscreen" type="HBoxContainer" parent="Menu/Tab/Display/Items"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="Menu/Tab/Display/Items/Fullscreen"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Fullscreen"
+vertical_alignment = 1
+
+[node name="CheckButton" type="CheckButton" parent="Menu/Tab/Display/Items/Fullscreen"]
+layout_mode = 2
+text = "on"
+
+[node name="Quality" type="HBoxContainer" parent="Menu/Tab/Display/Items"]
+visible = false
+layout_mode = 2
+
+[node name="Label" type="Label" parent="Menu/Tab/Display/Items/Quality"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Quality"
+vertical_alignment = 1
+
+[node name="OptionButton" type="OptionButton" parent="Menu/Tab/Display/Items/Quality"]
+layout_mode = 2
+size_flags_horizontal = 3
+alignment = 1
+item_count = 2
+selected = 0
+popup/item_0/text = "High"
+popup/item_0/id = 0
+popup/item_1/text = "Low"
+popup/item_1/id = 1
+
+[node name="HSeparator" type="HSeparator" parent="Menu/Tab/Display/Items"]
+layout_mode = 2
+theme_override_constants/separation = 9
+
+[node name="Brightness" type="HBoxContainer" parent="Menu/Tab/Display/Items"]
+layout_mode = 2
+
+[node name="Labels" type="HBoxContainer" parent="Menu/Tab/Display/Items/Brightness"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="Label" type="Label" parent="Menu/Tab/Display/Items/Brightness/Labels"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Brightness"
+vertical_alignment = 1
+
+[node name="Value" type="Label" parent="Menu/Tab/Display/Items/Brightness/Labels"]
+layout_mode = 2
+text = "100%"
+
+[node name="HSlider" type="HSlider" parent="Menu/Tab/Display/Items/Brightness"]
+layout_mode = 2
+size_flags_horizontal = 3
+min_value = -80.0
+max_value = 2.0
+value = 2.0
+
+[node name="Contrast" type="HBoxContainer" parent="Menu/Tab/Display/Items"]
+layout_mode = 2
+
+[node name="Labels" type="HBoxContainer" parent="Menu/Tab/Display/Items/Contrast"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="Label" type="Label" parent="Menu/Tab/Display/Items/Contrast/Labels"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Contrast"
+vertical_alignment = 1
+
+[node name="Value" type="Label" parent="Menu/Tab/Display/Items/Contrast/Labels"]
+layout_mode = 2
+text = "100%"
+
+[node name="HSlider" type="HSlider" parent="Menu/Tab/Display/Items/Contrast"]
+layout_mode = 2
+size_flags_horizontal = 3
+min_value = -80.0
+max_value = 2.0
+value = 2.0
+
+[node name="Sound" type="MarginContainer" parent="Menu/Tab"]
+visible = false
+layout_mode = 2
+theme_override_constants/margin_left = 16
+theme_override_constants/margin_top = 16
+theme_override_constants/margin_right = 16
+theme_override_constants/margin_bottom = 16
+
+[node name="Items" type="VBoxContainer" parent="Menu/Tab/Sound"]
+layout_mode = 2
+
+[node name="Master" type="HBoxContainer" parent="Menu/Tab/Sound/Items"]
+layout_mode = 2
+
+[node name="Labels" type="HBoxContainer" parent="Menu/Tab/Sound/Items/Master"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="Label" type="Label" parent="Menu/Tab/Sound/Items/Master/Labels"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Master"
+vertical_alignment = 1
+
+[node name="Value" type="Label" parent="Menu/Tab/Sound/Items/Master/Labels"]
+layout_mode = 2
+text = "100%"
+
+[node name="HSlider" type="HSlider" parent="Menu/Tab/Sound/Items/Master"]
+layout_mode = 2
+size_flags_horizontal = 3
+min_value = -80.0
+max_value = 2.0
+value = 2.0
+
+[node name="SFX" type="HBoxContainer" parent="Menu/Tab/Sound/Items"]
+layout_mode = 2
+
+[node name="Labels" type="HBoxContainer" parent="Menu/Tab/Sound/Items/SFX"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="Label" type="Label" parent="Menu/Tab/Sound/Items/SFX/Labels"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Sound Effects"
+vertical_alignment = 1
+
+[node name="Value" type="Label" parent="Menu/Tab/Sound/Items/SFX/Labels"]
+layout_mode = 2
+text = "100%"
+
+[node name="HSlider" type="HSlider" parent="Menu/Tab/Sound/Items/SFX"]
+layout_mode = 2
+size_flags_horizontal = 3
+min_value = -80.0
+max_value = 2.0
+value = 2.0
+
+[node name="BGM" type="HBoxContainer" parent="Menu/Tab/Sound/Items"]
+layout_mode = 2
+
+[node name="Labels" type="HBoxContainer" parent="Menu/Tab/Sound/Items/BGM"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="Label" type="Label" parent="Menu/Tab/Sound/Items/BGM/Labels"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Background Music"
+vertical_alignment = 1
+
+[node name="Value" type="Label" parent="Menu/Tab/Sound/Items/BGM/Labels"]
+layout_mode = 2
+text = "100%"
+
+[node name="HSlider" type="HSlider" parent="Menu/Tab/Sound/Items/BGM"]
+layout_mode = 2
+size_flags_horizontal = 3
+min_value = -80.0
+max_value = 2.0
+value = 2.0
+
+[node name="Controls" type="MarginContainer" parent="Menu/Tab"]
+visible = false
+layout_mode = 2
+theme_override_constants/margin_left = 16
+theme_override_constants/margin_top = 16
+theme_override_constants/margin_right = 16
+theme_override_constants/margin_bottom = 16
+
+[node name="Items" type="VBoxContainer" parent="Menu/Tab/Controls"]
+layout_mode = 2
+
+[node name="Desc" type="HBoxContainer" parent="Menu/Tab/Controls/Items"]
+layout_mode = 2
+
+[node name="Action" type="Label" parent="Menu/Tab/Controls/Items/Desc"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Action"
+
+[node name="Key" type="Label" parent="Menu/Tab/Controls/Items/Desc"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Key"
+
+[node name="HSeparator" type="HSeparator" parent="Menu/Tab/Controls/Items"]
+layout_mode = 2
+
+[node name="Move" type="HBoxContainer" parent="Menu/Tab/Controls/Items"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="Menu/Tab/Controls/Items/Move"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Move"
+
+[node name="Actions" type="HBoxContainer" parent="Menu/Tab/Controls/Items/Move"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="A" type="Button" parent="Menu/Tab/Controls/Items/Move/Actions"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Mouse Left"
+
+[node name="B" type="Button" parent="Menu/Tab/Controls/Items/Move/Actions"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "F"
+
+[node name="Attack" type="HBoxContainer" parent="Menu/Tab/Controls/Items"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="Menu/Tab/Controls/Items/Attack"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Attack"
+
+[node name="Actions" type="HBoxContainer" parent="Menu/Tab/Controls/Items/Attack"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="A" type="Button" parent="Menu/Tab/Controls/Items/Attack/Actions"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Mouse Right"
+
+[node name="B" type="Button" parent="Menu/Tab/Controls/Items/Attack/Actions"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Space"
+
+[node name="RebindDialogue" type="Window" parent="Menu/Tab/Controls"]
+title = "Rebind key"
+initial_position = 1
+size = Vector2i(220, 80)
+visible = false
+max_size = Vector2i(220, 80)
+
+[node name="PanelContainer" type="PanelContainer" parent="Menu/Tab/Controls/RebindDialogue"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Control" type="Control" parent="Menu/Tab/Controls/RebindDialogue/PanelContainer"]
+layout_mode = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Menu/Tab/Controls/RebindDialogue/PanelContainer/Control"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -66.0
+offset_top = -20.0
+offset_right = 66.0
+offset_bottom = 20.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/separation = -4
+
+[node name="Label" type="Label" parent="Menu/Tab/Controls/RebindDialogue/PanelContainer/Control/VBoxContainer"]
+layout_mode = 2
+text = "Press any key to rebind"
+horizontal_alignment = 1
+vertical_alignment = 2
+
+[node name="Current" type="HBoxContainer" parent="Menu/Tab/Controls/RebindDialogue/PanelContainer/Control/VBoxContainer"]
+layout_mode = 2
+alignment = 1
+
+[node name="Label" type="Label" parent="Menu/Tab/Controls/RebindDialogue/PanelContainer/Control/VBoxContainer/Current"]
+layout_mode = 2
+text = "Currently : "
+
+[node name="Key" type="Label" parent="Menu/Tab/Controls/RebindDialogue/PanelContainer/Control/VBoxContainer/Current"]
+layout_mode = 2
+text = "F"
+
+[connection signal="visibility_changed" from="." to="." method="_on_visibility_changed"]
+[connection signal="pressed" from="Menu/Buttons/Back" to="." method="_back_pressed"]
+[connection signal="pressed" from="Menu/Buttons/Reset" to="." method="_reset_pressed"]
+[connection signal="confirmed" from="Menu/Buttons/Reset/ConfirmationDialog" to="." method="_reset_confirmed"]
+[connection signal="pressed" from="Menu/Buttons/Right/ResetProgress" to="." method="_reset_progress_pressed"]
+[connection signal="confirmed" from="Menu/Buttons/Right/ResetProgress/ConfirmationDialog" to="." method="_reset_progress_confirmed"]
+[connection signal="item_selected" from="Menu/Tab/Display/Items/Resolution/OptionButton" to="." method="_on_resolution_selected"]
+[connection signal="toggled" from="Menu/Tab/Display/Items/Fullscreen/CheckButton" to="." method="_on_fullscreen_toggled"]
+[connection signal="value_changed" from="Menu/Tab/Sound/Items/Master/HSlider" to="." method="_on_master_changed"]
+[connection signal="value_changed" from="Menu/Tab/Sound/Items/SFX/HSlider" to="." method="_on_sfx_changed"]
+[connection signal="value_changed" from="Menu/Tab/Sound/Items/BGM/HSlider" to="." method="_on_bgm_changed"]
+
+[editable path="Menu/Buttons/Back"]
+[editable path="Menu/Buttons/Reset"]
+[editable path="Menu/Buttons/Right/ResetProgress"]

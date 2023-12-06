@@ -1,27 +1,58 @@
 extends CanvasLayer
 
 var paused := false
+var allow_pause := false
 @onready var level_root := $".."
 
 @onready var level_name := $Control/Area/LevelName
 @onready var level_sub := $Control/Area/LevelName/Sub
 
+@onready var config_menu := $Control/ConfigMenu
+
+func toggle_pause() -> void:
+    paused = !paused
+    visible = paused
+    Camera.paused = paused
+    ProjectSettings.set_setting("display/mouse_cursor/custom_image",
+        "" if paused else\
+        "res://UI/Cursors/Dot.png"
+    )
+    level_root.call_deferred(&"set_process_mode",
+        Node.PROCESS_MODE_DISABLED if paused else\
+        Node.PROCESS_MODE_INHERIT
+    )
+    Input.mouse_mode =\
+        Input.MOUSE_MODE_VISIBLE if paused else\
+        Input.MOUSE_MODE_CONFINED
+
 func _enter_tree() -> void:
     visible =false
     Input.mouse_mode = Input.MOUSE_MODE_CONFINED
 
-func _input(event : InputEvent) -> void:
-    if event.is_action_pressed(&"Pause"):
-        paused = !paused
-        visible = paused
-        Camera.paused = paused
-        Global.current_scene.process_mode =\
-            Node.PROCESS_MODE_DISABLED if paused else\
-            Node.PROCESS_MODE_INHERIT
-        Input.mouse_mode =\
-            Input.MOUSE_MODE_VISIBLE if paused else\
-            Input.MOUSE_MODE_CONFINED
-
 func _ready() -> void:
     level_name.text = level_root.level_name
-    level_sub.text = ""
+    level_root.level_loaded.connect(func(): allow_pause = true)
+
+func _input(event : InputEvent) -> void:
+    if event.is_action_pressed(&"Pause") and\
+        !config_menu.visible and\
+        allow_pause:
+        toggle_pause()
+
+func set_area_name() -> void:
+    level_name.text = level_root.level_name
+func set_area_sub_name(area_name : StringName) -> void:
+    level_sub.text = area_name
+
+# Main buttons
+
+func _resume_pressed() -> void:
+    toggle_pause()
+func _achievements_pressed() -> void:
+    pass
+func _config_pressed() -> void:
+    $Control/ConfigMenu.visible = true
+func _mainmenu_pressed() -> void:
+    pass
+
+
