@@ -1,6 +1,6 @@
 extends Node2D
 
-var enemy_exception_bodies : Array[ PhysicsBody2D ]
+var enemy_exception_bodies : Array[PhysicsBody2D]
 var current_scene : Node
 
 var layer : Array[String] = [
@@ -8,12 +8,13 @@ var layer : Array[String] = [
     "Objects/Particles",
     "Objects/Statics",
     "Objects",
-    "Entities" ]
+    "Entities",
+    ]
 var layer_dict : Dictionary = {}
 func update_layers() -> void:
     layer_dict.clear()
     for itm in layer:
-        layer_dict[ itm ] = current_scene.get_node( itm )
+        layer_dict[ itm ] = current_scene.get_node(itm)
 
 var current_objects     : Array
 var top_scale           : float = 1.1
@@ -63,16 +64,49 @@ func sum_array( array : PackedFloat32Array ) -> float:
     for n in array: t += n
     return t
 
-#   CONFIG
-var cfg = {
-    always_show_health_bar = false,
-    optimal_graphic = false,
-    show_damage = true,
 
-    master = 50,
-    sfx = 50,
-    bgm = 50,
+var user_data := {
+    "level_unlocked" : 0,
+    "achievements" : {
+
+    },
+
+#   CONFIG
+    "config" : {
+        #"always_show_health_bar" : false,
+        "optimal_graphic" : false,
+        "fullscreen" : false,
+        "resolution_idx" : 0,
+        #"show_damage" : false,
+
+        "brightness" : 80,
+        "contrast" : 80,
+
+        "master" : 50,
+        "sfx" : 50,
+        "bgm" : 50,
+        },
     }
+var user_data_default : Dictionary
+const user_data_path := "user://user_data"
+func update_user_data() -> void:
+    var new_data := FileAccess.open(user_data_path, FileAccess.WRITE_READ)
+    new_data.store_buffer(var_to_bytes(user_data))
+    new_data.close()
+
+func load_user_data() -> void:
+    if !FileAccess.file_exists(user_data_path):
+        update_user_data()
+    else:
+        var data = bytes_to_var(FileAccess.get_file_as_bytes(user_data_path))
+        if data is Dictionary:
+            if data.keys() == user_data.keys():
+                user_data = data
+        data = null
+
+func _enter_tree():
+    user_data_default = user_data.duplicate(true)
+    load_user_data()
 
 func _process( _delta ) -> void:
 
