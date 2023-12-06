@@ -1,0 +1,25 @@
+[gd_scene load_steps=2 format=3 uid="uid://pbhmm4m3qrow"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_a8dpo"]
+line_spacing = -24.0
+font_size = 19
+shadow_size = 0
+
+[node name="ButtonBase" type="Button"]
+custom_minimum_size = Vector2(0, 22)
+alignment = 0
+
+[node name="Label" type="Label" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 8.0
+offset_top = 4.0
+offset_right = 28.0
+offset_bottom = 3.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "Label"
+label_settings = SubResource("LabelSettings_a8dpo")
+vertical_alignment = 2
