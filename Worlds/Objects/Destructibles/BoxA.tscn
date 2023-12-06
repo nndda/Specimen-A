@@ -33,6 +33,7 @@ script = ExtResource("1_rjp6r")
 health = 1.0
 particles_scene = "res://Shaders/Particles/GlassShards.tscn"
 root_node = NodePath(".")
+following_visibility_handler = true
 
 [node name="LightOccluder2D" type="LightOccluder2D" parent="."]
 visible = false
