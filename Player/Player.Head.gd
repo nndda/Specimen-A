@@ -55,7 +55,6 @@ var canvas_position : Vector2
 @onready var area_destroy_through := $"DestroyThrough-A"
 @onready var area_shake := $AreaShake
 
-
 func open_mouth(n : float) -> void:
     jaw_a.rotation_degrees = n * -30.0
     jaw_a.rotation_degrees = clampf(
@@ -74,24 +73,25 @@ func attack_handler() -> void:
         match Global.skill_current:
             Global.skill.none:
                 attack_out  += 4 if Input.is_action_pressed(&"Attack") else -4
-                attack_out  = int(clampf(attack_out, 0, 100))
-                open_mouth(float(attack_out) * 0.01)
+                attack_out  = clampf(attack_out, 0.0, 100.0)
+                open_mouth(attack_out * 0.01)
                 if Input.is_action_pressed(&"Attack"):
                     ui_arrow.look_at(mouse_viewport_pos)
                     ui_arrow.position     = canvas_position
-                    ui_arrow.modulate.a   = float(attack_out) * 0.01
-                    ui_arrow.offset.x     = ((3 * float(attack_out)) * 0.2) + 68
-                    raycast_obstacle.look_at(mouse_global_pos)
-                    self.look_at(mouse_global_pos)
+                    ui_arrow.modulate.a   = attack_out * 0.01
+                    ui_arrow.offset.x     = attack_out * 0.6 + 68#((3 * attack_out) * 0.2) + 68
+                    raycast_obstacle.\
+                    look_at(mouse_global_pos)
+                    look_at(mouse_global_pos)
 
                 if Input.is_action_just_released(&"Attack"):
                     area_shake.monitorable  = true
                     area_shake.monitoring   = true
                     attacking               = true
                     attack_dir              = global_position.direction_to(mouse_global_pos)
-                    attack_strength         = float(attack_out)
+                    attack_strength         = attack_out
 
-                    attack_cooldown_timer.start(attack_cooldown * (float(attack_out) * 0.01))
+                    attack_cooldown_timer.start(attack_cooldown * attack_out * 0.01)
                     attack_pos[0]           = global_position
                     allow_attack            = false
 
@@ -112,17 +112,18 @@ func attack_handler() -> void:
     ui_attack_cooldown.value       = (
         (attack_cooldown_timer.time_left / attack_cooldown_timer.wait_time) * 100)
 
-func _enter_tree():
+func _enter_tree() -> void:
     Global.player = self
 
-func _ready() -> void:
-    monitor_var()
+#func _ready() -> void:
+    #look_at_nodes.make_read_only()
+    #monitor_var()
 
 
 # TODO: reduce... things in _process
 func _process(_delta) -> void:
 
-    monitor_var()
+    #monitor_var()
     mouse_global_pos = get_global_mouse_position()
     mouse_viewport_pos = get_viewport().get_mouse_position()
 
@@ -130,7 +131,7 @@ func _process(_delta) -> void:
 
     moving = Input.is_action_pressed(&"Move") and allow_move
     moving_f += 0.1 if moving else -0.085
-    moving_f = clampf(moving_f, 0.0, float(global_position.distance_to(mouse_global_pos) >= 25))
+    moving_f = clampf(moving_f, 0.0, float(global_position.distance_to(mouse_global_pos) >= 35))
 
     Global.head_pos               = global_position
     Global.head_canvas_pos        = canvas_position
@@ -158,7 +159,6 @@ var velo : Vector2
 var attack_velo : Vector2
 var collision : KinematicCollision2D
 func _physics_process(delta) -> void:
-
     area_destroy_through.monitoring = attacking
     allow_move = !raycast_obstacle.is_colliding()
 
@@ -196,7 +196,7 @@ func _physics_process(delta) -> void:
     ui_attack_cooldown.visible = attack_cooldown_timer.time_left > 0
     Global.attacking = attacking
     Global.moving = moving
-    Global.moving_or_attacking = moving or attacking or moving_f > 0
+    Global.moving_or_attacking = attacking or moving or moving_f > 0
 
     if Global.moving_or_attacking:
         body.update_collision_shape()
@@ -204,11 +204,13 @@ func _physics_process(delta) -> void:
 
 func shake_cam() -> void:
     Camera.shake_start(
-        (attack_strength * 0.25) + 15,
+        attack_strength * 0.25 + 15,
         #15 + (25 * (attack_strength / 100)),
         0.95,
-        ((2 * attack_strength) * 0.04) + 16)
-        #16 + 8 * (attack_strength / 100))
+        attack_strength * 0.08 + 16
+        #((2 * attack_strength) * 0.04) + 16
+        #16 + 8 * (attack_strength / 100)
+    )
     Global.camera_shaken_by_player.emit()
 
 func reset_atk_dmg() -> void:
@@ -244,7 +246,8 @@ func _on_DestroyThroughA_body_entered(body_node) -> void:
     if body_node.has_method(&"damage"):
         body_node.damage(
             body_node.health if body_node.health - attack_strength <= 0 else\
-            attack_strength )
+            attack_strength
+        )
         shake_cam()
 
 func _on_head_tree_entered():
