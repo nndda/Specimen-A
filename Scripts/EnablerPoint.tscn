@@ -1,0 +1,16 @@
+[gd_scene load_steps=3 format=3 uid="uid://dxrsevadm5y44"]
+
+[ext_resource type="Script" path="res://Scripts/EnablerPoint.gd" id="1_x62f2"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_45gi5"]
+radius = 44.0
+
+[node name="EnablerPoint" type="Area2D"]
+editor_description = "Enable entities when player reach this areas"
+collision_layer = 512
+collision_mask = 512
+monitorable = false
+script = ExtResource("1_x62f2")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("CircleShape2D_45gi5")
