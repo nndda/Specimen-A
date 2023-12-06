@@ -8,6 +8,8 @@
 [ext_resource type="PackedScene" uid="uid://mjd5n5bhhtyf" path="res://Player/Player.tscn" id="11_unoct"]
 
 [node name="LevelBase" type="Node2D"]
+editor_description = "Basee scene for all levels
+MOVE FAR FAR AWAY FROM POINT 0, 0 WHEN BUILDING LEVELS"
 script = ExtResource("1_sic2w")
 pseudo_3d_generator = NodePath("Pseudo3DGenerator")
 
@@ -57,8 +59,12 @@ rotation = 1.57079
 
 [node name="Entities" type="Node2D" parent="."]
 
+[node name="Areas" type="Node2D" parent="."]
+
 [node name="TopLayer" type="CanvasLayer" parent="."]
 follow_viewport_enabled = true
+
+[node name="Lights" type="Node2D" parent="TopLayer"]
 
 [node name="Tile" parent="TopLayer" instance=ExtResource("2_04a13")]
 modulate = Color(1, 0, 0, 1)
