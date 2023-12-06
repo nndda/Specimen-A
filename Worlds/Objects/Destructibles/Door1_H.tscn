@@ -28,6 +28,7 @@ polygons = [PackedInt32Array(0, 1, 2, 3)]
 script = ExtResource("2_8x6hv")
 
 [node name="DestructiblesBody" type="StaticBody2D" parent="."]
+disable_mode = 1
 script = ExtResource("3_0hntq")
 particles_scene = "res://Shaders/Particles/GlassShards.tscn"
 root_node = NodePath("..")

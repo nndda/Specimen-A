@@ -29,6 +29,7 @@ script = ExtResource("2_nq1al")
 direction = 0
 
 [node name="DestructiblesBody" type="StaticBody2D" parent="."]
+disable_mode = 1
 script = ExtResource("3_aurhh")
 particles_scene = "res://Shaders/Particles/GlassShards.tscn"
 root_node = NodePath("..")
