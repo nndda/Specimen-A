@@ -1,19 +1,19 @@
 extends GPUParticles2D
 
-@export var stay : bool = false
+@export var stay := false
 
 @export\
-var custom_init_pos : bool = false
+var custom_init_pos := false
 var init_pos : Vector2
 
-@onready var copytimer : Timer = Timer.new()
+@onready var copytimer := Timer.new()
 
 func emit() -> void:
     visible = true
     copytimer.start(lifetime - 0.05)
     emitting = true
 
-func _ready():
+func _ready() -> void:
 
     if custom_init_pos:
         global_position = init_pos
@@ -25,11 +25,11 @@ func _ready():
 
     emit()
 
-func _process( _delta ) -> void:
+func _process(_delta) -> void:
     if emitting:
         if stay:
             speed_scale = copytimer.time_left / copytimer.wait_time
 
         if speed_scale == 0:
-            copytimer.queue_free()
+            #copytimer.queue_free()
             process_mode = Node.PROCESS_MODE_DISABLED

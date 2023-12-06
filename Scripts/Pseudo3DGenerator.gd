@@ -24,12 +24,12 @@ func init_tile_sets() -> void:
                 tilesets_copy.append(user_tile_res.call(n, 3))
 
     for res in tilesets_copy:
-        if !FileAccess.file_exists(res):
+        #if !FileAccess.file_exists(res):
             DirAccess.remove_absolute(res)
             ResourceSaver.save(tileset, res)
-        elif ResourceLoader.load(res) == tileset:
-            DirAccess.remove_absolute(res)
-            ResourceSaver.save(tileset, res)
+        #elif ResourceLoader.load(res) == tileset:
+            #DirAccess.remove_absolute(res)
+            #ResourceSaver.save(tileset, res)
 
 signal layers_generated
 
@@ -45,16 +45,16 @@ func generate_layers() -> void:
 
     for n in depth:
 
-        var layer       : CanvasLayer   = CanvasLayer.new()
-        var map_layer   : TileMap       = get_node(map).duplicate()
+        var layer := CanvasLayer.new()
+        var map_layer := get_node(map).duplicate()
 
-        layer.name                      = str(n)
-        layer.layer                     = 0
-        layer.follow_viewport_enabled   = true
-        layer.follow_viewport_scale     = remap(n, 0, depth - 1, 1.0, max_scale)
+        layer.name = StringName(str(n))
+        layer.layer = 0
+        layer.follow_viewport_enabled = true
+        layer.follow_viewport_scale = remap(n, 0, depth - 1, 1.0, max_scale)
 
-        map_layer.tile_set              = load("user://Tileset.map.1-" + str(n) + ".res")
-        map_layer.modulate              = Color.WHITE
+        map_layer.tile_set = load("user://Tileset.map.1-" + str(n) + ".res")
+        map_layer.modulate = Color.WHITE
 
         map_layer.tile_set.set_physics_layer_collision_layer(0, int(n != 0))
         map_layer.tile_set.set_physics_layer_collision_mask(0, int(n != 0))
@@ -75,8 +75,8 @@ func generate_layers() -> void:
 
         if n < depth - 2:
             var\
-            map_decor_layer : TileMap   = get_node(map_decor).duplicate()
-            map_decor_layer.tile_set    = load("user://Tileset.map.2-" + str(n) + ".res")
+            map_decor_layer := get_node(map_decor).duplicate()
+            map_decor_layer.tile_set = load("user://Tileset.map.2-" + str(n) + ".res")
 
             map_decor_layer.tile_set.set_physics_layer_collision_layer(0, int(n == 0))
             map_decor_layer.tile_set.set_physics_layer_collision_mask(0, int(n == 0))
@@ -89,8 +89,8 @@ func generate_layers() -> void:
 
             if n == depth - 3:
                 var\
-                map_decor_light_layer : TileMap = get_node(map_decor_light).duplicate()
-                map_decor_light_layer.tile_set  = load("user://Tileset.map.3-" + str(n) + ".res")
+                map_decor_light_layer := get_node(map_decor_light).duplicate()
+                map_decor_light_layer.tile_set = load("user://Tileset.map.3-" + str(n) + ".res")
 
                 layer.call_deferred(&"add_child", map_decor_light_layer)
 
