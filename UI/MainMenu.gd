@@ -5,20 +5,22 @@ extends Node2D
 @export_node_path( "BaseButton" ) var config    : NodePath
 @export_node_path( "BaseButton" ) var exit      : NodePath
 
-@export_category( "Config Items" )
-@export_node_path( "BaseButton", "Slider" ) var quality     : NodePath
-@export_node_path( "BaseButton", "Slider" ) var resolution  : NodePath
-@export_node_path( "BaseButton", "Slider" ) var fullscreen  : NodePath
-@export_node_path( "BaseButton", "Slider" ) var master      : NodePath
-@export_node_path( "BaseButton", "Slider" ) var sfx         : NodePath
-@export_node_path( "BaseButton", "Slider" ) var bgm         : NodePath
+@onready var config_menu := $CanvasLayer/Control/ConfigMenu
 
 func _ready() -> void:
     Global.current_scene = self
     Camera.enabled = false
+    Camera.start_fade_out()
     $Camera2D.enabled = true
+    config_menu.sync_config()
 #	cam.global_position = $Camera2D.global_position
 
 func _on_exit_pressed() -> void:
     $Control/VBoxContainer/Exit/ConfirmationDialog.popup_centered()
+func _config_pressed():
+    config_menu.visible = true
 func _on_exit_confirmation_dialog_confirmed() -> void: get_tree().quit()
+
+
+
+

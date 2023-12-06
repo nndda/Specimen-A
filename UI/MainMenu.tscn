@@ -1,0 +1,105 @@
+[gd_scene load_steps=5 format=3 uid="uid://b0qvyw3l8mlv0"]
+
+[ext_resource type="FontFile" uid="uid://q0pw558k8hk2" path="res://UI/Fonts/Silver.ttf" id="2_3cbhs"]
+[ext_resource type="PackedScene" uid="uid://pbhmm4m3qrow" path="res://UI/ButtonBase.tscn" id="3_dop32"]
+[ext_resource type="PackedScene" uid="uid://dc65kw5fmo080" path="res://UI/ConfigMenu.tscn" id="4_c5xvl"]
+
+[sub_resource type="Theme" id="Theme_e4thq"]
+default_font = ExtResource("2_3cbhs")
+default_font_size = 24
+
+[node name="MainMenu" type="Node2D"]
+
+[node name="Camera2D" type="Camera2D" parent="."]
+position = Vector2(384, 216)
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+layer = 50
+
+[node name="Control" type="Control" parent="CanvasLayer"]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 768.0
+offset_bottom = 432.0
+theme = SubResource("Theme_e4thq")
+
+[node name="ReferenceRect" type="ReferenceRect" parent="CanvasLayer/Control"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+border_width = 5.0
+
+[node name="Margin" type="MarginContainer" parent="CanvasLayer/Control"]
+layout_mode = 1
+anchors_preset = 9
+anchor_bottom = 1.0
+offset_right = 140.0
+grow_vertical = 2
+theme_override_constants/margin_left = 16
+theme_override_constants/margin_top = 64
+
+[node name="Menu" type="VBoxContainer" parent="CanvasLayer/Control/Margin"]
+layout_mode = 2
+alignment = 1
+
+[node name="Start" parent="CanvasLayer/Control/Margin/Menu" instance=ExtResource("3_dop32")]
+custom_minimum_size = Vector2(140, 28)
+layout_mode = 2
+
+[node name="Label" parent="CanvasLayer/Control/Margin/Menu/Start" index="0"]
+text = "Start"
+
+[node name="Config" parent="CanvasLayer/Control/Margin/Menu" instance=ExtResource("3_dop32")]
+custom_minimum_size = Vector2(140, 28)
+layout_mode = 2
+
+[node name="Label" parent="CanvasLayer/Control/Margin/Menu/Config" index="0"]
+text = "Config"
+
+[node name="Credits" parent="CanvasLayer/Control/Margin/Menu" instance=ExtResource("3_dop32")]
+custom_minimum_size = Vector2(140, 28)
+layout_mode = 2
+
+[node name="Label" parent="CanvasLayer/Control/Margin/Menu/Credits" index="0"]
+text = "Credits"
+
+[node name="Achievements" parent="CanvasLayer/Control/Margin/Menu" instance=ExtResource("3_dop32")]
+custom_minimum_size = Vector2(140, 28)
+layout_mode = 2
+
+[node name="Label" parent="CanvasLayer/Control/Margin/Menu/Achievements" index="0"]
+text = "Achievements"
+
+[node name="Exit" parent="CanvasLayer/Control/Margin/Menu" instance=ExtResource("3_dop32")]
+custom_minimum_size = Vector2(140, 28)
+layout_mode = 2
+
+[node name="Label" parent="CanvasLayer/Control/Margin/Menu/Exit" index="0"]
+text = "Exit"
+
+[node name="ConfirmationDialog" type="ConfirmationDialog" parent="CanvasLayer/Control/Margin/Menu/Exit"]
+title = "Confirm..."
+size = Vector2i(200, 93)
+min_size = Vector2i(200, 60)
+dialog_text = "Exit the game?"
+
+[node name="ConfigMenu" parent="CanvasLayer/Control" instance=ExtResource("4_c5xvl")]
+visible = false
+layout_mode = 0
+anchors_preset = 0
+anchor_right = 0.0
+anchor_bottom = 0.0
+grow_horizontal = 1
+grow_vertical = 1
+
+[connection signal="pressed" from="CanvasLayer/Control/Margin/Menu/Config" to="." method="_config_pressed"]
+[connection signal="confirmed" from="CanvasLayer/Control/Margin/Menu/Exit/ConfirmationDialog" to="." method="_on_exit_confirmation_dialog_confirmed"]
+
+[editable path="CanvasLayer/Control/Margin/Menu/Start"]
+[editable path="CanvasLayer/Control/Margin/Menu/Config"]
+[editable path="CanvasLayer/Control/Margin/Menu/Credits"]
+[editable path="CanvasLayer/Control/Margin/Menu/Achievements"]
+[editable path="CanvasLayer/Control/Margin/Menu/Exit"]
