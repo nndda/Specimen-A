@@ -1,7 +1,13 @@
-[gd_scene load_steps=2 format=3 uid="uid://d2xtgmn0bm2va"]
+[gd_scene load_steps=3 format=3 uid="uid://d2xtgmn0bm2va"]
 
-[ext_resource type="Texture2D" uid="uid://d1y5v4sd3axmk" path="res://Shaders/Lights/General.GradientTexture2D.tres" id="1_h31qi"]
+[sub_resource type="Gradient" id="Gradient_x54mg"]
+offsets = PackedFloat32Array(0, 0.2, 0.370588, 0.635294, 1)
+colors = PackedColorArray(0, 0, 0, 1, 0, 0, 0, 0.878788, 0, 0, 0, 0.753922, 0, 0, 0, 0.392468, 0, 0, 0, 0)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_c25ru"]
+gradient = SubResource("Gradient_x54mg")
+metadata/_snap_enabled = true
 
 [node name="AreaFade" type="Sprite2D"]
 z_index = 20
-texture = ExtResource("1_h31qi")
+texture = SubResource("GradientTexture2D_c25ru")
