@@ -1,5 +1,7 @@
 extends CharacterBody2D
 
+@export var show_debug := false
+
 var health              : float = 100.0
 var health_tick         : float = 1.75
 var health_regen        : float = 1.0
@@ -27,6 +29,7 @@ var attack_pos : PackedVector2Array = [Vector2.ZERO, Vector2.ZERO]
 
 var mouse_global_pos : Vector2
 var mouse_viewport_pos : Vector2
+var mouse_moving_distancce : float
 var canvas_position : Vector2
 
 @onready var attack_cooldown_timer := $AttackCooldown
@@ -115,23 +118,29 @@ func attack_handler() -> void:
 func _enter_tree() -> void:
     Global.player = self
 
-#func _ready() -> void:
-    #look_at_nodes.make_read_only()
-    #monitor_var()
+func _ready() -> void:
+    if show_debug:
+        monitor_var()
+        $"../DBG/VBoxContainer".set_vars()
+    else:
+        $"../DBG".queue_free()
 
 
 # TODO: reduce... things in _process
 func _process(_delta) -> void:
 
-    #monitor_var()
     mouse_global_pos = get_global_mouse_position()
     mouse_viewport_pos = get_viewport().get_mouse_position()
+    mouse_moving_distancce = global_position.distance_to(mouse_global_pos)
 
     canvas_position = get_global_transform_with_canvas().origin
 
-    moving = Input.is_action_pressed(&"Move") and allow_move
-    moving_f += 0.1 if moving else -0.085
-    moving_f = clampf(moving_f, 0.0, float(global_position.distance_to(mouse_global_pos) >= 35))
+    moving = Input.is_action_pressed(&"Move") and allow_move and\
+        mouse_moving_distancce >= 45
+    moving_f = clampf(
+        moving_f + (0.1 if moving else -0.085),
+        0.0, 1.0
+    )
 
     Global.head_pos               = global_position
     Global.head_canvas_pos        = canvas_position
@@ -155,6 +164,9 @@ func _process(_delta) -> void:
 
     attack_handler()
 
+    if show_debug:
+        monitor_var()
+
 var velo : Vector2
 var attack_velo : Vector2
 var collision : KinematicCollision2D
@@ -163,6 +175,7 @@ func _physics_process(delta) -> void:
     allow_move = !raycast_obstacle.is_colliding()
 
     if !attacking:
+
         velo = (
             moving_f * speed
             * global_position.direction_to(mouse_global_pos)
@@ -233,13 +246,16 @@ func monitor_var() -> void:
     $"../DBG/VBoxContainer".data = [
         "fps",              Engine.get_frames_per_second(),
         "body length",      round(Global.worm_length),
-#        "head pos",         Global.head_pos.round(),
-#        "moving",           moving,
+        #"head pos",         Global.head_pos.round(),
+        "allow_move",       allow_move,
+        "allow_attack",     allow_attack,
+        "moving",           Global.moving,
         "attacking",        Global.attacking,
-        "moving_f",        moving_f,
-        "moving_atking", Global.moving_or_attacking,
+        "moving_f",         Global.moving_f,
+        "moving_atking",    Global.moving_or_attacking,
         "health",           round(health),
        ]
+    $"../DBG/VBoxContainer".mon_vars()
 
 
 func _on_DestroyThroughA_body_entered(body_node) -> void:
