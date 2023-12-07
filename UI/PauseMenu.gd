@@ -48,11 +48,21 @@ func set_area_sub_name(area_name : StringName) -> void:
 
 func _resume_pressed() -> void:
     toggle_pause()
+
+@onready var restart_confirm := $Control/Menu/Restart/ConfirmationDialog
+func _restart_pressed() -> void:
+    restart_confirm.popup_centered()
+func _restart_confirmed() -> void:
+    level_root.get_tree().call_deferred(&"reload_current_scene")
+
 func _achievements_pressed() -> void:
     pass
+
 func _config_pressed() -> void:
-    $Control/ConfigMenu.visible = true
+    config_menu.visible = true
+
+@onready var mainmenu_confirm := $Control/Menu/Restart/ConfirmationDialog
 func _mainmenu_pressed() -> void:
-    pass
-
-
+    mainmenu_confirm.popup_centered()
+func _mainmenu_confirmed() -> void:
+    level_root.get_tree().call_deferred(&"change_scene_to_file", "res://UI/MainMenu.tscn")

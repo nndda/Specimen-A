@@ -117,6 +117,12 @@ mouse_default_cursor_shape = 2
 [node name="Label" parent="Control/Menu/Restart" index="0"]
 text = "Restart"
 
+[node name="ConfirmationDialog" type="ConfirmationDialog" parent="Control/Menu/Restart"]
+size = Vector2i(200, 72)
+min_size = Vector2i(120, 70)
+ok_button_text = "Yes"
+dialog_text = "Restart current level?"
+
 [node name="Achievements" parent="Control/Menu" instance=ExtResource("2_uh5wo")]
 custom_minimum_size = Vector2(120, 22)
 layout_mode = 2
@@ -141,12 +147,22 @@ mouse_default_cursor_shape = 2
 [node name="Label" parent="Control/Menu/MainMenu" index="0"]
 text = "Main Menu"
 
+[node name="ConfirmationDialog" type="ConfirmationDialog" parent="Control/Menu/MainMenu"]
+size = Vector2i(200, 72)
+min_size = Vector2i(120, 70)
+ok_button_text = "Yes"
+dialog_text = "Go back to the main menu?"
+
 [node name="ConfigMenu" parent="Control" instance=ExtResource("3_aj22h")]
 visible = false
 layout_mode = 1
 
 [connection signal="pressed" from="Control/Menu/Resume" to="." method="_resume_pressed"]
+[connection signal="pressed" from="Control/Menu/Restart" to="." method="_restart_pressed"]
+[connection signal="confirmed" from="Control/Menu/Restart/ConfirmationDialog" to="." method="_restart_confirmed"]
 [connection signal="pressed" from="Control/Menu/Config" to="." method="_config_pressed"]
+[connection signal="pressed" from="Control/Menu/MainMenu" to="." method="_mainmenu_pressed"]
+[connection signal="confirmed" from="Control/Menu/MainMenu/ConfirmationDialog" to="." method="_mainmenu_confirmed"]
 
 [editable path="Control/Menu/Resume"]
 [editable path="Control/Menu/Restart"]
