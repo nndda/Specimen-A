@@ -6,11 +6,11 @@ var current_scene : Node
 var layer : Array[String] = [
     "Objects/Corpses",
     "Objects/Particles",
-    "Objects/Statics",
-    "Objects",
-    "Entities",
+    #"Objects/Statics",
+    #"Objects",
+    #"Entities",
     ]
-var layer_dict : Dictionary = {}
+var layer_dict := {}
 func update_layers() -> void:
     layer_dict.clear()
     for itm in layer:
@@ -67,6 +67,7 @@ func sum_array( array : PackedFloat32Array ) -> float:
 
 var user_data := {
     "level_unlocked" : 0,
+
     "achievements" : {
 
     },
@@ -79,17 +80,18 @@ var user_data := {
         "resolution_idx" : 0,
         #"show_damage" : false,
 
-        "brightness" : 80,
-        "contrast" : 80,
+        "brightness" : 1,
+        "contrast" : 1,
 
-        "master" : 50,
-        "sfx" : 50,
-        "bgm" : 50,
+        "master" : 0,
+        "sfx" : 0,
+        "bgm" : 0,
         },
     }
 var user_data_default : Dictionary
 const user_data_path := "user://user_data"
 func update_user_data() -> void:
+    #DirAccess.remove_absolute(user_data_path)
     var new_data := FileAccess.open(user_data_path, FileAccess.WRITE_READ)
     new_data.store_buffer(var_to_bytes(user_data))
     new_data.close()

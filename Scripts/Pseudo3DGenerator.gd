@@ -15,6 +15,9 @@ var tilesets_copy : PackedStringArray = []
 var user_tile_res := func(n, m):\
     return "user://Tileset.map." + str(m) + "-" + str(n) + ".res"
 
+const global_modulate := preload("res://Worlds/GlobalModulate.tscn")
+const global_environment := preload("res://Worlds/GlobalEnvironment.tscn")
+
 func init_tile_sets() -> void:
     for n in depth:
         tilesets_copy.append(user_tile_res.call(n, 1))
@@ -37,14 +40,17 @@ func generate_layers() -> void:
     init_tile_sets()
 
     for t in [top_layer, top_layer_2]:
-        get_node(t).add_child(preload("res://Worlds/GlobalModulate.tscn").instantiate())
-        get_node(t).follow_viewport_scale = max_scale
-        get_node(t).follow_viewport_enabled = true
-        get_node(t).show()
+        var n := get_node(t)
+        n.call_deferred(&"add_child", global_modulate.instantiate())
+        #n.call_deferred(&"add_child", global_environment.instantiate())
+        #n.add_child(global_modulate.instantiate())
+        #n.add_child(global_environment.instantiate())
+        n.follow_viewport_scale = max_scale
+        n.follow_viewport_enabled = true
+        n.show()
     get_node(top_layer_2).follow_viewport_scale = max_scale + 0.15
 
     for n in depth:
-
         var layer := CanvasLayer.new()
         var map_layer := get_node(map).duplicate()
 
@@ -56,21 +62,25 @@ func generate_layers() -> void:
         map_layer.tile_set = load("user://Tileset.map.1-" + str(n) + ".res")
         map_layer.modulate = Color.WHITE
 
-        map_layer.tile_set.set_physics_layer_collision_layer(0, int(n != 0))
-        map_layer.tile_set.set_physics_layer_collision_mask(0, int(n != 0))
-        if n == 0: map_layer.tile_set.remove_physics_layer(0)
+        if map_layer.tile_set.get_physics_layers_count() > 0:
+            if n != 0:
+                map_layer.tile_set.set_physics_layer_collision_layer(0, 1)
+                map_layer.tile_set.set_physics_layer_collision_mask(0, 1)
+            if n == 0: map_layer.tile_set.remove_physics_layer(0)
 
-        map_layer.tile_set.set_occlusion_layer_light_mask(0, 0)
-        if n != 0:
-            map_layer.tile_set.remove_occlusion_layer(0)
-        elif n == 0:
-            map_layer.tile_set.set_occlusion_layer_light_mask(0, 32)
+        if map_layer.tile_set.get_occlusion_layers_count() > 0:
+            map_layer.tile_set.set_occlusion_layer_light_mask(0, 0)
+            if n != 0: map_layer.tile_set.remove_occlusion_layer(0)
+            elif n == 0: map_layer.tile_set.set_occlusion_layer_light_mask(0, 32)
 
-        map_layer.tile_set.set_navigation_layer_layers(0, int(n == 0))
-        if n != 0: map_layer.tile_set.remove_navigation_layer(0)
+        if map_layer.tile_set.get_navigation_layers_count() > 0:
+            if n == 0:
+                map_layer.tile_set.set_navigation_layer_layers(0, 1)
+            if n != 0: map_layer.tile_set.remove_navigation_layer(0)
 
         layer.call_deferred(&"add_child", map_layer)
-        layer.call_deferred(&"add_child", load("res://Worlds/GlobalModulate.tscn").instantiate())
+        layer.call_deferred(&"add_child", global_modulate.instantiate())
+        #layer.call_deferred(&"add_child", global_environment.instantiate())
 
 
         if n < depth - 2:
@@ -78,12 +88,16 @@ func generate_layers() -> void:
             map_decor_layer := get_node(map_decor).duplicate()
             map_decor_layer.tile_set = load("user://Tileset.map.2-" + str(n) + ".res")
 
-            map_decor_layer.tile_set.set_physics_layer_collision_layer(0, int(n == 0))
-            map_decor_layer.tile_set.set_physics_layer_collision_mask(0, int(n == 0))
-            if n != 0: map_decor_layer.tile_set.remove_physics_layer(0)
+            if map_decor_layer.tile_set.get_physics_layers_count() > 0:
+                if n == 0:
+                    map_decor_layer.tile_set.set_physics_layer_collision_layer(0, 1)
+                    map_decor_layer.tile_set.set_physics_layer_collision_mask(0, 1)
+                if n != 0: map_decor_layer.tile_set.remove_physics_layer(0)
 
-            map_decor_layer.tile_set.set_occlusion_layer_light_mask(0, int(n == 0))
-            if n != 0: map_decor_layer.tile_set.remove_occlusion_layer(0)
+            if map_decor_layer.tile_set.get_occlusion_layers_count() > 0:
+                if n == 0:
+                    map_decor_layer.tile_set.set_occlusion_layer_light_mask(0, 1)
+                if n != 0: map_decor_layer.tile_set.remove_occlusion_layer(0)
 
             layer.call_deferred(&"add_child", map_decor_layer)
 

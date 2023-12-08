@@ -25,8 +25,9 @@ func copy_camera(camera_node : Camera2D, auto_disable := true) -> void:
     copy_camera_tween.play()
 
 func copy_camera_reset() -> void:
-    is_copying = false
-    zoom = Vector2.ONE
+    if is_copying:
+        is_copying = false
+        zoom = Vector2.ONE
 
 func shake_start(
     power : float,
@@ -125,11 +126,11 @@ func finished_visual_loading() -> void:
     animation_player.play(&"fade_out")
     visload_running = false
 
-
 var mouse_pos := Vector2.ZERO
 var viewport_rect_size := Vector2.ZERO
 
 var following := false
+
 func _process(_delta) -> void:
     if following:
         viewport_rect_size = get_viewport_rect().size
@@ -161,7 +162,7 @@ func start_fade_out() -> void:
 func start_fade_in() -> void:
     animation_player.play(&"fade_in")
 
-func _on_animation_finished(anim_name : StringName)  -> void:
+func _on_animation_finished(anim_name : StringName) -> void:
     if anim_name == &"fade_out":
         fade_out.emit()
     if anim_name == &"fade_in":
