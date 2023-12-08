@@ -1,0 +1,21 @@
+[gd_scene load_steps=4 format=3 uid="uid://bsnom8ktk6vi8"]
+
+[ext_resource type="PackedScene" uid="uid://lgi518g62db8" path="res://Worlds/Objects/Destructibles/BoxA.tscn" id="1_j3qhh"]
+[ext_resource type="Texture2D" uid="uid://2ao8askace5q" path="res://Worlds/Objects/Destructibles/BoxC.png" id="2_qcxcq"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_h6uf0"]
+size = Vector2(64, 30)
+
+[node name="BoxC-0" instance=ExtResource("1_j3qhh")]
+mass = 45.0
+
+[node name="Sprite2D" parent="." index="1"]
+texture = ExtResource("2_qcxcq")
+
+[node name="CollisionShape2D" parent="." index="2"]
+shape = SubResource("RectangleShape2D_h6uf0")
+
+[node name="VisibleOnScreenEnabler2D" parent="VisibilityHandler" index="0"]
+scale = Vector2(4, 2)
+
+[editable path="VisibilityHandler"]
