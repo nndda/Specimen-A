@@ -36,19 +36,15 @@ map_decor_light = NodePath("../TileDecor_L")
 top_layer = NodePath("../TopLayer")
 top_layer_2 = NodePath("../TopLayer+1")
 
-[node name="Objects" type="Node2D" parent="."]
+[node name="Areas" type="Node2D" parent="."]
 
-[node name="Lights" type="Node2D" parent="Objects"]
+[node name="Objects" type="Node2D" parent="."]
 
 [node name="Corpses" type="Node2D" parent="Objects"]
 
 [node name="Particles" type="Node2D" parent="Objects"]
 
-[node name="Decors" type="Node2D" parent="Objects"]
-
 [node name="Statics" type="Node2D" parent="Objects"]
-
-[node name="Destructibles" type="Node2D" parent="Objects"]
 
 [node name="Player" parent="." instance=ExtResource("11_unoct")]
 rotation = 1.57079
@@ -58,8 +54,6 @@ rotation = 1.57079
 [node name="Decors" type="Node2D" parent="Objects+1"]
 
 [node name="Entities" type="Node2D" parent="."]
-
-[node name="Areas" type="Node2D" parent="."]
 
 [node name="TopLayer" type="CanvasLayer" parent="."]
 follow_viewport_enabled = true
