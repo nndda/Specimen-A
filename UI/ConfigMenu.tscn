@@ -1,8 +1,13 @@
-[gd_scene load_steps=4 format=3 uid="uid://dc65kw5fmo080"]
+[gd_scene load_steps=6 format=3 uid="uid://dc65kw5fmo080"]
 
 [ext_resource type="Theme" uid="uid://1eq3q2sr8oo5" path="res://UI/UI.Theme.tres" id="1_7s32y"]
 [ext_resource type="Script" path="res://UI/ConfigMenu.gd" id="2_kilni"]
 [ext_resource type="PackedScene" uid="uid://pbhmm4m3qrow" path="res://UI/ButtonBase.tscn" id="3_8efdb"]
+
+[sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_3u85o"]
+blend_mode = 3
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_bbhev"]
 
 [node name="ConfigMenu" type="MarginContainer"]
 anchors_preset = 15
@@ -10,6 +15,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+theme = ExtResource("1_7s32y")
 theme_override_constants/margin_left = 120
 theme_override_constants/margin_top = 48
 theme_override_constants/margin_right = 120
@@ -17,7 +23,6 @@ script = ExtResource("2_kilni")
 
 [node name="Menu" type="VBoxContainer" parent="."]
 layout_mode = 2
-theme = ExtResource("1_7s32y")
 
 [node name="Buttons" type="HBoxContainer" parent="Menu"]
 layout_mode = 2
@@ -25,21 +30,15 @@ layout_mode = 2
 [node name="Back" parent="Menu/Buttons" instance=ExtResource("3_8efdb")]
 custom_minimum_size = Vector2(100, 22)
 layout_mode = 2
-
-[node name="Label" parent="Menu/Buttons/Back" index="0"]
 text = "Back"
 
 [node name="Reset" parent="Menu/Buttons" instance=ExtResource("3_8efdb")]
 custom_minimum_size = Vector2(120, 22)
 layout_mode = 2
-
-[node name="Label" parent="Menu/Buttons/Reset" index="0"]
 text = "Reset settings"
 
 [node name="ConfirmationDialog" type="ConfirmationDialog" parent="Menu/Buttons/Reset"]
-position = Vector2i(0, 36)
 size = Vector2i(240, 100)
-visible = true
 ok_button_text = "Reset settings"
 dialog_text = "This will revert all settings back to its default settings"
 dialog_autowrap = true
@@ -52,8 +51,6 @@ alignment = 2
 [node name="ResetProgress" parent="Menu/Buttons/Right" instance=ExtResource("3_8efdb")]
 custom_minimum_size = Vector2(120, 22)
 layout_mode = 2
-
-[node name="Label" parent="Menu/Buttons/Right/ResetProgress" index="0"]
 text = "Reset progress"
 
 [node name="ConfirmationDialog" type="ConfirmationDialog" parent="Menu/Buttons/Right/ResetProgress"]
@@ -68,6 +65,7 @@ modulate = Color(1, 1, 1, 0)
 layout_mode = 2
 
 [node name="Tab" type="TabContainer" parent="Menu"]
+material = SubResource("CanvasItemMaterial_3u85o")
 custom_minimum_size = Vector2(0, 250)
 layout_mode = 2
 
@@ -158,6 +156,7 @@ layout_mode = 2
 size_flags_horizontal = 3
 
 [node name="Label" type="Label" parent="Menu/Tab/Display/Items/Brightness/Labels"]
+visible = false
 layout_mode = 2
 size_flags_horizontal = 3
 text = "Brightness"
@@ -170,9 +169,10 @@ text = "100%"
 [node name="HSlider" type="HSlider" parent="Menu/Tab/Display/Items/Brightness"]
 layout_mode = 2
 size_flags_horizontal = 3
-min_value = -80.0
-max_value = 2.0
-value = 2.0
+min_value = 0.3
+max_value = 1.8
+step = 0.05
+value = 1.0
 
 [node name="Contrast" type="HBoxContainer" parent="Menu/Tab/Display/Items"]
 layout_mode = 2
@@ -182,6 +182,7 @@ layout_mode = 2
 size_flags_horizontal = 3
 
 [node name="Label" type="Label" parent="Menu/Tab/Display/Items/Contrast/Labels"]
+visible = false
 layout_mode = 2
 size_flags_horizontal = 3
 text = "Contrast"
@@ -194,9 +195,10 @@ text = "100%"
 [node name="HSlider" type="HSlider" parent="Menu/Tab/Display/Items/Contrast"]
 layout_mode = 2
 size_flags_horizontal = 3
-min_value = -80.0
-max_value = 2.0
-value = 2.0
+min_value = 0.3
+max_value = 1.8
+step = 0.05
+value = 1.0
 
 [node name="Sound" type="MarginContainer" parent="Menu/Tab"]
 visible = false
@@ -320,10 +322,20 @@ text = "Move"
 layout_mode = 2
 size_flags_horizontal = 3
 
-[node name="A" type="Button" parent="Menu/Tab/Controls/Items/Move/Actions"]
+[node name="Labels" type="HBoxContainer" parent="Menu/Tab/Controls/Items/Move/Actions"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="Label" type="Label" parent="Menu/Tab/Controls/Items/Move/Actions/Labels"]
 layout_mode = 2
 size_flags_horizontal = 3
 text = "Mouse Left"
+horizontal_alignment = 1
+
+[node name="Or" type="Label" parent="Menu/Tab/Controls/Items/Move/Actions/Labels"]
+layout_mode = 2
+text = "or "
+horizontal_alignment = 1
 
 [node name="B" type="Button" parent="Menu/Tab/Controls/Items/Move/Actions"]
 layout_mode = 2
@@ -342,15 +354,58 @@ text = "Attack"
 layout_mode = 2
 size_flags_horizontal = 3
 
-[node name="A" type="Button" parent="Menu/Tab/Controls/Items/Attack/Actions"]
+[node name="Labels2" type="HBoxContainer" parent="Menu/Tab/Controls/Items/Attack/Actions"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="Label" type="Label" parent="Menu/Tab/Controls/Items/Attack/Actions/Labels2"]
 layout_mode = 2
 size_flags_horizontal = 3
 text = "Mouse Right"
+horizontal_alignment = 1
+
+[node name="Or" type="Label" parent="Menu/Tab/Controls/Items/Attack/Actions/Labels2"]
+layout_mode = 2
+text = "or "
+horizontal_alignment = 1
 
 [node name="B" type="Button" parent="Menu/Tab/Controls/Items/Attack/Actions"]
 layout_mode = 2
 size_flags_horizontal = 3
 text = "Space"
+
+[node name="HSeparator2" type="HSeparator" parent="Menu/Tab/Controls/Items"]
+layout_mode = 2
+theme_override_styles/separator = SubResource("StyleBoxEmpty_bbhev")
+
+[node name="Attack2" type="HBoxContainer" parent="Menu/Tab/Controls/Items"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="Menu/Tab/Controls/Items/Attack2"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Pause"
+
+[node name="Actions" type="HBoxContainer" parent="Menu/Tab/Controls/Items/Attack2"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="Label" type="Label" parent="Menu/Tab/Controls/Items/Attack2/Actions"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Mouse Middle"
+horizontal_alignment = 1
+
+[node name="Or" type="Label" parent="Menu/Tab/Controls/Items/Attack2/Actions"]
+layout_mode = 2
+text = "or "
+horizontal_alignment = 1
+
+[node name="Label2" type="Label" parent="Menu/Tab/Controls/Items/Attack2/Actions"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Escape"
+horizontal_alignment = 1
 
 [node name="RebindDialogue" type="Window" parent="Menu/Tab/Controls"]
 title = "Rebind key"
@@ -382,7 +437,6 @@ offset_right = 66.0
 offset_bottom = 20.0
 grow_horizontal = 2
 grow_vertical = 2
-theme_override_constants/separation = -4
 
 [node name="Label" type="Label" parent="Menu/Tab/Controls/RebindDialogue/PanelContainer/Control/VBoxContainer"]
 layout_mode = 2
@@ -410,10 +464,8 @@ text = "F"
 [connection signal="confirmed" from="Menu/Buttons/Right/ResetProgress/ConfirmationDialog" to="." method="_reset_progress_confirmed"]
 [connection signal="item_selected" from="Menu/Tab/Display/Items/Resolution/OptionButton" to="." method="_on_resolution_selected"]
 [connection signal="toggled" from="Menu/Tab/Display/Items/Fullscreen/CheckButton" to="." method="_on_fullscreen_toggled"]
+[connection signal="value_changed" from="Menu/Tab/Display/Items/Brightness/HSlider" to="." method="adjust_brightness"]
+[connection signal="value_changed" from="Menu/Tab/Display/Items/Contrast/HSlider" to="." method="adjust_contrast"]
 [connection signal="value_changed" from="Menu/Tab/Sound/Items/Master/HSlider" to="." method="_on_master_changed"]
 [connection signal="value_changed" from="Menu/Tab/Sound/Items/SFX/HSlider" to="." method="_on_sfx_changed"]
 [connection signal="value_changed" from="Menu/Tab/Sound/Items/BGM/HSlider" to="." method="_on_bgm_changed"]
-
-[editable path="Menu/Buttons/Back"]
-[editable path="Menu/Buttons/Reset"]
-[editable path="Menu/Buttons/Right/ResetProgress"]

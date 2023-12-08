@@ -1,21 +1,14 @@
-[gd_scene load_steps=8 format=3 uid="uid://37f75mhp7q61"]
+[gd_scene load_steps=9 format=3 uid="uid://37f75mhp7q61"]
 
 [ext_resource type="Script" path="res://UI/PauseMenu.gd" id="1_vx8gi"]
+[ext_resource type="Shader" path="res://Shaders/Scripts/blur.gdshader" id="2_rfqgi"]
 [ext_resource type="PackedScene" uid="uid://pbhmm4m3qrow" path="res://UI/ButtonBase.tscn" id="2_uh5wo"]
 [ext_resource type="PackedScene" uid="uid://dc65kw5fmo080" path="res://UI/ConfigMenu.tscn" id="3_aj22h"]
+[ext_resource type="Theme" uid="uid://1eq3q2sr8oo5" path="res://UI/UI.Theme.tres" id="3_c5lw6"]
 
-[sub_resource type="Gradient" id="Gradient_6qmkj"]
-offsets = PackedFloat32Array(0.117647, 0.564706, 0.841176, 1)
-colors = PackedColorArray(0, 0, 0, 0.517647, 0, 0, 0, 0.721286, 0, 0, 0, 0.880289, 0, 0, 0, 1)
-
-[sub_resource type="GradientTexture2D" id="GradientTexture2D_t66ph"]
-gradient = SubResource("Gradient_6qmkj")
-width = 256
-height = 256
-fill = 1
-fill_from = Vector2(0.5, 0.5)
-fill_to = Vector2(1, 0.2)
-metadata/_snap_enabled = true
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_1wcdr"]
+shader = ExtResource("2_rfqgi")
+shader_parameter/lod = 1.5
 
 [sub_resource type="LabelSettings" id="LabelSettings_3fob6"]
 font_size = 48
@@ -28,15 +21,13 @@ process_mode = 3
 layer = 40
 script = ExtResource("1_vx8gi")
 
-[node name="TextureRect" type="TextureRect" parent="."]
+[node name="Overlay" type="ColorRect" parent="."]
+material = SubResource("ShaderMaterial_1wcdr")
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
-offset_top = -40.0
-offset_bottom = 40.0
 grow_horizontal = 2
 grow_vertical = 2
-texture = SubResource("GradientTexture2D_t66ph")
 
 [node name="Control" type="Control" parent="."]
 layout_mode = 3
@@ -45,6 +36,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+theme = ExtResource("3_c5lw6")
 
 [node name="Area" type="MarginContainer" parent="Control"]
 layout_mode = 1
@@ -91,9 +83,6 @@ alignment = 1
 [node name="Resume" parent="Control/Menu" instance=ExtResource("2_uh5wo")]
 custom_minimum_size = Vector2(120, 22)
 layout_mode = 2
-mouse_default_cursor_shape = 2
-
-[node name="Label" parent="Control/Menu/Resume" index="0"]
 text = "Resume"
 
 [node name="Shortcut" type="Label" parent="Control/Menu/Resume"]
@@ -102,19 +91,15 @@ anchors_preset = 12
 anchor_top = 1.0
 anchor_right = 1.0
 anchor_bottom = 1.0
-offset_left = 6.0
 offset_top = 2.0
-offset_bottom = 30.0
+offset_bottom = 22.0
 grow_horizontal = 2
 grow_vertical = 0
-text = "[Esc]"
+text = "[Esc] / [Middle Mouse]"
 
 [node name="Restart" parent="Control/Menu" instance=ExtResource("2_uh5wo")]
 custom_minimum_size = Vector2(120, 22)
 layout_mode = 2
-mouse_default_cursor_shape = 2
-
-[node name="Label" parent="Control/Menu/Restart" index="0"]
 text = "Restart"
 
 [node name="ConfirmationDialog" type="ConfirmationDialog" parent="Control/Menu/Restart"]
@@ -126,25 +111,16 @@ dialog_text = "Restart current level?"
 [node name="Achievements" parent="Control/Menu" instance=ExtResource("2_uh5wo")]
 custom_minimum_size = Vector2(120, 22)
 layout_mode = 2
-mouse_default_cursor_shape = 2
-
-[node name="Label" parent="Control/Menu/Achievements" index="0"]
 text = "Achievements"
 
 [node name="Config" parent="Control/Menu" instance=ExtResource("2_uh5wo")]
 custom_minimum_size = Vector2(120, 22)
 layout_mode = 2
-mouse_default_cursor_shape = 2
-
-[node name="Label" parent="Control/Menu/Config" index="0"]
 text = "Config"
 
 [node name="MainMenu" parent="Control/Menu" instance=ExtResource("2_uh5wo")]
 custom_minimum_size = Vector2(120, 22)
 layout_mode = 2
-mouse_default_cursor_shape = 2
-
-[node name="Label" parent="Control/Menu/MainMenu" index="0"]
 text = "Main Menu"
 
 [node name="ConfirmationDialog" type="ConfirmationDialog" parent="Control/Menu/MainMenu"]
@@ -163,9 +139,3 @@ layout_mode = 1
 [connection signal="pressed" from="Control/Menu/Config" to="." method="_config_pressed"]
 [connection signal="pressed" from="Control/Menu/MainMenu" to="." method="_mainmenu_pressed"]
 [connection signal="confirmed" from="Control/Menu/MainMenu/ConfirmationDialog" to="." method="_mainmenu_confirmed"]
-
-[editable path="Control/Menu/Resume"]
-[editable path="Control/Menu/Restart"]
-[editable path="Control/Menu/Achievements"]
-[editable path="Control/Menu/Config"]
-[editable path="Control/Menu/MainMenu"]

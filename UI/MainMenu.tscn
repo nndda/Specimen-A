@@ -1,12 +1,8 @@
-[gd_scene load_steps=5 format=3 uid="uid://b0qvyw3l8mlv0"]
+[gd_scene load_steps=4 format=3 uid="uid://b0qvyw3l8mlv0"]
 
-[ext_resource type="FontFile" uid="uid://q0pw558k8hk2" path="res://UI/Fonts/Silver.ttf" id="2_3cbhs"]
+[ext_resource type="Theme" uid="uid://1eq3q2sr8oo5" path="res://UI/UI.Theme.tres" id="1_tx3nc"]
 [ext_resource type="PackedScene" uid="uid://pbhmm4m3qrow" path="res://UI/ButtonBase.tscn" id="3_dop32"]
 [ext_resource type="PackedScene" uid="uid://dc65kw5fmo080" path="res://UI/ConfigMenu.tscn" id="4_c5xvl"]
-
-[sub_resource type="Theme" id="Theme_e4thq"]
-default_font = ExtResource("2_3cbhs")
-default_font_size = 24
 
 [node name="MainMenu" type="Node2D"]
 
@@ -21,7 +17,6 @@ layout_mode = 3
 anchors_preset = 0
 offset_right = 768.0
 offset_bottom = 432.0
-theme = SubResource("Theme_e4thq")
 
 [node name="ReferenceRect" type="ReferenceRect" parent="CanvasLayer/Control"]
 layout_mode = 1
@@ -38,6 +33,7 @@ anchors_preset = 9
 anchor_bottom = 1.0
 offset_right = 140.0
 grow_vertical = 2
+theme = ExtResource("1_tx3nc")
 theme_override_constants/margin_left = 16
 theme_override_constants/margin_top = 64
 
@@ -48,36 +44,26 @@ alignment = 1
 [node name="Start" parent="CanvasLayer/Control/Margin/Menu" instance=ExtResource("3_dop32")]
 custom_minimum_size = Vector2(140, 28)
 layout_mode = 2
-
-[node name="Label" parent="CanvasLayer/Control/Margin/Menu/Start" index="0"]
 text = "Start"
 
 [node name="Config" parent="CanvasLayer/Control/Margin/Menu" instance=ExtResource("3_dop32")]
 custom_minimum_size = Vector2(140, 28)
 layout_mode = 2
-
-[node name="Label" parent="CanvasLayer/Control/Margin/Menu/Config" index="0"]
 text = "Config"
 
 [node name="Credits" parent="CanvasLayer/Control/Margin/Menu" instance=ExtResource("3_dop32")]
 custom_minimum_size = Vector2(140, 28)
 layout_mode = 2
-
-[node name="Label" parent="CanvasLayer/Control/Margin/Menu/Credits" index="0"]
 text = "Credits"
 
 [node name="Achievements" parent="CanvasLayer/Control/Margin/Menu" instance=ExtResource("3_dop32")]
 custom_minimum_size = Vector2(140, 28)
 layout_mode = 2
-
-[node name="Label" parent="CanvasLayer/Control/Margin/Menu/Achievements" index="0"]
 text = "Achievements"
 
 [node name="Exit" parent="CanvasLayer/Control/Margin/Menu" instance=ExtResource("3_dop32")]
 custom_minimum_size = Vector2(140, 28)
 layout_mode = 2
-
-[node name="Label" parent="CanvasLayer/Control/Margin/Menu/Exit" index="0"]
 text = "Exit"
 
 [node name="ConfirmationDialog" type="ConfirmationDialog" parent="CanvasLayer/Control/Margin/Menu/Exit"]
@@ -97,9 +83,3 @@ grow_vertical = 1
 
 [connection signal="pressed" from="CanvasLayer/Control/Margin/Menu/Config" to="." method="_config_pressed"]
 [connection signal="confirmed" from="CanvasLayer/Control/Margin/Menu/Exit/ConfirmationDialog" to="." method="_on_exit_confirmation_dialog_confirmed"]
-
-[editable path="CanvasLayer/Control/Margin/Menu/Start"]
-[editable path="CanvasLayer/Control/Margin/Menu/Config"]
-[editable path="CanvasLayer/Control/Margin/Menu/Credits"]
-[editable path="CanvasLayer/Control/Margin/Menu/Achievements"]
-[editable path="CanvasLayer/Control/Margin/Menu/Exit"]
