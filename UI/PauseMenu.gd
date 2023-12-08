@@ -2,8 +2,8 @@ extends CanvasLayer
 
 var paused := false
 var allow_pause := false
-@onready var level_root := $".."
 
+@onready var level_root := $".."
 @onready var level_name := $Control/Area/LevelName
 @onready var level_sub := $Control/Area/LevelName/Sub
 
@@ -13,10 +13,10 @@ func toggle_pause() -> void:
     paused = !paused
     visible = paused
     Camera.paused = paused
-    ProjectSettings.set_setting("display/mouse_cursor/custom_image",
-        "" if paused else\
-        "res://UI/Cursors/Dot.png"
-    )
+    #ProjectSettings.set_setting("display/mouse_cursor/custom_image",
+        #"" if paused else\
+        #"res://UI/Cursors/Dot.png"
+    #)
     level_root.call_deferred(&"set_process_mode",
         Node.PROCESS_MODE_DISABLED if paused else\
         Node.PROCESS_MODE_INHERIT
@@ -53,6 +53,9 @@ func _resume_pressed() -> void:
 func _restart_pressed() -> void:
     restart_confirm.popup_centered()
 func _restart_confirmed() -> void:
+    paused = false
+    Camera.paused = false
+    Camera.copy_camera_reset()
     level_root.get_tree().call_deferred(&"reload_current_scene")
 
 func _achievements_pressed() -> void:
@@ -65,4 +68,6 @@ func _config_pressed() -> void:
 func _mainmenu_pressed() -> void:
     mainmenu_confirm.popup_centered()
 func _mainmenu_confirmed() -> void:
+    Camera.paused = false
+    Camera.copy_camera_reset()
     level_root.get_tree().call_deferred(&"change_scene_to_file", "res://UI/MainMenu.tscn")
