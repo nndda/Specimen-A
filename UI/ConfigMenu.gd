@@ -46,6 +46,15 @@ func _on_resolution_selected(index : int) -> void:
     ))
     Global.user_data["config"]["resolution_idx"] = index
 
+func adjust_brightness(value : float) -> void:
+    environment.adjustment_brightness = value
+    Global.user_data["config"]["brightness"] = value
+func adjust_contrast(value : float) -> void:
+    environment.adjustment_contrast = value
+    Global.user_data["config"]["contrast"] = value
+
+var environment := load("res://Worlds/GlobalEnviroment.tres")
+
 
 #### AUDIO
 func display_volume(value : float, label : Label) -> void:
