@@ -64,7 +64,7 @@ func _achievements_pressed() -> void:
 func _config_pressed() -> void:
     config_menu.visible = true
 
-@onready var mainmenu_confirm := $Control/Menu/Restart/ConfirmationDialog
+@onready var mainmenu_confirm := $Control/Menu/MainMenu/ConfirmationDialog
 func _mainmenu_pressed() -> void:
     mainmenu_confirm.popup_centered()
 func _mainmenu_confirmed() -> void:
