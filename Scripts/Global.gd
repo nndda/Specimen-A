@@ -130,3 +130,5 @@ func _process( _delta ) -> void:
 #        get_global_mouse_position() ) >= 25 ) )
 
 #    worm_length = sum_array( worm_length_array )
+
+var tile_maps := {}

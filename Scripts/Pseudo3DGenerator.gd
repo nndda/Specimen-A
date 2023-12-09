@@ -3,109 +3,89 @@ extends Node2D
 @export_node_path("TileMap") var map : NodePath
 @export_node_path("TileMap") var map_decor : NodePath
 @export_node_path("TileMap") var map_decor_light : NodePath
-@onready var depth : int = 6
 
 @export_node_path("CanvasLayer") var top_layer : NodePath
 @export_node_path("CanvasLayer") var top_layer_2 : NodePath
 
+const depth : int = 6
 @onready var max_scale : float = Global.top_scale
 
-var tileset : TileSet = preload("res://Worlds/Tilesets/Tileset.map.tres")
+const tileset := preload("res://Worlds/Tilesets/Tileset.map.tres")
 var tilesets_copy : PackedStringArray = []
-var user_tile_res := func(n, m):\
-    return "user://Tileset.map." + str(m) + "-" + str(n) + ".res"
+var tilesets_generated := !Global.tile_maps.is_empty()
 
 const global_modulate := preload("res://Worlds/GlobalModulate.tscn")
-const global_environment := preload("res://Worlds/GlobalEnvironment.tscn")
+
+func user_tile_res(n : int, m : int) -> String:
+    return "user://Tileset.map." + str(m) + "-" + str(n) + ".res"
+
+func _enter_tree():
+    get_parent().ready.connect(init_tile_sets)
 
 func init_tile_sets() -> void:
-    for n in depth:
-        tilesets_copy.append(user_tile_res.call(n, 1))
-        if n < depth - 2:
-            tilesets_copy.append(user_tile_res.call(n, 2))
-            if n == depth - 3:
-                tilesets_copy.append(user_tile_res.call(n, 3))
+    if !tilesets_generated:
+        for n in depth:
+            tilesets_copy.append(user_tile_res(n, 1))
+            if n < depth - 2:
+                tilesets_copy.append(user_tile_res(n, 2))
+                if n == depth - 3:
+                    tilesets_copy.append(user_tile_res(n, 3))
 
-    for res in tilesets_copy:
-        #if !FileAccess.file_exists(res):
-            DirAccess.remove_absolute(res)
+        for res in tilesets_copy:
             ResourceSaver.save(tileset, res)
-        #elif ResourceLoader.load(res) == tileset:
-            #DirAccess.remove_absolute(res)
-            #ResourceSaver.save(tileset, res)
+            Global.tile_maps[res] = ResourceLoader.load(res, "TileSet")
+            #Global.tile_maps[res] = load(res)
+
+    call_deferred(&"generate_layers")
 
 signal layers_generated
 
 func generate_layers() -> void:
-    init_tile_sets()
 
     for t in [top_layer, top_layer_2]:
         var n := get_node(t)
         n.call_deferred(&"add_child", global_modulate.instantiate())
-        #n.call_deferred(&"add_child", global_environment.instantiate())
-        #n.add_child(global_modulate.instantiate())
-        #n.add_child(global_environment.instantiate())
         n.follow_viewport_scale = max_scale
         n.follow_viewport_enabled = true
-        n.show()
+        n.visible = true
+
     get_node(top_layer_2).follow_viewport_scale = max_scale + 0.15
 
     for n in depth:
         var layer := CanvasLayer.new()
         var map_layer := get_node(map).duplicate()
+        var map_tile_set : TileSet = Global.tile_maps[user_tile_res(n, 1)]
 
         layer.name = StringName(str(n))
         layer.layer = 0
         layer.follow_viewport_enabled = true
         layer.follow_viewport_scale = remap(n, 0, depth - 1, 1.0, max_scale)
 
-        map_layer.tile_set = load("user://Tileset.map.1-" + str(n) + ".res")
         map_layer.modulate = Color.WHITE
 
-        if map_layer.tile_set.get_physics_layers_count() > 0:
+        if !tilesets_generated:
+            map_tile_set.remove_navigation_layer(0)
             if n != 0:
-                map_layer.tile_set.set_physics_layer_collision_layer(0, 1)
-                map_layer.tile_set.set_physics_layer_collision_mask(0, 1)
-            if n == 0: map_layer.tile_set.remove_physics_layer(0)
+                map_tile_set.remove_physics_layer(0)
+            if n == depth - 1:
+                map_tile_set.set_occlusion_layer_light_mask(0, 1)
+            else:
+                map_tile_set.remove_occlusion_layer(0)
 
-        if map_layer.tile_set.get_occlusion_layers_count() > 0:
-            map_layer.tile_set.set_occlusion_layer_light_mask(0, 0)
-            if n != 0: map_layer.tile_set.remove_occlusion_layer(0)
-            elif n == 0: map_layer.tile_set.set_occlusion_layer_light_mask(0, 32)
-
-        if map_layer.tile_set.get_navigation_layers_count() > 0:
-            if n == 0:
-                map_layer.tile_set.set_navigation_layer_layers(0, 1)
-            if n != 0: map_layer.tile_set.remove_navigation_layer(0)
-
+        map_layer.tile_set = map_tile_set
         layer.call_deferred(&"add_child", map_layer)
         layer.call_deferred(&"add_child", global_modulate.instantiate())
-        #layer.call_deferred(&"add_child", global_environment.instantiate())
-
 
         if n < depth - 2:
-            var\
-            map_decor_layer := get_node(map_decor).duplicate()
-            map_decor_layer.tile_set = load("user://Tileset.map.2-" + str(n) + ".res")
+            var map_decor_layer := get_node(map_decor).duplicate()
 
-            if map_decor_layer.tile_set.get_physics_layers_count() > 0:
-                if n == 0:
-                    map_decor_layer.tile_set.set_physics_layer_collision_layer(0, 1)
-                    map_decor_layer.tile_set.set_physics_layer_collision_mask(0, 1)
-                if n != 0: map_decor_layer.tile_set.remove_physics_layer(0)
-
-            if map_decor_layer.tile_set.get_occlusion_layers_count() > 0:
-                if n == 0:
-                    map_decor_layer.tile_set.set_occlusion_layer_light_mask(0, 1)
-                if n != 0: map_decor_layer.tile_set.remove_occlusion_layer(0)
-
+            map_decor_layer.tile_set = Global.tile_maps[user_tile_res(n, 2)]
             layer.call_deferred(&"add_child", map_decor_layer)
 
-            if n == depth - 3:
-                var\
-                map_decor_light_layer := get_node(map_decor_light).duplicate()
-                map_decor_light_layer.tile_set = load("user://Tileset.map.3-" + str(n) + ".res")
+            if n == depth - 3: # Tileset level lights
+                var map_decor_light_layer := get_node(map_decor_light).duplicate()
 
+                map_decor_light_layer.tile_set = Global.tile_maps[user_tile_res(n, 3)]
                 layer.call_deferred(&"add_child", map_decor_light_layer)
 
         call_deferred(&"add_child", layer)
