@@ -58,7 +58,7 @@ func _ready() -> void:
     custom_trigger = get_node_or_null(custom_trigger_)
 
     corpse = get_node(corpse_scene)
-    corpse.reparent(Global.layer_dict[ "Objects/Corpses" ])
+    corpse.reparent(Global.layer_dict[^"Objects/Corpses"])
 
     corpse.modulate.a       = 0.8
     corpse.z_as_relative    = false
@@ -74,10 +74,11 @@ func _ready() -> void:
     else:
         $TriggerArea.queue_free()
         custom_trigger.collision_mask = 512
-        custom_trigger.body_entered.connect(_on_TriggerArea_body_entered)
+        custom_trigger.body_entered.connect(_on_trigger_body_entered)
 
     Global.camera_shaken_by_player.connect(func():
-        if player_near: triggered.emit())
+        if player_near:
+            triggered.emit())
 
     if stationary:
         nav_agent = null
@@ -89,6 +90,8 @@ func _ready() -> void:
             hidden_item.visible = false
 
 func _process(_delta : float) -> void:
+    if stationary:
+        $Sprite2D.rotation_degrees = -rotation_degrees
 
     corpse.global_position = global_position
     corpse.look_at(Global.head_pos)
@@ -114,18 +117,20 @@ func _physics_process(_delta : float) -> void:
         look_at(Global.head_pos)
         if !stationary:
             nav_agent.set_velocity(Vector2(speed, speed))
-        else:
-            $Sprite2D.rotation_degrees = -rotation_degrees
 
-func Weapon_AnimationFinished(anim) -> void:
-    if anim == "Firing": cooldown_timer.start(cooldown)
-func _on_AttackCooldown_timeout() -> void: fire_ready = true
+
+func _on_weapon_animation_finished(anim : StringName) -> void:
+    if anim == &"Firing":
+        cooldown_timer.start(cooldown)
+func _on_attack_cooldown_timeout() -> void:
+    fire_ready = true
 
 func damage(power : float) -> void: if !immune:
 
     #print(self," damaged :", power)
 
-    if !is_triggered: triggered.emit()
+    if !is_triggered:
+        triggered.emit()
     health -= power
 
     if health <= 0:
@@ -135,19 +140,19 @@ func damage(power : float) -> void: if !immune:
 
     else:
         if !(power <= 5.0):
-            blood                   = load(blood_scene).instantiate()
-            blood.custom_init_pos   = true
-            blood.init_pos          = global_position
-            Global.layer_dict[ "Objects/Particles" ].add_child(blood)
+            blood = load(blood_scene).instantiate()
+            blood.custom_init_pos = true
+            blood.init_pos = global_position
+            Global.layer_dict[^"Objects/Particles"].add_child(blood)
 
 # TODO:  navigation is a mess
-var arrived : bool = false
+var arrived := false
 func set_target_pos(pos : Vector2) -> void:
     arrived = false
     nav_agent.target_position = pos
 
 var direction : Vector2
-func _on_NavigationAgent2D_velocity_computed(safe_velocity) -> void:
+func _on_navigation_velocity_computed(safe_velocity : Vector2) -> void:
     if !nav_agent.is_navigation_finished():
         velocity = safe_velocity * direction
         move_and_slide()
@@ -162,7 +167,7 @@ func _on_NavigationAgent2D_velocity_computed(safe_velocity) -> void:
 @onready var keep_move_a : Node2D = $KeepMove/n1
 @onready var keep_move_b : Node2D = $KeepMove/n2
 
-func _on_UpdatePlayerPos_timeout() -> void:
+func _on_update_player_pos_timeout() -> void:
     if global_position.distance_to(Global.head_pos) >= 160.0:
         if !moving_away:
             direction = global_position.direction_to(Global.head_pos)
@@ -178,15 +183,15 @@ func _on_UpdatePlayerPos_timeout() -> void:
         direction = global_position.direction_to(keep_distance_pos.global_position)
         set_target_pos(keep_distance_pos.global_position)
 
-func _on_TriggerArea_body_entered(_body) -> void:
+func _on_trigger_body_entered(_body : Node2D) -> void:
     triggered.emit()
-func _on_TriggerArea_area_entered(_area) -> void:
+func _on_trigger_area_entered(_area : Area2D) -> void:
     triggered.emit()
 
 func _on_triggered() -> void:
     if !is_triggered:
         is_triggered = true
-        printt("", self.get_name(), " is triggered")
+        printt("", get_name(), "is triggered")
 
         cooldown_timer.start(cooldown)
 
@@ -198,8 +203,9 @@ func _on_triggered() -> void:
 
         if !stationary: $NavigationAgent2D/UpdatePlayerPos.start()
 
-func _on_GeneralArea_area_entered(_area) -> void:
-    player_near = true
-func _on_GeneralArea_area_exited(_area) -> void:
-    player_near = false
-
+func _on_general_area_entered(area : Area2D) -> void:
+    if area.get_name() == &"PlayerGeneralArea":
+        player_near = true
+func _on_general_area_exited(area  : Area2D) -> void:
+    if area.get_name() == &"PlayerGeneralArea":
+        player_near = false
