@@ -9,6 +9,8 @@ var allow_pause := false
 
 @onready var config_menu : Control = $Control/ConfigMenu
 
+signal pause_menu_closed
+
 func toggle_pause() -> void:
     paused = !paused
     visible = paused
@@ -24,6 +26,9 @@ func toggle_pause() -> void:
     Input.mouse_mode =\
         Input.MOUSE_MODE_VISIBLE if paused else\
         Input.MOUSE_MODE_CONFINED
+
+    if !paused:
+        pause_menu_closed.emit()
 
 func _enter_tree() -> void:
     visible =false
