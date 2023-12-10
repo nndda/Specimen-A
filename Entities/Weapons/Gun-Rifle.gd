@@ -52,6 +52,8 @@ func _physics_process(_delta : float) -> void:
                 bullet_path.points[1] = colliding_point.position
 
                 bullet_spark.global_position = colliding_point.global_position
-                if line_of_fire_collider.has_method(&"damage_player"):
-                    line_of_fire_collider.damage_player(randf_range(
-                            weapon.damage_min, weapon.damage_max))
+                if line_of_fire_collider != null:
+                    if line_of_fire_collider.has_method(&"damage_player"):
+                        line_of_fire_collider.damage_player(randf_range(
+                                weapon.damage_min,
+                                weapon.damage_max))
