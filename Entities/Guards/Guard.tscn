@@ -93,12 +93,12 @@ visible = false
 position = Vector2(-136, 0)
 
 [node name="n1" type="Node2D" parent="KeepDistance"]
-position = Vector2(-128, 0)
+position = Vector2(-80, 0)
 
 [node name="n2" type="Node2D" parent="KeepDistance"]
 
 [node name="Line2D" type="Line2D" parent="KeepDistance"]
-points = PackedVector2Array(-144, 0, 32, 0)
+points = PackedVector2Array(-92, 0, 32, 0)
 
 [node name="KeepMove" type="Node2D" parent="."]
 visible = false
