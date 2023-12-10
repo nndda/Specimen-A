@@ -3,8 +3,8 @@ extends Camera2D
 func _on_pre_body_entered(body : Node2D) -> void:
     if body == Global.player_physics_head:
         Camera.copy_camera($"../SceneTitlePre", false)
+        $"../TopLayer/Title/Label2/AnimationPlayer".play(&"FadeOut")
         $"../SceneTitlePre/Area2D".queue_free()
-        print("uwu")
 
 func _on_body_entered(body : Node2D) -> void:
     if body == Global.player_physics_head:
