@@ -1,11 +1,18 @@
-[gd_scene load_steps=9 format=3 uid="uid://la4m4o5e78dr"]
+[gd_scene load_steps=15 format=3 uid="uid://la4m4o5e78dr"]
 
 [ext_resource type="PackedScene" uid="uid://baiwsrdc0aog7" path="res://Entities/Guards/Guard.tscn" id="1_2s3nu"]
 [ext_resource type="PackedScene" uid="uid://d35rqaqdqkt6x" path="res://Entities/Weapons/Gun-rifle.tscn" id="2_en8q7"]
 [ext_resource type="PackedScene" uid="uid://dwnj5shb6eoqy" path="res://Scripts/DebugTestField.tscn" id="2_pv4xo"]
 [ext_resource type="PackedScene" uid="uid://c3nsbmhfcxmu" path="res://Entities/Turrets/Turret-Destroyed.tscn" id="3_yqkct"]
 [ext_resource type="Texture2D" uid="uid://bjnbe1b1a2laf" path="res://Entities/Turrets/Turret-Rifle/Turret-Rifle.Base.png" id="4_kel4u"]
+[ext_resource type="Script" path="res://Entities/Turrets/StationaryTrigger.gd" id="4_r6sjh"]
 [ext_resource type="Texture2D" uid="uid://jp1ol34cgvye" path="res://Entities/Turrets/Turret-Rifle/Turret-Rifle.Gun.png" id="4_sxw3u"]
+[ext_resource type="Shader" path="res://Shaders/Scripts/shadow.gdshader" id="4_yn4es"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_1jsvh"]
+shader = ExtResource("4_yn4es")
+shader_parameter/offset = Vector2(1, -1)
+shader_parameter/modulate = Color(0, 0, 0, 0.568627)
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_ere1r"]
 resource_local_to_scene = true
@@ -17,8 +24,45 @@ closed = false
 cull_mode = 1
 polygon = PackedVector2Array(69, -34, -3, -1, -3, 1, 68, 34)
 
+[sub_resource type="Animation" id="Animation_o4usy"]
+resource_name = "Idle"
+length = 5.6
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:rotation")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.2, 2.8, 3),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
+"update": 0,
+"values": [-0.785397, -0.785397, 0.785397, 0.785398]
+}
+
+[sub_resource type="Animation" id="Animation_20pse"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:rotation")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [0.0]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_u23p2"]
+_data = {
+"Idle": SubResource("Animation_o4usy"),
+"RESET": SubResource("Animation_20pse")
+}
+
 [node name="Turret-Rifle" instance=ExtResource("1_2s3nu")]
-collision_layer = 17
 stationary = true
 weapon_node = NodePath("Gun-Rifle")
 corpse_scene = NodePath("Turret-Destroyed")
@@ -29,7 +73,14 @@ visible = false
 
 [node name="Turret-Destroyed" parent="." index="1" instance=ExtResource("3_yqkct")]
 
+[node name="TriggerArea" parent="." index="2"]
+script = ExtResource("4_r6sjh")
+
+[node name="GeneralArea" parent="." index="3"]
+visible = false
+
 [node name="Sprite2D" parent="." index="4"]
+material = SubResource("ShaderMaterial_1jsvh")
 texture = ExtResource("4_kel4u")
 region_rect = Rect2(128, 32, 64, 64)
 
@@ -48,6 +99,14 @@ occluder = SubResource("OccluderPolygon2D_vfqmu")
 [node name="Rifle" type="Sprite2D" parent="Gun-Rifle" index="8"]
 position = Vector2(-11, 0)
 texture = ExtResource("4_sxw3u")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="." index="12"]
+libraries = {
+"": SubResource("AnimationLibrary_u23p2")
+}
+autoplay = "Idle"
+
+[connection signal="triggered" from="." to="AnimationPlayer" method="queue_free" flags=6]
 
 [editable path="Gun-Rifle"]
 [editable path="VisibilityHandler"]
