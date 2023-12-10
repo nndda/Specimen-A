@@ -16,6 +16,7 @@ pseudo_3d_generator = NodePath("Pseudo3DGenerator")
 [node name="TileFloor" parent="." instance=ExtResource("2_04a13")]
 editor_description = "Floor/ground level tileset"
 rendering_quadrant_size = 4
+layer_3/modulate = Color(1, 0, 0.0470588, 0.466667)
 
 [node name="TileDecor" parent="." instance=ExtResource("2_04a13")]
 rendering_quadrant_size = 4
@@ -36,8 +37,6 @@ map_decor_light = NodePath("../TileDecor_L")
 top_layer = NodePath("../TopLayer")
 top_layer_2 = NodePath("../TopLayer+1")
 
-[node name="Areas" type="Node2D" parent="."]
-
 [node name="Objects" type="Node2D" parent="."]
 
 [node name="Corpses" type="Node2D" parent="Objects"]
@@ -45,6 +44,8 @@ top_layer_2 = NodePath("../TopLayer+1")
 [node name="Particles" type="Node2D" parent="Objects"]
 
 [node name="Statics" type="Node2D" parent="Objects"]
+
+[node name="Areas" type="Node2D" parent="."]
 
 [node name="Player" parent="." instance=ExtResource("11_unoct")]
 rotation = 1.57079
