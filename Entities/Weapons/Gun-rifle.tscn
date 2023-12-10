@@ -212,6 +212,7 @@ collision_mask = 4
 collide_with_areas = true
 
 [node name="LineOfFire" type="RayCast2D" parent="LineOfSight"]
+enabled = false
 target_position = Vector2(220, 0)
 collision_mask = 5
 collide_with_areas = true
