@@ -4,10 +4,11 @@ extends Node2D
 @onready var animation_player : AnimationPlayer = $AnimationPlayer
 
 func _ready() -> void:
-    visibility_changed.connect( func(): light.enabled = visible )
+    visibility_changed.connect(func(): light.enabled = visible)
     Global.camera_shaken_by_player.connect(flick)
 
 func flick() -> void:
     if visible:
-        if global_position.distance_to( Global.head_pos ) <= 360.0:
-            animation_player.play( "Flick_" + [ "0", "1" ].pick_random() )
+        if global_position.distance_to(Global.head_pos) <= 360.0:
+            animation_player.speed_scale = randf_range(0.9, 1.2)
+            animation_player.play(&"Flick_%d" % randi_range(0, 1))

@@ -31,7 +31,7 @@ func toggle_pause() -> void:
         pause_menu_closed.emit()
 
 func _enter_tree() -> void:
-    visible =false
+    visible = false
     Input.mouse_mode = Input.MOUSE_MODE_CONFINED
 
 func _ready() -> void:

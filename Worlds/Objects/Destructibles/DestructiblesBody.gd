@@ -40,7 +40,7 @@ func emit_particles() -> void:
     if particles.size() > 0:
         particles[0].custom_init_pos = true
         particles[0].init_pos = global_position
-        Global.layer_dict[ "Objects/Particles" ].add_child( particles[0] )
+        Global.layer_dict[^"Objects/Particles"].add_child( particles[0] )
         particles.remove_at(0)
 
 func _on_free_timer_timeout() -> void:

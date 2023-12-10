@@ -56,7 +56,7 @@ var canvas_position : Vector2
 @onready var raycast_destroy_through : RayCast2D = $"DestroyThrough-R"
 
 @onready var area_destroy_through : Area2D = $"DestroyThrough-A"
-@onready var area_shake : Area2D = $AreaShake
+@onready var player_general_area : Area2D = $PlayerGeneralArea
 
 func open_mouth(n : float) -> void:
     jaw_a.rotation_degrees = n * -30.0
@@ -70,6 +70,7 @@ func open_mouth(n : float) -> void:
 func attack_handler() -> void:
 
     ui_attack_indicator.visible = Input.is_action_pressed(&"Attack") and allow_attack
+    #ui_attack_indicator.visible = Input.is_action_pressed(&"Attack")
 
     if allow_attack:
 
@@ -88,11 +89,11 @@ func attack_handler() -> void:
                     look_at(mouse_global_pos)
 
                 if Input.is_action_just_released(&"Attack"):
-                    area_shake.monitorable  = true
-                    area_shake.monitoring   = true
-                    attacking               = true
-                    attack_dir              = global_position.direction_to(mouse_global_pos)
-                    attack_strength         = attack_out
+                    player_general_area.monitorable = true
+                    player_general_area.monitoring = true
+                    attacking = true
+                    attack_dir = global_position.direction_to(mouse_global_pos)
+                    attack_strength = attack_out
 
                     attack_cooldown_timer.start(attack_cooldown * attack_out * 0.01)
                     attack_pos[0]           = global_position
@@ -135,8 +136,9 @@ func _process(_delta : float) -> void:
 
     canvas_position = get_global_transform_with_canvas().origin
 
-    moving = Input.is_action_pressed(&"Move") and allow_move and\
-        mouse_moving_distancce >= 45
+    moving = Input.is_action_pressed(&"Move")\
+        and mouse_moving_distancce >= 45\
+        and allow_move
     moving_f = clampf(
         moving_f + (0.1 if moving else -0.085),
         0.0, 1.0
@@ -237,7 +239,7 @@ func _on_AttackCooldown_timeout() -> void:
 var invincible := false
 func damage_player(power : float) -> void:
     if !invincible:
-        ui.health_bar.modulate = Color.WHITE
+        #ui.health_bar.modulate = Color.WHITE
         if health_ticker.is_stopped():
             health_ticker.start(health_tick)
         health = clampf(health - ((power * 1.1) if !attacking else 0.0), 0.0, 100.0)

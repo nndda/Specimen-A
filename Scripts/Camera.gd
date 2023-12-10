@@ -32,7 +32,7 @@ func copy_camera_reset() -> void:
 func shake_start(
     power : float,
     time : float = 0.8,
-    frequency : float = 16
+    frequency : float = 16.0
     ) -> void:
     if power >= shake_power:
         shake_power = power

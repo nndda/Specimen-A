@@ -17,23 +17,27 @@ var parent : Node
 var trigger_area : NodePath
 var on_line := false
 
-var player_bodies : Array[Node2D] = []
+const player_bodies : Array[StringName] = [&"Head", &"DamageCollision"]
 
-func set_on_line(object) -> void:
-    on_line = player_bodies.has(object)
-func set_off_line(object) -> void:
-    on_line = !player_bodies.has(object)
+func set_on_line(object : Node2D) -> void:
+    if player_bodies.has(object.get_name()):
+        on_line = true
+func set_off_line(object : Node2D) -> void:
+    if !player_bodies.has(object.get_name()):
+        on_line = false
 
-func _enter_tree():
+func _enter_tree() -> void:
     parent = get_parent()
-    player_bodies = [Global.player_physics_head, Global.player_physics_body]
-    player_bodies.make_read_only()
+
+func _on_line_of_fire_tree_entered() -> void:
+    $LineOfSight/LineOfFire.enabled = false
 
 func _ready() -> void:
+
     line_of_sight = get_node_or_null(line_of_sight_)
     friendly_sight = get_node_or_null(friendly_sight_)
 
-    trigger_area = NodePath(^"../TriggerArea" if parent.custom_trigger == null else parent.custom_trigger_)
+    trigger_area = ^"../TriggerArea" if parent.custom_trigger == null else parent.custom_trigger_
 
     if  line_of_sight != null and\
         line_of_sight is CollisionObject2D:
@@ -49,9 +53,7 @@ func _ready() -> void:
             line_of_sight.area_entered.connect(set_on_line)
             line_of_sight.area_exited.connect(set_off_line)
 
-    fire_function_anim.animation_finished.connect(parent.Weapon_AnimationFinished)
-    #fire_function_anim.connect(
-        #&"animation_finished", Callable(parent, &"Weapon_AnimationFinished"))
+    fire_function_anim.animation_finished.connect(parent._on_weapon_animation_finished)
 
 func _process(_delta : float) -> void:
     parent.firing = firing
