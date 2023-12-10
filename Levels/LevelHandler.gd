@@ -16,8 +16,8 @@ func _ready() -> void:
     for top_light : Node in get_tree().get_nodes_in_group(&"top_light"):
         top_light.call_deferred(&"reparent", top_light_layer)
 
-    call_deferred(&"add_child", preload("res://Worlds/GlobalEnvironment.tscn").instantiate())
-    call_deferred(&"add_child", preload("res://Worlds/GlobalModulate.tscn").instantiate())
+    call_deferred(&"add_child", Global.environment.instantiate())
+    call_deferred(&"add_child", Global.canvas_modulate.instantiate())
 
     $TopLayer.visible = true
     $"TopLayer+1".visible = true

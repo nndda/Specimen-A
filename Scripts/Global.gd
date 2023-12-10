@@ -3,6 +3,9 @@ extends Node2D
 var enemy_exception_bodies : Array[PhysicsBody2D]
 var current_scene : Node
 
+const environment := preload("res://Worlds/GlobalEnvironment.tscn")
+const canvas_modulate := preload("res://Worlds/GlobalModulate.tscn")
+
 var layer : Array[NodePath] = [
     ^"Objects/Corpses",
     ^"Objects/Particles",

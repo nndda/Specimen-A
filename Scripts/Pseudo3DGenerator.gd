@@ -14,8 +14,6 @@ const tileset := preload("res://Worlds/Tilesets/Tileset.map.tres")
 var tilesets_copy : PackedStringArray = []
 var tilesets_generated := !Global.tile_maps.is_empty()
 
-const global_modulate := preload("res://Worlds/GlobalModulate.tscn")
-
 func user_tile_res(n : int, m : int) -> String:
     return "user://Tileset.map." + str(m) + "-" + str(n) + ".res"
 
@@ -44,7 +42,7 @@ func generate_layers() -> void:
 
     for t : NodePath in [top_layer, top_layer_2]:
         var n := get_node(t)
-        n.call_deferred(&"add_child", global_modulate.instantiate())
+        n.call_deferred(&"add_child", Global.canvas_modulate.instantiate())
         n.follow_viewport_scale = max_scale
         n.follow_viewport_enabled = true
         n.visible = true
@@ -74,7 +72,7 @@ func generate_layers() -> void:
 
         map_layer.tile_set = map_tile_set
         layer.call_deferred(&"add_child", map_layer)
-        layer.call_deferred(&"add_child", global_modulate.instantiate())
+        layer.call_deferred(&"add_child", Global.canvas_modulate.instantiate())
 
         if n < depth - 2:
             var map_decor_layer := get_node(map_decor).duplicate()
