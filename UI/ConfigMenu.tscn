@@ -32,12 +32,12 @@ custom_minimum_size = Vector2(100, 22)
 layout_mode = 2
 text = "Back"
 
-[node name="Reset" parent="Menu/Buttons" instance=ExtResource("3_8efdb")]
+[node name="ResetSettings" parent="Menu/Buttons" instance=ExtResource("3_8efdb")]
 custom_minimum_size = Vector2(120, 22)
 layout_mode = 2
 text = "Reset settings"
 
-[node name="ConfirmationDialog" type="ConfirmationDialog" parent="Menu/Buttons/Reset"]
+[node name="ConfirmationDialog" type="ConfirmationDialog" parent="Menu/Buttons/ResetSettings"]
 size = Vector2i(240, 100)
 ok_button_text = "Reset settings"
 dialog_text = "This will revert all settings back to its default settings"
@@ -337,7 +337,7 @@ layout_mode = 2
 text = "or "
 horizontal_alignment = 1
 
-[node name="B" type="Button" parent="Menu/Tab/Controls/Items/Move/Actions"]
+[node name="Rebind" type="Button" parent="Menu/Tab/Controls/Items/Move/Actions"]
 layout_mode = 2
 size_flags_horizontal = 3
 text = "F"
@@ -369,7 +369,7 @@ layout_mode = 2
 text = "or "
 horizontal_alignment = 1
 
-[node name="B" type="Button" parent="Menu/Tab/Controls/Items/Attack/Actions"]
+[node name="Rebind" type="Button" parent="Menu/Tab/Controls/Items/Attack/Actions"]
 layout_mode = 2
 size_flags_horizontal = 3
 text = "Space"
@@ -378,30 +378,30 @@ text = "Space"
 layout_mode = 2
 theme_override_styles/separator = SubResource("StyleBoxEmpty_bbhev")
 
-[node name="Attack2" type="HBoxContainer" parent="Menu/Tab/Controls/Items"]
+[node name="Pause" type="HBoxContainer" parent="Menu/Tab/Controls/Items"]
 layout_mode = 2
 
-[node name="Label" type="Label" parent="Menu/Tab/Controls/Items/Attack2"]
+[node name="Label" type="Label" parent="Menu/Tab/Controls/Items/Pause"]
 layout_mode = 2
 size_flags_horizontal = 3
 text = "Pause"
 
-[node name="Actions" type="HBoxContainer" parent="Menu/Tab/Controls/Items/Attack2"]
+[node name="Actions" type="HBoxContainer" parent="Menu/Tab/Controls/Items/Pause"]
 layout_mode = 2
 size_flags_horizontal = 3
 
-[node name="Label" type="Label" parent="Menu/Tab/Controls/Items/Attack2/Actions"]
+[node name="Label" type="Label" parent="Menu/Tab/Controls/Items/Pause/Actions"]
 layout_mode = 2
 size_flags_horizontal = 3
 text = "Mouse Middle"
 horizontal_alignment = 1
 
-[node name="Or" type="Label" parent="Menu/Tab/Controls/Items/Attack2/Actions"]
+[node name="Or" type="Label" parent="Menu/Tab/Controls/Items/Pause/Actions"]
 layout_mode = 2
 text = "or "
 horizontal_alignment = 1
 
-[node name="Label2" type="Label" parent="Menu/Tab/Controls/Items/Attack2/Actions"]
+[node name="Label2" type="Label" parent="Menu/Tab/Controls/Items/Pause/Actions"]
 layout_mode = 2
 size_flags_horizontal = 3
 text = "Escape"
@@ -444,7 +444,14 @@ text = "Press any key to rebind"
 horizontal_alignment = 1
 vertical_alignment = 2
 
+[node name="Key" type="Label" parent="Menu/Tab/Controls/RebindDialogue/PanelContainer/Control/VBoxContainer"]
+layout_mode = 2
+text = "[ F ]"
+horizontal_alignment = 1
+vertical_alignment = 2
+
 [node name="Current" type="HBoxContainer" parent="Menu/Tab/Controls/RebindDialogue/PanelContainer/Control/VBoxContainer"]
+visible = false
 layout_mode = 2
 alignment = 1
 
@@ -456,16 +463,27 @@ text = "Currently : "
 layout_mode = 2
 text = "F"
 
+[node name="Coonfirm" parent="Menu/Tab/Controls/RebindDialogue/PanelContainer/Control/VBoxContainer" instance=ExtResource("3_8efdb")]
+layout_mode = 2
+focus_mode = 0
+text = "Apply changes"
+alignment = 1
+
 [connection signal="visibility_changed" from="." to="." method="_on_visibility_changed"]
-[connection signal="pressed" from="Menu/Buttons/Back" to="." method="_back_pressed"]
-[connection signal="pressed" from="Menu/Buttons/Reset" to="." method="_reset_pressed"]
-[connection signal="confirmed" from="Menu/Buttons/Reset/ConfirmationDialog" to="." method="_reset_confirmed"]
-[connection signal="pressed" from="Menu/Buttons/Right/ResetProgress" to="." method="_reset_progress_pressed"]
-[connection signal="confirmed" from="Menu/Buttons/Right/ResetProgress/ConfirmationDialog" to="." method="_reset_progress_confirmed"]
-[connection signal="item_selected" from="Menu/Tab/Display/Items/Resolution/OptionButton" to="." method="_on_resolution_selected"]
-[connection signal="toggled" from="Menu/Tab/Display/Items/Fullscreen/CheckButton" to="." method="_on_fullscreen_toggled"]
+[connection signal="pressed" from="Menu/Buttons/Back" to="." method="back_pressed"]
+[connection signal="pressed" from="Menu/Buttons/ResetSettings" to="." method="reset_settings_pressed"]
+[connection signal="confirmed" from="Menu/Buttons/ResetSettings/ConfirmationDialog" to="." method="reset_settings_confirmed"]
+[connection signal="pressed" from="Menu/Buttons/Right/ResetProgress" to="." method="reset_progress_pressed"]
+[connection signal="confirmed" from="Menu/Buttons/Right/ResetProgress/ConfirmationDialog" to="." method="reset_progress_confirmed"]
+[connection signal="item_selected" from="Menu/Tab/Display/Items/Resolution/OptionButton" to="." method="display_resolution_selected"]
+[connection signal="toggled" from="Menu/Tab/Display/Items/Fullscreen/CheckButton" to="." method="display_fullscreen_toggled"]
 [connection signal="value_changed" from="Menu/Tab/Display/Items/Brightness/HSlider" to="." method="adjust_brightness"]
 [connection signal="value_changed" from="Menu/Tab/Display/Items/Contrast/HSlider" to="." method="adjust_contrast"]
-[connection signal="value_changed" from="Menu/Tab/Sound/Items/Master/HSlider" to="." method="_on_master_changed"]
-[connection signal="value_changed" from="Menu/Tab/Sound/Items/SFX/HSlider" to="." method="_on_sfx_changed"]
-[connection signal="value_changed" from="Menu/Tab/Sound/Items/BGM/HSlider" to="." method="_on_bgm_changed"]
+[connection signal="value_changed" from="Menu/Tab/Sound/Items/Master/HSlider" to="." method="audio_master_changed"]
+[connection signal="value_changed" from="Menu/Tab/Sound/Items/SFX/HSlider" to="." method="audio_sfx_changed"]
+[connection signal="value_changed" from="Menu/Tab/Sound/Items/BGM/HSlider" to="." method="audio_bgm_changed"]
+[connection signal="pressed" from="Menu/Tab/Controls/Items/Move/Actions/Rebind" to="." method="rebind_key_pressed" binds= [&"Move"]]
+[connection signal="pressed" from="Menu/Tab/Controls/Items/Attack/Actions/Rebind" to="." method="rebind_key_pressed" binds= [&"Attack"]]
+[connection signal="close_requested" from="Menu/Tab/Controls/RebindDialogue" to="." method="rebind_close_requested"]
+[connection signal="window_input" from="Menu/Tab/Controls/RebindDialogue" to="." method="rebind_input"]
+[connection signal="pressed" from="Menu/Tab/Controls/RebindDialogue/PanelContainer/Control/VBoxContainer/Coonfirm" to="." method="rebind_confirmed"]
