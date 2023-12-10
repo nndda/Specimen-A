@@ -57,7 +57,7 @@ func _ready() -> void:
 
     polygon_idx = get_polygon_idx(texture_dir.sign())
 
-func _process(_delta) -> void:
+func _process(_delta : float) -> void:
     if visible:
         canvas_pos = ((\
             get_global_transform_with_canvas().origin * 2) /\

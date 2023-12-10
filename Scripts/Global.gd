@@ -3,9 +3,9 @@ extends Node2D
 var enemy_exception_bodies : Array[PhysicsBody2D]
 var current_scene : Node
 
-var layer : Array[String] = [
-    "Objects/Corpses",
-    "Objects/Particles",
+var layer : Array[NodePath] = [
+    ^"Objects/Corpses",
+    ^"Objects/Particles",
     #"Objects/Statics",
     #"Objects",
     #"Entities",
@@ -13,7 +13,7 @@ var layer : Array[String] = [
 var layer_dict := {}
 func update_layers() -> void:
     layer_dict.clear()
-    for itm in layer:
+    for itm : NodePath in layer:
         layer_dict[ itm ] = current_scene.get_node(itm)
 
 var current_objects     : Array
@@ -59,7 +59,7 @@ var shrapnel_current    : int = 0
 var emp_charge          : int = 0
 var acid                : int = 0
 
-func sum_array( array : PackedFloat32Array ) -> float:
+func sum_array(array : PackedFloat32Array) -> float:
     var t : float = 0.0
     for n in array: t += n
     return t
@@ -86,6 +86,9 @@ var user_data := {
         "master" : 0,
         "sfx" : 0,
         "bgm" : 0,
+
+        &"Move" : InputMap.action_get_events(&"Move")[1],
+        &"Attack" : InputMap.action_get_events(&"Attack")[1],
         },
     }
 var user_data_default : Dictionary
@@ -110,25 +113,25 @@ func _enter_tree():
     user_data_default = user_data.duplicate(true)
     load_user_data()
 
-func _process( _delta ) -> void:
+func _process(_delta : float) -> void:
 
-    health = clamp( health, 0.0, 100.0 )
+    health = clamp(health, 0.0, 100.0)
 
     #moving_or_attacking = moving or attacking
 
 #    if player != null:
 #        if player.allow_move: moving = true if (
-#            Input.is_action_pressed( "Move" )
-#            ) else false
+#            Input.is_action_pressed("Move")
+#         ) else false
 #        else: moving = false
 #
 #    if moving: moving_f += 0.1
 #    else: moving_f -= 0.085
 #
-#    moving_f = clamp( moving_f, 0.0,
-#    float( head_pos.distance_to(
-#        get_global_mouse_position() ) >= 25 ) )
+#    moving_f = clamp(moving_f, 0.0,
+#    float(head_pos.distance_to(
+#        get_global_mouse_position()) >= 25))
 
-#    worm_length = sum_array( worm_length_array )
+#    worm_length = sum_array(worm_length_array)
 
 var tile_maps := {}

@@ -5,6 +5,7 @@ extends PhysicsBody2D
 @export_file("*.tscn") var particles_scene : String
 @export_node_path("Node2D") var root_node : NodePath
 @export var following_visibility_handler := false
+var visibility_enabler : VisibleOnScreenEnabler2D
 
 var particles : Array
 
@@ -12,14 +13,16 @@ signal hit
 signal destroyed
 
 func _ready() -> void:
+    if following_visibility_handler:
+        visibility_enabler = $"VisibilityHandler/VisibleOnScreenEnabler2D"
     if !particles_scene.is_empty():
-        for p in 3:
+        for p : int in 3:
             particles.append( load( particles_scene ).instantiate() )
 
-func _process(_delta) -> void:
+func _process(_delta : float) -> void:
     if following_visibility_handler:
-        $"VisibilityHandler/VisibleOnScreenEnabler2D".global_position = global_position
-        $"VisibilityHandler/VisibleOnScreenEnabler2D".global_rotation = global_rotation
+        visibility_enabler.global_position = global_position
+        visibility_enabler.global_rotation = global_rotation
 
 func damage(power : float) -> void:
     if !invincible:

@@ -32,31 +32,31 @@ var mouse_viewport_pos : Vector2
 var mouse_moving_distancce : float
 var canvas_position : Vector2
 
-@onready var attack_cooldown_timer := $AttackCooldown
+@onready var attack_cooldown_timer : Timer = $AttackCooldown
 
-@onready var body := $"../Body"
+@onready var body : Line2D = $"../Body"
 
-@onready var jaw_a := $Mouth/Jaw_0
-@onready var jaw_b := $Mouth/Jaw_1
+@onready var jaw_a : Sprite2D = $Mouth/Jaw_0
+@onready var jaw_b : Sprite2D = $Mouth/Jaw_1
 
-@onready var health_ticker := $"../UI/HealthBar/HealthTicker"
+@onready var health_ticker : Timer = $"../UI/HealthBar/HealthTicker"
 
 # Player UIs
-@onready var ui := $"../UI"
-@onready var ui_attack_indicator := $"../UI/AttackIndicator"
-@onready var ui_attack_cooldown := $"../UI/AttackCooldown"
-@onready var ui_arrow := $"../UI/Arrow"
+@onready var ui : CanvasLayer = $"../UI"
+@onready var ui_attack_indicator : TextureProgressBar = $"../UI/AttackIndicator"
+@onready var ui_attack_cooldown : TextureProgressBar = $"../UI/AttackCooldown"
+@onready var ui_arrow : Sprite2D = $"../UI/Arrow"
 
-@onready var ui_obstacle := $"../UI/FaceObstacleIcon"
-@onready var ui_obstacle_pos := $"FaceObstacle-Pos"
-@onready var ui_obstacle_anim := $"../UI/FaceObstacleIcon/AnimationPlayer"
+@onready var ui_obstacle : Sprite2D = $"../UI/FaceObstacleIcon"
+@onready var ui_obstacle_pos : Node2D = $"FaceObstacle-Pos"
+@onready var ui_obstacle_anim : AnimationPlayer = $"../UI/FaceObstacleIcon/AnimationPlayer"
 
 # Physics
-@onready var raycast_obstacle := $FaceObstacle
-@onready var raycast_destroy_through := $"DestroyThrough-R"
+@onready var raycast_obstacle : RayCast2D = $FaceObstacle
+@onready var raycast_destroy_through : RayCast2D = $"DestroyThrough-R"
 
-@onready var area_destroy_through := $"DestroyThrough-A"
-@onready var area_shake := $AreaShake
+@onready var area_destroy_through : Area2D = $"DestroyThrough-A"
+@onready var area_shake : Area2D = $AreaShake
 
 func open_mouth(n : float) -> void:
     jaw_a.rotation_degrees = n * -30.0
@@ -127,7 +127,7 @@ func _ready() -> void:
 
 
 # TODO: reduce... things in _process
-func _process(_delta) -> void:
+func _process(_delta : float) -> void:
 
     mouse_global_pos = get_global_mouse_position()
     mouse_viewport_pos = get_viewport().get_mouse_position()
@@ -170,7 +170,7 @@ func _process(_delta) -> void:
 var velo : Vector2
 var attack_velo : Vector2
 var collision : KinematicCollision2D
-func _physics_process(delta) -> void:
+func _physics_process(delta : float) -> void:
     area_destroy_through.monitoring = attacking
     allow_move = !raycast_obstacle.is_colliding()
 

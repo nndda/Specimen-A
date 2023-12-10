@@ -1,14 +1,14 @@
 extends Camera2D
 
-@onready var animation_player := $CanvasLayer/ColorRect/AnimationPlayer
+@onready var animation_player : AnimationPlayer = $CanvasLayer/ColorRect/AnimationPlayer
 
 var shake_tween : Tween
 var paused := false
 
 var shaking := false
 var shake_power : float = 0.0
-@onready var timer_freq := $Shake/Frequency
-@onready var timer_duration := $Shake/Duration
+@onready var timer_freq : Timer = $Shake/Frequency
+@onready var timer_duration : Timer = $Shake/Duration
 
 var is_copying := false
 var copy_camera_tween : Tween
@@ -62,7 +62,7 @@ func _on_Duration_timeout() -> void:
     timer_freq.stop()
 
 
-var visload_entity          : Array
+var visload_entity          : Array[Node2D]
 var visload_running         := true
 var visload_path_follow     : PathFollow2D
 var current_objects_list    : Array[Vector2]
@@ -83,7 +83,7 @@ func init_visual_loading() -> void:
     Global.current_scene.call_deferred(&"add_child", visload_path)
     visload_path_fol.progress_ratio = 0.0
 
-    for n in Global.current_objects:
+    for n : Node2D in Global.current_objects:
         if !current_objects_list.has(n.global_position):
             current_objects_list.append(n.global_position)
 
@@ -92,9 +92,9 @@ func init_visual_loading() -> void:
     current_objects_list.sort_custom(func(a, b): return (
         a.distance_to(Global.head_pos) > b.distance_to(Global.head_pos)))
 
-    for i in current_objects_list:
+    for i : Vector2 in current_objects_list:
         visload_curve.add_point(i)
-    for e in [visload_path, visload_path_fol]:
+    for e : Node2D in [visload_path, visload_path_fol]:
         visload_entity.append(e)
 
     print(current_objects_list)
@@ -113,7 +113,7 @@ func finished_visual_loading() -> void:
 
     print("finished_visual_loading()")
 
-    for e in visload_entity:
+    for e : Node2D in visload_entity:
         e.queue_free()
 
     Global.current_objects.clear()
@@ -131,7 +131,7 @@ var viewport_rect_size := Vector2.ZERO
 
 var following := false
 
-func _process(_delta) -> void:
+func _process(_delta : float) -> void:
     if following:
         viewport_rect_size = get_viewport_rect().size
 

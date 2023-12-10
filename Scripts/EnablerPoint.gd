@@ -7,7 +7,7 @@ var entities : Array[Node] = []
 var player_entered := false
 
 func _ready():
-    for entity in entities_path:
+    for entity : NodePath in entities_path:
         entities.append(get_node(entity))
 
 func _on_body_entered(body : Node2D) -> void:
@@ -15,7 +15,7 @@ func _on_body_entered(body : Node2D) -> void:
         if !player_entered:
             player_entered = true
 
-            for entity in entities:
+            for entity : Node in entities:
                 entity.process_mode = Node.PROCESS_MODE_INHERIT
 
             queue_free()

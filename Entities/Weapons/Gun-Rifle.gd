@@ -40,7 +40,7 @@ func firing_ended(anim : StringName) -> void:
         line_of_fire_const.enabled = false
         bullet_path.points[1] = bullet_path_default_pos.position
 
-func _physics_process(_delta) -> void:
+func _physics_process(_delta : float) -> void:
     if wielder.triggered:
             hit = line_of_fire.is_colliding()
             bullet_path.points[0] = Vector2.ZERO

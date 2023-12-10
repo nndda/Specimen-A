@@ -25,7 +25,7 @@ func _ready() -> void:
 
     emit()
 
-func _process(_delta) -> void:
+func _process(_delta : float) -> void:
     if emitting:
         if stay:
             speed_scale = copytimer.time_left / copytimer.wait_time

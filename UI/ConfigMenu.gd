@@ -31,7 +31,7 @@ func _ready() -> void:
     reset_progress_confirm.hide()
     rebind_dialogue.hide()
 
-    for action in [&"Attack",&"Move"]:
+    for action : StringName in [&"Attack",&"Move"]:
         rebind_buttons[action].text = Global["config"][action].as_text_keycode()
 
 

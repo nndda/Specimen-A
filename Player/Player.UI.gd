@@ -1,13 +1,17 @@
 extends CanvasLayer
 
-@onready var head := $"../Head"
+@onready var head : CharacterBody2D = $"../Head"
 
-@onready var health_bar := $HealthBar
-@onready var health_bar_anim := $HealthBar/AnimationPlayer
-@onready var health_low_overlay := $HealthLowOverlay
-@onready var health_ticker := $HealthBar/HealthTicker
+@onready var health_bar : ColorRect = $HealthBar
+@onready var health_bar_anim : AnimationPlayer = $HealthBar/AnimationPlayer
+@onready var health_low_overlay : TextureRect = $HealthLowOverlay
+@onready var health_ticker : Timer = $HealthBar/HealthTicker
 
-func _process(_delta):
+func _ready():
+    health_bar.modulate = Color.TRANSPARENT
+    #$"../DBG".queue_free()
+
+func _process(_delta : float):
     health_bar.scale.x = remap(head.health, 100.0, 0.0, 1.0, 0.0)
     health_low_overlay.modulate.a = absf(health_bar.scale.x - 1)
 

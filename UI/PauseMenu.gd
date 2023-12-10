@@ -3,11 +3,11 @@ extends CanvasLayer
 var paused := false
 var allow_pause := false
 
-@onready var level_root := $".."
-@onready var level_name := $Control/Area/LevelName
-@onready var level_sub := $Control/Area/LevelName/Sub
+@onready var level_root : Node = $".."
+@onready var level_name : Label = $Control/Area/LevelName
+@onready var level_sub : Label = $Control/Area/LevelName/Sub
 
-@onready var config_menu := $Control/ConfigMenu
+@onready var config_menu : Control = $Control/ConfigMenu
 
 func toggle_pause() -> void:
     paused = !paused
@@ -49,7 +49,7 @@ func set_area_sub_name(area_name : StringName) -> void:
 func _resume_pressed() -> void:
     toggle_pause()
 
-@onready var restart_confirm := $Control/Menu/Restart/ConfirmationDialog
+@onready var restart_confirm : ConfirmationDialog = $Control/Menu/Restart/ConfirmationDialog
 func _restart_pressed() -> void:
     restart_confirm.popup_centered()
 func _restart_confirmed() -> void:
@@ -64,7 +64,7 @@ func _achievements_pressed() -> void:
 func _config_pressed() -> void:
     config_menu.visible = true
 
-@onready var mainmenu_confirm := $Control/Menu/MainMenu/ConfirmationDialog
+@onready var mainmenu_confirm : ConfirmationDialog = $Control/Menu/MainMenu/ConfirmationDialog
 func _mainmenu_pressed() -> void:
     mainmenu_confirm.popup_centered()
 func _mainmenu_confirmed() -> void:

@@ -53,10 +53,10 @@ func _ready() -> void:
     #fire_function_anim.connect(
         #&"animation_finished", Callable(parent, &"Weapon_AnimationFinished"))
 
-func _process(_delta) -> void:
+func _process(_delta : float) -> void:
     parent.firing = firing
 
-func _physics_process(_delta) -> void:
+func _physics_process(_delta : float) -> void:
     if parent.triggered:
         if line_of_sight is RayCast2D:
             on_line = line_of_sight.is_colliding() and !friendly_sight.is_colliding()

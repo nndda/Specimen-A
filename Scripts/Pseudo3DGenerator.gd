@@ -24,14 +24,14 @@ func _enter_tree():
 
 func init_tile_sets() -> void:
     if !tilesets_generated:
-        for n in depth:
+        for n : int in depth:
             tilesets_copy.append(user_tile_res(n, 1))
             if n < depth - 2:
                 tilesets_copy.append(user_tile_res(n, 2))
                 if n == depth - 3:
                     tilesets_copy.append(user_tile_res(n, 3))
 
-        for res in tilesets_copy:
+        for res : String in tilesets_copy:
             ResourceSaver.save(tileset, res)
             Global.tile_maps[res] = ResourceLoader.load(res, "TileSet")
             #Global.tile_maps[res] = load(res)
@@ -42,7 +42,7 @@ signal layers_generated
 
 func generate_layers() -> void:
 
-    for t in [top_layer, top_layer_2]:
+    for t : NodePath in [top_layer, top_layer_2]:
         var n := get_node(t)
         n.call_deferred(&"add_child", global_modulate.instantiate())
         n.follow_viewport_scale = max_scale
@@ -51,7 +51,7 @@ func generate_layers() -> void:
 
     get_node(top_layer_2).follow_viewport_scale = max_scale + 0.15
 
-    for n in depth:
+    for n : int in depth:
         var layer := CanvasLayer.new()
         var map_layer := get_node(map).duplicate()
         var map_tile_set : TileSet = Global.tile_maps[user_tile_res(n, 1)]
@@ -90,14 +90,14 @@ func generate_layers() -> void:
 
         call_deferred(&"add_child", layer)
 
-    for tilemap in (
+    for tilemap : Node in (
         get_node(top_layer).get_children() +
         get_node(top_layer_2).get_children() +
         [$"../TopLayer/Tile/Tile"]
        ):
         if tilemap is TileMap:
             tilemap.modulate = Color("#070101")
-            for layer in [
+            for layer : String in [
                 "physics_layer",
                 "navigation_layer",
                 "occlusion_layer",
@@ -105,7 +105,7 @@ func generate_layers() -> void:
                 if tilemap.tile_set.call(StringName("get_" + layer + "s_count")) >= 1:
                     tilemap.tile_set.call(StringName("remove_" + layer), 0)
 
-    for f in [map, map_decor, map_decor_light]:
+    for f : NodePath in [map, map_decor, map_decor_light]:
         get_node(f).queue_free()
 
     layers_generated.emit()

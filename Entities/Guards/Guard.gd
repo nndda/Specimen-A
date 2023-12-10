@@ -39,7 +39,7 @@ signal killed
 @export_group("Timing")
 @export_range(0.0, 5.0, 0.1) var init_cooldown    : float = 0.0
 @export_range(0.8, 5.0, 0.1) var cooldown         : float = 0.8
-@onready var cooldown_timer := $AttackCooldown
+@onready var cooldown_timer : Timer = $AttackCooldown
 
 var fire_clear  := false
 var fire_ready  := false
@@ -48,7 +48,7 @@ var player_near := false
 
 signal path_changed(path)
 signal target_reached
-@onready var nav_agent := $NavigationAgent2D
+@onready var nav_agent : NavigationAgent2D = $NavigationAgent2D
 
 var velo            : Vector2
 var move_direction  : Vector2
@@ -81,14 +81,14 @@ func _ready() -> void:
 
     if stationary:
         nav_agent = null
-        for free_itms in [ $KeepDistance, $KeepMove, $NavigationAgent2D ]:
+        for free_itms : Node in [ $KeepDistance, $KeepMove, $NavigationAgent2D ]:
             free_itms.queue_free()
 
     else:
-        for hidden_item in [ $KeepDistance, $KeepMove ]:
+        for hidden_item : Node in [ $KeepDistance, $KeepMove ]:
             hidden_item.visible = false
 
-func _process(_delta) -> void:
+func _process(_delta : float) -> void:
 
     corpse.global_position = global_position
     corpse.look_at(Global.head_pos)
@@ -109,7 +109,7 @@ func _process(_delta) -> void:
     $VisibilityHandler/VisibleOnScreenEnabler2D.global_position = self.global_position
 
 # TODO:  trigger system is a mess
-func _physics_process(_delta) -> void:
+func _physics_process(_delta : float) -> void:
     if is_triggered:
         look_at(Global.head_pos)
         if !stationary:
@@ -190,7 +190,7 @@ func _on_triggered() -> void:
 
         cooldown_timer.start(cooldown)
 
-        for f in [ "GeneralArea", "TriggerArea" ]:
+        for f : NodePath in [ ^"GeneralArea", ^"TriggerArea" ]:
             if get_node_or_null(f) != null:
                 get_node(f).queue_free()
 

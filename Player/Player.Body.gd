@@ -1,7 +1,7 @@
 extends Line2D
 
-@onready var head := $"../Head"
-@onready var damage_area := $"../DamageCollision"
+@onready var head : CharacterBody2D = $"../Head"
+@onready var damage_area : Area2D = $"../DamageCollision"
 
 var body_segment_max := get_point_count()
 var body_segment_max_physics : int = body_segment_max - 9
@@ -12,11 +12,11 @@ var body_segment_physics_arr := PackedInt32Array(
 var collision_segments : Array[CollisionShape2D] = []
 var collision_segments_shape : Array[SegmentShape2D] = []
 
-@onready var lights_path := $Lights
-@onready var lights_anim := $Lights/AnimationPlayer
+@onready var lights_path : Path2D = $Lights
+@onready var lights_anim : AnimationPlayer = $Lights/AnimationPlayer
 
 func init_collision_shape() -> void:
-    for segment in body_segment_max_physics:
+    for segment : int in body_segment_max_physics:
         var shape_node := CollisionShape2D.new()
         var shape := SegmentShape2D.new()
 
@@ -24,16 +24,17 @@ func init_collision_shape() -> void:
         shape.a = points[ segment ]
 
         shape_node.shape = shape
+
         # NOTE: Debug purpose only
-        shape_node.debug_color = Color.YELLOW
-        shape_node.z_index = 99
+        #shape_node.debug_color = Color.YELLOW
+        #shape_node.z_index = 99
 
         damage_area.add_child(shape_node)
         collision_segments.append(shape_node)
         collision_segments_shape.append(shape)
 
 func update_collision_shape() -> void:
-    for segment in body_segment_max_physics:
+    for segment : int in body_segment_max_physics:
         collision_segments_shape[ segment ].b = points[ body_segment_physics_arr[ segment ] - 1 ]
         collision_segments_shape[ segment ].a = points[ body_segment_physics_arr[ segment ] - 2 ]
 
@@ -54,24 +55,22 @@ func update_collision_shape() -> void:
 
 func update_light_path() -> void:
     if lights_path.visible:
-        for n in body_segment_max - 5:
-            lights_path.curve.set_point_position(
-                n, points[ n ])
-
-        if head.moving and !lights_anim.is_playing():
-            lights_anim.play(&"Idle")
+        for n : int in body_segment_max - 5:
+            lights_path.curve.set_point_position(n, points[n])
 
 var health_bar_offsets : PackedFloat32Array = [ 0.02, 0.04 ]
 
-@onready var health_bar := $"../UI/HealthBar"
+@onready var health_bar : ColorRect = $"../UI/HealthBar"
 
 func _ready() -> void:
+    if !lights_anim.is_playing():
+        lights_anim.play(&"Idle")
     call_deferred(&"init_collision_shape")
     lights_path.curve.clear_points()
-    for n in body_segment_max:
+    for n : int in body_segment_max - 5:
         lights_path.curve.add_point(Vector2.ZERO)
 
-func _physics_process(_delta) -> void:
+func _physics_process(_delta : float) -> void:
     if Global.moving_or_attacking:
         if get_point_count() > body_segment_max:
             remove_point(0)

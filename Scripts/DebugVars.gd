@@ -6,7 +6,7 @@ func _enter_tree():
     if data.size() % 2 != 0:
         push_error("\"data\" is not even")
 
-func _process(_delta):
+func _process(_delta : float):
     set_vars()
 
 func set_vars() -> void:
