@@ -15,6 +15,16 @@ func sync_config() -> void:
     audio_bgm.value = Global.user_data["config"]["bgm"]
     audio_bgm.value_changed.emit(audio_bgm.value)
 
+    for action : StringName in [&"Move", &"Attack"]:
+        var input_event_default := InputEventKey.new()
+        input_event_default.keycode = OS.find_keycode_from_string(Global.user_data_default["config"][action])
+
+        var input_event := InputEventKey.new()
+        input_event.keycode = OS.find_keycode_from_string(Global.user_data["config"][action])
+
+        InputMap.action_erase_event(rebind_target, input_event_default)
+        InputMap.action_add_event(rebind_target, input_event)
+
 func _on_visibility_changed() -> void:
     if visible == true:
         back_button.grab_focus()
@@ -31,8 +41,8 @@ func _ready() -> void:
     reset_progress_confirm.hide()
     rebind_dialogue.hide()
 
-    for action : StringName in [&"Attack",&"Move"]:
-        rebind_buttons[action].text = Global["config"][action].as_text_keycode()
+    for action : StringName in [&"Attack", &"Move"]:
+        rebind_buttons[action].text = Global.user_data["config"][action]
 
 
 ## Main buttons
@@ -42,7 +52,7 @@ func back_pressed() -> void:
         visible = false
         Global.update_user_data()
 
-@onready var reset_confirm : ConfirmationDialog = $Menu/Buttons/Reset/ConfirmationDialog
+@onready var reset_confirm : ConfirmationDialog = $Menu/Buttons/ResetSettings/ConfirmationDialog
 func reset_settings_pressed() -> void:
     reset_confirm.popup_centered()
 func reset_settings_confirmed() -> void:
@@ -130,8 +140,8 @@ func audio_bgm_changed(value : float) -> void:
 @onready var rebind_dialogue : Window = $Menu/Tab/Controls/RebindDialogue
 @onready var rebind_key_label : Label = $Menu/Tab/Controls/RebindDialogue/PanelContainer/Control/VBoxContainer/Key
 var rebind_target := &""
-var rebind_old : InputEvent
-var rebind_new : InputEvent
+var rebind_old : InputEventKey
+var rebind_new : InputEventKey
 const forbidden_keys : Array[Key] = [
     KEY_ESCAPE,
     KEY_F1,
@@ -171,7 +181,7 @@ func rebind_confirmed() -> void:
     InputMap.action_add_event(rebind_target, rebind_new)
 
     rebind_buttons[rebind_target].text = rebind_new.as_text_keycode()
-    Global.user_data["config"][rebind_target] = rebind_new
+    Global.user_data["config"][rebind_target] = OS.get_keycode_string(rebind_new.keycode)
 
     rebind_target = &""
     rebind_old = null

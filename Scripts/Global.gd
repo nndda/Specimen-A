@@ -87,8 +87,8 @@ var user_data := {
         "sfx" : 0,
         "bgm" : 0,
 
-        &"Move" : InputMap.action_get_events(&"Move")[1],
-        &"Attack" : InputMap.action_get_events(&"Attack")[1],
+        &"Move" : OS.get_keycode_string(KEY_F),
+        &"Attack" : OS.get_keycode_string(KEY_SPACE),
         },
     }
 var user_data_default : Dictionary
