@@ -1,17 +1,13 @@
 extends GPUParticles2D
 
-@onready var free_timer : Timer = Timer.new()
-
-#func _enter_tree() -> void:
-#	emitting = true
+@onready var free_timer := Timer.new()
 
 func _ready() -> void:
     show()
     emitting = true
 
-    call_deferred( "add_child", free_timer )
-    free_timer.start( lifetime )
-    free_timer.connect( "timeout", Callable( self, "killParticle" ) )
-
-func killParticle() -> void:
-    self.queue_free()
+    free_timer.ready.connect(func():
+        free_timer.start(lifetime)
+        free_timer.timeout.connect(queue_free)
+    )
+    call_deferred(&"add_child", free_timer)
