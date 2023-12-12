@@ -3,7 +3,8 @@ extends Node2D
 @export var level_name : StringName
 @export_node_path("Node2D") var pseudo_3d_generator : NodePath
 
-@onready var top_light_layer := $TopLayer/Lights
+@onready var top_1 : CanvasLayer = $TopLayer
+@onready var top_2 : CanvasLayer = $"TopLayer+1"
 
 signal level_loaded
 
@@ -13,8 +14,10 @@ func _enter_tree() -> void:
     level_loaded.connect(Camera.start_fade_out)
 
 func _ready() -> void:
-    for top_light : Node in get_tree().get_nodes_in_group(&"top_light"):
-        top_light.call_deferred(&"reparent", top_light_layer)
+    for top_layer : StringName in [&"top_1", &"top_2"]:
+        for node : Node in get_tree().get_nodes_in_group(top_layer):
+            node.call_deferred(&"reparent", get(top_layer))
+            get(top_layer).call_deferred(&"move_child", node, 0)
 
     call_deferred(&"add_child", Global.environment.instantiate())
     call_deferred(&"add_child", Global.canvas_modulate.instantiate())
