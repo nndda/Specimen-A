@@ -50,12 +50,6 @@ top_layer_2 = NodePath("../TopLayer+1")
 [node name="Player" parent="." instance=ExtResource("11_unoct")]
 rotation = 1.57079
 
-[node name="Objects+1" type="Node2D" parent="."]
-
-[node name="Decors" type="Node2D" parent="Objects+1"]
-
-[node name="Entities" type="Node2D" parent="."]
-
 [node name="TopLayer" type="CanvasLayer" parent="."]
 follow_viewport_enabled = true
 
