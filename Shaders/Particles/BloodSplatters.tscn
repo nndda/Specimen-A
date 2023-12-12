@@ -1,4 +1,4 @@
-[gd_scene load_steps=5 format=3 uid="uid://cf1nettbgosmj"]
+[gd_scene load_steps=4 format=3 uid="uid://cf1nettbgosmj"]
 
 [ext_resource type="Texture2D" uid="uid://ugmsvtacu0k8" path="res://Shaders/Particles/BloodSplatters.png" id="1_j3kmr"]
 [ext_resource type="Script" path="res://Shaders/Particles/ParticlesHandler.gd" id="2_exox2"]
@@ -9,32 +9,29 @@ particles_anim_h_frames = 10
 particles_anim_v_frames = 1
 particles_anim_loop = false
 
-[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_jeeyc"]
-particle_flag_disable_z = true
-angle_min = -720.0
-angle_max = 720.0
-spread = 180.0
-initial_velocity_min = 10.0
-initial_velocity_max = 20.0
-angular_velocity_max = 30.0
-gravity = Vector3(0, 0, 0)
-attractor_interaction_enabled = false
-scale_min = 0.75
-scale_max = 0.9
-color = Color(0.760784, 0.027451, 0.027451, 1)
-anim_offset_max = 1.0
-
-[node name="BloodSplatters" type="GPUParticles2D"]
+[node name="BloodSplatters" type="CPUParticles2D"]
 modulate = Color(1, 1, 1, 0.784314)
 material = SubResource("CanvasItemMaterial_mlwat")
 emitting = false
 amount = 5
-process_material = SubResource("ParticleProcessMaterial_jeeyc")
-texture = ExtResource("1_j3kmr")
 lifetime = 2.0
 one_shot = true
 explosiveness = 1.0
+fixed_fps = 30
 local_coords = true
+draw_order = 1
+texture = ExtResource("1_j3kmr")
+spread = 180.0
+gravity = Vector2(0, 0)
+initial_velocity_min = 10.0
+initial_velocity_max = 20.0
+angular_velocity_max = 30.0
+angle_min = -720.0
+angle_max = 720.0
+scale_amount_min = 0.75
+scale_amount_max = 0.9
+color = Color(0.760784, 0.027451, 0.027451, 1)
+anim_offset_max = 1.0
 script = ExtResource("2_exox2")
 stay = true
 

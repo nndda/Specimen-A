@@ -1,4 +1,4 @@
-extends GPUParticles2D
+extends CPUParticles2D
 
 @export var stay := false
 
@@ -33,3 +33,4 @@ func _process(_delta : float) -> void:
         if speed_scale == 0:
             #copytimer.queue_free()
             process_mode = Node.PROCESS_MODE_DISABLED
+            set_script(null)
