@@ -1,0 +1,35 @@
+[gd_scene load_steps=3 format=3 uid="uid://b330jfkc3h08u"]
+
+[ext_resource type="Script" path="res://Scripts/CameraScene.gd" id="1_s5iqu"]
+[ext_resource type="Shape2D" uid="uid://qr510gglchm8" path="res://Scripts/Point.DefaultShape.tres" id="2_iopad"]
+
+[node name="CameraScene" type="Camera2D"]
+enabled = false
+script = ExtResource("1_s5iqu")
+
+[node name="TriggerStart" type="Area2D" parent="."]
+position = Vector2(-48, 0)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="TriggerStart"]
+shape = ExtResource("2_iopad")
+debug_color = Color(0.215686, 1, 0.215686, 0.419608)
+
+[node name="TriggerStop" type="Area2D" parent="."]
+position = Vector2(48, 0)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="TriggerStop"]
+shape = ExtResource("2_iopad")
+debug_color = Color(1, 0.215686, 0.215686, 0.419608)
+
+[node name="ReferenceRect" type="ReferenceRect" parent="."]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -384.0
+offset_top = -216.0
+offset_right = 384.0
+offset_bottom = 216.0
+grow_horizontal = 2
+grow_vertical = 2
+border_color = Color(0.815686, 0, 0.968627, 0.458824)
+border_width = 5.0
