@@ -35,3 +35,5 @@ func _ready() -> void:
 
     Camera.init_visual_loading()
     level_loaded.emit()
+
+    Audio.connect_audio()

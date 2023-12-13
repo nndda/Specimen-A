@@ -15,6 +15,9 @@ func _ready() -> void:
     config_menu.sync_config()
 #	cam.global_position = $Camera2D.global_position
 
+    Audio.set_dialogue_window($CanvasLayer/Control/Margin/Menu/Exit/ConfirmationDialog)
+    Audio.connect_audio()
+
 func _on_exit_pressed() -> void:
     $Control/VBoxContainer/Exit/ConfirmationDialog.popup_centered()
 func _config_pressed():

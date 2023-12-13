@@ -1,0 +1,22 @@
+[gd_scene load_steps=4 format=3 uid="uid://o80m3kuiaslw"]
+
+[ext_resource type="Script" path="res://Scripts/Audio.gd" id="1_5lot1"]
+[ext_resource type="AudioStream" uid="uid://cb1kibs74s4il" path="res://Audio/Sound Effects/UI/Minimalist4.ogg" id="2_bicux"]
+[ext_resource type="AudioStream" uid="uid://cq7qhwhn6vian" path="res://Audio/Sound Effects/UI/Minimalist10.ogg" id="3_ku08n"]
+
+[node name="Audio" type="Node"]
+script = ExtResource("1_5lot1")
+
+[node name="SFX" type="Node" parent="."]
+
+[node name="UI" type="Node" parent="SFX"]
+
+[node name="ButtonHover" type="AudioStreamPlayer" parent="SFX/UI"]
+stream = ExtResource("2_bicux")
+volume_db = -8.0
+bus = &"SFX"
+
+[node name="ButtonClick" type="AudioStreamPlayer" parent="SFX/UI"]
+stream = ExtResource("3_ku08n")
+volume_db = -5.0
+bus = &"SFX"
