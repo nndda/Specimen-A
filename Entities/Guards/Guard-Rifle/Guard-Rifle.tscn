@@ -36,7 +36,6 @@ visible = false
 visible = false
 
 [node name="VisibilityHandler" parent="." index="10"]
-set_process_mode = 4
 root_path = NodePath("..")
 
 [editable path="Gun-Rifle"]
