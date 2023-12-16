@@ -37,6 +37,8 @@ func _enter_tree() -> void:
 func _ready() -> void:
     level_name.text = level_root.level_name
     level_root.level_loaded.connect(func(): allow_pause = true)
+    Audio.set_dialogue_window(restart_confirm)
+    Audio.set_dialogue_window(mainmenu_confirm)
 
 func _input(event : InputEvent) -> void:
     if event.is_action_pressed(&"Pause") and\

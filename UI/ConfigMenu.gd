@@ -44,6 +44,8 @@ func _ready() -> void:
     for action : StringName in [&"Attack", &"Move"]:
         rebind_buttons[action].text = Global.user_data["config"][action]
 
+    Audio.set_dialogue_window(reset_confirm)
+    Audio.set_dialogue_window(reset_progress_confirm)
 
 ## Main buttons
 @onready var back_button : Button = $Menu/Buttons/Back
