@@ -22,7 +22,8 @@ point_count = 3
 offsets = PackedFloat32Array(0.18, 0.328, 0.426, 0.475, 0.738)
 colors = PackedColorArray(0.764706, 0, 0, 1, 0.898039, 0, 0, 1, 0.898039, 0, 0, 0.917647, 0.909804, 0, 0, 0.211765, 0.909804, 0, 0, 0)
 
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_x6pst"]
+[sub_resource type="CircleShape2D" id="CircleShape2D_bwk6w"]
+radius = 18.0
 
 [sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_xjcxi"]
 particles_animation = true
@@ -72,7 +73,7 @@ round_precision = 4
 [node name="BloodTrailTrigger" type="Area2D" parent="."]
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="BloodTrailTrigger"]
-shape = SubResource("RectangleShape2D_x6pst")
+shape = SubResource("CircleShape2D_bwk6w")
 
 [node name="BloodSplatters" parent="." instance=ExtResource("3_nd872")]
 amount = 6
