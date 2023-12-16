@@ -22,6 +22,7 @@ cull_mode = 1
 polygon = PackedVector2Array(18, 7.99989, 6.99999, -4.00002, 4.99999, -3.00001, -1.00001, -3, -3.00001, -3.99999, -13.9999, 8.00009)
 
 [node name="Guard" type="CharacterBody2D"]
+z_index = 2
 collision_layer = 17
 collision_mask = 17
 motion_mode = 1
@@ -96,12 +97,13 @@ visible = false
 position = Vector2(-136, 0)
 
 [node name="n1" type="Node2D" parent="KeepDistance"]
-position = Vector2(-80, 0)
+position = Vector2(-52, 0)
 
 [node name="n2" type="Node2D" parent="KeepDistance"]
+position = Vector2(16, 0)
 
 [node name="Line2D" type="Line2D" parent="KeepDistance"]
-points = PackedVector2Array(-92, 0, 32, 0)
+points = PackedVector2Array(-56, 0, 20, 0)
 
 [node name="KeepMove" type="Node2D" parent="."]
 visible = false
