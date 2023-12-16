@@ -2,8 +2,8 @@ extends Area2D
 
 @onready var root : Node = get_parent()
 
-@export\
-var items_path : Array[NodePath] = []
+@export var disable_parent := false
+@export var items_path : Array[NodePath] = []
 var items : Array[Node] = []
 
 var player_entered := false
@@ -13,6 +13,9 @@ func _ready():
     root.ready.connect(func():
         for item : NodePath in items_path:
             items.append(get_node(item))
+        if disable_parent:
+            root.process_mode = Node.PROCESS_MODE_DISABLED
+            reparent(get_node(^"../../"))
     )
 
 func _on_body_entered(body : Node2D) -> void:
@@ -22,6 +25,8 @@ func _on_body_entered(body : Node2D) -> void:
         enable()
 
 func enable() -> void:
+    if disable_parent:
+        root.process_mode = Node.PROCESS_MODE_INHERIT
     for item : Node in items:
         item.process_mode = Node.PROCESS_MODE_INHERIT
     queue_free()
