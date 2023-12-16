@@ -64,7 +64,7 @@ dialog_autowrap = true
 modulate = Color(1, 1, 1, 0)
 layout_mode = 2
 
-[node name="Tab" type="TabContainer" parent="Menu"]
+[node name="Tab" type="TabContainer" parent="Menu" groups=["ui_tab"]]
 material = SubResource("CanvasItemMaterial_3u85o")
 custom_minimum_size = Vector2(0, 250)
 layout_mode = 2
@@ -88,7 +88,7 @@ size_flags_horizontal = 3
 text = "Resolution"
 vertical_alignment = 1
 
-[node name="OptionButton" type="OptionButton" parent="Menu/Tab/Display/Items/Resolution"]
+[node name="OptionButton" type="OptionButton" parent="Menu/Tab/Display/Items/Resolution" groups=["ui_button"]]
 layout_mode = 2
 size_flags_horizontal = 3
 theme_override_colors/font_color = Color(1, 1, 1, 1)
@@ -119,7 +119,7 @@ size_flags_horizontal = 3
 text = "Fullscreen"
 vertical_alignment = 1
 
-[node name="CheckButton" type="CheckButton" parent="Menu/Tab/Display/Items/Fullscreen"]
+[node name="CheckButton" type="CheckButton" parent="Menu/Tab/Display/Items/Fullscreen" groups=["ui_button"]]
 layout_mode = 2
 text = "on"
 
@@ -133,7 +133,7 @@ size_flags_horizontal = 3
 text = "Quality"
 vertical_alignment = 1
 
-[node name="OptionButton" type="OptionButton" parent="Menu/Tab/Display/Items/Quality"]
+[node name="OptionButton" type="OptionButton" parent="Menu/Tab/Display/Items/Quality" groups=["ui_button"]]
 layout_mode = 2
 size_flags_horizontal = 3
 alignment = 1
@@ -166,7 +166,7 @@ vertical_alignment = 1
 layout_mode = 2
 text = "100%"
 
-[node name="HSlider" type="HSlider" parent="Menu/Tab/Display/Items/Brightness"]
+[node name="HSlider" type="HSlider" parent="Menu/Tab/Display/Items/Brightness" groups=["ui_slider"]]
 layout_mode = 2
 size_flags_horizontal = 3
 min_value = 0.3
@@ -192,7 +192,7 @@ vertical_alignment = 1
 layout_mode = 2
 text = "100%"
 
-[node name="HSlider" type="HSlider" parent="Menu/Tab/Display/Items/Contrast"]
+[node name="HSlider" type="HSlider" parent="Menu/Tab/Display/Items/Contrast" groups=["ui_slider"]]
 layout_mode = 2
 size_flags_horizontal = 3
 min_value = 0.3
@@ -228,7 +228,7 @@ vertical_alignment = 1
 layout_mode = 2
 text = "100%"
 
-[node name="HSlider" type="HSlider" parent="Menu/Tab/Sound/Items/Master"]
+[node name="HSlider" type="HSlider" parent="Menu/Tab/Sound/Items/Master" groups=["ui_slider"]]
 layout_mode = 2
 size_flags_horizontal = 3
 min_value = -80.0
@@ -252,7 +252,7 @@ vertical_alignment = 1
 layout_mode = 2
 text = "100%"
 
-[node name="HSlider" type="HSlider" parent="Menu/Tab/Sound/Items/SFX"]
+[node name="HSlider" type="HSlider" parent="Menu/Tab/Sound/Items/SFX" groups=["ui_slider"]]
 layout_mode = 2
 size_flags_horizontal = 3
 min_value = -80.0
@@ -276,7 +276,7 @@ vertical_alignment = 1
 layout_mode = 2
 text = "100%"
 
-[node name="HSlider" type="HSlider" parent="Menu/Tab/Sound/Items/BGM"]
+[node name="HSlider" type="HSlider" parent="Menu/Tab/Sound/Items/BGM" groups=["ui_slider"]]
 layout_mode = 2
 size_flags_horizontal = 3
 min_value = -80.0
@@ -337,7 +337,7 @@ layout_mode = 2
 text = "or "
 horizontal_alignment = 1
 
-[node name="Rebind" type="Button" parent="Menu/Tab/Controls/Items/Move/Actions"]
+[node name="Rebind" type="Button" parent="Menu/Tab/Controls/Items/Move/Actions" groups=["ui_button"]]
 layout_mode = 2
 size_flags_horizontal = 3
 text = "F"
@@ -354,22 +354,22 @@ text = "Attack"
 layout_mode = 2
 size_flags_horizontal = 3
 
-[node name="Labels2" type="HBoxContainer" parent="Menu/Tab/Controls/Items/Attack/Actions"]
+[node name="Labels" type="HBoxContainer" parent="Menu/Tab/Controls/Items/Attack/Actions"]
 layout_mode = 2
 size_flags_horizontal = 3
 
-[node name="Label" type="Label" parent="Menu/Tab/Controls/Items/Attack/Actions/Labels2"]
+[node name="Label" type="Label" parent="Menu/Tab/Controls/Items/Attack/Actions/Labels"]
 layout_mode = 2
 size_flags_horizontal = 3
 text = "Mouse Right"
 horizontal_alignment = 1
 
-[node name="Or" type="Label" parent="Menu/Tab/Controls/Items/Attack/Actions/Labels2"]
+[node name="Or" type="Label" parent="Menu/Tab/Controls/Items/Attack/Actions/Labels"]
 layout_mode = 2
 text = "or "
 horizontal_alignment = 1
 
-[node name="Rebind" type="Button" parent="Menu/Tab/Controls/Items/Attack/Actions"]
+[node name="Rebind" type="Button" parent="Menu/Tab/Controls/Items/Attack/Actions" groups=["ui_button"]]
 layout_mode = 2
 size_flags_horizontal = 3
 text = "Space"
