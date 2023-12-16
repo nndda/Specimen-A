@@ -11,7 +11,7 @@ var firing := false
 @onready var fire_function_anim : AnimationPlayer = $FireFunction.animation_player
 
 @export_node_path("Area2D", "RayCast2D") var line_of_sight_; var line_of_sight : Node2D
-@export_node_path("Area2D", "RayCast2D") var friendly_sight_; var friendly_sight : Node2D
+@export_node_path("Area2D", "RayCast2D") var obstacle_sight_; var obstacle_sight : Node2D
 
 var parent : Node
 var trigger_area : NodePath
@@ -35,15 +35,18 @@ func _on_line_of_fire_tree_entered() -> void:
 func _ready() -> void:
 
     line_of_sight = get_node_or_null(line_of_sight_)
-    friendly_sight = get_node_or_null(friendly_sight_)
+    obstacle_sight = get_node_or_null(obstacle_sight_)
 
-    trigger_area = ^"../TriggerArea" if parent.custom_trigger == null else parent.custom_trigger_
+    trigger_area =\
+        ^"../TriggerArea" if parent.custom_trigger == null else\
+        parent.custom_trigger_
 
     if  line_of_sight != null and\
         line_of_sight is CollisionObject2D:
 
         if line_of_sight is RayCast2D:
             line_of_sight.add_exception(get_node(trigger_area))
+            line_of_sight.add_exception(Global.player_destroy_through)
 
         elif line_of_sight is Area2D:
 
@@ -61,7 +64,7 @@ func _process(_delta : float) -> void:
 func _physics_process(_delta : float) -> void:
     if parent.triggered:
         if line_of_sight is RayCast2D:
-            on_line = line_of_sight.is_colliding() and !friendly_sight.is_colliding()
+            on_line = line_of_sight.is_colliding() and !obstacle_sight.is_colliding()
 
 func fire() -> void:
     $FireFunction.animation_player.play(&"Firing")

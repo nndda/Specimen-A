@@ -7,15 +7,15 @@ extends CanvasLayer
 @onready var health_low_overlay : TextureRect = $HealthLowOverlay
 @onready var health_ticker : Timer = $HealthBar/HealthTicker
 
-func _ready():
+func _ready() -> void:
     health_bar.modulate = Color.TRANSPARENT
     #$"../DBG".queue_free()
 
-func _process(_delta : float):
+func _process(_delta : float) -> void:
     health_bar.scale.x = remap(head.health, 100.0, 0.0, 1.0, 0.0)
-    health_low_overlay.modulate.a = absf(health_bar.scale.x - 1)
+    #health_low_overlay.modulate.a = absf(health_bar.scale.x - 1)
 
-func _on_HealthTicker_timeout():
+func _on_health_ticker_timeout() -> void:
     if head.health < 100.0:
         head.health += head.health_regen
     else:

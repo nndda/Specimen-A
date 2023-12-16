@@ -47,9 +47,9 @@ func _physics_process(_delta : float) -> void:
             bullet_spark.visible = hit
 
             if hit:
-                line_of_fire_collider = line_of_fire.get_collider()
                 colliding_point.global_position = line_of_fire_const.get_collision_point()
                 bullet_path.points[1] = colliding_point.position
+                line_of_fire_collider = line_of_fire.get_collider()
 
                 bullet_spark.global_position = colliding_point.global_position
                 if line_of_fire_collider != null:

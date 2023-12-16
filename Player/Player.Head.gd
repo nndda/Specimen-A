@@ -260,7 +260,7 @@ func monitor_var() -> void:
     $"../DBG/VBoxContainer".mon_vars()
 
 
-func _on_DestroyThroughA_body_entered(body_node) -> void:
+func _on_DestroyThroughA_body_entered(body_node : Node2D) -> void:
     if body_node.has_method(&"damage"):
         body_node.damage(
             body_node.health if body_node.health - attack_strength <= 0 else\
@@ -268,7 +268,16 @@ func _on_DestroyThroughA_body_entered(body_node) -> void:
         )
         shake_cam()
 
-func _on_head_tree_entered():
+func _on_head_tree_entered() -> void:
     Global.player_physics_head = $"."
-func _on_body_tree_entered():
+func _on_body_tree_entered() -> void:
     Global.player_physics_body = $"../DamageCollision"
+func _on_destroy_through_tree_entered() -> void:
+    Global.player_destroy_through = area_destroy_through
+
+func _on_head_tree_exiting() -> void:
+    Global.player_physics_head = null
+func _on_body_tree_exiting():
+    Global.player_physics_body = null
+func _on_destroy_through_tree_exiting():
+    Global.player_destroy_through = null
