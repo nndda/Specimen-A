@@ -23,6 +23,7 @@ polygon = PackedVector2Array(18, 7.99989, 6.99999, -4.00002, 4.99999, -3.00001, 
 
 [node name="Guard" type="CharacterBody2D"]
 z_index = 2
+z_as_relative = false
 collision_layer = 17
 collision_mask = 17
 motion_mode = 1

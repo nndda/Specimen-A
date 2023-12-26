@@ -20,7 +20,11 @@ visible = false
 collision_layer = 17
 collision_mask = 17
 
+[node name="GeneralLight" parent="Sprite2D" index="0"]
+z_index = 2
+
 [node name="LightHelmet" parent="Sprite2D" index="1"]
+z_index = -2
 shadow_color = Color(0.0588235, 0.0117647, 0.0117647, 1)
 
 [node name="CollisionShape2D" parent="." index="4"]
@@ -39,4 +43,5 @@ visible = false
 root_path = NodePath("..")
 
 [editable path="Gun-Rifle"]
+[editable path="Gun-Rifle/DebugTestField"]
 [editable path="VisibilityHandler"]
