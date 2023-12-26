@@ -10,6 +10,8 @@ func _ready():
     enabler.global_rotation = root.global_rotation
     enabler.screen_entered.connect(_on_screen_entered)
     enabler.screen_exited.connect(_on_screen_exited)
+    enabler.visible = true
+    enabler.modulate = Color.WHITE
     root.visible = false
     root.process_mode = set_process_mode_to
 

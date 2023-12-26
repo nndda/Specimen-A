@@ -7,3 +7,4 @@ script = ExtResource("1_75ufu")
 
 [node name="VisibleOnScreenEnabler2D" type="VisibleOnScreenEnabler2D" parent="."]
 process_mode = 3
+modulate = Color(1, 1, 1, 0)
