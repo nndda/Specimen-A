@@ -1,8 +1,10 @@
-[gd_scene load_steps=4 format=3 uid="uid://o80m3kuiaslw"]
+[gd_scene load_steps=6 format=3 uid="uid://o80m3kuiaslw"]
 
 [ext_resource type="Script" path="res://Scripts/Audio.gd" id="1_5lot1"]
 [ext_resource type="AudioStream" uid="uid://cb1kibs74s4il" path="res://Audio/Sound Effects/UI/Minimalist4.ogg" id="2_bicux"]
 [ext_resource type="AudioStream" uid="uid://cq7qhwhn6vian" path="res://Audio/Sound Effects/UI/Minimalist10.ogg" id="3_ku08n"]
+[ext_resource type="AudioStream" uid="uid://v5e84sy5xqni" path="res://Audio/BGM/Deep Noise.ogg" id="4_fg4hn"]
+[ext_resource type="AudioStream" uid="uid://dotxy1gst4ydb" path="res://Audio/BGM/Symmetry.ogg" id="5_bib8a"]
 
 [node name="Audio" type="Node"]
 script = ExtResource("1_5lot1")
@@ -20,3 +22,21 @@ bus = &"SFX"
 stream = ExtResource("3_ku08n")
 volume_db = -5.0
 bus = &"SFX"
+
+[node name="BGM" type="Node" parent="."]
+
+[node name="Ambience" type="Node" parent="BGM"]
+
+[node name="0" type="AudioStreamPlayer" parent="BGM/Ambience"]
+stream = ExtResource("4_fg4hn")
+volume_db = -80.0
+bus = &"Ambience"
+
+[node name="0" type="AudioStreamPlayer" parent="BGM"]
+stream = ExtResource("5_bib8a")
+volume_db = -80.0
+bus = &"BGM"
+
+[node name="Ease" type="Timer" parent="BGM"]
+wait_time = 8.0
+one_shot = true
