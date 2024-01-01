@@ -3,5 +3,5 @@
 [ext_resource type="Script" path="res://Worlds/GlobalModulate.gd" id="1_t0m5r"]
 
 [node name="GlobalModulate" type="CanvasModulate"]
-color = Color(0.0588235, 0.0392157, 0.0901961, 1)
+color = Color(0.0627451, 0.054902, 0.0823529, 1)
 script = ExtResource("1_t0m5r")
