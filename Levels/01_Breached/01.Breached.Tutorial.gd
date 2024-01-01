@@ -1,12 +1,16 @@
 extends Node2D
 
 @export var strict := false
+var move_tutorial_finished := false
+
+@onready var pause_menu : CanvasLayer = $"../../PauseMenu"
 
 @export_node_path("Label") var hint_move_a_ : NodePath; @onready var hint_move_a := get_node(hint_move_a_)
 @export_node_path("Label") var hint_move_b_ : NodePath; @onready var hint_move_b := get_node(hint_move_b_)
 @export_node_path("Label") var hint_attack_a_ : NodePath; @onready var hint_attack_a := get_node(hint_attack_a_)
 @export_node_path("Label") var hint_attack_b_ : NodePath; @onready var hint_attack_b := get_node(hint_attack_b_)
 
+@onready var hint_move_timer : Timer = $BasicControls/HintMove/Timer
 @onready var hint_move_anim := $BasicControls/HintMove/AnimationPlayer
 @onready var hint_attack_anim := $BasicControls/HintAttack/AnimationPlayer
 
@@ -29,8 +33,8 @@ func _ready():
     Camera.fade_out.connect(func():\
         hint_move_anim.play(&"FadeIn"))
 
-    #hint_attack_anim.animation_finished.connect(func(anim_name):\
-        #if anim_name == &"FadeOut": queue_free())
+    $"../..".connect(&"ready", func():
+        pause_menu.pause_menu_closed.connect(pause_menu_closed))
 
     $BreakOut.visible = false
     if strict:
@@ -63,18 +67,31 @@ func hint_breakout_clear() -> void:
 
 func _on_HintMoveRemove_body_exited(body : Node2D) -> void:
     if body.get_name() == &"Head":
-        $BasicControls/HintMove/Timer.start()
+        hint_move_timer.start()
         $HintMoveRemove.queue_free()
 
 func _on_HintMove_timeout():
     hint_move_anim.play(&"FadeOut")
+    move_tutorial_finished = true
     hint_attack_anim.play(&"FadeIn")
     if strict:
         Global.player.allow_attack = true
-    $BreakOut.visible = true
-
+    if $BreakOut != null:
+        $BreakOut.visible = true
 
 func _on_HintAttack_animation_finished(anim_name : StringName) -> void:
     if anim_name == &"FadeOut":
-        #self.call_deferred(&"queue_free")
+        #queue_free()
         pass
+
+func _on_HintRangeAttack_animation_finished(anim_name : StringName) -> void:
+    if anim_name == &"FadeOut":
+        queue_free()
+
+func pause_menu_closed() -> void:
+    if !move_tutorial_finished:
+        if hint_move_timer.process_mode == Node.PROCESS_MODE_DISABLED:
+            hint_move_timer.process_mode = Node.PROCESS_MODE_INHERIT
+        if hint_move_timer.is_stopped():
+            hint_move_timer.start()
+
