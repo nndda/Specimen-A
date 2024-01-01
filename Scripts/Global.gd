@@ -9,9 +9,6 @@ const canvas_modulate := preload("res://Worlds/GlobalModulate.tscn")
 var layer : Array[NodePath] = [
     ^"Objects/Corpses",
     ^"Objects/Particles",
-    #"Objects/Statics",
-    #"Objects",
-    #"Entities",
     ]
 var layer_dict := {}
 func update_layers() -> void:
@@ -45,6 +42,8 @@ var health              : float = 100.0
 
 var player_physics_head : CharacterBody2D
 var player_physics_body : Area2D
+
+var player_destroy_through : Area2D
 
 signal camera_shaken_by_player
 
