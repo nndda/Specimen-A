@@ -21,6 +21,7 @@ func _ready() -> void:
 
     call_deferred(&"add_child", Global.environment.instantiate())
     call_deferred(&"add_child", Global.canvas_modulate.instantiate())
+    top_2.call_deferred(&"add_child", preload("res://Shaders/Particles/AmbientParticle.tscn"))
 
     $TopLayer.visible = true
     $"TopLayer+1".visible = true
@@ -37,3 +38,4 @@ func _ready() -> void:
     level_loaded.emit()
 
     Audio.connect_audio()
+    Audio.init_bg()
