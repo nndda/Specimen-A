@@ -8,7 +8,7 @@
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_1wcdr"]
 shader = ExtResource("2_rfqgi")
-shader_parameter/lod = 1.5
+shader_parameter/lod = 1.093
 
 [sub_resource type="LabelSettings" id="LabelSettings_3fob6"]
 font_size = 48
@@ -22,12 +22,22 @@ layer = 40
 script = ExtResource("1_vx8gi")
 
 [node name="Overlay" type="ColorRect" parent="."]
-material = SubResource("ShaderMaterial_1wcdr")
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+color = Color(0.278431, 0, 0, 0.0392157)
+
+[node name="Blur" type="ColorRect" parent="Overlay"]
+material = SubResource("ShaderMaterial_1wcdr")
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+metadata/_edit_use_anchors_ = true
 
 [node name="Control" type="Control" parent="."]
 layout_mode = 3
