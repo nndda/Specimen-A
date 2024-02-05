@@ -1,0 +1,75 @@
+[gd_scene load_steps=6 format=3 uid="uid://cnnfpjbpkoe1u"]
+
+[ext_resource type="Script" path="res://Scripts/Notifications.gd" id="1_2haug"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_3so7r"]
+
+[sub_resource type="Gradient" id="Gradient_xpeh1"]
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_as0of"]
+gradient = SubResource("Gradient_xpeh1")
+width = 32
+height = 32
+fill_from = Vector2(0, 1)
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_fdrb1"]
+
+[node name="Notifications" type="CanvasLayer"]
+script = ExtResource("1_2haug")
+notification_title_ = NodePath("Control/NotifContainer/HBoxContainer/VBoxContainer/Label")
+
+[node name="Control" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="NotifContainer" type="PanelContainer" parent="Control"]
+layout_mode = 1
+anchors_preset = 10
+anchor_right = 1.0
+offset_left = 256.0
+offset_right = -256.0
+offset_bottom = 52.0
+grow_horizontal = 2
+
+[node name="HBoxContainer" type="HBoxContainer" parent="Control/NotifContainer"]
+layout_mode = 2
+
+[node name="VSeparator" type="VSeparator" parent="Control/NotifContainer/HBoxContainer"]
+layout_mode = 2
+theme_override_styles/separator = SubResource("StyleBoxEmpty_3so7r")
+
+[node name="Icon" type="TextureRect" parent="Control/NotifContainer/HBoxContainer"]
+layout_mode = 2
+texture = SubResource("GradientTexture2D_as0of")
+stretch_mode = 3
+
+[node name="VSeparator2" type="VSeparator" parent="Control/NotifContainer/HBoxContainer"]
+layout_mode = 2
+theme_override_styles/separator = SubResource("StyleBoxEmpty_3so7r")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Control/NotifContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="HSeparator" type="HSeparator" parent="Control/NotifContainer/HBoxContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_constants/separation = -1
+theme_override_styles/separator = SubResource("StyleBoxEmpty_fdrb1")
+
+[node name="Label" type="Label" parent="Control/NotifContainer/HBoxContainer/VBoxContainer"]
+layout_mode = 2
+text = "Title goes here"
+
+[node name="RichTextLabel" type="RichTextLabel" parent="Control/NotifContainer/HBoxContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+text = "Description goes here. Description goes here. Description goes here. "
+scroll_active = false
+
+[node name="VSeparator3" type="VSeparator" parent="Control/NotifContainer/HBoxContainer"]
+layout_mode = 2
+theme_override_styles/separator = SubResource("StyleBoxEmpty_3so7r")
