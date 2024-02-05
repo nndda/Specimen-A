@@ -19,15 +19,15 @@ func update_layers() -> void:
 var current_objects     : Array
 var top_scale           : float = 1.1
 
-var player              : Node2D
+var player : Node2D
 
-#var allow_move          : bool = true
-var moving              : bool
-var moving_f            : float
+#var allow_move : bool = true
+var moving : bool
+var moving_f : float
 
-var attacking           : bool
+var attacking : bool
 
-var moving_or_attacking    : bool
+var moving_or_attacking : bool
 
 var head_pos            : Vector2
 var head_canvas_pos     : Vector2
@@ -69,19 +69,14 @@ func sum_array(array : PackedFloat32Array) -> float:
 
 var user_data := {
     "level_unlocked" : 0,
-
     "achievements" : {
 
     },
-
 #   CONFIG
     "config" : {
-        #"always_show_health_bar" : false,
         "optimal_graphic" : false,
         "fullscreen" : false,
         "resolution_idx" : 0,
-        #"show_damage" : false,
-
         "brightness" : 1,
         "contrast" : 1,
 
@@ -89,31 +84,71 @@ var user_data := {
         "sfx" : 0,
         "bgm" : 0,
 
-        &"Move" : OS.get_keycode_string(KEY_F),
-        &"Attack" : OS.get_keycode_string(KEY_SPACE),
+        #"always_show_health_bar" : false,
+        #"show_damage" : false,
+
+        "Move" : OS.get_keycode_string(KEY_F),
+        "Attack" : OS.get_keycode_string(KEY_SPACE),
         },
     }
-var user_data_default : Dictionary
-const user_data_path := "user://user_data"
-func update_user_data() -> void:
-    #DirAccess.remove_absolute(user_data_path)
-    var new_data := FileAccess.open(user_data_path, FileAccess.WRITE_READ)
-    new_data.store_buffer(var_to_bytes(user_data))
-    new_data.close()
+var user_config := {
+    "optimal_graphic" : false,
+    "fullscreen" : false,
+    "resolution_idx" : 0,
+    "brightness" : 1,
+    "contrast" : 1,
 
-func load_user_data() -> void:
-    if !FileAccess.file_exists(user_data_path):
-        update_user_data()
+    "master" : 0,
+    "sfx" : 0,
+    "bgm" : 0,
+
+    #"always_show_health_bar" : false,
+    #"show_damage" : false,
+
+    &"Move" : OS.get_keycode_string(KEY_F),
+    &"Attack" : OS.get_keycode_string(KEY_SPACE),
+}
+var user_config_default : Dictionary
+var user_data_default : Dictionary
+
+const USER_CONFIG_PATH := "user://user.config.cfg"
+const USER_PROGRESS_PATH := "user://user.progress.cfg"
+
+const USER_DATA_PASS = "specimen-a"
+
+func update_user_config() -> void:
+    var config := ConfigFile.new()
+    if !FileAccess.file_exists(USER_CONFIG_PATH):
+        for n in user_config_default.keys():
+            config.set_value("config", n, user_config_default[n])
+        var err_save := config.save(USER_CONFIG_PATH)
+        if err_save != OK:
+            printerr("Failed to save user config: ", err_save)
     else:
-        var data = bytes_to_var(FileAccess.get_file_as_bytes(user_data_path))
-        if data is Dictionary:
-            if data.keys() == user_data.keys():
-                user_data = data
-        data = null
+        var err := config.load(USER_CONFIG_PATH)
+        if err == OK:
+            for n in user_config.keys():
+                config.set_value("config", n, user_config[n])
+            var err_save := config.save(USER_CONFIG_PATH)
+            if err_save != OK:
+                printerr("Failed to save user config: ", err_save)
+
+func load_user_config() -> void:
+    if !FileAccess.file_exists(USER_CONFIG_PATH):
+        update_user_config()
+    else:
+        var config := ConfigFile.new()
+        var err := config.load(USER_CONFIG_PATH)
+        if err == OK:
+            for n in config.get_section_keys("config"):
+                user_config[n] = config.get_value("config", n)
+        else:
+            printerr("Failed to load user config: ", err)
 
 func _enter_tree():
     user_data_default = user_data.duplicate(true)
-    load_user_data()
+    user_config_default = user_config.duplicate(true)
+    load_user_config()
 
 func _process(_delta : float) -> void:
 

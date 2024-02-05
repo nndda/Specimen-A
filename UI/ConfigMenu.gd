@@ -1,26 +1,31 @@
 extends Control
 
 func sync_config() -> void:
-    #fullscreen_toggle.toggled.emit(Global.user_data["fullscreen"])
-    fullscreen_toggle.button_pressed = Global.user_data["config"]["fullscreen"]
-    if !Global.user_data["config"]["fullscreen"]:
-        resolution_button.select(Global.user_data["config"]["resolution_idx"])
+    fullscreen_toggle.button_pressed = Global.user_config["fullscreen"]
+    if !Global.user_config["fullscreen"]:
+        resolution_button.select(Global.user_config["resolution_idx"])
 
-    audio_master.value = Global.user_data["config"]["master"]
+    audio_master.value = Global.user_config["master"]
     audio_master.value_changed.emit(audio_master.value)
 
-    audio_sfx.value = Global.user_data["config"]["sfx"]
+    audio_sfx.value = Global.user_config["sfx"]
     audio_sfx.value_changed.emit(audio_sfx.value)
 
-    audio_bgm.value = Global.user_data["config"]["bgm"]
+    audio_bgm.value = Global.user_config["bgm"]
     audio_bgm.value_changed.emit(audio_bgm.value)
 
-    for action : StringName in [&"Move", &"Attack"]:
+    display_brightness.value = Global.user_config["brightness"]
+    display_brightness.value_changed.emit(display_brightness.value)
+
+    display_contrast.value = Global.user_config["contrast"]
+    display_contrast.value_changed.emit(display_contrast.value)
+
+    for action in ["Move", "Attack"]:
         var input_event_default := InputEventKey.new()
-        input_event_default.keycode = OS.find_keycode_from_string(Global.user_data_default["config"][action])
+        input_event_default.keycode = OS.find_keycode_from_string(Global.user_config_default[action])
 
         var input_event := InputEventKey.new()
-        input_event.keycode = OS.find_keycode_from_string(Global.user_data["config"][action])
+        input_event.keycode = OS.find_keycode_from_string(Global.user_config[action])
 
         InputMap.action_erase_event(rebind_target, input_event_default)
         InputMap.action_add_event(rebind_target, input_event)
@@ -42,33 +47,35 @@ func _ready() -> void:
     rebind_dialogue.hide()
 
     for action : StringName in [&"Attack", &"Move"]:
-        rebind_buttons[action].text = Global.user_data["config"][action]
+        rebind_buttons[action].text = Global.user_config[action]
 
     Audio.set_dialogue_window(reset_confirm)
     Audio.set_dialogue_window(reset_progress_confirm)
+
+    sync_config()
 
 ## Main buttons
 @onready var back_button : Button = $Menu/Buttons/Back
 func back_pressed() -> void:
     if visible:
         visible = false
-        Global.update_user_data()
+        Global.update_user_config()
 
 @onready var reset_confirm : ConfirmationDialog = $Menu/Buttons/ResetSettings/ConfirmationDialog
 func reset_settings_pressed() -> void:
     reset_confirm.popup_centered()
 func reset_settings_confirmed() -> void:
-    Global.user_data["config"] = Global["config"].user_data_default
-    Global.update_user_data()
+    Global.user_config = Global.user_config.user_data_default
+    Global.update_user_config()
     sync_config()
 
 @onready var reset_progress_confirm : ConfirmationDialog = $Menu/Buttons/Right/ResetProgress/ConfirmationDialog
 func reset_progress_pressed() -> void:
     reset_progress_confirm.popup_centered()
 func reset_progress_confirmed() -> void:
-    Global.user_data["progress"] = Global["progress"].user_data_default
-    Global.user_data["achievements"] = Global["achievements"].user_data_default
-    Global.update_user_data()
+    #Global.user_data["progress"] = Global["progress"].user_data_default
+    #Global.user_data["achievements"] = Global["achievements"].user_data_default
+    #Global.update_user_config()
     sync_config()
 
 
@@ -82,7 +89,7 @@ func display_fullscreen_toggled(toggled_on : bool) -> void:
         DisplayServer.WINDOW_MODE_WINDOWED
     )
     resolution_button.disabled = toggled_on
-    Global.user_data["config"]["fullscreen"] = toggled_on
+    Global.user_config["fullscreen"] = toggled_on
 
 ### SCREEN/DISPLAY RESOLUTION
 var environment := preload("res://Worlds/GlobalEnviroment.tres")
@@ -94,14 +101,16 @@ func display_resolution_selected(index : int) -> void:
         res_string[0].to_int(),
         res_string[1].to_int()
     ))
-    Global.user_data["config"]["resolution_idx"] = index
+    Global.user_config["resolution_idx"] = index
 
+@onready var display_brightness : HSlider = $Menu/Tab/Display/Items/Brightness/HSlider
 func adjust_brightness(value : float) -> void:
     environment.adjustment_brightness = value
-    Global.user_data["config"]["brightness"] = value
+    Global.user_config["brightness"] = value
+@onready var display_contrast : HSlider = $Menu/Tab/Display/Items/Contrast/HSlider
 func adjust_contrast(value : float) -> void:
     environment.adjustment_contrast = value
-    Global.user_data["config"]["contrast"] = value
+    Global.user_config["contrast"] = value
 
 
 #### AUDIO
@@ -116,21 +125,21 @@ func display_volume(value : float, label : Label) -> void:
 func audio_master_changed(value : float) -> void:
     AudioServer.set_bus_volume_db(0, value)
     display_volume(value, audio_master_label)
-    Global.user_data["config"]["master"] = value
+    Global.user_config["master"] = value
 
 @onready var audio_sfx : HSlider = $Menu/Tab/Sound/Items/SFX/HSlider
 @onready var audio_sfx_label : Label = $Menu/Tab/Sound/Items/SFX/Labels/Value
 func audio_sfx_changed(value : float) -> void:
     AudioServer.set_bus_volume_db(1, value)
     display_volume(value, audio_sfx_label)
-    Global.user_data["config"]["sfx"] = value
+    Global.user_config["sfx"] = value
 
 @onready var audio_bgm : HSlider = $Menu/Tab/Sound/Items/BGM/HSlider
 @onready var audio_bgm_label : Label = $Menu/Tab/Sound/Items/BGM/Labels/Value
 func audio_bgm_changed(value : float) -> void:
     AudioServer.set_bus_volume_db(2, value)
     display_volume(value, audio_bgm_label)
-    Global.user_data["config"]["bgm"] = value
+    Global.user_config["bgm"] = value
 
 
 ## CONTROLS
@@ -183,7 +192,7 @@ func rebind_confirmed() -> void:
     InputMap.action_add_event(rebind_target, rebind_new)
 
     rebind_buttons[rebind_target].text = rebind_new.as_text_keycode()
-    Global.user_data["config"][rebind_target] = OS.get_keycode_string(rebind_new.keycode)
+    Global.user_config[rebind_target] = OS.get_keycode_string(rebind_new.keycode)
 
     rebind_target = &""
     rebind_old = null
