@@ -83,9 +83,11 @@ shape = ExtResource("4_yu3yv")
 [node name="AttackCooldown" type="Timer" parent="."]
 
 [node name="NavigationAgent2D" type="NavigationAgent2D" parent="."]
+navigation_layers = 256
 avoidance_enabled = true
-radius = 40.0
-max_neighbors = 5
+radius = 32.0
+neighbor_distance = 320.0
+max_neighbors = 4
 debug_path_custom_color = Color(0, 1, 1, 1)
 
 [node name="UpdatePlayerPos" type="Timer" parent="NavigationAgent2D"]
@@ -112,13 +114,15 @@ visible = false
 [node name="Position2D" type="Node2D" parent="KeepMove"]
 
 [node name="n1" type="Node2D" parent="KeepMove"]
-position = Vector2(0, -96)
+position = Vector2(0, -80)
 
 [node name="n2" type="Node2D" parent="KeepMove"]
 position = Vector2(0, 96)
 
 [node name="Line2D" type="Line2D" parent="KeepMove"]
-points = PackedVector2Array(0, -96, 0, 96)
+position = Vector2(0, 45.7857)
+scale = Vector2(1, 1.70679)
+points = PackedVector2Array(0, -70.3178, 0, 28.7946)
 
 [node name="VisibilityHandler" parent="." instance=ExtResource("5_21ehr")]
 
