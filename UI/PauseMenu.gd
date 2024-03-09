@@ -2,10 +2,11 @@ extends CanvasLayer
 
 var paused := false
 var allow_pause := false
+var debug_free_mouse := false
 
 @onready var level_root : Node = $".."
-@onready var level_name : Label = $Control/Area/LevelName
-@onready var level_sub : Label = $Control/Area/LevelName/Sub
+@onready var level_name : Label = $Control/Area/LevelLabels
+@onready var level_sub : Label = $Control/Area/LevelLabels/Sub
 
 @onready var config_menu : Control = $Control/ConfigMenu
 
@@ -15,17 +16,18 @@ func toggle_pause() -> void:
     paused = !paused
     visible = paused
     Camera.paused = paused
-    #ProjectSettings.set_setting("display/mouse_cursor/custom_image",
-        #"" if paused else\
-        #"res://UI/Cursors/Dot.png"
-    #)
+    ProjectSettings.set_setting("display/mouse_cursor/custom_image",
+        "" if paused else\
+        "res://UI/Cursors/Dot.png"
+    )
     level_root.call_deferred(&"set_process_mode",
         Node.PROCESS_MODE_DISABLED if paused else\
         Node.PROCESS_MODE_INHERIT
     )
-    Input.mouse_mode =\
-        Input.MOUSE_MODE_VISIBLE if paused else\
-        Input.MOUSE_MODE_CONFINED
+    if !debug_free_mouse:
+        Input.mouse_mode =\
+            Input.MOUSE_MODE_VISIBLE if paused else\
+            Input.MOUSE_MODE_CONFINED
 
     if !paused:
         pause_menu_closed.emit()
@@ -41,10 +43,17 @@ func _ready() -> void:
     Audio.set_dialogue_window(mainmenu_confirm)
 
 func _input(event : InputEvent) -> void:
-    if event.is_action_pressed(&"Pause") and\
-        !config_menu.visible and\
-        allow_pause:
-        toggle_pause()
+    if event is InputEventKey:
+        if event.is_action_pressed(&"Pause") and\
+            !config_menu.visible and\
+            allow_pause:
+            toggle_pause()
+        if event.is_action_pressed(&"Debug - Free mouse"):
+            debug_free_mouse = !debug_free_mouse
+            Input.mouse_mode = Input.MOUSE_MODE_VISIBLE
+            if !paused and !debug_free_mouse:
+                Input.mouse_mode = Input.MOUSE_MODE_CONFINED
+            print("DEBUG - mouse freed: ", debug_free_mouse)
 
 func set_area_name() -> void:
     level_name.text = level_root.level_name
