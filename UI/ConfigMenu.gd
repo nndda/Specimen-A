@@ -65,7 +65,7 @@ func back_pressed() -> void:
 func reset_settings_pressed() -> void:
     reset_confirm.popup_centered()
 func reset_settings_confirmed() -> void:
-    Global.user_config = Global.user_config.user_data_default
+    Global.user_config = Global.user_config_default
     Global.update_user_config()
     sync_config()
 
@@ -73,8 +73,8 @@ func reset_settings_confirmed() -> void:
 func reset_progress_pressed() -> void:
     reset_progress_confirm.popup_centered()
 func reset_progress_confirmed() -> void:
-    #Global.user_data["progress"] = Global["progress"].user_data_default
-    #Global.user_data["achievements"] = Global["achievements"].user_data_default
+    #Global.user_data["progress"] = Global.user_data_default["progress"]
+    #Global.user_data["achievements"] = Global.user_data_default["achievements"]
     #Global.update_user_config()
     sync_config()
 
