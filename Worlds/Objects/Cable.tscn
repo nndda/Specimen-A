@@ -1,0 +1,16 @@
+[gd_scene load_steps=4 format=3 uid="uid://bg1ynbvtdy37h"]
+
+[ext_resource type="Shader" path="res://Shaders/Scripts/shadow.gdshader" id="1_qifnt"]
+[ext_resource type="Texture2D" uid="uid://clp0r68xa3tud" path="res://Worlds/Objects/Cable.png" id="2_n5fuc"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_444kh"]
+shader = ExtResource("1_qifnt")
+shader_parameter/offset = Vector2(4, 4)
+shader_parameter/modulate = Color(0, 0, 0, 0.458824)
+
+[node name="Cable" type="Line2D"]
+material = SubResource("ShaderMaterial_444kh")
+points = PackedVector2Array(-12, 0, 12, 0)
+texture = ExtResource("2_n5fuc")
+texture_mode = 1
+joint_mode = 2
