@@ -150,6 +150,11 @@ func _enter_tree():
     user_config_default = user_config.duplicate(true)
     load_user_config()
 
+func _input(event : InputEvent) -> void:
+    if event is InputEventKey:
+        if event.is_action_pressed(&"Debug - Restart scene"):
+            get_tree().call_deferred(&"reload_current_scene")
+
 func _process(_delta : float) -> void:
 
     health = clamp(health, 0.0, 100.0)
