@@ -73,43 +73,28 @@ func attack_handler() -> void:
     #ui_attack_indicator.visible = Input.is_action_pressed(&"Attack")
 
     if allow_attack:
+        attack_out  += 4 if Input.is_action_pressed(&"Attack") else -4
+        attack_out  = clampf(attack_out, 0.0, 100.0)
+        open_mouth(attack_out * 0.01)
+        if Input.is_action_pressed(&"Attack"):
+            ui_arrow.look_at(mouse_viewport_pos)
+            ui_arrow.position     = canvas_position
+            ui_arrow.modulate.a   = attack_out * 0.01
+            ui_arrow.offset.x     = attack_out * 0.6 + 68
+            raycast_obstacle.\
+            look_at(mouse_global_pos)
+            look_at(mouse_global_pos)
 
-        match Global.skill_current:
-            Global.skill.none:
-                attack_out  += 4 if Input.is_action_pressed(&"Attack") else -4
-                attack_out  = clampf(attack_out, 0.0, 100.0)
-                open_mouth(attack_out * 0.01)
-                if Input.is_action_pressed(&"Attack"):
-                    ui_arrow.look_at(mouse_viewport_pos)
-                    ui_arrow.position     = canvas_position
-                    ui_arrow.modulate.a   = attack_out * 0.01
-                    ui_arrow.offset.x     = attack_out * 0.6 + 68#((3 * attack_out) * 0.2) + 68
-                    raycast_obstacle.\
-                    look_at(mouse_global_pos)
-                    look_at(mouse_global_pos)
+        if Input.is_action_just_released(&"Attack"):
+            player_general_area.monitorable = true
+            player_general_area.monitoring = true
+            attacking = true
+            attack_dir = global_position.direction_to(mouse_global_pos)
+            attack_strength = attack_out
 
-                if Input.is_action_just_released(&"Attack"):
-                    player_general_area.monitorable = true
-                    player_general_area.monitoring = true
-                    attacking = true
-                    attack_dir = global_position.direction_to(mouse_global_pos)
-                    attack_strength = attack_out
-
-                    attack_cooldown_timer.start(attack_cooldown * attack_out * 0.01)
-                    attack_pos[0]           = global_position
-                    allow_attack            = false
-
-#           Global.skill.DischargeShrapnel:
-#               if Input.is_action_just_pressed("Attack") and Global.shrapnel_current > 0:
-#                   pass
-#
-#           Global.skill.EMPBurst:
-#               if Input.is_action_just_pressed("Attack") and Global.emp_charge > 0:
-#                   pass
-#
-#           Global.skill.SynthesizeAcids:
-#               if Input.is_action_just_pressed("Attack") and Global.acid > 0:
-#                   pass
+            attack_cooldown_timer.start(attack_cooldown * attack_out * 0.01)
+            attack_pos[0]           = global_position
+            allow_attack            = false
 
     ui_attack_indicator.value      = attack_out
     ui_attack_cooldown.max_value   = 100
@@ -124,12 +109,11 @@ func _ready() -> void:
         monitor_var()
         $"../DBG/VBoxContainer".set_vars()
     else:
-        $"../DBG".queue_free()
-
+        #$"../DBG".queue_free()
+        $"../DBG".visible = false
 
 # TODO: reduce... things in _process
 func _process(_delta : float) -> void:
-
     mouse_global_pos = get_global_mouse_position()
     mouse_viewport_pos = get_viewport().get_mouse_position()
     mouse_moving_distancce = global_position.distance_to(mouse_global_pos)
@@ -169,6 +153,9 @@ func _process(_delta : float) -> void:
     if show_debug:
         monitor_var()
 
+    if Input.is_action_just_pressed(&"Debug"):
+        get_tree().reload_current_scene()
+
 var velo : Vector2
 var attack_velo : Vector2
 var collision : KinematicCollision2D
@@ -186,7 +173,7 @@ func _physics_process(delta : float) -> void:
         move_and_slide()
 
     else:
-        attack_distance_max = 6.4 * attack_strength #(12.0 * 32.0) * (attack_strength / 60)
+        attack_distance_max = 6.4 * attack_strength
         velo = attack_speed * attack_dir
         collision = move_and_collide(velo)
 
@@ -205,7 +192,7 @@ func _physics_process(delta : float) -> void:
 
         velo = clamp(velo, Vector2.ZERO, attack_speed * attack_dir)
 
-    if moving_f > 0 and !attacking:
+    if moving_f > 0.0 and !attacking:
         look_at(mouse_global_pos)
 
     ui_attack_cooldown.visible = attack_cooldown_timer.time_left > 0
@@ -220,29 +207,30 @@ func _physics_process(delta : float) -> void:
 func shake_cam() -> void:
     Camera.shake_start(
         attack_strength * 0.25 + 15,
-        #15 + (25 * (attack_strength / 100)),
         0.95,
         attack_strength * 0.08 + 16
-        #((2 * attack_strength) * 0.04) + 16
-        #16 + 8 * (attack_strength / 100)
     )
     Global.camera_shaken_by_player.emit()
 
 func reset_atk_dmg() -> void:
-    open_mouth(0)
-    attack_strength = 0
-    attack_out = 0
+    open_mouth(0.0)
+    attack_strength = 0.0
+    attack_out = 0.0
 
 func _on_AttackCooldown_timeout() -> void:
     allow_attack = true
 
+signal damaged(current_health : float)
 var invincible := false
 func damage_player(power : float) -> void:
     if !invincible:
         #ui.health_bar.modulate = Color.WHITE
         if health_ticker.is_stopped():
             health_ticker.start(health_tick)
-        health = clampf(health - ((power * 1.1) if !attacking else 0.0), 0.0, 100.0)
+        health =\
+            clampf( health - ( (power * 0.9) if !attacking else 0.05),
+            0.0, 100.0 )
+        damaged.emit(health)
 
 func monitor_var() -> void:
     $"../DBG/VBoxContainer".data = [
