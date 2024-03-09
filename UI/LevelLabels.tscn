@@ -1,0 +1,25 @@
+[gd_scene load_steps=3 format=3 uid="uid://cv0630kh24uw"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_3fob6"]
+font_size = 48
+
+[sub_resource type="LabelSettings" id="LabelSettings_gmaom"]
+font_size = 27
+
+[node name="LevelLabels" type="Label"]
+text = "Level name"
+label_settings = SubResource("LabelSettings_3fob6")
+vertical_alignment = 2
+
+[node name="Sub" type="Label" parent="."]
+layout_mode = 1
+anchors_preset = -1
+anchor_top = 1.0
+anchor_bottom = 1.031
+offset_top = -14.0
+offset_right = 143.0
+offset_bottom = 15.481
+grow_horizontal = 2
+grow_vertical = 0
+text = "Sub Area Name"
+label_settings = SubResource("LabelSettings_gmaom")

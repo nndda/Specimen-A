@@ -1,20 +1,15 @@
-[gd_scene load_steps=9 format=3 uid="uid://37f75mhp7q61"]
+[gd_scene load_steps=8 format=3 uid="uid://37f75mhp7q61"]
 
 [ext_resource type="Script" path="res://UI/PauseMenu.gd" id="1_vx8gi"]
 [ext_resource type="Shader" path="res://Shaders/Scripts/blur.gdshader" id="2_rfqgi"]
 [ext_resource type="PackedScene" uid="uid://pbhmm4m3qrow" path="res://UI/ButtonBase.tscn" id="2_uh5wo"]
 [ext_resource type="PackedScene" uid="uid://dc65kw5fmo080" path="res://UI/ConfigMenu.tscn" id="3_aj22h"]
 [ext_resource type="Theme" uid="uid://1eq3q2sr8oo5" path="res://UI/UI.Theme.tres" id="3_c5lw6"]
+[ext_resource type="PackedScene" uid="uid://cv0630kh24uw" path="res://UI/LevelLabels.tscn" id="4_ar7la"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_1wcdr"]
 shader = ExtResource("2_rfqgi")
 shader_parameter/lod = 1.093
-
-[sub_resource type="LabelSettings" id="LabelSettings_3fob6"]
-font_size = 48
-
-[sub_resource type="LabelSettings" id="LabelSettings_gmaom"]
-font_size = 27
 
 [node name="PauseMenu" type="CanvasLayer"]
 process_mode = 3
@@ -59,24 +54,8 @@ grow_vertical = 0
 theme_override_constants/margin_left = 25
 theme_override_constants/margin_bottom = 12
 
-[node name="LevelName" type="Label" parent="Control/Area"]
+[node name="LevelLabels" parent="Control/Area" instance=ExtResource("4_ar7la")]
 layout_mode = 2
-text = "Level name"
-label_settings = SubResource("LabelSettings_3fob6")
-vertical_alignment = 2
-
-[node name="Sub" type="Label" parent="Control/Area/LevelName"]
-layout_mode = 1
-anchors_preset = 12
-anchor_top = 1.0
-anchor_right = 1.0
-anchor_bottom = 1.0
-offset_top = -14.0
-offset_bottom = 17.0
-grow_horizontal = 2
-grow_vertical = 0
-text = "Sub Area Name"
-label_settings = SubResource("LabelSettings_gmaom")
 
 [node name="Menu" type="HBoxContainer" parent="Control"]
 layout_mode = 1
