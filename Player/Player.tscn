@@ -657,6 +657,7 @@ color = Color(0.898039, 0, 0, 1)
 wait_time = 0.5
 
 [node name="VisibleTimer" type="Timer" parent="UI/HealthBar"]
+one_shot = true
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="UI/HealthBar"]
 libraries = {
