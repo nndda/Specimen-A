@@ -1,0 +1,162 @@
+[gd_scene load_steps=15 format=3 uid="uid://bydxskl7vyst7"]
+
+[ext_resource type="Texture2D" uid="uid://d1y5v4sd3axmk" path="res://Shaders/Lights/General.GradientTexture2D.tres" id="1_676n7"]
+[ext_resource type="Script" path="res://Shaders/Particles/Explosion.gd" id="1_ujoy3"]
+
+[sub_resource type="Curve" id="Curve_8ttbe"]
+_data = [Vector2(0, 1), 0.0, -0.963887, 0, 0, Vector2(0.66092, 0.534676), -0.813279, -0.813279, 0, 0, Vector2(0.913793, 0), 0.0, 0.0, 0, 0]
+point_count = 3
+
+[sub_resource type="CurveTexture" id="CurveTexture_2hbfq"]
+curve = SubResource("Curve_8ttbe")
+
+[sub_resource type="Gradient" id="Gradient_fgmr2"]
+colors = PackedColorArray(1, 1, 1, 1, 0.758191, 0.758192, 0.758192, 1)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_c482w"]
+gradient = SubResource("Gradient_fgmr2")
+width = 64
+
+[sub_resource type="Gradient" id="Gradient_ym7t0"]
+offsets = PackedFloat32Array(0.0583333, 0.916667)
+colors = PackedColorArray(1, 1, 1, 1, 0.364084, 0.364084, 0.364084, 1)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_0qp5g"]
+gradient = SubResource("Gradient_ym7t0")
+width = 64
+
+[sub_resource type="Curve" id="Curve_q2m4d"]
+_data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(0.917625, 0), -0.50812, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="CurveTexture" id="CurveTexture_d5ufe"]
+curve = SubResource("Curve_q2m4d")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_wam4e"]
+lifetime_randomness = 0.75
+particle_flag_disable_z = true
+emission_shape = 1
+emission_sphere_radius = 24.0
+angle_min = -720.0
+angle_max = 720.0
+spread = 180.0
+initial_velocity_min = 32.0
+initial_velocity_max = 340.0
+gravity = Vector3(0, 0, 0)
+tangential_accel_min = -20.0
+tangential_accel_max = 20.0
+damping_min = 15.0
+damping_max = 25.0
+attractor_interaction_enabled = false
+scale_min = 5.0
+scale_max = 15.0
+scale_curve = SubResource("CurveTexture_d5ufe")
+color = Color(0.627451, 0.627451, 0.627451, 1)
+color_ramp = SubResource("GradientTexture1D_0qp5g")
+color_initial_ramp = SubResource("GradientTexture1D_c482w")
+alpha_curve = SubResource("CurveTexture_2hbfq")
+
+[sub_resource type="Animation" id="Animation_k51k7"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:emitting")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("PointLight2D:energy")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [0.0]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("PointLight2D:texture_scale")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [1.0]
+}
+
+[sub_resource type="Animation" id="Animation_7mg2v"]
+resource_name = "explode"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:emitting")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0.1, 1),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [true, false]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("PointLight2D:energy")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.1, 0.4, 1),
+"transitions": PackedFloat32Array(0.5, 2, 1, 1),
+"update": 0,
+"values": [0.0, 2.83, 0.0, 0.0]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("PointLight2D:texture_scale")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0, 0.1),
+"transitions": PackedFloat32Array(0.5, 2),
+"update": 0,
+"values": [1.0, 1.8]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_uf8qw"]
+_data = {
+"RESET": SubResource("Animation_k51k7"),
+"explode": SubResource("Animation_7mg2v")
+}
+
+[node name="Explosion" type="GPUParticles2D"]
+z_index = 5
+emitting = false
+amount = 200
+process_material = SubResource("ParticleProcessMaterial_wam4e")
+lifetime = 1.8
+one_shot = true
+explosiveness = 1.0
+fixed_fps = 60
+script = ExtResource("1_ujoy3")
+
+[node name="PointLight2D" type="PointLight2D" parent="."]
+color = Color(1, 0.458824, 0.101961, 1)
+energy = 0.0
+texture = ExtResource("1_676n7")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+"": SubResource("AnimationLibrary_uf8qw")
+}
