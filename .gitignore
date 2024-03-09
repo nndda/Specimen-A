@@ -1,15 +1,8 @@
 # Godot 4+ specific ignores
 .godot/
 
-# paint.net files
+# Paint.NET files
 *.pdn
 
-# testing folder for testing stuff
-_Testing/
-
-# other stuff
-./Sounds
-./SFX
-./Musics
-./BGM
-./Things
+# Temporary files
+*.tmp
