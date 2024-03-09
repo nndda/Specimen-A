@@ -65,11 +65,11 @@ script = ExtResource("1_1ad8k")
 texture = ExtResource("2_dr7i5")
 
 [node name="PointLight2D" type="PointLight2D" parent="."]
-blend_mode = 2
+color = Color(1, 0.921569, 0.870588, 1)
 range_z_min = -16
 range_z_max = 16
 range_layer_min = -1
-range_layer_max = 3
+range_layer_max = 5
 shadow_color = Color(0.0588235, 0.0117647, 0.0117647, 1)
 texture = ExtResource("5_rqanb")
 
