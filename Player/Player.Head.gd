@@ -3,6 +3,7 @@ extends CharacterBody2D
 @export var show_debug := false
 
 var health              : float = 100.0
+var health_max          : float = 100.0
 var health_tick         : float = 1.75
 var health_regen        : float = 1.0
 
@@ -153,9 +154,6 @@ func _process(_delta : float) -> void:
     if show_debug:
         monitor_var()
 
-    if Input.is_action_just_pressed(&"Debug"):
-        get_tree().reload_current_scene()
-
 var velo : Vector2
 var attack_velo : Vector2
 var collision : KinematicCollision2D
@@ -224,12 +222,13 @@ signal damaged(current_health : float)
 var invincible := false
 func damage_player(power : float) -> void:
     if !invincible:
-        #ui.health_bar.modulate = Color.WHITE
         if health_ticker.is_stopped():
             health_ticker.start(health_tick)
+
         health =\
             clampf( health - ( (power * 0.9) if !attacking else 0.05),
-            0.0, 100.0 )
+            0.0, health_max )
+
         damaged.emit(health)
 
 func monitor_var() -> void:
