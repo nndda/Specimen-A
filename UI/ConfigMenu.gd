@@ -27,8 +27,9 @@ func sync_config() -> void:
         var input_event := InputEventKey.new()
         input_event.keycode = OS.find_keycode_from_string(Global.user_config[action])
 
-        InputMap.action_erase_event(rebind_target, input_event_default)
-        InputMap.action_add_event(rebind_target, input_event)
+        if rebind_target != &"":
+            InputMap.action_erase_event(rebind_target, input_event_default)
+            InputMap.action_add_event(rebind_target, input_event)
 
 func _on_visibility_changed() -> void:
     if visible == true:

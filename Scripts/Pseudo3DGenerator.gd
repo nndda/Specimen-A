@@ -17,7 +17,7 @@ var tilesets_generated := !Global.tile_maps.is_empty()
 func user_tile_res(n : int, m : int) -> String:
     return "user://Tileset.map." + str(m) + "-" + str(n) + ".res"
 
-func _enter_tree():
+func _enter_tree() -> void:
     get_parent().ready.connect(init_tile_sets)
 
 func init_tile_sets() -> void:
@@ -32,7 +32,6 @@ func init_tile_sets() -> void:
         for res : String in tilesets_copy:
             ResourceSaver.save(tileset, res)
             Global.tile_maps[res] = ResourceLoader.load(res, "TileSet")
-            #Global.tile_maps[res] = load(res)
 
     call_deferred(&"generate_layers")
 

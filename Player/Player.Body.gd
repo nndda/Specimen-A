@@ -58,10 +58,6 @@ func update_light_path() -> void:
         for n : int in body_segment_max - 5:
             lights_path.curve.set_point_position(n, points[n])
 
-var health_bar_offsets : PackedFloat32Array = [ 0.02, 0.04 ]
-
-@onready var health_bar : ColorRect = $"../UI/HealthBar"
-
 func _ready() -> void:
     if !lights_anim.is_playing():
         lights_anim.play(&"Idle")

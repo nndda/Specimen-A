@@ -31,6 +31,5 @@ func _process(_delta : float) -> void:
             speed_scale = copytimer.time_left / copytimer.wait_time
 
         if speed_scale == 0:
-            #copytimer.queue_free()
             process_mode = Node.PROCESS_MODE_DISABLED
             set_script(null)

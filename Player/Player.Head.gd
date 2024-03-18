@@ -71,7 +71,6 @@ func open_mouth(n : float) -> void:
 func attack_handler() -> void:
 
     ui_attack_indicator.visible = Input.is_action_pressed(&"Attack") and allow_attack
-    #ui_attack_indicator.visible = Input.is_action_pressed(&"Attack")
 
     if allow_attack:
         attack_out  += 4 if Input.is_action_pressed(&"Attack") else -4
@@ -110,7 +109,7 @@ func _ready() -> void:
         monitor_var()
         $"../DBG/VBoxContainer".set_vars()
     else:
-        #$"../DBG".queue_free()
+        #$"../DBG".queue_free() # NOTE: Removing the debug UI messed up the player UI
         $"../DBG".visible = false
 
 # TODO: reduce... things in _process

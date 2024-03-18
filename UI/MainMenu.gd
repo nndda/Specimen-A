@@ -13,7 +13,6 @@ func _ready() -> void:
     Camera.start_fade_out()
     $Camera2D.enabled = true
     config_menu.sync_config()
-#	cam.global_position = $Camera2D.global_position
 
     Audio.set_dialogue_window($CanvasLayer/Control/Margin/Menu/Exit/ConfirmationDialog)
     Audio.connect_audio()

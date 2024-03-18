@@ -153,7 +153,7 @@ func _enter_tree():
 func _input(event : InputEvent) -> void:
     if event is InputEventKey:
         if event.is_action_pressed(&"Debug - Restart scene"):
-            get_tree().call_deferred(&"reload_current_scene")
+            get_tree().reload_current_scene()
 
 func _process(_delta : float) -> void:
 
@@ -161,19 +161,5 @@ func _process(_delta : float) -> void:
 
     #moving_or_attacking = moving or attacking
 
-#    if player != null:
-#        if player.allow_move: moving = true if (
-#            Input.is_action_pressed("Move")
-#         ) else false
-#        else: moving = false
-#
-#    if moving: moving_f += 0.1
-#    else: moving_f -= 0.085
-#
-#    moving_f = clamp(moving_f, 0.0,
-#    float(head_pos.distance_to(
-#        get_global_mouse_position()) >= 25))
-
-#    worm_length = sum_array(worm_length_array)
 
 var tile_maps := {}

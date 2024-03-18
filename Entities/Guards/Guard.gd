@@ -84,7 +84,6 @@ func _ready() -> void:
             custom_trigger.body_entered.connect(_on_trigger_body_entered)
     else:
         $TriggerArea.queue_free()
-        #$GeneralArea.queue_free()
 
     Global.camera_shaken_by_player.connect(trigger_if_near)
 
