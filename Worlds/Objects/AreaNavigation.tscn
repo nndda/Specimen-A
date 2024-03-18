@@ -1,0 +1,4 @@
+[gd_scene format=3 uid="uid://f787wqqq7a1a"]
+
+[node name="AreaNavigation" type="NavigationRegion2D"]
+navigation_layers = 256

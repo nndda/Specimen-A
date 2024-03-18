@@ -1,0 +1,4 @@
+[gd_scene format=3 uid="uid://dnl2vule53qt5"]
+
+[node name="AreaNavigationLink" type="NavigationLink2D"]
+navigation_layers = 256
