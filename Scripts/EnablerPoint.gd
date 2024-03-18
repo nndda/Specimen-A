@@ -10,13 +10,14 @@ var player_entered := false
 
 func _ready():
     body_entered.connect(_on_body_entered)
-    root.ready.connect(func():
-        for item : NodePath in items_path:
-            items.append(get_node(item))
-        if disable_parent:
-            root.process_mode = Node.PROCESS_MODE_DISABLED
-            reparent(get_node(^"../../"))
-    )
+    root.ready.connect(initialize_objects)
+
+func initialize_objects() -> void:
+    for item : NodePath in items_path:
+        items.append(get_node(item))
+    if disable_parent:
+        root.process_mode = Node.PROCESS_MODE_DISABLED
+        reparent(get_node(^"../../"))
 
 func _on_body_entered(body : Node2D) -> void:
     if body.get_name() == &"Head":

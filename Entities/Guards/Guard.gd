@@ -86,10 +86,7 @@ func _ready() -> void:
         $TriggerArea.queue_free()
         #$GeneralArea.queue_free()
 
-    Global.camera_shaken_by_player.connect(func():
-        if player_near:
-            triggered.emit()
-    )
+    Global.camera_shaken_by_player.connect(trigger_if_near)
 
     if stationary:
         nav_agent = null
@@ -147,6 +144,7 @@ func damage(power : float) -> void:
         if health <= 0:
             corpse.z_as_relative = true
             corpse.z_index = 0
+            killed.emit()
             queue_free()
 
         else:
@@ -193,12 +191,19 @@ func _on_update_player_pos_timeout() -> void:
         direction = global_position.direction_to(keep_distance_pos.global_position)
         set_target_pos(keep_distance_pos.global_position)
 
+func trigger_if_near() -> void:
+    if player_near:
+        triggered.emit()
+
 func _on_trigger_body_entered(_body : Node2D) -> void:
     triggered.emit()
 func _on_trigger_area_entered(_area : Area2D) -> void:
     triggered.emit()
 
 func _on_triggered() -> void:
+    if Global.camera_shaken_by_player.is_connected(trigger_if_near):
+        Global.camera_shaken_by_player.disconnect(trigger_if_near)
+
     if !is_triggered:
         is_triggered = true
         cooldown_timer.start(cooldown)

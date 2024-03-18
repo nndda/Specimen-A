@@ -30,13 +30,8 @@ func action_string(input : InputEvent) -> String:
     return input.as_text().rstrip(" Button").rstrip(" (Physical)")
 
 func _ready():
-    Camera.fade_out.connect(func():\
-        hint_move_anim.play(&"FadeIn"))
-
-    $"../..".connect(&"ready", func():
-        pause_menu.pause_menu_closed.connect(pause_menu_closed))
-
     $BreakOut.visible = false
+
     if strict:
         Global.player.allow_attack = false
 
@@ -52,7 +47,12 @@ func _ready():
         if marker is Marker2D:
             marker.get_node(^"Area2D").body_entered.\
                 connect(hint_breakout.bind(marker))
-            print("\n",marker.get_node(^"Area2D"),marker.get_node(^"Area2D").get_signal_connection_list(&"body_entered"))
+
+    await $"../..".ready
+    pause_menu.pause_menu_closed.connect(pause_menu_closed)
+
+    await Camera.faded_out
+    hint_move_anim.play(&"FadeIn")
 
 func hint_breakout(body : Node2D, source : Marker2D) -> void:
     if body == Global.player_physics_head:

@@ -5,24 +5,26 @@ extends Camera2D
 @export var auto_disable := false
 @export var manual_trigger := false
 
+@onready var trigger_start_area : Area2D = $TriggerStart
+@onready var trigger_stop_area : Area2D = $TriggerStop
+
 func _ready() -> void:
     $ReferenceRect.queue_free()
-    if !manual_trigger:
-        $TriggerStart.body_entered.connect(func(body : Node2D):
-            if body.get_name() == &"Head":
-                start_cutscne()
-        )
-        $TriggerStop.body_entered.connect(func(body : Node2D):
-            if body.get_name() == &"Head":
-                stop_custscene()
-        )
-    else:
-        $TriggerStart.queue_free()
-        $TriggerStop.queue_free()
+    if manual_trigger:
+        trigger_start_area.queue_free()
+        trigger_stop_area.queue_free()
 
-func start_cutscne() -> void:
+func start_cutscene() -> void:
     Camera.copy_camera(self, auto_disable)
 
 func stop_custscene() -> void:
     Camera.copy_camera_reset()
     queue_free()
+
+func _on_trigger_start_body_entered(body : Node2D) -> void:
+    if body.get_name() == &"Head":
+        start_cutscene()
+
+func _on_trigger_stop_body_entered(body : Node2D) -> void:
+    if body.get_name() == &"Head":
+        stop_custscene()

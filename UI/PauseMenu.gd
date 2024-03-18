@@ -1,8 +1,11 @@
 extends CanvasLayer
 
 var paused := false
-var allow_pause := false
+var is_pause_allowed := false
 var debug_free_mouse := false
+
+func allow_pause() -> void:
+    is_pause_allowed = true
 
 @onready var level_root : Node = $".."
 @onready var level_name : Label = $Control/Area/LevelLabels
@@ -38,7 +41,7 @@ func _enter_tree() -> void:
 
 func _ready() -> void:
     level_name.text = level_root.level_name
-    level_root.level_loaded.connect(func(): allow_pause = true)
+    level_root.level_loaded.connect(allow_pause)
     Audio.set_dialogue_window(restart_confirm)
     Audio.set_dialogue_window(mainmenu_confirm)
 
@@ -46,7 +49,7 @@ func _input(event : InputEvent) -> void:
     if event is InputEventKey:
         if event.is_action_pressed(&"Pause") and\
             !config_menu.visible and\
-            allow_pause:
+            is_pause_allowed:
             toggle_pause()
         if event.is_action_pressed(&"Debug - Free mouse"):
             debug_free_mouse = !debug_free_mouse

@@ -10,14 +10,14 @@ var player_entered := false
 
 func _ready():
     body_entered.connect(_on_body_entered)
-    root.ready.connect(func():
-        for item : NodePath in items_path:
-            var node : Node = get_node(item)
-            if !node.has_signal(&"triggered"):
-                push_error("Item %s does not have `triggered` signal" % str(node))
-            else:
-                items.append(node)
-    )
+
+    await root.ready
+    for item : NodePath in items_path:
+        var node : Node = get_node(item)
+        if !node.has_signal(&"triggered"):
+            push_error("Item %s does not have `triggered` signal" % str(node))
+        else:
+            items.append(node)
 
 func _on_body_entered(body : Node2D) -> void:
     if body.get_name() == &"Head":

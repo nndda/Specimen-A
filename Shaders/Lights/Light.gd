@@ -4,8 +4,11 @@ extends Node2D
 @onready var animation_player : AnimationPlayer = $AnimationPlayer
 
 func _ready() -> void:
-    visibility_changed.connect(func(): light.enabled = visible)
+    visibility_changed.connect(toggle_light)
     Global.camera_shaken_by_player.connect(flick)
+
+func toggle_light() -> void:
+    light.enabled = visible
 
 func flick() -> void:
     if visible:

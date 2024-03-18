@@ -89,8 +89,7 @@ func init_visual_loading() -> void:
 
     current_objects_list.erase(Vector2.ZERO)
 
-    current_objects_list.sort_custom(func(a, b): return (
-        a.distance_to(Global.head_pos) > b.distance_to(Global.head_pos)))
+    current_objects_list.sort_custom(sort_visual_distance)
 
     for i : Vector2 in current_objects_list:
         visload_curve.add_point(i)
@@ -108,6 +107,12 @@ func init_visual_loading() -> void:
         .set_ease(Tween.EASE_OUT)
     tween.finished.connect(finished_visual_loading)
     tween.play()
+
+func sort_visual_distance(a : Node2D, b : Node2D) -> bool:
+    return (
+        a.distance_to(Global.head_pos) >
+        b.distance_to(Global.head_pos)
+    )
 
 func finished_visual_loading() -> void:
 
@@ -154,8 +159,8 @@ func _process(_delta : float) -> void:
             if visload_running:
                 global_position = visload_path_follow.global_position
 
-signal fade_out
-signal fade_in
+signal faded_out
+signal faded_in
 
 func start_fade_out() -> void:
     animation_player.play(&"fade_out")
@@ -164,6 +169,6 @@ func start_fade_in() -> void:
 
 func _on_animation_finished(anim_name : StringName) -> void:
     if anim_name == &"fade_out":
-        fade_out.emit()
+        faded_out.emit()
     if anim_name == &"fade_in":
-        fade_in.emit()
+        faded_in.emit()

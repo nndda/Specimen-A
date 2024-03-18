@@ -33,3 +33,6 @@ grow_horizontal = 2
 grow_vertical = 2
 border_color = Color(0.815686, 0, 0.968627, 0.458824)
 border_width = 5.0
+
+[connection signal="body_entered" from="TriggerStart" to="." method="_on_trigger_start_body_entered"]
+[connection signal="body_entered" from="TriggerStop" to="." method="_on_trigger_stop_body_entered"]

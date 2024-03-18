@@ -77,6 +77,8 @@ _data = {
 layer = 35
 script = ExtResource("1_2haug")
 notification_title_ = NodePath("Control/NotifContainer/HBoxContainer/VBoxContainer/Label")
+notification_desc_ = NodePath("Control/NotifContainer/HBoxContainer/VBoxContainer/RichTextLabel")
+notification_img_ = NodePath("Control/NotifContainer/HBoxContainer/Icon")
 
 [node name="Control" type="Control" parent="."]
 layout_mode = 3
@@ -163,5 +165,8 @@ libraries = {
 libraries = {
 "": SubResource("AnimationLibrary_glhiu")
 }
+
+[connection signal="animation_finished" from="Control/SceneLabels/LevelLabels/AnimationPlayer" to="." method="_on_level_label_anim_finished"]
+[connection signal="animation_finished" from="Control/SceneLabels/LevelLabels/AnimationPlayer/Sub" to="." method="_on_level_label_anim_sub_finished"]
 
 [editable path="Control/SceneLabels/LevelLabels"]
