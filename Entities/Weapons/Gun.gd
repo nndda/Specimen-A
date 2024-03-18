@@ -3,8 +3,8 @@ extends Node2D
 ## Base script for ALL gun/projectile addon
 # NOTE : Require `FireFunction` Node with variable `animation_player`, containing animation named "Firing"
 
-@export var damage_min : float = 2.25
-@export var damage_max : float = 4.5
+@export var damage_min : float = 0.85
+@export var damage_max : float = 1.9
 var firing := false
 
 @onready var fire_function := $FireFunction
@@ -33,7 +33,6 @@ func _on_line_of_fire_tree_entered() -> void:
     $LineOfSight/LineOfFire.enabled = false
 
 func _ready() -> void:
-
     line_of_sight = get_node_or_null(line_of_sight_)
     obstacle_sight = get_node_or_null(obstacle_sight_)
 
@@ -41,8 +40,7 @@ func _ready() -> void:
         ^"../TriggerArea" if parent.custom_trigger == null else\
         parent.custom_trigger_
 
-    if  line_of_sight != null and\
-        line_of_sight is CollisionObject2D:
+    if  line_of_sight != null:
 
         if line_of_sight is RayCast2D:
             line_of_sight.add_exception(get_node(trigger_area))
@@ -67,4 +65,4 @@ func _physics_process(_delta : float) -> void:
             on_line = line_of_sight.is_colliding() and !obstacle_sight.is_colliding()
 
 func fire() -> void:
-    $FireFunction.animation_player.play(&"Firing")
+    fire_function_anim.play(&"Firing")
