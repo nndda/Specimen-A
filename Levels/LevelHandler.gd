@@ -1,10 +1,13 @@
 extends Node2D
 
 @export var level_name : StringName
+@export var current_area_name : StringName
 @export_node_path("Node2D") var pseudo_3d_generator : NodePath
 
 @onready var top_1 : CanvasLayer = $TopLayer
 @onready var top_2 : CanvasLayer = $"TopLayer+1"
+
+@onready var area_container : Node2D =  $Areas
 
 signal level_loaded
 
@@ -39,3 +42,29 @@ func _ready() -> void:
 
     Audio.connect_audio()
     Audio.init_bg()
+
+    for area in area_container.get_children():
+        for sub_area in area.get_children():
+            if sub_area.get_name() == &"AreaEntrance":
+                if sub_area is Area2D:
+                    sub_area.body_entered.connect(
+                        area_entered.bind(String(area.get_name()))
+                    )
+
+    await Camera.faded_out
+
+    Notifications.level_label_displayed.connect(
+        Notifications.set_level_label_sub.bind(current_area_name),
+        Object.CONNECT_ONE_SHOT
+    )
+    Notifications.set_level_label(level_name, 4.25)
+
+func area_entered(body : Node2D, area_name : String) -> void:
+    if body.get_name() == &"Head" and area_name != current_area_name:
+        current_area_name = area_name
+        Notifications.set_level_label_sub(current_area_name)
+
+func _exit_tree() -> void:
+    Notifications.level_label_displayed.disconnect(
+        Notifications.set_level_label_sub.bind(current_area_name)
+    )
