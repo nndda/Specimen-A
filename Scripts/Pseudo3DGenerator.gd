@@ -61,7 +61,6 @@ func generate_layers() -> void:
         map_layer.modulate = Color.WHITE
 
         if !tilesets_generated:
-            map_tile_set.remove_navigation_layer(0)
             if n != 0:
                 map_tile_set.remove_physics_layer(0)
             if n == depth - 1:
@@ -96,7 +95,6 @@ func generate_layers() -> void:
             tilemap.modulate = Color("#070101")
             for layer : String in [
                 "physics_layer",
-                "navigation_layer",
                 "occlusion_layer",
             ]:
                 if tilemap.tile_set.call(StringName("get_" + layer + "s_count")) >= 1:
