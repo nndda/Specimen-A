@@ -30,7 +30,7 @@ var attack_pos : PackedVector2Array = [Vector2.ZERO, Vector2.ZERO]
 
 var mouse_global_pos : Vector2
 var mouse_viewport_pos : Vector2
-var mouse_moving_distancce : float
+var mouse_moving_distance : float
 var canvas_position : Vector2
 
 @onready var attack_cooldown_timer : Timer = $AttackCooldown
@@ -62,11 +62,13 @@ var canvas_position : Vector2
 func open_mouth(n : float) -> void:
     jaw_a.rotation_degrees = n * -30.0
     jaw_a.rotation_degrees = clampf(
-        jaw_a.rotation_degrees, -30.0, 0.0)
+        jaw_a.rotation_degrees, -30.0, 0.0
+    )
 
     jaw_b.rotation_degrees = n * 30.0
     jaw_b.rotation_degrees = clampf(
-        jaw_b.rotation_degrees + n * 30.0, 0.0, 30.0)
+        jaw_b.rotation_degrees + n * 30.0, 0.0, 30.0
+    )
 
 func attack_handler() -> void:
 
@@ -92,14 +94,15 @@ func attack_handler() -> void:
             attack_dir = global_position.direction_to(mouse_global_pos)
             attack_strength = attack_out
 
-            attack_cooldown_timer.start(attack_cooldown * attack_out * 0.01)
+            attack_cooldown_timer.start(attack_cooldown * attack_out * 0.01 + 1.2)
             attack_pos[0]           = global_position
             allow_attack            = false
 
     ui_attack_indicator.value      = attack_out
     ui_attack_cooldown.max_value   = 100
     ui_attack_cooldown.value       = (
-        (attack_cooldown_timer.time_left / attack_cooldown_timer.wait_time) * 100)
+        (attack_cooldown_timer.time_left / attack_cooldown_timer.wait_time) * 100
+    )
 
 func _enter_tree() -> void:
     Global.player = self
@@ -116,12 +119,12 @@ func _ready() -> void:
 func _process(_delta : float) -> void:
     mouse_global_pos = get_global_mouse_position()
     mouse_viewport_pos = get_viewport().get_mouse_position()
-    mouse_moving_distancce = global_position.distance_to(mouse_global_pos)
+    mouse_moving_distance = global_position.distance_to(mouse_global_pos)
 
     canvas_position = get_global_transform_with_canvas().origin
 
     moving = Input.is_action_pressed(&"Move")\
-        and mouse_moving_distancce >= 45\
+        and mouse_moving_distance >= 45\
         and allow_move
     moving_f = clampf(
         moving_f + (0.1 if moving else -0.085),
@@ -233,8 +236,6 @@ func damage_player(power : float) -> void:
 func monitor_var() -> void:
     $"../DBG/VBoxContainer".data = [
         "fps",              Engine.get_frames_per_second(),
-        "body length",      round(Global.worm_length),
-        #"head pos",         Global.head_pos.round(),
         "allow_move",       allow_move,
         "allow_attack",     allow_attack,
         "moving",           Global.moving,
@@ -259,11 +260,13 @@ func _on_head_tree_entered() -> void:
 func _on_body_tree_entered() -> void:
     Global.player_physics_body = $"../DamageCollision"
 func _on_destroy_through_tree_entered() -> void:
-    Global.player_destroy_through = area_destroy_through
+    Global.player_destroy_through = $"DestroyThrough-A"
 
 func _on_head_tree_exiting() -> void:
     Global.player_physics_head = null
-func _on_body_tree_exiting():
+func _on_body_tree_exiting() -> void:
     Global.player_physics_body = null
-func _on_destroy_through_tree_exiting():
+func _on_destroy_through_tree_exiting() -> void:
     Global.player_destroy_through = null
+
+
