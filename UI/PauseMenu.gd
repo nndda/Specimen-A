@@ -35,12 +35,16 @@ func toggle_pause() -> void:
     if !paused:
         pause_menu_closed.emit()
 
+    Notifications.level_label.visible = !paused
+    Notifications.level_label_sub.visible = !paused
+
 func _enter_tree() -> void:
     visible = false
     Input.mouse_mode = Input.MOUSE_MODE_CONFINED
 
 func _ready() -> void:
     level_name.text = level_root.level_name
+    level_sub.text = level_root.current_area_name
     level_root.level_loaded.connect(allow_pause)
     Audio.set_dialogue_window(restart_confirm)
     Audio.set_dialogue_window(mainmenu_confirm)
