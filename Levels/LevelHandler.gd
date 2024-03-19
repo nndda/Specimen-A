@@ -17,6 +17,8 @@ func _enter_tree() -> void:
     level_loaded.connect(Camera.start_fade_out)
 
 func _ready() -> void:
+    get_tree().call_group_flags(SceneTree.GROUP_CALL_DEFERRED, &"free", &"queue_free")
+
     for top_layer : StringName in [&"top_1", &"top_2"]:
         for node : Node in get_tree().get_nodes_in_group(top_layer):
             node.call_deferred(&"reparent", get(top_layer))
@@ -43,13 +45,11 @@ func _ready() -> void:
     Audio.connect_audio()
     Audio.init_bg()
 
-    for area in area_container.get_children():
-        for sub_area in area.get_children():
-            if sub_area.get_name() == &"AreaEntrance":
-                if sub_area is Area2D:
-                    sub_area.body_entered.connect(
-                        area_entered.bind(String(area.get_name()))
-                    )
+    for area in get_tree().get_nodes_in_group(&"AreaEntrance"):
+        if area is Area2D:
+            area.body_entered.connect(
+                area_entered.bind(String(area.get_parent().get_name()))
+            )
 
     await Camera.faded_out
 
@@ -63,8 +63,3 @@ func area_entered(body : Node2D, area_name : String) -> void:
     if body.get_name() == &"Head" and area_name != current_area_name:
         current_area_name = area_name
         Notifications.set_level_label_sub(current_area_name)
-
-func _exit_tree() -> void:
-    Notifications.level_label_displayed.disconnect(
-        Notifications.set_level_label_sub.bind(current_area_name)
-    )
