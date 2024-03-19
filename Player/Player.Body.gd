@@ -14,6 +14,7 @@ var collision_segments_shape : Array[SegmentShape2D] = []
 
 @onready var lights_path : Path2D = $Lights
 @onready var lights_anim : AnimationPlayer = $Lights/AnimationPlayer
+@onready var lights_anim_delay : Timer = $Lights/AnimationPlayer/Delay
 
 func init_collision_shape() -> void:
     for segment : int in body_segment_max_physics:
@@ -72,3 +73,9 @@ func _physics_process(_delta : float) -> void:
             remove_point(0)
         else:
             add_point(head.position)
+
+func _on_lights_anim_finished(anim_name : StringName) -> void:
+    if anim_name == &"Idle":
+        lights_anim_delay.start(1.5)
+        await lights_anim_delay.timeout
+        lights_anim.play(&"Idle")
