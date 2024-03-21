@@ -65,7 +65,7 @@ func blood_trail() -> void:
     if visible:
         repos_node.global_position = Global.head_pos
         if Global.moving_or_attacking:
-            if blood_trail_node.points.size() <= 50:
+            if blood_trail_node.points.size() <= 70:
                 blood_trail_node.add_point(repos_node.position)
             else:
                 blood_trails = false
