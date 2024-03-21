@@ -21,7 +21,6 @@ var top_scale           : float = 1.1
 
 var player : Node2D
 
-#var allow_move : bool = true
 var moving : bool
 var moving_f : float
 
@@ -32,12 +31,6 @@ var moving_or_attacking : bool
 var head_pos            : Vector2
 var head_canvas_pos     : Vector2
 
-var worm_segment_max    : int = 34
-var worm_length         : float
-var worm_length_array   : Array[float]
-
-var worm_body           : Object
-
 var health              : float = 100.0
 
 var player_physics_head : CharacterBody2D
@@ -47,19 +40,21 @@ var player_destroy_through : Area2D
 
 signal camera_shaken_by_player
 
-var skill_current       : int = skill.none
+signal level_changed
 
-enum skill {
-    none,
-    DischargeShrapnel,
-    EMPBurst,
-    SynthesizeAcids,
-}
-var skills_discovered   : int = 4 # Dbg purpose
-
-var shrapnel_current    : int = 0
-var emp_charge          : int = 0
-var acid                : int = 0
+#var skill_current       : int = skill.none
+#
+#enum skill {
+    #none,
+    #DischargeShrapnel,
+    #EMPBurst,
+    #SynthesizeAcids,
+#}
+#var skills_discovered   : int = 4 # Dbg purpose
+#
+#var shrapnel_current    : int = 0
+#var emp_charge          : int = 0
+#var acid                : int = 0
 
 func sum_array(array : PackedFloat32Array) -> float:
     var t : float = 0.0
@@ -156,10 +151,6 @@ func _input(event : InputEvent) -> void:
             get_tree().reload_current_scene()
 
 func _process(_delta : float) -> void:
-
     health = clamp(health, 0.0, 100.0)
-
-    #moving_or_attacking = moving or attacking
-
 
 var tile_maps := {}

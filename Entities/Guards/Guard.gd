@@ -77,7 +77,7 @@ func _ready() -> void:
 
     if !manual_trigger:
         if custom_trigger == null:
-            custom_trigger_ = NodePath("TriggerArea") # Set default
+            custom_trigger_ = ^"TriggerArea" # Set default
         else:
             $TriggerArea.queue_free()
             custom_trigger.collision_mask = 512

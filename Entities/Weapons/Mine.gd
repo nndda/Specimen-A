@@ -1,9 +1,5 @@
 extends Area2D
 
-#var lines_of_fire : Array[RayCast2D] = []
-#var fragments_path : Array[Line2D] = []
-#var fragments_spark : Array[GPUParticles2D] = []
-
 var damage_min : float = 8.0
 var damage_max : float = 12.0
 
@@ -19,14 +15,18 @@ func trigger() -> void:
 
     $AnimationPlayer.play(&"Detonate")
     triggered.emit()
-    for n : Node in [
-        $Sprite2D,
-        $IdleLights,
-    ]:
-        n.queue_free()
     add_child(shards)
 
 func _on_body_entered(body : Node2D) -> void:
     if body.get_name() == &"Head":
         trigger()
         body.damage_player(20.0)
+
+func _on_animation_finished(anim_name : StringName) -> void:
+    if anim_name == &"Detonate":
+        for n : Node in [
+            $Sprite2D,
+            $IdleLights,
+        ]:
+            n.queue_free()
+
