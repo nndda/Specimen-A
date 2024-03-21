@@ -1,4 +1,4 @@
-[gd_scene load_steps=11 format=3 uid="uid://la4m4o5e78dr"]
+[gd_scene load_steps=12 format=3 uid="uid://la4m4o5e78dr"]
 
 [ext_resource type="PackedScene" uid="uid://baiwsrdc0aog7" path="res://Entities/Guards/Guard.tscn" id="1_2s3nu"]
 [ext_resource type="PackedScene" uid="uid://d35rqaqdqkt6x" path="res://Entities/Weapons/Gun-rifle.tscn" id="2_en8q7"]
@@ -8,6 +8,7 @@
 [ext_resource type="Script" path="res://Entities/Turrets/StationaryTrigger.gd" id="4_r6sjh"]
 [ext_resource type="Texture2D" uid="uid://jp1ol34cgvye" path="res://Entities/Turrets/Turret-Rifle/Turret-Rifle.Gun.png" id="4_sxw3u"]
 [ext_resource type="Shader" path="res://Shaders/Scripts/shadow.gdshader" id="4_yn4es"]
+[ext_resource type="PackedScene" uid="uid://bydxskl7vyst7" path="res://Shaders/Particles/Explosion.tscn" id="9_jtijr"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_1jsvh"]
 shader = ExtResource("4_yn4es")
@@ -30,6 +31,10 @@ visible = false
 
 [node name="Turret-Destroyed" parent="." index="1" instance=ExtResource("3_yqkct")]
 
+[node name="Explosion" parent="Turret-Destroyed" index="1" instance=ExtResource("9_jtijr")]
+process_mode = 3
+amount = 160
+
 [node name="TriggerArea" parent="." index="2"]
 script = ExtResource("4_r6sjh")
 
@@ -50,6 +55,8 @@ position = Vector2(11, 0)
 [node name="Rifle" type="Sprite2D" parent="Gun-Rifle" index="8"]
 position = Vector2(-11, 0)
 texture = ExtResource("4_sxw3u")
+
+[connection signal="killed" from="." to="Turret-Destroyed/Explosion" method="explode" flags=6]
 
 [editable path="Gun-Rifle"]
 [editable path="Gun-Rifle/DebugTestField"]
