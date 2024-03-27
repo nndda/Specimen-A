@@ -22,6 +22,7 @@ height = 48.0
 
 [node name="Turret-Rifle" instance=ExtResource("1_2s3nu")]
 stationary = true
+rotate_weight = 0.24
 weapon_node = NodePath("Gun-Rifle")
 corpse_scene = NodePath("Turret-Destroyed")
 blood_scene = "res://Shaders/Particles/GlassShards.tscn"

@@ -17,8 +17,8 @@ extends CharacterBody2D
 ## If true, the entity will only be triggered by manually emitting the [signal triggered] signal. Or by calling the [method damage] function.
 @export var manual_trigger := false
 
-#@export_range(0.0, 1.0)
-#var rotate_weight      : float = 0.8
+@export_range(0.0, 1.0)\
+var rotate_weight : float = 0.12
 
 @export_group("Nodes")
 
@@ -121,7 +121,8 @@ func _process(_delta : float) -> void:
 # TODO:  trigger system is a mess
 func _physics_process(_delta : float) -> void:
     if is_triggered:
-        look_at(Global.head_pos)
+        var player_angle : float = (Global.head_pos - global_position).angle()
+        global_rotation = lerp_angle(global_rotation, player_angle, rotate_weight)
         if !stationary:
             nav_agent.set_velocity(Vector2(speed, speed))
 
