@@ -1,19 +1,65 @@
-[gd_scene load_steps=12 format=3 uid="uid://cnnfpjbpkoe1u"]
+[gd_scene load_steps=15 format=3 uid="uid://cnnfpjbpkoe1u"]
 
 [ext_resource type="Script" path="res://Scripts/Notifications.gd" id="1_2haug"]
+[ext_resource type="Theme" uid="uid://1eq3q2sr8oo5" path="res://UI/UI.Theme.tres" id="2_bwafl"]
 [ext_resource type="PackedScene" uid="uid://cv0630kh24uw" path="res://UI/LevelLabels.tscn" id="2_vhd63"]
+[ext_resource type="Texture2D" uid="uid://ds3n3s3xuspp" path="res://icon.svg" id="3_x4x7y"]
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_3so7r"]
 
-[sub_resource type="Gradient" id="Gradient_xpeh1"]
+[sub_resource type="Animation" id="Animation_ting8"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(256, -72)]
+}
 
-[sub_resource type="GradientTexture2D" id="GradientTexture2D_as0of"]
-gradient = SubResource("Gradient_xpeh1")
-width = 32
-height = 32
-fill_from = Vector2(0, 1)
+[sub_resource type="Animation" id="Animation_6fhda"]
+resource_name = "enter"
+length = 2.0
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.6, 2),
+"transitions": PackedFloat32Array(0.5, 1, 1),
+"update": 0,
+"values": [Vector2(256, -72), Vector2(256, 0), Vector2(256, 0)]
+}
 
-[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_fdrb1"]
+[sub_resource type="Animation" id="Animation_3bw6h"]
+resource_name = "exit"
+length = 2.0
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 1.5, 2),
+"transitions": PackedFloat32Array(1, 0.5, 0.5),
+"update": 0,
+"values": [Vector2(256, 0), Vector2(256, 0), Vector2(256, -72)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_e0rbe"]
+_data = {
+"RESET": SubResource("Animation_ting8"),
+"enter": SubResource("Animation_6fhda"),
+"exit": SubResource("Animation_3bw6h")
+}
 
 [sub_resource type="Animation" id="Animation_2gkk3"]
 resource_name = "Display"
@@ -74,11 +120,11 @@ _data = {
 }
 
 [node name="Notifications" type="CanvasLayer"]
-layer = 35
+layer = 45
 script = ExtResource("1_2haug")
-notification_title_ = NodePath("Control/NotifContainer/HBoxContainer/VBoxContainer/Label")
-notification_desc_ = NodePath("Control/NotifContainer/HBoxContainer/VBoxContainer/RichTextLabel")
-notification_img_ = NodePath("Control/NotifContainer/HBoxContainer/Icon")
+notification_title_ = NodePath("Control/MarginContainer/NotifContainer/MarginContainer/HBoxContainer/VBoxContainer/Label")
+notification_desc_ = NodePath("Control/MarginContainer/NotifContainer/MarginContainer/HBoxContainer/VBoxContainer/RichTextLabel")
+notification_img_ = NodePath("Control/MarginContainer/NotifContainer/MarginContainer/HBoxContainer/Icon")
 
 [node name="Control" type="Control" parent="."]
 layout_mode = 3
@@ -87,55 +133,63 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+mouse_filter = 2
+theme = ExtResource("2_bwafl")
 
-[node name="NotifContainer" type="PanelContainer" parent="Control"]
-visible = false
+[node name="MarginContainer" type="MarginContainer" parent="Control"]
 layout_mode = 1
 anchors_preset = 10
 anchor_right = 1.0
-offset_left = 256.0
-offset_right = -256.0
-offset_bottom = 52.0
+offset_bottom = 72.0
 grow_horizontal = 2
+theme_override_constants/margin_left = 240
+theme_override_constants/margin_right = 240
 
-[node name="HBoxContainer" type="HBoxContainer" parent="Control/NotifContainer"]
+[node name="NotifContainer" type="PanelContainer" parent="Control/MarginContainer"]
 layout_mode = 2
 
-[node name="VSeparator" type="VSeparator" parent="Control/NotifContainer/HBoxContainer"]
+[node name="MarginContainer" type="MarginContainer" parent="Control/MarginContainer/NotifContainer"]
+layout_mode = 2
+theme_override_constants/margin_left = 12
+theme_override_constants/margin_top = 6
+theme_override_constants/margin_right = 12
+theme_override_constants/margin_bottom = 6
+
+[node name="HBoxContainer" type="HBoxContainer" parent="Control/MarginContainer/NotifContainer/MarginContainer"]
+layout_mode = 2
+
+[node name="Icon" type="TextureRect" parent="Control/MarginContainer/NotifContainer/MarginContainer/HBoxContainer"]
+layout_mode = 2
+texture = ExtResource("3_x4x7y")
+expand_mode = 2
+
+[node name="VSeparator2" type="VSeparator" parent="Control/MarginContainer/NotifContainer/MarginContainer/HBoxContainer"]
 layout_mode = 2
 theme_override_styles/separator = SubResource("StyleBoxEmpty_3so7r")
 
-[node name="Icon" type="TextureRect" parent="Control/NotifContainer/HBoxContainer"]
-layout_mode = 2
-texture = SubResource("GradientTexture2D_as0of")
-stretch_mode = 3
-
-[node name="VSeparator2" type="VSeparator" parent="Control/NotifContainer/HBoxContainer"]
-layout_mode = 2
-theme_override_styles/separator = SubResource("StyleBoxEmpty_3so7r")
-
-[node name="VBoxContainer" type="VBoxContainer" parent="Control/NotifContainer/HBoxContainer"]
+[node name="VBoxContainer" type="VBoxContainer" parent="Control/MarginContainer/NotifContainer/MarginContainer/HBoxContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
 
-[node name="HSeparator" type="HSeparator" parent="Control/NotifContainer/HBoxContainer/VBoxContainer"]
-layout_mode = 2
-theme_override_constants/separation = -1
-theme_override_styles/separator = SubResource("StyleBoxEmpty_fdrb1")
-
-[node name="Label" type="Label" parent="Control/NotifContainer/HBoxContainer/VBoxContainer"]
+[node name="Label" type="Label" parent="Control/MarginContainer/NotifContainer/MarginContainer/HBoxContainer/VBoxContainer"]
 layout_mode = 2
 text = "Title goes here"
 
-[node name="RichTextLabel" type="RichTextLabel" parent="Control/NotifContainer/HBoxContainer/VBoxContainer"]
+[node name="RichTextLabel" type="RichTextLabel" parent="Control/MarginContainer/NotifContainer/MarginContainer/HBoxContainer/VBoxContainer"]
 layout_mode = 2
 size_flags_vertical = 3
 text = "Description goes here. Description goes here. Description goes here. "
 scroll_active = false
 
-[node name="VSeparator3" type="VSeparator" parent="Control/NotifContainer/HBoxContainer"]
+[node name="VSeparator3" type="VSeparator" parent="Control/MarginContainer/NotifContainer/MarginContainer/HBoxContainer"]
 layout_mode = 2
 theme_override_styles/separator = SubResource("StyleBoxEmpty_3so7r")
+
+[node name="NotifAnim" type="AnimationPlayer" parent="Control/MarginContainer/NotifContainer"]
+libraries = {
+"": SubResource("AnimationLibrary_e0rbe")
+}
+autoplay = "RESET"
 
 [node name="SceneLabels" type="MarginContainer" parent="Control"]
 layout_mode = 1
@@ -145,6 +199,7 @@ anchor_bottom = 1.0
 offset_top = -40.0
 offset_right = 40.0
 grow_vertical = 0
+mouse_filter = 2
 theme_override_constants/margin_left = 24
 theme_override_constants/margin_bottom = 24
 
@@ -166,6 +221,7 @@ libraries = {
 "": SubResource("AnimationLibrary_glhiu")
 }
 
+[connection signal="animation_finished" from="Control/MarginContainer/NotifContainer/NotifAnim" to="." method="_on_notif_anim_finished"]
 [connection signal="animation_finished" from="Control/SceneLabels/LevelLabels/AnimationPlayer" to="." method="_on_level_label_anim_finished"]
 [connection signal="animation_finished" from="Control/SceneLabels/LevelLabels/AnimationPlayer/Sub" to="." method="_on_level_label_anim_sub_finished"]
 
