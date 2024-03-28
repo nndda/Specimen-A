@@ -4,5 +4,9 @@
 background_mode = 3
 background_color = Color(1, 1, 1, 1)
 background_canvas_max_layer = 8
-tonemap_white = 7.22
+tonemap_white = 9.0
+glow_intensity = 2.0
+glow_strength = 1.1
+glow_mix = 0.37
+glow_blend_mode = 1
 adjustment_enabled = true
