@@ -12,9 +12,9 @@ var body_segment_physics_arr := PackedInt32Array(
 var collision_segments : Array[CollisionShape2D] = []
 var collision_segments_shape : Array[SegmentShape2D] = []
 
-@onready var lights_path : Path2D = $Lights
-@onready var lights_anim : AnimationPlayer = $Lights/AnimationPlayer
-@onready var lights_anim_delay : Timer = $Lights/AnimationPlayer/Delay
+#@onready var lights_path : Path2D = $Lights
+#@onready var lights_anim : AnimationPlayer = $Lights/AnimationPlayer
+#@onready var lights_anim_delay : Timer = $Lights/AnimationPlayer/Delay
 
 func init_collision_shape() -> void:
     for segment : int in body_segment_max_physics:
@@ -54,18 +54,22 @@ func update_collision_shape() -> void:
             #points[ wrapi(sgmnt, 0, sgmnt_count) + 1 ])
             #)
 
-func update_light_path() -> void:
-    if lights_path.visible:
-        for n : int in body_segment_max - 5:
-            lights_path.curve.set_point_position(n, points[n])
+# NOTE: disabled for performance
+#func update_light_path() -> void:
+    #if lights_path.visible:
+        #for n : int in body_segment_max - 5:
+            #lights_path.curve.set_point_position(n, points[n])
 
 func _ready() -> void:
-    if !lights_anim.is_playing():
-        lights_anim.play(&"Idle")
+    $Lights.queue_free()
+    #if !lights_anim.is_playing():
+        #lights_anim.play(&"Idle")
     call_deferred(&"init_collision_shape")
-    lights_path.curve.clear_points()
-    for n : int in body_segment_max - 5:
-        lights_path.curve.add_point(Vector2.ZERO)
+
+    #lights_path.curve.clear_points()
+    #for n : int in body_segment_max - 5:
+        #lights_path.curve.add_point(Vector2.ONE)
+    #update_light_path()
 
 func _physics_process(_delta : float) -> void:
     if Global.moving_or_attacking:
@@ -74,8 +78,8 @@ func _physics_process(_delta : float) -> void:
         else:
             add_point(head.position)
 
-func _on_lights_anim_finished(anim_name : StringName) -> void:
-    if anim_name == &"Idle":
-        lights_anim_delay.start(1.5)
-        await lights_anim_delay.timeout
-        lights_anim.play(&"Idle")
+#func _on_lights_anim_finished(anim_name : StringName) -> void:
+    #if anim_name == &"Idle":
+        #lights_anim_delay.start(0.5)
+        #await lights_anim_delay.timeout
+        #lights_anim.play(&"Idle")

@@ -202,7 +202,7 @@ func _physics_process(delta : float) -> void:
 
     if Global.moving_or_attacking:
         body.update_collision_shape()
-        body.update_light_path()
+        #body.update_light_path()
 
 func shake_cam() -> void:
     Camera.shake_start(
