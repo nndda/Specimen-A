@@ -1,4 +1,4 @@
-[gd_scene load_steps=50 format=3 uid="uid://cexhj5k6snu4x"]
+[gd_scene load_steps=51 format=3 uid="uid://cexhj5k6snu4x"]
 
 [ext_resource type="PackedScene" uid="uid://btklfuqmrtree" path="res://Levels/LevelBase.tscn" id="1_mvhw5"]
 [ext_resource type="PackedScene" uid="uid://dgmfdfnnvk3qx" path="res://Shaders/Lights/Light.tscn" id="2_1w8ry"]
@@ -23,6 +23,7 @@
 [ext_resource type="Script" path="res://Levels/01_Breached/01.Breached.Tutorial.gd" id="15_51xuf"]
 [ext_resource type="Script" path="res://Levels/01_Breached/01.Breached.SceneTitle.gd" id="17_oauk8"]
 [ext_resource type="LabelSettings" uid="uid://1smbo88stqiw" path="res://Levels/01_Breached/Tutorial.LabelSettings.tres" id="19_4x1mu"]
+[ext_resource type="PackedScene" uid="uid://cuy7lxvli81sr" path="res://Scripts/LevelTransit.tscn" id="19_4xd2j"]
 [ext_resource type="PackedScene" uid="uid://b8b7oc0a403fv" path="res://Levels/01_Breached/TutorialKeys.Panel.tscn" id="20_2lgd7"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_7a6if"]
@@ -641,6 +642,10 @@ position = Vector2(1632, -1936)
 [node name="Vents_B" parent="Areas/Central Hub" index="5" instance=ExtResource("11_yho0g")]
 position = Vector2(304, -2016)
 
+[node name="LevelTransit" parent="Areas" index="6" instance=ExtResource("19_4xd2j")]
+position = Vector2(-448, -2016)
+level_transition_scene = "res://Levels/02/02.tscn"
+
 [node name="Player" parent="." index="7"]
 position = Vector2(0, -928)
 rotation = 4.71239
@@ -1022,6 +1027,9 @@ monitorable = false
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="SceneTitle/Area2D" index="0"]
 shape = SubResource("CircleShape2D_snw1w")
+
+[node name="GlobalModulate" parent="." index="14"]
+visible = false
 
 [connection signal="destroyed" from="Areas/Control Room Vent/Vents_B/DestructiblesBody" to="TopLayer/Tutorial/HintRangeAttack/AnimationPlayer" method="play" flags=6 binds= [&"FadeOut"]]
 [connection signal="destroyed" from="Areas/Central Hub/ExitGate/DestructiblesBody" to="SceneTitle" method="_on_ExitGate_destroyed"]
