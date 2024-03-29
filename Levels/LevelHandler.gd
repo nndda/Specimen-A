@@ -4,10 +4,14 @@ extends Node2D
 @export var current_area_name : StringName
 @export_node_path("Node2D") var pseudo_3d_generator : NodePath
 
+@onready var pause_menu : CanvasLayer = $PauseMenu
+
 @onready var top_1 : CanvasLayer = $TopLayer
 @onready var top_2 : CanvasLayer = $"TopLayer+1"
 
 @onready var area_container : Node2D =  $Areas
+
+var tree : SceneTree
 
 signal level_loaded
 
@@ -17,16 +21,18 @@ func _enter_tree() -> void:
     level_loaded.connect(Camera.start_fade_out)
 
 func _ready() -> void:
-    get_tree().call_group_flags(SceneTree.GROUP_CALL_DEFERRED, &"free", &"queue_free")
+    tree = get_tree()
 
     for top_layer : StringName in [&"top_1", &"top_2"]:
-        for node : Node in get_tree().get_nodes_in_group(top_layer):
+        for node : Node in tree.get_nodes_in_group(top_layer):
             node.call_deferred(&"reparent", get(top_layer))
             get(top_layer).call_deferred(&"move_child", node, 0)
 
     call_deferred(&"add_child", Global.environment.instantiate())
     call_deferred(&"add_child", Global.canvas_modulate.instantiate())
-    top_2.call_deferred(&"add_child", preload("res://Shaders/Particles/AmbientParticle.tscn"))
+    top_2.call_deferred(&"add_child",
+        preload("res://Shaders/Particles/AmbientParticles.tscn").instantiate()
+    )
 
     $TopLayer.visible = true
     $"TopLayer+1".visible = true
@@ -39,13 +45,15 @@ func _ready() -> void:
             if inst is CharacterBody2D:
                 Global.current_objects.append(inst)
 
+    tree.call_group_flags(SceneTree.GROUP_CALL_DEFERRED, &"free", &"queue_free")
+
     Camera.init_visual_loading()
     level_loaded.emit()
 
     Audio.connect_audio()
     Audio.init_bg()
 
-    for area in get_tree().get_nodes_in_group(&"AreaEntrance"):
+    for area in tree.get_nodes_in_group(&"AreaEntrance"):
         if area is Area2D:
             area.body_entered.connect(
                 area_entered.bind(String(area.get_parent().get_name()))
