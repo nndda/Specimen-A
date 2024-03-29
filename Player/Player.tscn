@@ -445,7 +445,7 @@ script = ExtResource("1_85wao")
 self_modulate = Color(0.439216, 0.0470588, 0.0470588, 1)
 light_mask = 1025
 material = ExtResource("2_grj2a")
-points = PackedVector2Array(-184, 0, -152, 0, -128, 8, -112, 0, -88, 0, -72, 8, -56, -8, -40, -16, -24, -8, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0)
+points = PackedVector2Array(-184, 0, -152, 0, -128, 8, -112, 0, -88, 0, -72, 8, -56, -8, -40, -16, -24, -8, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0)
 width = 28.0
 width_curve = ExtResource("1_8mgss")
 default_color = Color(0.611765, 0.341176, 0.341176, 1)
@@ -460,25 +460,22 @@ script = ExtResource("3_tu4s7")
 curve = ExtResource("3_50gab")
 
 [node name="0" type="PathFollow2D" parent="Body/Lights"]
-position = Vector2(-64, -16)
-rotation = -2.89661
-progress = 130.591
+position = Vector2(56, -16)
+rotation = 2.89661
 loop = false
 
 [node name="0" parent="Body/Lights/0" instance=ExtResource("3_7gejm")]
 
 [node name="1" type="PathFollow2D" parent="Body/Lights"]
-position = Vector2(-64, -16)
-rotation = -2.89661
-progress = 130.591
+position = Vector2(56, -16)
+rotation = 2.89661
 loop = false
 
 [node name="1" parent="Body/Lights/1" instance=ExtResource("3_7gejm")]
 
 [node name="2" type="PathFollow2D" parent="Body/Lights"]
-position = Vector2(-64, -16)
-rotation = -2.89661
-progress = 130.591
+position = Vector2(56, -16)
+rotation = 2.89661
 loop = false
 
 [node name="2" parent="Body/Lights/2" instance=ExtResource("3_7gejm")]
@@ -679,7 +676,6 @@ offset_right = 216.0
 offset_bottom = 248.0
 script = ExtResource("16_u7job")
 
-[connection signal="animation_finished" from="Body/Lights/AnimationPlayer" to="Body" method="_on_lights_anim_finished"]
 [connection signal="tree_entered" from="DamageCollision" to="Head" method="_on_body_tree_entered"]
 [connection signal="tree_exiting" from="DamageCollision" to="Head" method="_on_body_tree_exiting" flags=6]
 [connection signal="tree_entered" from="Head" to="Head" method="_on_head_tree_entered"]
