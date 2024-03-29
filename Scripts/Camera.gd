@@ -96,8 +96,6 @@ func init_visual_loading() -> void:
     for e : Node2D in [visload_path, visload_path_fol]:
         visload_entity.append(e)
 
-    print(current_objects_list)
-
     visload_path.curve = visload_curve
     visload_path_follow = visload_path_fol
 
@@ -115,9 +113,6 @@ func sort_visual_distance(a : Node2D, b : Node2D) -> bool:
     )
 
 func finished_visual_loading() -> void:
-
-    print("finished_visual_loading()")
-
     for e : Node2D in visload_entity:
         e.queue_free()
 
@@ -148,11 +143,13 @@ func _process(_delta : float) -> void:
         drag_horizontal_offset = remap(
             mouse_pos.x,
             0.0, viewport_rect_size.x,
-            -1.0, 1.0)
+            -1.0, 1.0
+        )
         drag_vertical_offset = remap(
             mouse_pos.y,
             0.0, viewport_rect_size.y,
-            -1.0, 1.0)
+            -1.0, 1.0
+        )
 
     else:
         if visload_path_follow != null:
