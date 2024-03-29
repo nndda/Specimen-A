@@ -97,8 +97,8 @@ func generate_layers() -> void:
                 "physics_layer",
                 "occlusion_layer",
             ]:
-                if tilemap.tile_set.call(StringName("get_" + layer + "s_count")) >= 1:
-                    tilemap.tile_set.call(StringName("remove_" + layer), 0)
+                if tilemap.tile_set.call("get_" + layer + "s_count") >= 1:
+                    tilemap.tile_set.call("remove_" + layer, 0)
 
     for f : NodePath in [map, map_decor, map_decor_light]:
         get_node(f).queue_free()
