@@ -1,10 +1,13 @@
-[gd_scene load_steps=7 format=3 uid="uid://btklfuqmrtree"]
+[gd_scene load_steps=10 format=3 uid="uid://btklfuqmrtree"]
 
 [ext_resource type="Script" path="res://Levels/LevelHandler.gd" id="1_sic2w"]
 [ext_resource type="PackedScene" uid="uid://qpqkkwm1xinu" path="res://Worlds/Tilesets/Tileset.tscn" id="2_04a13"]
 [ext_resource type="Material" uid="uid://ud64atwxfe5s" path="res://Shaders/Materials/Add-Unshaded.CanvasItemMaterial.tres" id="3_v8kfu"]
 [ext_resource type="Script" path="res://Scripts/Pseudo3DGenerator.gd" id="4_sovdr"]
 [ext_resource type="PackedScene" uid="uid://37f75mhp7q61" path="res://UI/PauseMenu.tscn" id="6_2l3p8"]
+[ext_resource type="PackedScene" uid="uid://bu80812ypq0si" path="res://Shaders/Particles/AmbientParticles.tscn" id="6_juqcn"]
+[ext_resource type="PackedScene" uid="uid://dacmfc6k652w7" path="res://Worlds/GlobalEnvironment.tscn" id="7_ehwri"]
+[ext_resource type="PackedScene" uid="uid://b084k80tg1y62" path="res://Worlds/GlobalModulate.tscn" id="8_4dsnx"]
 [ext_resource type="PackedScene" uid="uid://mjd5n5bhhtyf" path="res://Player/Player.tscn" id="11_unoct"]
 
 [node name="LevelBase" type="Node2D"]
@@ -68,4 +71,11 @@ rendering_quadrant_size = 4
 modulate = Color(1, 0, 0, 1)
 rendering_quadrant_size = 4
 
+[node name="AmbientParticle" parent="TopLayer+1" instance=ExtResource("6_juqcn")]
+
 [node name="PauseMenu" parent="." instance=ExtResource("6_2l3p8")]
+
+[node name="GlobalEnvironment" parent="." instance=ExtResource("7_ehwri")]
+
+[node name="GlobalModulate" parent="." instance=ExtResource("8_4dsnx")]
+visible = false

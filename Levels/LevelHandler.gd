@@ -28,14 +28,9 @@ func _ready() -> void:
             node.call_deferred(&"reparent", get(top_layer))
             get(top_layer).call_deferred(&"move_child", node, 0)
 
-    call_deferred(&"add_child", Global.environment.instantiate())
-    call_deferred(&"add_child", Global.canvas_modulate.instantiate())
-    top_2.call_deferred(&"add_child",
-        preload("res://Shaders/Particles/AmbientParticles.tscn").instantiate()
-    )
-
     $TopLayer.visible = true
     $"TopLayer+1".visible = true
+    $GlobalModulate.visible = true
     for i : Node in get_children():
         if i is CanvasItem:
             i.visible = true
