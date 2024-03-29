@@ -1,0 +1,55 @@
+[gd_scene load_steps=7 format=3 uid="uid://bu80812ypq0si"]
+
+[ext_resource type="Script" path="res://Shaders/Particles/AmbientParticles.gd" id="1_ke44y"]
+
+[sub_resource type="Curve" id="Curve_ivw6x"]
+_data = [Vector2(0, 0), 0.0, 0.0, 0, 0, Vector2(0.509302, 1), 0.0, 0.0, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
+point_count = 3
+
+[sub_resource type="CurveTexture" id="CurveTexture_6wbyt"]
+curve = SubResource("Curve_ivw6x")
+
+[sub_resource type="Curve" id="Curve_0nmes"]
+_data = [Vector2(0, 0), 0.0, 0.0, 0, 0, Vector2(0.527907, 0.956044), -0.437525, -0.437525, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
+point_count = 3
+
+[sub_resource type="CurveTexture" id="CurveTexture_shxsy"]
+curve = SubResource("Curve_0nmes")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_1vlc4"]
+particle_flag_disable_z = true
+emission_shape = 3
+emission_box_extents = Vector3(768, 432, 100)
+angle_min = -720.0
+angle_max = 720.0
+direction = Vector3(1, 1, 1)
+spread = 180.0
+initial_velocity_min = 10.0
+initial_velocity_max = 30.0
+gravity = Vector3(0, 0, 0)
+attractor_interaction_enabled = false
+scale_min = 3.0
+scale_max = 6.0
+scale_curve = SubResource("CurveTexture_shxsy")
+color = Color(0.152941, 0.156863, 0.14902, 1)
+alpha_curve = SubResource("CurveTexture_6wbyt")
+
+[node name="AmbientParticle" type="GPUParticles2D"]
+z_index = 999
+z_as_relative = false
+position = Vector2(384, 216)
+amount = 60
+process_material = SubResource("ParticleProcessMaterial_1vlc4")
+lifetime = 7.0
+preprocess = 120.0
+speed_scale = 1.02
+randomness = 1.0
+fract_delta = false
+script = ExtResource("1_ke44y")
+
+[node name="ColorRect" type="ColorRect" parent="." groups=["free"]]
+show_behind_parent = true
+offset_left = -478.0
+offset_top = -250.0
+offset_right = 563.0
+offset_bottom = 314.0
