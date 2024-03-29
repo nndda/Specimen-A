@@ -153,4 +153,7 @@ func _input(event : InputEvent) -> void:
 func _process(_delta : float) -> void:
     health = clamp(health, 0.0, 100.0)
 
+func _exit_tree() -> void:
+    tile_maps.clear()
+
 var tile_maps := {}
