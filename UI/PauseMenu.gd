@@ -79,7 +79,7 @@ func _restart_confirmed() -> void:
     paused = false
     Camera.paused = false
     Camera.copy_camera_reset()
-    level_root.get_tree().call_deferred(&"reload_current_scene")
+    level_root.tree.call_deferred(&"reload_current_scene")
 
 func _achievements_pressed() -> void:
     pass
@@ -93,4 +93,4 @@ func _mainmenu_pressed() -> void:
 func _mainmenu_confirmed() -> void:
     Camera.paused = false
     Camera.copy_camera_reset()
-    level_root.get_tree().call_deferred(&"change_scene_to_file", "res://UI/MainMenu.tscn")
+    level_root.tree.call_deferred(&"change_scene_to_file", "res://UI/MainMenu.tscn")
