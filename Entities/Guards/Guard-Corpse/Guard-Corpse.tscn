@@ -239,7 +239,6 @@ position = Vector2(-1.14441e-05, 9.53674e-07)
 scale = Vector2(25.6, 25.6)
 
 [connection signal="tree_entered" from="Reposition" to="." method="_on_Reposition_tree_entered"]
-[connection signal="tree_entered" from="BloodTrail" to="." method="_on_BloodTrail_tree_entered"]
 [connection signal="body_entered" from="BloodTrailTrigger" to="." method="_on_BloodTrailTrigger_body_entered"]
 
 [editable path="VisibilityHandler"]

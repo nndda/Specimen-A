@@ -36,6 +36,7 @@ func _ready() -> void:
 
     for limb : String in ["RArm", "LArm", "RLeg", "LLeg"]: decap_limb(limb)
     is_ready = true
+    blood_trail()
 
 func decap_limb(limb : String) -> void:
     var limb_n := "Hand" if limb.ends_with("Arm") else "Feet"
@@ -74,9 +75,6 @@ func blood_trail() -> void:
 func _on_Reposition_tree_entered() -> void:
     repos_node = $Reposition
     repos_node.global_position = Global.head_pos
-
-func _on_BloodTrail_tree_entered() -> void:
-    blood_trail()
 
 func _on_BloodTrailTrigger_body_entered(body) -> void:
     if body.get_name() == &"Head":
