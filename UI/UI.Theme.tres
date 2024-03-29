@@ -1,4 +1,7 @@
-[gd_resource type="Theme" format=3 uid="uid://1eq3q2sr8oo5"]
+[gd_resource type="Theme" load_steps=2 format=3 uid="uid://1eq3q2sr8oo5"]
+
+[ext_resource type="FontVariation" uid="uid://bu8tclgcbbnjl" path="res://UI/Fonts/Silver.FontVariation.tres" id="1_37wc6"]
 
 [resource]
+default_font = ExtResource("1_37wc6")
 default_font_size = 19
