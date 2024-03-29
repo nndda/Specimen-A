@@ -1,0 +1,14 @@
+[gd_scene load_steps=3 format=3 uid="uid://cuy7lxvli81sr"]
+
+[ext_resource type="Script" path="res://Scripts/LevelTransit.gd" id="1_kyp8i"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_m8i5v"]
+radius = 120.0
+
+[node name="LevelTransit" type="Area2D"]
+script = ExtResource("1_kyp8i")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("CircleShape2D_m8i5v")
+
+[connection signal="body_entered" from="." to="." method="_on_body_entered"]
