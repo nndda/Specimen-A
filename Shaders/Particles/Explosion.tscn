@@ -1,7 +1,8 @@
-[gd_scene load_steps=15 format=3 uid="uid://bydxskl7vyst7"]
+[gd_scene load_steps=16 format=3 uid="uid://bydxskl7vyst7"]
 
 [ext_resource type="Texture2D" uid="uid://d1y5v4sd3axmk" path="res://Shaders/Lights/General.GradientTexture2D.tres" id="1_676n7"]
 [ext_resource type="Script" path="res://Shaders/Particles/Explosion.gd" id="1_ujoy3"]
+[ext_resource type="Texture2D" uid="uid://u1l3un1p7own" path="res://Shaders/Particles/ExplosionTrace.png" id="3_oswul"]
 
 [sub_resource type="Curve" id="Curve_8ttbe"]
 _data = [Vector2(0, 1), 0.0, -0.963887, 0, 0, Vector2(0.66092, 0.534676), -0.813279, -0.813279, 0, 0, Vector2(0.913793, 0), 0.0, 0.0, 0, 0]
@@ -160,3 +161,7 @@ texture = ExtResource("1_676n7")
 libraries = {
 "": SubResource("AnimationLibrary_uf8qw")
 }
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+modulate = Color(0.141176, 0.141176, 0.141176, 1)
+texture = ExtResource("3_oswul")
