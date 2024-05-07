@@ -1,13 +1,14 @@
 extends Area2D
 
-var damage_min : float = 8.0
-var damage_max : float = 12.0
+var damage_min : float = 10.0
+var damage_max : float = 16.0
 
 signal triggered
 
 @onready var explosion_particles : GPUParticles2D = $Explosion
 @onready var shards : CPUParticles2D = preload(
-    "res://Shaders/Particles/GlassShardsSparks.tscn").instantiate()
+    "res://Shaders/Particles/GlassShardsSparks.tscn"
+).instantiate()
 
 func trigger() -> void:
     Camera.shake_start(35.0, 0.95, 36.0)
