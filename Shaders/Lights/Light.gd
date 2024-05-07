@@ -12,6 +12,6 @@ func toggle_light() -> void:
 
 func flick() -> void:
     if visible:
-        if global_position.distance_to(Global.head_pos) <= 360.0:
+        if global_position.distance_to(Global.head_pos) <= 380.0:
             animation_player.speed_scale = randf_range(0.9, 1.2)
             animation_player.play(&"Flick_%d" % randi_range(0, 1))
