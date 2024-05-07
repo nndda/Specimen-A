@@ -57,6 +57,7 @@ func _ready() -> void:
     fire_function_anim.animation_finished.connect(parent._on_weapon_animation_finished)
 
 func _process(_delta : float) -> void:
+    firing = fire_function_anim.current_animation == &"Firing" && fire_function_anim.is_playing()
     parent.firing = firing
 
 func _physics_process(_delta : float) -> void:
