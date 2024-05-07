@@ -5,6 +5,9 @@ extends CharacterBody2D
 @export var health : float = 50.0
 @export var speed : float = 80.0
 
+## Stop aiming to player if firing
+@export var freeze_on_fire := false
+
 ## Is the entity moving away or approaching the player's head.
 @export var moving_away := false
 
@@ -58,6 +61,10 @@ signal target_reached
 
 var velo            : Vector2
 var move_direction  : Vector2
+var player_angle    : float
+
+@onready var sprite_base : Sprite2D = $Sprite2D
+@onready var visibility_handler_enabler : VisibleOnScreenEnabler2D = $VisibilityHandler/VisibleOnScreenEnabler2D
 
 func _ready() -> void:
     path = get_node_or_null(path_)
@@ -97,14 +104,17 @@ func _ready() -> void:
             hidden_item.visible = false
 
 func _process(_delta : float) -> void:
-    if stationary:
-        $Sprite2D.rotation_degrees = -rotation_degrees
-
     corpse.global_position = global_position
     corpse.look_at(Global.head_pos)
 
     if is_triggered:
-        rotation_degrees = wrapf(rotation_degrees, 0.0, 360.0)
+
+        if freeze_on_fire:
+            if !firing:
+                aim_to_player()
+        else:
+            aim_to_player()
+
         fire_clear = fire_ready and weapon.on_line
 
     else:
@@ -112,20 +122,25 @@ func _process(_delta : float) -> void:
             global_position = path.global_position
             global_rotation = path.global_rotation
 
+    if stationary:
+        sprite_base.rotation_degrees = -rotation_degrees
+
     if fire_clear:
         weapon.fire()
         fire_ready = false
 
-    $VisibilityHandler/VisibleOnScreenEnabler2D.global_position = self.global_position
+    visibility_handler_enabler.global_position = global_position
 
 # TODO:  trigger system is a mess
 func _physics_process(_delta : float) -> void:
     if is_triggered:
-        var player_angle : float = (Global.head_pos - global_position).angle()
-        global_rotation = lerp_angle(global_rotation, player_angle, rotate_weight)
         if !stationary:
             nav_agent.set_velocity(Vector2(speed, speed))
 
+func aim_to_player() -> void:
+    player_angle = (Global.head_pos - global_position).angle()
+    global_rotation = lerp_angle(global_rotation, player_angle, rotate_weight)
+    rotation_degrees = wrapf(rotation_degrees, 0.0, 360.0)
 
 func _on_weapon_animation_finished(anim : StringName) -> void:
     if anim == &"Firing":

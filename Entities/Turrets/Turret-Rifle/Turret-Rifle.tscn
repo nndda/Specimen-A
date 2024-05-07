@@ -21,6 +21,7 @@ radius = 16.0
 height = 48.0
 
 [node name="Turret-Rifle" instance=ExtResource("1_2s3nu")]
+freeze_on_fire = true
 stationary = true
 rotate_weight = 0.24
 weapon_node = NodePath("Gun-Rifle")
