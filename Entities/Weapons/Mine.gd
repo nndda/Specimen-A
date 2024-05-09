@@ -19,7 +19,7 @@ func trigger() -> void:
     add_child(shards)
 
 func _on_body_entered(body : Node2D) -> void:
-    if body.get_name() == &"Head":
+    if body.name == &"Head":
         trigger()
         body.damage_player(20.0)
 

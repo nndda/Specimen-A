@@ -22,9 +22,9 @@ func stop_custscene() -> void:
     queue_free()
 
 func _on_trigger_start_body_entered(body : Node2D) -> void:
-    if body.get_name() == &"Head":
+    if body.name == &"Head":
         start_cutscene()
 
 func _on_trigger_stop_body_entered(body : Node2D) -> void:
-    if body.get_name() == &"Head":
+    if body.name == &"Head":
         stop_custscene()

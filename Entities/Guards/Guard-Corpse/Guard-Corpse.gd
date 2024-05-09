@@ -77,7 +77,7 @@ func _on_Reposition_tree_entered() -> void:
     repos_node.global_position = Global.head_pos
 
 func _on_BloodTrailTrigger_body_entered(body) -> void:
-    if body.get_name() == &"Head":
+    if body.name == &"Head":
         blood_trails = true
         $BloodTrailTrigger.queue_free()
 

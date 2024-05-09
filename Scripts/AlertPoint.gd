@@ -20,7 +20,7 @@ func _ready():
             items.append(node)
 
 func _on_body_entered(body : Node2D) -> void:
-    if body.get_name() == &"Head":
+    if body.name == &"Head":
         if !player_entered:
             player_entered = true
         alert()
