@@ -60,16 +60,16 @@ follow_viewport_enabled = true
 
 [node name="Tile" parent="TopLayer" instance=ExtResource("2_04a13")]
 modulate = Color(1, 0, 0, 1)
-rendering_quadrant_size = 4
+rendering_quadrant_size = 8
 
 [node name="Tile" parent="TopLayer/Tile" instance=ExtResource("2_04a13")]
-rendering_quadrant_size = 4
+rendering_quadrant_size = 8
 
 [node name="TopLayer+1" type="CanvasLayer" parent="."]
 
 [node name="Tile" parent="TopLayer+1" instance=ExtResource("2_04a13")]
 modulate = Color(1, 0, 0, 1)
-rendering_quadrant_size = 4
+rendering_quadrant_size = 8
 
 [node name="AmbientParticle" parent="TopLayer+1" instance=ExtResource("6_juqcn")]
 
