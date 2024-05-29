@@ -11,11 +11,9 @@ height = 48.0
 [node name="Guard-RifleShield" instance=ExtResource("1_15pl1")]
 
 [node name="TriggerArea" parent="." index="1"]
-visible = false
 monitorable = true
 
 [node name="GeneralArea" parent="." index="2"]
-visible = false
 monitorable = true
 
 [node name="Shield" parent="." index="3" instance=ExtResource("2_ji8pg")]
@@ -24,8 +22,6 @@ root_ = NodePath("..")
 [node name="CollisionShape2D" parent="." index="5"]
 shape = SubResource("CapsuleShape2D_gqvs0")
 
-[connection signal="area_entered" from="GeneralArea" to="." method="_on_general_area_entered" flags=18]
-[connection signal="area_exited" from="GeneralArea" to="." method="_on_general_area_exited" flags=18]
-
 [editable path="Gun-Rifle"]
+[editable path="Gun-Rifle/DebugTestField"]
 [editable path="VisibilityHandler"]
