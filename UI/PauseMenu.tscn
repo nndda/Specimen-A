@@ -9,30 +9,21 @@
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_1wcdr"]
 shader = ExtResource("2_rfqgi")
-shader_parameter/lod = 1.093
+shader_parameter/lod = 1.1
+shader_parameter/color_overlay = Color(0.430057, 0.430057, 0.430057, 1)
 
 [node name="PauseMenu" type="CanvasLayer"]
 process_mode = 3
 layer = 40
 script = ExtResource("1_vx8gi")
 
-[node name="Overlay" type="ColorRect" parent="."]
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-color = Color(0.278431, 0, 0, 0.0392157)
-
-[node name="Blur" type="ColorRect" parent="Overlay"]
+[node name="Blur" type="ColorRect" parent="."]
 material = SubResource("ShaderMaterial_1wcdr")
-layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-metadata/_edit_use_anchors_ = true
 
 [node name="Control" type="Control" parent="."]
 layout_mode = 3
@@ -92,7 +83,7 @@ layout_mode = 2
 text = "Restart"
 
 [node name="ConfirmationDialog" type="ConfirmationDialog" parent="Control/Menu/Restart"]
-size = Vector2i(200, 72)
+size = Vector2i(200, 80)
 min_size = Vector2i(120, 70)
 ok_button_text = "Yes"
 dialog_text = "Restart current level?"
@@ -113,7 +104,7 @@ layout_mode = 2
 text = "Main Menu"
 
 [node name="ConfirmationDialog" type="ConfirmationDialog" parent="Control/Menu/MainMenu"]
-size = Vector2i(200, 72)
+size = Vector2i(200, 80)
 min_size = Vector2i(120, 70)
 ok_button_text = "Yes"
 dialog_text = "Go back to the main menu?"
