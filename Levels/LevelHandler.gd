@@ -16,21 +16,17 @@ var tree : SceneTree
 signal level_loaded
 
 func _enter_tree() -> void:
+    tree = get_tree()
+
     Global.current_scene = self
     Global.update_layers()
     level_loaded.connect(Camera.start_fade_out)
 
 func _ready() -> void:
-    tree = get_tree()
-
-    for top_layer : StringName in [&"top_1", &"top_2"]:
-        for node : Node in tree.get_nodes_in_group(top_layer):
-            node.call_deferred(&"reparent", get(top_layer))
-            get(top_layer).call_deferred(&"move_child", node, 0)
-
     $TopLayer.visible = true
     $"TopLayer+1".visible = true
     $GlobalModulate.visible = true
+
     for i : Node in get_children():
         if i is CanvasItem:
             i.visible = true
@@ -54,8 +50,9 @@ func _ready() -> void:
                 area_entered.bind(String(area.get_parent().get_name()))
             )
 
-    await Camera.faded_out
+    move_top_items()
 
+    await Camera.faded_out
     Notifications.level_label_displayed.connect(
         Notifications.set_level_label_sub.bind(current_area_name),
         Object.CONNECT_ONE_SHOT
@@ -66,3 +63,9 @@ func area_entered(body : Node2D, area_name : String) -> void:
     if body.name == &"Head" and area_name != current_area_name:
         current_area_name = area_name
         Notifications.set_level_label_sub(current_area_name)
+
+func move_top_items() -> void:
+    for top_layer : StringName in [&"top_1", &"top_2"]:
+        for node : Node in tree.get_nodes_in_group(top_layer):
+            node.call_deferred(&"reparent", get(top_layer))
+            get(top_layer).call_deferred(&"move_child", node, 0)
