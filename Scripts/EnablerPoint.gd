@@ -2,46 +2,73 @@ extends Area2D
 
 # Enable an area in contact of player
 
-@onready var root : Node = get_parent()
+@onready var parent : Node = get_parent()
 
+@export_category("Parent")
 @export var disable_parent := false
 @export var hide_parent := false
-@export var items_path : Array[NodePath] = []
+
+@export_category("Items")
+@export var hide_items := true
+@export var items_path : Array[Node] = []
+@export var items_group_path : Array[Node] = []
 var items : Array[Node] = []
 
 var player_entered := false
 
+func _enter_tree() -> void:
+    get_parent().ready.connect(initialize_objects)
+
 func _ready():
     body_entered.connect(_on_body_entered)
-    root.ready.connect(initialize_objects)
 
 func initialize_objects() -> void:
-    for item : NodePath in items_path:
-        items.append(get_node(item))
+    for idx : int in items_path.size():
+        if !items_path[idx].is_in_group(&"free"):
+            items.append(items_path[idx])
+
+    for idx : int in items_group_path.size():
+        for item in items_group_path[idx].get_children():
+            if !item.is_in_group(&"free"):
+                items.append(item)
 
     if disable_parent:
-        root.process_mode = Node.PROCESS_MODE_DISABLED
+        parent.process_mode = Node.PROCESS_MODE_DISABLED
         call_deferred(&"reparent", get_node(^"../../"))
 
-    if hide_parent:
-        if root is CanvasItem:
-            root.visible = false
+    if hide_parent and parent is CanvasItem:
+        parent.visible = false
+
+    for item in items:
+        item.process_mode = Node.PROCESS_MODE_DISABLED
+        if hide_items and item is CanvasItem:
+            item.visible = false
+
+        print(item, " - ", item.get_groups(), " - ")
 
 func _on_body_entered(body : Node2D) -> void:
     if body.name == &"Head":
         if !player_entered:
             player_entered = true
+
         enable()
 
 func enable() -> void:
     if disable_parent:
-        root.process_mode = Node.PROCESS_MODE_INHERIT
+        parent.process_mode = Node.PROCESS_MODE_INHERIT
 
     if hide_parent:
-        if root is CanvasItem:
-            root.visible = true
+        if parent is CanvasItem:
+            parent.visible = true
 
     for item : Node in items:
-        item.process_mode = Node.PROCESS_MODE_INHERIT
+        if item != null:
+            item.process_mode = Node.PROCESS_MODE_INHERIT
+            if hide_items and item is CanvasItem:
+                item.visible = true
+
+    items_path.clear()
+    items_group_path.clear()
+    items.clear()
 
     queue_free()
