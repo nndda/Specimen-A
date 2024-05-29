@@ -21,7 +21,7 @@ closed = false
 cull_mode = 1
 polygon = PackedVector2Array(18, 7.99989, 6.99999, -4.00002, 4.99999, -3.00001, -1.00001, -3, -3.00001, -3.99999, -13.9999, 8.00009)
 
-[node name="Guard" type="CharacterBody2D"]
+[node name="Guard" type="CharacterBody2D" groups=["entity"]]
 z_index = 2
 z_as_relative = false
 collision_layer = 17
