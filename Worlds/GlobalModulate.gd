@@ -1,4 +1,4 @@
 extends CanvasModulate
 
-#func _on_ready():
-#	self.show()
+func _ready() -> void:
+    visible = true
