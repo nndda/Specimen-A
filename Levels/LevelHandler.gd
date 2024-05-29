@@ -20,6 +20,8 @@ func _enter_tree() -> void:
 
     Global.current_scene = self
     Global.update_layers()
+
+    Camera.copy_camera_reset()
     level_loaded.connect(Camera.start_fade_out)
 
 func _ready() -> void:
