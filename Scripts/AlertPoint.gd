@@ -27,5 +27,6 @@ func _on_body_entered(body : Node2D) -> void:
 
 func alert() -> void:
     for item : Node in items:
-        item.triggered.emit()
+        if item != null:
+            item.triggered.emit()
     queue_free()
