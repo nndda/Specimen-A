@@ -30,7 +30,7 @@ func validate_entities(entities_list : Array[Node]) -> Array[Node]:
     var valid_entities : Array[Node] = []
 
     for entity in entities_list:
-        if entity.is_in_group(&"entity") and !valid_entities.has(entity):
+        if entity.is_in_group(&"entity"):
             if !entity.manual_trigger:
                 push_warning("manual_trigger = false on %s" % entity)
             valid_entities.append(entity)
