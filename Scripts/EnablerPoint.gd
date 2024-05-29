@@ -1,5 +1,7 @@
 extends Area2D
 
+# Enable an area in contact of player
+
 @onready var root : Node = get_parent()
 
 @export var disable_parent := false
@@ -16,9 +18,11 @@ func _ready():
 func initialize_objects() -> void:
     for item : NodePath in items_path:
         items.append(get_node(item))
+
     if disable_parent:
         root.process_mode = Node.PROCESS_MODE_DISABLED
         call_deferred(&"reparent", get_node(^"../../"))
+
     if hide_parent:
         if root is CanvasItem:
             root.visible = false
@@ -32,9 +36,12 @@ func _on_body_entered(body : Node2D) -> void:
 func enable() -> void:
     if disable_parent:
         root.process_mode = Node.PROCESS_MODE_INHERIT
+
     if hide_parent:
         if root is CanvasItem:
             root.visible = true
+
     for item : Node in items:
         item.process_mode = Node.PROCESS_MODE_INHERIT
+
     queue_free()
