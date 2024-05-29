@@ -48,6 +48,7 @@ fract_delta = false
 script = ExtResource("1_ke44y")
 
 [node name="ColorRect" type="ColorRect" parent="." groups=["free"]]
+visible = false
 show_behind_parent = true
 offset_left = -478.0
 offset_top = -250.0
