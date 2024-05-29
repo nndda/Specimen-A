@@ -1,10 +1,11 @@
 extends Area2D
 
+# Trigger entities in contact of player
+
 @onready var root : Node = get_parent()
 
-@export\
-var items_path : Array[NodePath] = []
-var items : Array[Node] = []
+@export var get_entities_from_parent := false
+@export var entities : Array[Node] = []
 
 var player_entered := false
 
@@ -12,21 +13,34 @@ func _ready():
     body_entered.connect(_on_body_entered)
 
     await root.ready
-    for item : NodePath in items_path:
-        var node : Node = get_node(item)
-        if !node.has_signal(&"triggered"):
-            push_error("Item %s does not have `triggered` signal" % str(node))
-        else:
-            items.append(node)
+    entities = validate_entities(entities)
+
+    if get_entities_from_parent:
+        entities.append_array(
+            validate_entities(root.get_children())
+        )
 
 func _on_body_entered(body : Node2D) -> void:
     if body.name == &"Head":
         if !player_entered:
             player_entered = true
-        alert()
+            alert()
+
+func validate_entities(entities_list : Array[Node]) -> Array[Node]:
+    var valid_entities : Array[Node] = []
+
+    for entity in entities_list:
+        if entity.is_in_group(&"entity") and !valid_entities.has(entity):
+            if !entity.manual_trigger:
+                push_warning("manual_trigger = false on %s" % entity)
+            valid_entities.append(entity)
+
+    return valid_entities
 
 func alert() -> void:
-    for item : Node in items:
-        if item != null:
-            item.triggered.emit()
+    for entity : Node in entities:
+        if entity != null:
+            entity.triggered.emit()
+
+    entities.clear()
     queue_free()
