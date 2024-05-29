@@ -5,8 +5,15 @@
 [ext_resource type="PackedScene" uid="uid://pbhmm4m3qrow" path="res://UI/ButtonBase.tscn" id="3_dop32"]
 [ext_resource type="PackedScene" uid="uid://dc65kw5fmo080" path="res://UI/ConfigMenu.tscn" id="4_c5xvl"]
 
-[node name="MainMenu" type="Node2D"]
+[node name="MainMenu" type="Node2D" node_paths=PackedStringArray("btn_start", "btn_config", "btn_credits", "btn_achievement", "btn_exit", "config_menu", "exit_confirm")]
 script = ExtResource("1_bf8lx")
+btn_start = NodePath("CanvasLayer/Control/Margin/Menu/Start")
+btn_config = NodePath("CanvasLayer/Control/Margin/Menu/Config")
+btn_credits = NodePath("CanvasLayer/Control/Margin/Menu/Credits")
+btn_achievement = NodePath("CanvasLayer/Control/Margin/Menu/Achievements")
+btn_exit = NodePath("CanvasLayer/Control/Margin/Menu/Exit")
+config_menu = NodePath("CanvasLayer/Control/ConfigMenu")
+exit_confirm = NodePath("CanvasLayer/Control/Margin/Menu/Exit/ConfirmationDialog")
 
 [node name="Camera2D" type="Camera2D" parent="."]
 position = Vector2(384, 216)
@@ -84,4 +91,5 @@ grow_horizontal = 1
 grow_vertical = 1
 
 [connection signal="pressed" from="CanvasLayer/Control/Margin/Menu/Config" to="." method="_config_pressed"]
+[connection signal="pressed" from="CanvasLayer/Control/Margin/Menu/Exit" to="." method="_on_exit_pressed"]
 [connection signal="confirmed" from="CanvasLayer/Control/Margin/Menu/Exit/ConfirmationDialog" to="." method="_on_exit_confirmation_dialog_confirmed"]
