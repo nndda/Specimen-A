@@ -1,0 +1,15 @@
+[gd_scene load_steps=4 format=3 uid="uid://bnj757uh5nsce"]
+
+[ext_resource type="Shader" path="res://Shaders/Scripts/blur.gdshader" id="1_suvy8"]
+[ext_resource type="Script" path="res://Scripts/AreaMask.gd" id="1_v303r"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_uiwfx"]
+shader = ExtResource("1_suvy8")
+shader_parameter/lod = 2.0
+shader_parameter/color_overlay = Color(0.741385, 0.741385, 0.741384, 1)
+
+[node name="AreaMask" type="Polygon2D" groups=["top_1"]]
+visible = false
+material = SubResource("ShaderMaterial_uiwfx")
+polygon = PackedVector2Array(-56, -56, -40, 40, 56, 56, 40, -32)
+script = ExtResource("1_v303r")
