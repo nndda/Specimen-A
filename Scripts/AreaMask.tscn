@@ -7,6 +7,7 @@
 shader = ExtResource("1_suvy8")
 shader_parameter/lod = 2.0
 shader_parameter/color_overlay = Color(0.741385, 0.741385, 0.741384, 1)
+shader_parameter/enabled = false
 
 [node name="AreaMask" type="Polygon2D" groups=["top_1"]]
 visible = false
