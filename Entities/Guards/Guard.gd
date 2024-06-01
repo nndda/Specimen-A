@@ -235,8 +235,8 @@ func _on_triggered() -> void:
             $NavigationAgent2D/UpdatePlayerPos.start()
 
 func _on_general_area_entered(area : Area2D) -> void:
-    if area.get_name() == &"PlayerGeneralArea":
+    if area.name == &"PlayerGeneralArea":
         player_near = true
 func _on_general_area_exited(area  : Area2D) -> void:
-    if area.get_name() == &"PlayerGeneralArea":
+    if area.name == &"PlayerGeneralArea":
         player_near = false
