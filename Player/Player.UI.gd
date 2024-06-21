@@ -14,6 +14,9 @@ extends CanvasLayer
 func _ready() -> void:
     health_bar.modulate = Color.TRANSPARENT
     head.damaged.connect(player_damaged)
+    attack_indicator.visible = true
+    attack_cooldown.visible = true
+    health_low_overlay.visible = true
 
 func _process(_delta : float) -> void:
     health_bar.scale.x = remap(head.health, head.health_max, 0.0, 1.0, 0.0)
