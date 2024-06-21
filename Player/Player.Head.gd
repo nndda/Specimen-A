@@ -14,6 +14,7 @@ var moving_f            : float
 
 var face_obstacle       := false
 
+var allow_control       := true
 var allow_attack        := true
 var allow_move          := true
 
@@ -27,6 +28,9 @@ var attack_speed        : float = 22.0
 
 var attack_distance_max : float = 32.0 * 12.0
 var attack_pos : PackedVector2Array = [Vector2.ZERO, Vector2.ZERO]
+var attack_incr : float = 4.0
+
+var attack_button_pressed := false
 
 var mouse_global_pos : Vector2
 var mouse_viewport_pos : Vector2
@@ -71,14 +75,19 @@ func open_mouth(n : float) -> void:
     )
 
 func attack_handler() -> void:
+    attack_button_pressed = Input.is_action_pressed(&"Attack")
 
-    ui_attack_indicator.visible = Input.is_action_pressed(&"Attack") and allow_attack
+    ui_attack_indicator.visible =\
+        attack_button_pressed\
+        and allow_attack\
+        and allow_control
 
-    if allow_attack:
-        attack_out  += 4 if Input.is_action_pressed(&"Attack") else -4
-        attack_out  = clampf(attack_out, 0.0, 100.0)
+    if allow_attack and allow_control:
+
+        attack_out += attack_incr if attack_button_pressed else -attack_incr
+        attack_out = clampf(attack_out, 0.0, 100.0)
         open_mouth(attack_out * 0.01)
-        if Input.is_action_pressed(&"Attack"):
+        if attack_button_pressed:
             ui_arrow.look_at(mouse_viewport_pos)
             ui_arrow.position     = canvas_position
             ui_arrow.modulate.a   = attack_out * 0.01
@@ -125,7 +134,8 @@ func _process(_delta : float) -> void:
 
     moving = Input.is_action_pressed(&"Move")\
         and mouse_moving_distance >= 45\
-        and allow_move
+        and allow_move\
+        and allow_control
     moving_f = clampf(
         moving_f + (0.1 if moving else -0.085),
         0.0, 1.0
@@ -164,11 +174,10 @@ func _physics_process(delta : float) -> void:
     allow_move = !raycast_obstacle.is_colliding()
 
     if !attacking:
-
         velo = (
             moving_f * speed
             * global_position.direction_to(mouse_global_pos)
-            )
+        )
         velocity = velo
         move_and_slide()
 
@@ -191,6 +200,7 @@ func _physics_process(delta : float) -> void:
             attacking = false
 
         velo = clamp(velo, Vector2.ZERO, attack_speed * attack_dir)
+        body.points[-1] = position
 
     if moving_f > 0.0 and !attacking:
         look_at(mouse_global_pos)
@@ -210,7 +220,31 @@ func shake_cam() -> void:
         0.95,
         attack_strength * 0.08 + 16
     )
-    Global.camera_shaken_by_player.emit()
+    #print(attack_strength)
+    Global.camera_shaken_by_player.emit(attack_strength > 32.0)
+
+@onready var light_general : PointLight2D = $Light
+
+var general_light_tween : Tween
+func fade_out_light() -> void:
+    general_light_tween = create_tween()
+    general_light_tween.tween_property(
+        light_general, ^"energy", 0.0, 0.85
+    )\
+    .set_ease(Tween.EASE_OUT)\
+    .set_trans(Tween.TRANS_EXPO)
+
+    await general_light_tween.finished
+    light_general.enabled = false
+
+func fade_in_light() -> void:
+    light_general.enabled = true
+    general_light_tween = create_tween()
+    general_light_tween.tween_property(
+        light_general, ^"energy", 0.65, 0.85
+    )\
+    .set_ease(Tween.EASE_OUT)\
+    .set_trans(Tween.TRANS_EXPO)
 
 func reset_atk_dmg() -> void:
     open_mouth(0.0)
@@ -222,16 +256,41 @@ func _on_AttackCooldown_timeout() -> void:
 
 signal damaged(current_health : float)
 var invincible := false
+var restarting := false
 func damage_player(power : float) -> void:
     if !invincible:
         if health_ticker.is_stopped():
             health_ticker.start(health_tick)
 
         health =\
-            clampf( health - ( (power * 0.9) if !attacking else 0.05),
+            clampf( health - ( (power * 1.2) if !attacking else 0.05),
+            #clampf( health - ( (power * 0.9) if !attacking else 0.05),
             0.0, health_max )
 
         damaged.emit(health)
+
+        # player killed
+        if health <= 0:
+            if !restarting:
+                restarting = true
+                Global.current_scene.pause_menu.disallow_pause()
+                open_mouth(100.0)
+                allow_attack = false
+                allow_move = false
+                allow_control = false
+                Camera.start_fade_in()
+
+                await Camera.faded_in
+                Global.current_scene.call_deferred(
+                    &"set_process_mode",
+                    Node.PROCESS_MODE_DISABLED
+                )
+
+                await Global.current_scene.tree.create_timer(2.0)
+                Global.health = 100.0
+                Global.current_scene.tree.call_deferred(
+                    &"reload_current_scene"
+                )
 
 func monitor_var() -> void:
     $"../DBG/VBoxContainer".data = [
@@ -246,13 +305,28 @@ func monitor_var() -> void:
        ]
     $"../DBG/VBoxContainer".mon_vars()
 
-
+var damage_output : float = 0.0
 func _on_DestroyThroughA_body_entered(body_node : Node2D) -> void:
     if body_node.has_method(&"damage"):
-        body_node.damage(
-            body_node.health if body_node.health - attack_strength <= 0 else\
-            attack_strength
-        )
+
+        damage_output = (body_node.health + 20.0\
+            if body_node.health - attack_strength <= 0\
+            else attack_strength
+        ) + attack_incr
+
+        #if body_node.get(&"shielded") != null:
+            #print("shielded")
+            #if body_node.shielded:
+                #body_node.damage(attack_strength)
+            #else:
+                #body_node.damage(
+                    #body_node.health if body_node.health - attack_strength <= 0 else\
+                    #attack_strength
+                #)
+        #else:
+            #print("not shielded")
+        body_node.damage(damage_output)
+
         shake_cam()
 
 func _on_head_tree_entered() -> void:
@@ -261,6 +335,8 @@ func _on_body_tree_entered() -> void:
     Global.player_physics_body = $"../DamageCollision"
 func _on_destroy_through_tree_entered() -> void:
     Global.player_destroy_through = $"DestroyThrough-A"
+func _on_general_area_tree_entered() -> void:
+    Global.player_general_area = $PlayerGeneralArea
 
 func _on_head_tree_exiting() -> void:
     Global.player_physics_head = null
@@ -268,5 +344,5 @@ func _on_body_tree_exiting() -> void:
     Global.player_physics_body = null
 func _on_destroy_through_tree_exiting() -> void:
     Global.player_destroy_through = null
-
-
+func _on_general_area_tree_exiting() -> void:
+    Global.player_general_area = null
