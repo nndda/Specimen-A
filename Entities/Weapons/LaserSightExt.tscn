@@ -1,0 +1,25 @@
+[gd_scene load_steps=4 format=3 uid="uid://c2y5c12g4n54p"]
+
+[ext_resource type="Material" uid="uid://ud64atwxfe5s" path="res://Shaders/Materials/Add-Unshaded.CanvasItemMaterial.tres" id="1_u26qr"]
+[ext_resource type="Script" path="res://Entities/Weapons/LaserSightExt.gd" id="1_vh54p"]
+
+[sub_resource type="Gradient" id="Gradient_kbuei"]
+offsets = PackedFloat32Array(0.603687, 0.788018, 0.898618, 1)
+colors = PackedColorArray(0.95, 0.0665, 0.0812248, 0.2, 0.94902, 0.0666667, 0.0823529, 1, 0.95, 0.0475, 0.0625414, 1, 0.95, 0.038, 0.0531998, 1)
+
+[node name="LaserSightExt" type="Node2D"]
+script = ExtResource("1_vh54p")
+
+[node name="RayCast2D" type="RayCast2D" parent="."]
+visible = false
+target_position = Vector2(384, 0)
+collision_mask = 21
+collide_with_areas = true
+
+[node name="Marker2D" type="Marker2D" parent="."]
+
+[node name="Line2D" type="Line2D" parent="."]
+material = ExtResource("1_u26qr")
+points = PackedVector2Array(0, 0, 384, 0)
+width = 1.0
+gradient = SubResource("Gradient_kbuei")
