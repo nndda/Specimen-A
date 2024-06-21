@@ -1,6 +1,4 @@
-[gd_scene load_steps=7 format=3 uid="uid://bu80812ypq0si"]
-
-[ext_resource type="Script" path="res://Shaders/Particles/AmbientParticles.gd" id="1_ke44y"]
+[gd_scene load_steps=6 format=3 uid="uid://bu80812ypq0si"]
 
 [sub_resource type="Curve" id="Curve_ivw6x"]
 _data = [Vector2(0, 0), 0.0, 0.0, 0, 0, Vector2(0.509302, 1), 0.0, 0.0, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
@@ -38,19 +36,19 @@ alpha_curve = SubResource("CurveTexture_6wbyt")
 z_index = 999
 z_as_relative = false
 position = Vector2(384, 216)
-amount = 60
+amount = 120
 process_material = SubResource("ParticleProcessMaterial_1vlc4")
 lifetime = 7.0
 preprocess = 120.0
 speed_scale = 1.02
 randomness = 1.0
 fract_delta = false
-script = ExtResource("1_ke44y")
 
 [node name="ColorRect" type="ColorRect" parent="." groups=["free"]]
-visible = false
 show_behind_parent = true
 offset_left = -478.0
 offset_top = -250.0
 offset_right = 563.0
 offset_bottom = 314.0
+
+[connection signal="tree_entered" from="ColorRect" to="ColorRect" method="hide"]
