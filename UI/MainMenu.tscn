@@ -1,11 +1,12 @@
-[gd_scene load_steps=5 format=3 uid="uid://b0qvyw3l8mlv0"]
+[gd_scene load_steps=6 format=3 uid="uid://b0qvyw3l8mlv0"]
 
 [ext_resource type="Script" path="res://UI/MainMenu.gd" id="1_bf8lx"]
 [ext_resource type="Theme" uid="uid://1eq3q2sr8oo5" path="res://UI/UI.Theme.tres" id="1_tx3nc"]
 [ext_resource type="PackedScene" uid="uid://pbhmm4m3qrow" path="res://UI/ButtonBase.tscn" id="3_dop32"]
 [ext_resource type="PackedScene" uid="uid://dc65kw5fmo080" path="res://UI/ConfigMenu.tscn" id="4_c5xvl"]
+[ext_resource type="PackedScene" uid="uid://cae0ko67ln767" path="res://UI/Credits/CreditsMenu.tscn" id="5_1yu6k"]
 
-[node name="MainMenu" type="Node2D" node_paths=PackedStringArray("btn_start", "btn_config", "btn_credits", "btn_achievement", "btn_exit", "config_menu", "exit_confirm")]
+[node name="MainMenu" type="Node2D" node_paths=PackedStringArray("btn_start", "btn_config", "btn_credits", "btn_achievement", "btn_exit", "config_menu", "exit_confirm", "goto_url_confirm", "version_label")]
 script = ExtResource("1_bf8lx")
 btn_start = NodePath("CanvasLayer/Control/Margin/Menu/Start")
 btn_config = NodePath("CanvasLayer/Control/Margin/Menu/Config")
@@ -14,6 +15,8 @@ btn_achievement = NodePath("CanvasLayer/Control/Margin/Menu/Achievements")
 btn_exit = NodePath("CanvasLayer/Control/Margin/Menu/Exit")
 config_menu = NodePath("CanvasLayer/Control/ConfigMenu")
 exit_confirm = NodePath("CanvasLayer/Control/Margin/Menu/Exit/ConfirmationDialog")
+goto_url_confirm = NodePath("GoToURLConfirm")
+version_label = NodePath("CanvasLayer/Control/BottomMenu/HBoxContainer/Version")
 
 [node name="Camera2D" type="Camera2D" parent="."]
 position = Vector2(384, 216)
@@ -28,6 +31,7 @@ offset_right = 768.0
 offset_bottom = 432.0
 
 [node name="ReferenceRect" type="ReferenceRect" parent="CanvasLayer/Control"]
+visible = false
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -77,19 +81,71 @@ text = "Exit"
 
 [node name="ConfirmationDialog" type="ConfirmationDialog" parent="CanvasLayer/Control/Margin/Menu/Exit"]
 title = "Confirm..."
-size = Vector2i(200, 93)
+size = Vector2i(200, 70)
 min_size = Vector2i(200, 60)
 dialog_text = "Exit the game?"
 
 [node name="ConfigMenu" parent="CanvasLayer/Control" instance=ExtResource("4_c5xvl")]
 visible = false
-layout_mode = 0
-anchors_preset = 0
-anchor_right = 0.0
-anchor_bottom = 0.0
-grow_horizontal = 1
-grow_vertical = 1
+layout_mode = 1
 
-[connection signal="pressed" from="CanvasLayer/Control/Margin/Menu/Config" to="." method="_config_pressed"]
+[node name="CreditsMenu" parent="CanvasLayer/Control" instance=ExtResource("5_1yu6k")]
+visible = false
+layout_mode = 1
+
+[node name="CreditsGenerator" parent="CanvasLayer/Control/CreditsMenu" index="0" node_paths=PackedStringArray("target", "main_menu_root")]
+target = NodePath("../PanelContainer/MarginContainer/VBoxContainer/ScrollContainer/MainCreditsContainer")
+main_menu_root = NodePath("../../../..")
+
+[node name="BottomMenu" type="MarginContainer" parent="CanvasLayer/Control"]
+layout_mode = 1
+anchors_preset = 12
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 0
+theme_override_constants/margin_left = 24
+theme_override_constants/margin_right = 24
+theme_override_constants/margin_bottom = 12
+
+[node name="HBoxContainer" type="HBoxContainer" parent="CanvasLayer/Control/BottomMenu"]
+layout_mode = 2
+alignment = 2
+
+[node name="ItchIo" parent="CanvasLayer/Control/BottomMenu/HBoxContainer" instance=ExtResource("3_dop32")]
+layout_mode = 2
+text = "itch.io "
+
+[node name="SrcCode" parent="CanvasLayer/Control/BottomMenu/HBoxContainer" instance=ExtResource("3_dop32")]
+layout_mode = 2
+text = "Source Codes "
+
+[node name="VSeparator" type="VSeparator" parent="CanvasLayer/Control/BottomMenu/HBoxContainer"]
+layout_mode = 2
+theme_override_constants/separation = 13
+
+[node name="Version" type="Label" parent="CanvasLayer/Control/BottomMenu/HBoxContainer"]
+layout_mode = 2
+text = "<version_info>"
+
+[node name="GoToURLConfirm" type="ConfirmationDialog" parent="."]
+title = "Open URL"
+size = Vector2i(219, 70)
+ok_button_text = "Open in browser"
+dialog_text = "Go to 'github.com/nndda/Specimen-A'?"
+
+[connection signal="pressed" from="CanvasLayer/Control/Margin/Menu/Start" to="." method="_on_start_pressed"]
+[connection signal="pressed" from="CanvasLayer/Control/Margin/Menu/Config" to="." method="_on_config_pressed"]
+[connection signal="pressed" from="CanvasLayer/Control/Margin/Menu/Credits" to="." method="_on_credits_pressed"]
+[connection signal="pressed" from="CanvasLayer/Control/Margin/Menu/Credits" to="CanvasLayer/Control/CreditsMenu" method="show"]
+[connection signal="pressed" from="CanvasLayer/Control/Margin/Menu/Achievements" to="." method="_on_achievements_pressed"]
 [connection signal="pressed" from="CanvasLayer/Control/Margin/Menu/Exit" to="." method="_on_exit_pressed"]
 [connection signal="confirmed" from="CanvasLayer/Control/Margin/Menu/Exit/ConfirmationDialog" to="." method="_on_exit_confirmation_dialog_confirmed"]
+[connection signal="tree_entered" from="CanvasLayer/Control/Margin/Menu/Exit/ConfirmationDialog" to="CanvasLayer/Control/Margin/Menu/Exit/ConfirmationDialog" method="hide"]
+[connection signal="pressed" from="CanvasLayer/Control/BottomMenu/HBoxContainer/ItchIo" to="." method="goto_url" binds= ["https://nnda.itch.io/Specimen-A"]]
+[connection signal="pressed" from="CanvasLayer/Control/BottomMenu/HBoxContainer/SrcCode" to="." method="goto_url" binds= ["https://github.com/nndda/Specimen-A"]]
+[connection signal="confirmed" from="GoToURLConfirm" to="." method="_on_goto_url_confirmed"]
+[connection signal="tree_entered" from="GoToURLConfirm" to="GoToURLConfirm" method="hide"]
+
+[editable path="CanvasLayer/Control/CreditsMenu"]
