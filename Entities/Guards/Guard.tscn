@@ -1,12 +1,15 @@
-[gd_scene load_steps=11 format=3 uid="uid://baiwsrdc0aog7"]
+[gd_scene load_steps=16 format=3 uid="uid://baiwsrdc0aog7"]
 
 [ext_resource type="Script" path="res://Entities/Guards/Guard.gd" id="1_wqy3n"]
+[ext_resource type="PackedScene" uid="uid://deb26datidugv" path="res://Shaders/VisualTestArea.tscn" id="2_a0hpe"]
 [ext_resource type="Shader" path="res://Shaders/Scripts/shadow.gdshader" id="2_gr2c2"]
 [ext_resource type="Texture2D" uid="uid://ryy4fypkc3oa" path="res://Entities/Guards/Guard-Rifle/Guard-Rifle.png" id="2_kybeh"]
 [ext_resource type="Texture2D" uid="uid://d1y5v4sd3axmk" path="res://Shaders/Lights/General.GradientTexture2D.tres" id="3_7ft35"]
 [ext_resource type="Texture2D" uid="uid://chfgwpvx3r37w" path="res://Entities/Guards/Entity.GeneralLight.GradientTexture2D.tres" id="4_blmpw"]
 [ext_resource type="Shape2D" uid="uid://dsstw8sd6tnpd" path="res://Entities/Guards/Guard.CollisionShape2D.tres" id="4_yu3yv"]
-[ext_resource type="PackedScene" uid="uid://bn801wox8wl0f" path="res://Scripts/VisibilityHandler.tscn" id="5_21ehr"]
+[ext_resource type="PackedScene" uid="uid://bn801wox8wl0f" path="res://Scripts/Area/VisibilityHandler.tscn" id="5_21ehr"]
+[ext_resource type="Script" path="res://Entities/Guards/EntityDebugInfo.gd" id="9_lcbhl"]
+[ext_resource type="Material" uid="uid://ud64atwxfe5s" path="res://Shaders/Materials/Add-Unshaded.CanvasItemMaterial.tres" id="10_mj5vq"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_wehjl"]
 radius = 248.129
@@ -21,6 +24,12 @@ closed = false
 cull_mode = 1
 polygon = PackedVector2Array(18, 7.99989, 6.99999, -4.00002, 4.99999, -3.00001, -1.00001, -3, -3.00001, -3.99999, -13.9999, 8.00009)
 
+[sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_r260r"]
+light_mode = 1
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_wxwe1"]
+bg_color = Color(0.05, 0.05, 0.05, 0.635294)
+
 [node name="Guard" type="CharacterBody2D" groups=["entity"]]
 z_index = 2
 z_as_relative = false
@@ -28,7 +37,8 @@ collision_layer = 17
 collision_mask = 17
 motion_mode = 1
 script = ExtResource("1_wqy3n")
-cooldown = 2.0
+
+[node name="VisualTestArea" parent="." instance=ExtResource("2_a0hpe")]
 
 [node name="TriggerArea" type="Area2D" parent="."]
 visible = false
@@ -53,7 +63,8 @@ material = SubResource("ShaderMaterial_iip64")
 rotation = -1.57079
 texture = ExtResource("2_kybeh")
 
-[node name="GeneralLight" type="PointLight2D" parent="Sprite2D"]
+[node name="GeneralLight" type="PointLight2D" parent="Sprite2D" groups=["free"]]
+visible = false
 color = Color(1, 1, 1, 0.941176)
 energy = 0.45
 blend_mode = 2
@@ -62,7 +73,6 @@ texture = ExtResource("4_blmpw")
 [node name="LightHelmet" type="PointLight2D" parent="Sprite2D"]
 position = Vector2(2, -1.06096e-05)
 color = Color(0.956863, 0.619608, 0.113725, 1)
-range_layer_min = -1
 shadow_enabled = true
 shadow_color = Color(0, 0, 0, 0.215686)
 shadow_item_cull_mask = 3
@@ -80,18 +90,29 @@ occluder_light_mask = 2
 visible = false
 shape = ExtResource("4_yu3yv")
 
+[node name="Effects" type="Node" parent="."]
+
+[node name="DizzyTimer" type="Timer" parent="Effects"]
+one_shot = true
+
 [node name="AttackCooldown" type="Timer" parent="."]
+one_shot = true
 
 [node name="NavigationAgent2D" type="NavigationAgent2D" parent="."]
 navigation_layers = 256
 avoidance_enabled = true
-radius = 32.0
-neighbor_distance = 320.0
+radius = 20.0
+neighbor_distance = 192.0
 max_neighbors = 4
-debug_path_custom_color = Color(0, 1, 1, 1)
+max_speed = 15.0
+debug_use_custom = true
+debug_path_custom_color = Color(1, 0, 0, 1)
+debug_path_custom_point_size = 8.0
+debug_path_custom_line_width = 3.0
 
 [node name="UpdatePlayerPos" type="Timer" parent="NavigationAgent2D"]
 process_callback = 0
+wait_time = 0.6
 
 [node name="KeepDistance" type="Node2D" parent="."]
 visible = false
@@ -130,6 +151,112 @@ points = PackedVector2Array(0, -70.3178, 0, 28.7946)
 position = Vector2(6.67572e-06, 9.53674e-07)
 scale = Vector2(8.8, 8.8)
 
+[node name="EntityDebugInfo" type="CanvasLayer" parent="." groups=["free"]]
+layer = 3
+visible = false
+follow_viewport_enabled = true
+script = ExtResource("9_lcbhl")
+
+[node name="PanelContainer" type="PanelContainer" parent="EntityDebugInfo"]
+material = SubResource("CanvasItemMaterial_r260r")
+offset_right = 40.0
+offset_bottom = 40.0
+theme_override_styles/panel = SubResource("StyleBoxFlat_wxwe1")
+
+[node name="MarginContainer" type="MarginContainer" parent="EntityDebugInfo/PanelContainer"]
+layout_mode = 2
+theme_override_constants/margin_left = 4
+theme_override_constants/margin_top = 2
+theme_override_constants/margin_right = 4
+theme_override_constants/margin_bottom = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="EntityDebugInfo/PanelContainer/MarginContainer"]
+z_index = 1000
+z_as_relative = false
+material = ExtResource("10_mj5vq")
+layout_mode = 2
+
+[node name="HBoxContainer" type="HBoxContainer" parent="EntityDebugInfo/PanelContainer/MarginContainer/VBoxContainer"]
+visible = false
+layout_mode = 2
+
+[node name="Button" type="Button" parent="EntityDebugInfo/PanelContainer/MarginContainer/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+mouse_default_cursor_shape = 2
+text = "show/hide"
+
+[node name="Items" type="VBoxContainer" parent="EntityDebugInfo/PanelContainer/MarginContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="health" type="Label" parent="EntityDebugInfo/PanelContainer/MarginContainer/VBoxContainer/Items"]
+visible = false
+use_parent_material = true
+layout_mode = 2
+text = "Var: Val"
+
+[node name="clear" type="Label" parent="EntityDebugInfo/PanelContainer/MarginContainer/VBoxContainer/Items"]
+visible = false
+use_parent_material = true
+layout_mode = 2
+text = "Var: Val"
+
+[node name="cooldown" type="Label" parent="EntityDebugInfo/PanelContainer/MarginContainer/VBoxContainer/Items"]
+visible = false
+use_parent_material = true
+layout_mode = 2
+text = "Var: Val"
+
+[node name="cooldown_timer_left" type="Label" parent="EntityDebugInfo/PanelContainer/MarginContainer/VBoxContainer/Items"]
+use_parent_material = true
+layout_mode = 2
+text = "Var: Val"
+
+[node name="firing" type="Label" parent="EntityDebugInfo/PanelContainer/MarginContainer/VBoxContainer/Items"]
+use_parent_material = true
+layout_mode = 2
+text = "Var: Val"
+
+[node name="fire_ready" type="Label" parent="EntityDebugInfo/PanelContainer/MarginContainer/VBoxContainer/Items"]
+use_parent_material = true
+layout_mode = 2
+text = "Var: Val"
+
+[node name="fire_clear" type="Label" parent="EntityDebugInfo/PanelContainer/MarginContainer/VBoxContainer/Items"]
+use_parent_material = true
+layout_mode = 2
+text = "Var: Val"
+
+[node name="HSeparator" type="HSeparator" parent="EntityDebugInfo/PanelContainer/MarginContainer/VBoxContainer/Items"]
+layout_mode = 2
+
+[node name="on_line" type="Label" parent="EntityDebugInfo/PanelContainer/MarginContainer/VBoxContainer/Items"]
+use_parent_material = true
+layout_mode = 2
+text = "Var: Val"
+
+[node name="has_obstacle" type="Label" parent="EntityDebugInfo/PanelContainer/MarginContainer/VBoxContainer/Items"]
+use_parent_material = true
+layout_mode = 2
+text = "Var: Val"
+
+[node name="HSeparator2" type="HSeparator" parent="EntityDebugInfo/PanelContainer/MarginContainer/VBoxContainer/Items"]
+layout_mode = 2
+
+[node name="lsight_coll" type="Label" parent="EntityDebugInfo/PanelContainer/MarginContainer/VBoxContainer/Items"]
+use_parent_material = true
+layout_mode = 2
+text = "Var: Val"
+
+[node name="lfire_coll" type="Label" parent="EntityDebugInfo/PanelContainer/MarginContainer/VBoxContainer/Items"]
+use_parent_material = true
+layout_mode = 2
+text = "Var: Val"
+
+[node name="lobst_coll" type="Label" parent="EntityDebugInfo/PanelContainer/MarginContainer/VBoxContainer/Items"]
+use_parent_material = true
+layout_mode = 2
+text = "Var: Val"
+
 [connection signal="triggered" from="." to="." method="_on_triggered" flags=6]
 [connection signal="area_entered" from="TriggerArea" to="." method="_on_trigger_area_entered"]
 [connection signal="body_entered" from="TriggerArea" to="." method="_on_trigger_body_entered"]
@@ -138,5 +265,6 @@ scale = Vector2(8.8, 8.8)
 [connection signal="timeout" from="AttackCooldown" to="." method="_on_attack_cooldown_timeout"]
 [connection signal="velocity_computed" from="NavigationAgent2D" to="." method="_on_navigation_velocity_computed"]
 [connection signal="timeout" from="NavigationAgent2D/UpdatePlayerPos" to="." method="_on_update_player_pos_timeout"]
+[connection signal="pressed" from="EntityDebugInfo/PanelContainer/MarginContainer/VBoxContainer/HBoxContainer/Button" to="EntityDebugInfo" method="toggle_visibility"]
 
 [editable path="VisibilityHandler"]
