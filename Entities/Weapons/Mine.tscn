@@ -1,7 +1,8 @@
-[gd_scene load_steps=12 format=3 uid="uid://btpulysfkoqly"]
+[gd_scene load_steps=13 format=3 uid="uid://btpulysfkoqly"]
 
 [ext_resource type="Texture2D" uid="uid://bx5qri4e2cokk" path="res://Entities/Weapons/Mine.png" id="1_fdql2"]
 [ext_resource type="Script" path="res://Entities/Weapons/Mine.gd" id="1_w4y0n"]
+[ext_resource type="PackedScene" uid="uid://deb26datidugv" path="res://Shaders/VisualTestArea.tscn" id="2_d70k5"]
 [ext_resource type="PackedScene" uid="uid://bydxskl7vyst7" path="res://Shaders/Particles/Explosion.tscn" id="4_rew5v"]
 [ext_resource type="Texture2D" uid="uid://d1y5v4sd3axmk" path="res://Shaders/Lights/General.GradientTexture2D.tres" id="6_lbcyi"]
 
@@ -49,7 +50,6 @@ tracks/1/keys = {
 
 [sub_resource type="Animation" id="Animation_mud5y"]
 resource_name = "Idle"
-length = 1.5
 loop_mode = 1
 tracks/0/type = "value"
 tracks/0/imported = false
@@ -58,10 +58,10 @@ tracks/0/path = NodePath("IdleLights/PointLight2D:energy")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
-"times": PackedFloat32Array(0, 0.1, 1.5),
+"times": PackedFloat32Array(0, 0.1, 0.999),
 "transitions": PackedFloat32Array(1, 1, 1),
 "update": 0,
-"values": [2.0, 0.0, 0.0]
+"values": [5.0, 0.0, 0.0]
 }
 tracks/1/type = "value"
 tracks/1/imported = false
@@ -70,10 +70,10 @@ tracks/1/path = NodePath("IdleLights/PointLight2D2:energy")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/keys = {
-"times": PackedFloat32Array(0.2, 0.3, 0.4, 1.5),
+"times": PackedFloat32Array(0.2, 0.3, 0.4, 0.999),
 "transitions": PackedFloat32Array(1, 1, 1, 1),
 "update": 0,
-"values": [0.0, 2.0, 0.0, 0.0]
+"values": [0.0, 5.0, 0.0, 0.0]
 }
 
 [sub_resource type="Animation" id="Animation_uvks4"]
@@ -135,10 +135,12 @@ _data = {
 }
 
 [node name="Mine" type="Area2D"]
-collision_layer = 4
-collision_mask = 4
+collision_layer = 1073741844
+collision_mask = 1073741844
 monitorable = false
 script = ExtResource("1_w4y0n")
+
+[node name="VisualTestArea" parent="." instance=ExtResource("2_d70k5")]
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 texture = ExtResource("1_fdql2")
@@ -157,7 +159,8 @@ texture_scale = 0.01
 libraries = {
 "": SubResource("AnimationLibrary_gwqh7")
 }
-autoplay = "Idle"
+
+[node name="OffsetTimer" type="Timer" parent="AnimationPlayer"]
 
 [node name="Explosion" parent="." instance=ExtResource("4_rew5v")]
 
@@ -172,12 +175,11 @@ texture = ExtResource("6_lbcyi")
 texture_scale = 0.25
 
 [node name="PointLight2D2" type="PointLight2D" parent="IdleLights"]
-modulate = Color(1, 1, 1, 0)
 position = Vector2(-2, -2)
 color = Color(0.956863, 0.619608, 0.113725, 1)
 energy = 2.0
 texture = ExtResource("6_lbcyi")
 texture_scale = 0.25
 
-[connection signal="body_entered" from="." to="." method="_on_body_entered" flags=6]
+[connection signal="body_entered" from="." to="." method="_on_body_entered"]
 [connection signal="animation_finished" from="AnimationPlayer" to="." method="_on_animation_finished"]
