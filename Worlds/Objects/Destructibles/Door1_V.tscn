@@ -3,7 +3,7 @@
 [ext_resource type="Texture2D" uid="uid://dib0atgcudfwa" path="res://Worlds/Objects/Destructibles/Door1R.png" id="1_6lhle"]
 [ext_resource type="Script" path="res://Scripts/PolygonPerspective.gd" id="2_nq1al"]
 [ext_resource type="Script" path="res://Worlds/Objects/Destructibles/DestructiblesBody.gd" id="3_aurhh"]
-[ext_resource type="PackedScene" uid="uid://bn801wox8wl0f" path="res://Scripts/VisibilityHandler.tscn" id="4_mqxrw"]
+[ext_resource type="PackedScene" uid="uid://bn801wox8wl0f" path="res://Scripts/Area/VisibilityHandler.tscn" id="4_mqxrw"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_ucthy"]
 size = Vector2(64, 32)

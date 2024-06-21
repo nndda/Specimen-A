@@ -3,7 +3,7 @@
 [ext_resource type="Script" path="res://Worlds/Objects/Destructibles/DestructiblesBody.gd" id="1_rjp6r"]
 [ext_resource type="Texture2D" uid="uid://be0g0rvserdp1" path="res://Worlds/Objects/Destructibles/BoxA.png" id="2_e4rny"]
 [ext_resource type="Shader" path="res://Shaders/Scripts/shadow.gdshader" id="2_vl8pp"]
-[ext_resource type="PackedScene" uid="uid://bn801wox8wl0f" path="res://Scripts/VisibilityHandler.tscn" id="4_roe10"]
+[ext_resource type="PackedScene" uid="uid://bn801wox8wl0f" path="res://Scripts/Area/VisibilityHandler.tscn" id="4_roe10"]
 
 [sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_vhdpc"]
 
@@ -21,8 +21,8 @@ size = Vector2(30, 30)
 
 [node name="BoxA-0" type="RigidBody2D"]
 position = Vector2(32, 0)
-collision_layer = 16
-collision_mask = 17
+collision_layer = 8192
+collision_mask = 8193
 mass = 25.0
 gravity_scale = 0.0
 linear_damp_mode = 1
