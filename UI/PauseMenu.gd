@@ -4,6 +4,9 @@ var paused := false
 var is_pause_allowed := false
 var debug_free_mouse := false
 
+func disallow_pause() -> void:
+    is_pause_allowed = false
+
 func allow_pause() -> void:
     is_pause_allowed = true
 
