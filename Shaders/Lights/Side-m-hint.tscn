@@ -4,10 +4,10 @@
 
 [node name="Side-M" instance=ExtResource("1_t0bl7")]
 
-[node name="Sprite2D" parent="." index="0"]
+[node name="Sprite2D" parent="." index="1"]
 modulate = Color(1, 0.666667, 0.0470588, 1)
 
-[node name="PointLight2D" parent="." index="1"]
+[node name="PointLight2D" parent="." index="2"]
 color = Color(1, 0.666667, 0.0470588, 1)
 range_z_min = -1024
 range_z_max = 1024

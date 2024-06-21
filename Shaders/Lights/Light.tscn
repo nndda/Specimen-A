@@ -1,9 +1,10 @@
-[gd_scene load_steps=9 format=3 uid="uid://dgmfdfnnvk3qx"]
+[gd_scene load_steps=12 format=3 uid="uid://dgmfdfnnvk3qx"]
 
 [ext_resource type="Script" path="res://Shaders/Lights/Light.gd" id="1_1ad8k"]
 [ext_resource type="Texture2D" uid="uid://gcktcc1y5wpa" path="res://Shaders/Lights/Light.Point.png" id="2_dr7i5"]
+[ext_resource type="PackedScene" uid="uid://deb26datidugv" path="res://Shaders/VisualTestArea.tscn" id="2_g7n3x"]
 [ext_resource type="Texture2D" uid="uid://siw2jprbqhps" path="res://Shaders/Lights/General.L.GradientTexture2D.tres" id="5_rqanb"]
-[ext_resource type="PackedScene" uid="uid://bn801wox8wl0f" path="res://Scripts/VisibilityHandler.tscn" id="6_b3uk3"]
+[ext_resource type="PackedScene" uid="uid://bn801wox8wl0f" path="res://Scripts/Area/VisibilityHandler.tscn" id="6_b3uk3"]
 
 [sub_resource type="Animation" id="Animation_0cmn5"]
 resource_name = "Flick_0"
@@ -36,6 +37,36 @@ tracks/0/keys = {
 "values": [1.0, 1.0, 0.0, 1.0, 1.0, 0.0, 1.0, 1.0]
 }
 
+[sub_resource type="Animation" id="Animation_i4mc6"]
+resource_name = "LightsOn"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("PointLight2D:energy")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0.0999, 0.1998),
+"transitions": PackedFloat32Array(0.5, 1),
+"update": 0,
+"values": [0.0, 1.0]
+}
+
+[sub_resource type="Animation" id="Animation_obcd3"]
+resource_name = "LightsOut"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("PointLight2D:energy")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0.1332, 0.2331),
+"transitions": PackedFloat32Array(0.5, 1),
+"update": 0,
+"values": [1.0, 0.0]
+}
+
 [sub_resource type="Animation" id="Animation_64miy"]
 length = 0.001
 tracks/0/type = "value"
@@ -55,11 +86,15 @@ tracks/0/keys = {
 _data = {
 "Flick_0": SubResource("Animation_0cmn5"),
 "Flick_1": SubResource("Animation_diu3l"),
+"LightsOn": SubResource("Animation_i4mc6"),
+"LightsOut": SubResource("Animation_obcd3"),
 "RESET": SubResource("Animation_64miy")
 }
 
-[node name="Light" type="Node2D"]
+[node name="Light" type="Node2D" groups=["lights"]]
 script = ExtResource("1_1ad8k")
+
+[node name="VisualTestArea" parent="." instance=ExtResource("2_g7n3x")]
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 texture = ExtResource("2_dr7i5")
