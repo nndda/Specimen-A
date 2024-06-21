@@ -1,0 +1,79 @@
+[gd_scene load_steps=6 format=3 uid="uid://pw5uop88fuld"]
+
+[ext_resource type="PackedScene" uid="uid://dgmfdfnnvk3qx" path="res://Shaders/Lights/Light.tscn" id="1_05u7m"]
+
+[sub_resource type="OccluderPolygon2D" id="OccluderPolygon2D_6fyhu"]
+closed = false
+cull_mode = 2
+polygon = PackedVector2Array(-26, -22, -2, -3, 2, -3, 26, -22)
+
+[sub_resource type="Animation" id="Animation_6fs06"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:rotation")
+tracks/0/interp = 3
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [-6.28319]
+}
+
+[sub_resource type="Animation" id="Animation_cabkb"]
+resource_name = "Rotating"
+length = 2.0
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:rotation")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 1.998),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [-6.28319, 6.28319]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_hu64f"]
+_data = {
+"RESET": SubResource("Animation_6fs06"),
+"Rotating": SubResource("Animation_cabkb")
+}
+
+[node name="LightAlert" instance=ExtResource("1_05u7m")]
+
+[node name="PointLight2D" parent="." index="2"]
+color = Color(1, 0.06, 0.0756664, 1)
+shadow_enabled = true
+shadow_item_cull_mask = 32768
+texture_scale = 1.25
+
+[node name="LightAnim" type="Node2D" parent="PointLight2D" index="0"]
+modulate = Color(1, 1, 1, 0)
+rotation = 6.28318
+
+[node name="LightOccluder2D" type="LightOccluder2D" parent="PointLight2D/LightAnim" index="0"]
+occluder = SubResource("OccluderPolygon2D_6fyhu")
+sdf_collision = false
+occluder_light_mask = 32768
+
+[node name="LightOccluder2D2" type="LightOccluder2D" parent="PointLight2D/LightAnim" index="1"]
+rotation = 3.14159
+occluder = SubResource("OccluderPolygon2D_6fyhu")
+sdf_collision = false
+occluder_light_mask = 32768
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="PointLight2D/LightAnim" index="2"]
+libraries = {
+"": SubResource("AnimationLibrary_hu64f")
+}
+autoplay = "Rotating"
+
+[connection signal="ready" from="." to="." method="offset_anim" flags=6 binds= [&"Rotating", NodePath("PointLight2D/LightAnim/AnimationPlayer")]]
+
+[editable path="VisibilityHandler"]
