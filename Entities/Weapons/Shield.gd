@@ -10,20 +10,24 @@ extends Node2D
 @onready var physics_body : PhysicsBody2D = $PhysicBody2D
 @onready var health : float
 
+signal hit(power : float)
+
 func _ready() -> void:
-    if root.immune != null: root.immune = true
+    #if root.immune != null: root.immune = true
+    if root.shielded != null: root.shielded = true
 
 func _exit_tree() -> void:
-    if root.immune != null: root.immune = false
+    if root.shielded != null: root.shielded = false
 
 func _on_physic_body_ready() -> void:
     health = $PhysicBody2D.health
 
-func _on_physic_body_hit() -> void:
+func _on_physic_body_hit(power : float) -> void:
     hit_spark.emitting = true
     lights.modulate.a = remap(
-        physics_body.health, health, 0.0, 1.0, 0.08
+        physics_body.health, health, 0.0, 1.0, 0.06
     )
+    hit.emit(power)
 
 func _on_physic_body_destroyed() -> void:
     lights.queue_free()
