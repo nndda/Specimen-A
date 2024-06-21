@@ -1,10 +1,9 @@
-[gd_scene load_steps=4 format=3 uid="uid://64rnsxgvlnye"]
+[gd_scene load_steps=5 format=3 uid="uid://64rnsxgvlnye"]
 
 [ext_resource type="PackedScene" uid="uid://d35rqaqdqkt6x" path="res://Entities/Weapons/Gun-rifle.tscn" id="1_3jml5"]
 
 [sub_resource type="Animation" id="Animation_fdmf3"]
 resource_name = "Firing"
-length = 0.325
 step = 0.025
 tracks/0/type = "method"
 tracks/0/imported = false
@@ -27,8 +26,8 @@ tracks/1/path = NodePath("../Muzzle:energy")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/keys = {
-"times": PackedFloat32Array(0, 0.025, 0.075),
-"transitions": PackedFloat32Array(1, 1, 1),
+"times": PackedFloat32Array(0, 0.025, 1),
+"transitions": PackedFloat32Array(0.5, 1, 1),
 "update": 0,
 "values": [1.5, 0.0, 0.0]
 }
@@ -39,8 +38,8 @@ tracks/2/path = NodePath("../Muzzle/Flash:energy")
 tracks/2/interp = 1
 tracks/2/loop_wrap = true
 tracks/2/keys = {
-"times": PackedFloat32Array(0, 0.05, 0.075),
-"transitions": PackedFloat32Array(1, 1, 1),
+"times": PackedFloat32Array(0, 0.05, 1),
+"transitions": PackedFloat32Array(0.5, 1, 1),
 "update": 0,
 "values": [2.0, 0.0, 0.0]
 }
@@ -51,10 +50,10 @@ tracks/3/path = NodePath("../BulletPath:modulate")
 tracks/3/interp = 1
 tracks/3/loop_wrap = true
 tracks/3/keys = {
-"times": PackedFloat32Array(0, 0.075),
-"transitions": PackedFloat32Array(1, 1),
+"times": PackedFloat32Array(0, 0.075, 0.175, 0.6, 1.1),
+"transitions": PackedFloat32Array(0.5, 0.5, 0.5, 1, 1),
 "update": 0,
-"values": [Color(1, 1, 1, 1), Color(1, 1, 1, 0.647059)]
+"values": [Color(1, 1, 1, 1), Color(1, 1, 1, 0.647059), Color(1, 1, 1, 0.647059), Color(1, 1, 1, 0), Color(1, 1, 1, 0)]
 }
 tracks/4/type = "value"
 tracks/4/imported = false
@@ -69,15 +68,83 @@ tracks/4/keys = {
 "values": [true, false]
 }
 
-[sub_resource type="AnimationLibrary" id="AnimationLibrary_fb2tj"]
-_data = {
-"Firing": SubResource("Animation_fdmf3")
+[sub_resource type="Animation" id="Animation_eawy5"]
+resource_name = "RESET"
+length = 0.001
+loop_mode = 1
+step = 0.025
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("../Muzzle:energy")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [0.0]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("../Muzzle/Flash:energy")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [0.0]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("../BulletPath:modulate")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(1, 1, 1, 0)]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("../LineOfSight/LineOfFire:enabled")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
 }
 
-[node name="Gun-Revolver" instance=ExtResource("1_3jml5")]
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_fb2tj"]
+_data = {
+"Firing": SubResource("Animation_fdmf3"),
+"RESET": SubResource("Animation_eawy5")
+}
 
-[node name="FireFunction" parent="." index="1"]
-animation_player_ = NodePath("Revolver")
+[node name="Gun-Revolver" node_paths=PackedStringArray("fire_function", "line_of_sight", "obstacle_sight", "friendly_sight") instance=ExtResource("1_3jml5")]
+fire_function = NodePath("FireFunction")
+line_of_sight = NodePath("LineOfSight")
+obstacle_sight = NodePath("LineOfSight/ObstacleSight")
+friendly_sight = NodePath("LineOfSight/FriendySight")
+
+[node name="FireFunction" parent="." index="1" node_paths=PackedStringArray("animation_player", "line_of_sight", "line_of_fire", "line_of_fire_const", "bullet_path", "bullet_path_default_pos", "bullet_spark", "colliding_point")]
+animation_player = NodePath("Revolver")
+line_of_sight = NodePath("../LineOfSight")
+line_of_fire = NodePath("../LineOfSight/LineOfFire")
+line_of_fire_const = NodePath("../LineOfSight/LineOfFire/Const")
+bullet_path = NodePath("../BulletPath")
+bullet_path_default_pos = NodePath("../CollidingPointDefault")
+bullet_spark = NodePath("../BulletSpark")
+colliding_point = NodePath("../CollidingPoint")
+
+[node name="Rifle" parent="FireFunction" index="0" groups=["free"]]
 
 [node name="Revolver" type="AnimationPlayer" parent="FireFunction" index="1"]
 libraries = {
@@ -86,3 +153,6 @@ libraries = {
 
 [node name="Light" parent="." index="2"]
 texture_scale = 1.8
+
+[node name="LineOfFire" parent="LineOfSight" index="0"]
+enabled = false
