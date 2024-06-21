@@ -1,0 +1,22 @@
+[gd_scene load_steps=5 format=3 uid="uid://c5e7f31ijfhrd"]
+
+[ext_resource type="PackedScene" uid="uid://bec4opke5551m" path="res://Worlds/Objects/Destructibles/DestructibleStatic.tscn" id="1_w768i"]
+[ext_resource type="Material" uid="uid://ud64atwxfe5s" path="res://Shaders/Materials/Add-Unshaded.CanvasItemMaterial.tres" id="3_ncx0c"]
+[ext_resource type="Texture2D" uid="uid://q6kd4w41jrul" path="res://Worlds/Objects/Destructibles/PowerSourceLight.png" id="4_aqnjs"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_6nidv"]
+size = Vector2(40, 36)
+
+[node name="PowerSource" instance=ExtResource("1_w768i")]
+health = 30.0
+particles_scene = "res://Shaders/Particles/GlassShardsSparks.tscn"
+
+[node name="Light" type="Sprite2D" parent="Sprite2D" index="0"]
+material = ExtResource("3_ncx0c")
+texture = ExtResource("4_aqnjs")
+
+[node name="CollisionShape2D" parent="." index="1"]
+position = Vector2(0, -2)
+shape = SubResource("RectangleShape2D_6nidv")
+
+[editable path="VisibilityHandler"]
