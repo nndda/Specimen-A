@@ -9,29 +9,53 @@ resource_local_to_scene = true
 radius = 16.0
 height = 48.0
 
-[node name="Guard-Rifle" instance=ExtResource("1_vbx3q")]
-weapon_node = NodePath("Gun-Rifle")
-corpse_scene = NodePath("Guards-Corpse")
+[node name="Guard-Rifle" node_paths=PackedStringArray("weapon", "corpse") instance=ExtResource("1_vbx3q")]
+speed = 8.5
+knockback_mult = 0.6
+cooldown_min = 1.9
+cooldown_max = 2.6
+weapon = NodePath("Gun-Rifle")
+corpse = NodePath("Guards-Corpse")
 
 [node name="Guards-Corpse" parent="." index="0" instance=ExtResource("2_8rb38")]
 visible = false
 
-[node name="GeneralArea" parent="." index="2"]
+[node name="GeneralArea" parent="." index="3"]
 collision_layer = 17
 collision_mask = 17
 
 [node name="GeneralLight" parent="Sprite2D" index="0"]
+light_mask = 0
 z_index = 2
 
 [node name="LightHelmet" parent="Sprite2D" index="1"]
+light_mask = 0
 z_index = -2
 shadow_color = Color(0.0588235, 0.0117647, 0.0117647, 1)
 
-[node name="CollisionShape2D" parent="." index="4"]
+[node name="LightOccluder2D" parent="Sprite2D/LightHelmet" index="0"]
+light_mask = 0
+
+[node name="CollisionShape2D" parent="." index="5"]
 shape = SubResource("CapsuleShape2D_dggyt")
 
-[node name="Gun-Rifle" parent="." index="7" instance=ExtResource("3_p8ma6")]
+[node name="Gun-Rifle" parent="." index="7" node_paths=PackedStringArray("entity_holder", "fire_function", "line_of_sight", "obstacle_sight", "friendly_sight") instance=ExtResource("3_p8ma6")]
 position = Vector2(12, 5)
+entity_holder = NodePath("..")
+fire_function = NodePath("FireFunction")
+line_of_sight = NodePath("LineOfSight")
+obstacle_sight = NodePath("LineOfSight/ObstacleSight")
+friendly_sight = NodePath("LineOfSight/FriendySight")
+
+[node name="FireFunction" parent="Gun-Rifle" index="1" node_paths=PackedStringArray("animation_player", "line_of_sight", "line_of_fire", "line_of_fire_const", "bullet_path", "bullet_path_default_pos", "bullet_spark", "colliding_point")]
+animation_player = NodePath("Rifle")
+line_of_sight = NodePath("../LineOfSight")
+line_of_fire = NodePath("../LineOfSight/LineOfFire")
+line_of_fire_const = NodePath("../LineOfSight/LineOfFire/Const")
+bullet_path = NodePath("../BulletPath")
+bullet_path_default_pos = NodePath("../CollidingPointDefault")
+bullet_spark = NodePath("../BulletSpark")
+colliding_point = NodePath("../CollidingPoint")
 
 [node name="Position2D" parent="KeepDistance" index="0"]
 visible = false
@@ -39,9 +63,8 @@ visible = false
 [node name="Line2D" parent="KeepDistance" index="3"]
 visible = false
 
-[node name="VisibilityHandler" parent="." index="10"]
+[node name="VisibilityHandler" parent="." index="12"]
 root_path = NodePath("..")
 
 [editable path="Gun-Rifle"]
-[editable path="Gun-Rifle/DebugTestField"]
 [editable path="VisibilityHandler"]

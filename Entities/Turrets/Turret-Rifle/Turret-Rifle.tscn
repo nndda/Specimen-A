@@ -1,4 +1,4 @@
-[gd_scene load_steps=12 format=3 uid="uid://la4m4o5e78dr"]
+[gd_scene load_steps=13 format=3 uid="uid://la4m4o5e78dr"]
 
 [ext_resource type="PackedScene" uid="uid://baiwsrdc0aog7" path="res://Entities/Guards/Guard.tscn" id="1_2s3nu"]
 [ext_resource type="PackedScene" uid="uid://d35rqaqdqkt6x" path="res://Entities/Weapons/Gun-rifle.tscn" id="2_en8q7"]
@@ -9,6 +9,7 @@
 [ext_resource type="Texture2D" uid="uid://jp1ol34cgvye" path="res://Entities/Turrets/Turret-Rifle/Turret-Rifle.Gun.png" id="4_sxw3u"]
 [ext_resource type="Shader" path="res://Shaders/Scripts/shadow.gdshader" id="4_yn4es"]
 [ext_resource type="PackedScene" uid="uid://bydxskl7vyst7" path="res://Shaders/Particles/Explosion.tscn" id="9_jtijr"]
+[ext_resource type="PackedScene" uid="uid://c2y5c12g4n54p" path="res://Entities/Weapons/LaserSightExt.tscn" id="10_whlpx"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_1jsvh"]
 shader = ExtResource("4_yn4es")
@@ -20,12 +21,15 @@ resource_local_to_scene = true
 radius = 16.0
 height = 48.0
 
-[node name="Turret-Rifle" instance=ExtResource("1_2s3nu")]
+[node name="Turret-Rifle" node_paths=PackedStringArray("weapon", "corpse") instance=ExtResource("1_2s3nu")]
+knockback_mult = 0.05
+cooldown_min = 1.6
+cooldown_max = 2.2
 freeze_on_fire = true
 stationary = true
 rotate_weight = 0.24
-weapon_node = NodePath("Gun-Rifle")
-corpse_scene = NodePath("Turret-Destroyed")
+weapon = NodePath("Gun-Rifle")
+corpse = NodePath("Turret-Destroyed")
 blood_scene = "res://Shaders/Particles/GlassShards.tscn"
 
 [node name="DebugTestField" parent="." index="0" instance=ExtResource("2_pv4xo")]
@@ -37,29 +41,52 @@ visible = false
 process_mode = 3
 amount = 160
 
-[node name="TriggerArea" parent="." index="2"]
+[node name="TriggerArea" parent="." index="3"]
 script = ExtResource("4_r6sjh")
 
-[node name="Sprite2D" parent="." index="4"]
+[node name="Sprite2D" parent="." index="5"]
 material = SubResource("ShaderMaterial_1jsvh")
 texture = ExtResource("4_kel4u")
 region_rect = Rect2(128, 32, 64, 64)
 
-[node name="LightHelmet" parent="Sprite2D" index="1"]
+[node name="LightHelmet" parent="Sprite2D" index="1" groups=["free"]]
 visible = false
 
-[node name="CollisionShape2D" parent="." index="5"]
+[node name="CollisionShape2D" parent="." index="6"]
 shape = SubResource("CapsuleShape2D_ere1r")
 
-[node name="Gun-Rifle" parent="." index="10" instance=ExtResource("2_en8q7")]
+[node name="Gun-Rifle" parent="." index="10" node_paths=PackedStringArray("entity_holder", "fire_function", "line_of_sight", "obstacle_sight", "friendly_sight") instance=ExtResource("2_en8q7")]
 position = Vector2(11, 0)
+entity_holder = NodePath("..")
+fire_function = NodePath("FireFunction")
+line_of_sight = NodePath("LineOfSight")
+obstacle_sight = NodePath("LineOfSight/ObstacleSight")
+friendly_sight = NodePath("LineOfSight/FriendySight")
+
+[node name="FireFunction" parent="Gun-Rifle" index="1" node_paths=PackedStringArray("animation_player", "line_of_sight", "line_of_fire", "line_of_fire_const", "bullet_path", "bullet_path_default_pos", "bullet_spark", "colliding_point")]
+spread_degrees = 1.46
+animation_player = NodePath("Rifle")
+line_of_sight = NodePath("../LineOfSight")
+line_of_fire = NodePath("../LineOfSight/LineOfFire")
+line_of_fire_const = NodePath("../LineOfSight/LineOfFire/Const")
+bullet_path = NodePath("../BulletPath")
+bullet_path_default_pos = NodePath("../CollidingPointDefault")
+bullet_spark = NodePath("../BulletSpark")
+colliding_point = NodePath("../CollidingPoint")
+
+[node name="LineOfSight" parent="Gun-Rifle" index="4"]
+visible = false
 
 [node name="Rifle" type="Sprite2D" parent="Gun-Rifle" index="8"]
 position = Vector2(-11, 0)
 texture = ExtResource("4_sxw3u")
 
+[node name="LaserSightExt" parent="Gun-Rifle" index="10" instance=ExtResource("10_whlpx")]
+visible = false
+position = Vector2(10, -2)
+
 [connection signal="killed" from="." to="Turret-Destroyed/Explosion" method="explode" flags=6]
+[connection signal="triggered" from="." to="Gun-Rifle/LaserSightExt" method="show" flags=6]
 
 [editable path="Gun-Rifle"]
-[editable path="Gun-Rifle/DebugTestField"]
 [editable path="VisibilityHandler"]

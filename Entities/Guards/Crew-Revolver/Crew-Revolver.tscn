@@ -10,15 +10,20 @@ resource_local_to_scene = true
 radius = 16.0
 height = 48.0
 
-[node name="Crew-Revolver" instance=ExtResource("1_143es")]
-weapon_node = NodePath("Gun-Revolver")
-corpse_scene = NodePath("Crew-Corpse")
-cooldown = 5.0
+[node name="Crew-Revolver" node_paths=PackedStringArray("weapon", "corpse") instance=ExtResource("1_143es")]
+knockback_mult = 0.62
+cooldown_min = 2.2
+cooldown_max = 3.1
+keep_player_distance = 220.0
+moving_away = true
+rotate_weight = 0.2
+weapon = NodePath("Gun-Revolver")
+corpse = NodePath("Crew-Corpse")
 
 [node name="Crew-Corpse" parent="." index="0" instance=ExtResource("2_mkbkj")]
 visible = false
 
-[node name="Sprite2D" parent="." index="3"]
+[node name="Sprite2D" parent="." index="4"]
 texture = ExtResource("2_hxob8")
 
 [node name="LightHelmet" parent="Sprite2D" index="1"]
@@ -26,14 +31,35 @@ process_mode = 4
 visible = false
 position = Vector2(-1.99996, 6.00001)
 
-[node name="CollisionShape2D" parent="." index="4"]
+[node name="CollisionShape2D" parent="." index="5"]
 visible = true
 shape = SubResource("CapsuleShape2D_q7lho")
 
-[node name="Gun-Revolver" parent="." index="7" instance=ExtResource("3_k4pk7")]
+[node name="Gun-Revolver" parent="." index="7" node_paths=PackedStringArray("entity_holder", "fire_function", "line_of_sight", "obstacle_sight", "friendly_sight") instance=ExtResource("3_k4pk7")]
+position = Vector2(16, 0)
+entity_holder = NodePath("..")
+fire_function = NodePath("FireFunction")
+line_of_sight = NodePath("LineOfSight")
+obstacle_sight = NodePath("LineOfSight/ObstacleSight")
+friendly_sight = NodePath("LineOfSight/FriendySight")
 
-[node name="VisibilityHandler" parent="." index="10"]
+[node name="FireFunction" parent="Gun-Revolver" index="1" node_paths=PackedStringArray("animation_player", "line_of_sight", "line_of_fire", "line_of_fire_const", "bullet_path", "bullet_path_default_pos", "bullet_spark", "colliding_point")]
+animation_player = NodePath("Revolver")
+line_of_sight = NodePath("../LineOfSight")
+line_of_fire = NodePath("../LineOfSight/LineOfFire")
+line_of_fire_const = NodePath("../LineOfSight/LineOfFire/Const")
+bullet_path = NodePath("../BulletPath")
+bullet_path_default_pos = NodePath("../CollidingPointDefault")
+bullet_spark = NodePath("../BulletSpark")
+colliding_point = NodePath("../CollidingPoint")
+
+[node name="Light" parent="Gun-Revolver" index="2"]
+position = Vector2(8, 0)
+texture_scale = 1.0
+
+[node name="VisibilityHandler" parent="." index="12"]
 process_mode = 3
 root_path = NodePath("..")
 
+[editable path="Gun-Revolver"]
 [editable path="VisibilityHandler"]
