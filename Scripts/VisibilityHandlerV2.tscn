@@ -1,7 +1,0 @@
-[gd_scene format=3 uid="uid://jtsjs2slrit2"]
-
-[node name="VisibilityHandler" type="Node"]
-
-[node name="N" type="VisibleOnScreenEnabler2D" parent="."]
-position = Vector2(2.6226e-06, 1.90735e-06)
-scale = Vector2(3.2, 3.2)
