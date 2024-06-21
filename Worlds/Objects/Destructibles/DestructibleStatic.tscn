@@ -1,0 +1,20 @@
+[gd_scene load_steps=4 format=3 uid="uid://bec4opke5551m"]
+
+[ext_resource type="Texture2D" uid="uid://dng5nqxs0o4uw" path="res://Worlds/Objects/Destructibles/PowerSource.png" id="1_boiik"]
+[ext_resource type="Script" path="res://Worlds/Objects/Destructibles/DestructiblesBody.gd" id="1_h273c"]
+[ext_resource type="PackedScene" uid="uid://bn801wox8wl0f" path="res://Scripts/Area/VisibilityHandler.tscn" id="1_ont0x"]
+
+[node name="DestructibleStatic" type="StaticBody2D"]
+collision_layer = 8192
+collision_mask = 8193
+script = ExtResource("1_h273c")
+root_node = NodePath(".")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture = ExtResource("1_boiik")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+
+[node name="VisibilityHandler" parent="." instance=ExtResource("1_ont0x")]
+
+[editable path="VisibilityHandler"]
