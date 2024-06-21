@@ -1,0 +1,7 @@
+[gd_scene load_steps=2 format=3 uid="uid://5cosy1vndx6y"]
+
+[ext_resource type="TileSet" uid="uid://dd7lf67ra04h2" path="res://Worlds/Tilesets/Tiles.tres" id="1_1j785"]
+
+[node name="Tiles" type="TileMapLayer"]
+tile_set = ExtResource("1_1j785")
+rendering_quadrant_size = 32
