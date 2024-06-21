@@ -1,7 +1,7 @@
 [gd_scene load_steps=3 format=3 uid="uid://b330jfkc3h08u"]
 
-[ext_resource type="Script" path="res://Scripts/CameraScene.gd" id="1_s5iqu"]
-[ext_resource type="Shape2D" uid="uid://qr510gglchm8" path="res://Scripts/Point.DefaultShape.tres" id="2_iopad"]
+[ext_resource type="Script" path="res://Scripts/Area/CameraScene.gd" id="1_s5iqu"]
+[ext_resource type="Shape2D" uid="uid://qr510gglchm8" path="res://Scripts/Area/Point.DefaultShape.tres" id="2_iopad"]
 
 [node name="CameraScene" type="Camera2D"]
 enabled = false

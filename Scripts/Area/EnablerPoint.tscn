@@ -1,12 +1,12 @@
 [gd_scene load_steps=3 format=3 uid="uid://dxrsevadm5y44"]
 
-[ext_resource type="Script" path="res://Scripts/EnablerPoint.gd" id="1_x62f2"]
-[ext_resource type="Shape2D" uid="uid://qr510gglchm8" path="res://Scripts/Point.DefaultShape.tres" id="2_s2vms"]
+[ext_resource type="Script" path="res://Scripts/Area/EnablerPoint.gd" id="1_x62f2"]
+[ext_resource type="Shape2D" uid="uid://qr510gglchm8" path="res://Scripts/Area/Point.DefaultShape.tres" id="2_s2vms"]
 
 [node name="EnablerPoint" type="Area2D"]
 editor_description = "Enable entities when player reach this areas"
-collision_layer = 512
-collision_mask = 512
+collision_layer = 1073741824
+collision_mask = 1073741824
 monitorable = false
 script = ExtResource("1_x62f2")
 

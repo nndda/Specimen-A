@@ -20,19 +20,22 @@ func _ready():
             validate_entities(root.get_children())
         )
 
+func trigger() -> void:
+    if !player_entered:
+        player_entered = true
+        body_entered.disconnect(_on_body_entered)
+        alert()
+
 func _on_body_entered(body : Node2D) -> void:
     if body.name == &"Head":
-        if !player_entered:
-            player_entered = true
-            alert()
+        trigger()
 
 func validate_entities(entities_list : Array[Node]) -> Array[Node]:
     var valid_entities : Array[Node] = []
 
     for entity in entities_list:
         if entity.is_in_group(&"entity"):
-            if !entity.manual_trigger:
-                push_warning("manual_trigger = false on %s" % entity)
+            entity.manual_trigger = true
             valid_entities.append(entity)
 
     return valid_entities

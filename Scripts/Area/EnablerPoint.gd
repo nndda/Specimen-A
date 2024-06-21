@@ -11,7 +11,6 @@ extends Area2D
 @export_category("Items")
 @export var hide_items := true
 @export var items_path : Array[Node] = []
-@export var items_group_path : Array[Node] = []
 var items : Array[Node] = []
 
 var player_entered := false
@@ -24,13 +23,11 @@ func _ready():
 
 func initialize_objects() -> void:
     for idx : int in items_path.size():
-        if !items_path[idx].is_in_group(&"free"):
-            items.append(items_path[idx])
-
-    for idx : int in items_group_path.size():
-        for item in items_group_path[idx].get_children():
-            if !item.is_in_group(&"free"):
-                items.append(item)
+        if items_path[idx] != null:
+            if !items_path[idx].is_in_group(&"free"):
+                items.append(items_path[idx])
+        else:
+            push_error("Error - null item")
 
     if disable_parent:
         parent.process_mode = Node.PROCESS_MODE_DISABLED
@@ -43,8 +40,6 @@ func initialize_objects() -> void:
         item.process_mode = Node.PROCESS_MODE_DISABLED
         if hide_items and item is CanvasItem:
             item.visible = false
-
-        print(item, " - ", item.get_groups(), " - ")
 
 func _on_body_entered(body : Node2D) -> void:
     if body.name == &"Head":
@@ -68,7 +63,6 @@ func enable() -> void:
                 item.visible = true
 
     items_path.clear()
-    items_group_path.clear()
     items.clear()
 
     queue_free()
