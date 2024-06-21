@@ -1,7 +1,7 @@
 [gd_scene load_steps=13 format=3 uid="uid://d35rqaqdqkt6x"]
 
 [ext_resource type="Script" path="res://Entities/Weapons/Gun.gd" id="1_njox0"]
-[ext_resource type="PackedScene" uid="uid://dwnj5shb6eoqy" path="res://Scripts/DebugTestField.tscn" id="2_1yygh"]
+[ext_resource type="PackedScene" uid="uid://deb26datidugv" path="res://Shaders/VisualTestArea.tscn" id="2_0s0ld"]
 [ext_resource type="Script" path="res://Entities/Weapons/Gun-Rifle.gd" id="2_4luqg"]
 [ext_resource type="Texture2D" uid="uid://n8aih3jo7tfy" path="res://Shaders/Lights/General.Spotlight.png" id="4_jryup"]
 [ext_resource type="Texture2D" uid="uid://cgmofnkdo20sl" path="res://Shaders/Particles/muzzle.png" id="4_vkikv"]
@@ -164,20 +164,26 @@ fill_from = Vector2(0.5, 0.5)
 fill_to = Vector2(0.9, 0.1)
 metadata/_snap_enabled = true
 
-[node name="Gun-Rifle" type="Node2D"]
+[node name="Gun-Rifle" type="Node2D" node_paths=PackedStringArray("fire_function", "line_of_sight", "obstacle_sight", "friendly_sight")]
 script = ExtResource("1_njox0")
-line_of_sight_ = NodePath("LineOfSight")
-obstacle_sight_ = NodePath("LineOfSight/ObstacleSight")
+fire_function = NodePath("FireFunction")
+line_of_sight = NodePath("LineOfSight")
+obstacle_sight = NodePath("LineOfSight/ObstacleSight")
+friendly_sight = NodePath("LineOfSight/FriendySight")
 
-[node name="DebugTestField" parent="." instance=ExtResource("2_1yygh")]
-visible = false
+[node name="VisualTestArea" parent="." instance=ExtResource("2_0s0ld")]
+offset_right = 600.0
 
-[node name="GlobalModulate" parent="DebugTestField" index="0"]
-color = Color(0.0588235, 0.0588235, 0.0588235, 1)
-
-[node name="FireFunction" type="Node" parent="."]
+[node name="FireFunction" type="Node" parent="." node_paths=PackedStringArray("animation_player", "line_of_sight", "line_of_fire", "line_of_fire_const", "bullet_path", "bullet_path_default_pos", "bullet_spark", "colliding_point")]
 script = ExtResource("2_4luqg")
-animation_player_ = NodePath("Rifle")
+animation_player = NodePath("Rifle")
+line_of_sight = NodePath("../LineOfSight")
+line_of_fire = NodePath("../LineOfSight/LineOfFire")
+line_of_fire_const = NodePath("../LineOfSight/LineOfFire/Const")
+bullet_path = NodePath("../BulletPath")
+bullet_path_default_pos = NodePath("../CollidingPointDefault")
+bullet_spark = NodePath("../BulletSpark")
+colliding_point = NodePath("../CollidingPoint")
 
 [node name="Rifle" type="AnimationPlayer" parent="FireFunction"]
 libraries = {
@@ -186,12 +192,11 @@ libraries = {
 
 [node name="Light" type="PointLight2D" parent="."]
 position = Vector2(12, 0)
-color = Color(1, 0.9855, 0.97, 1)
+color = Color(1, 0.85651, 0.698241, 1)
 energy = 0.8
 blend_mode = 2
-range_item_cull_mask = 33
 shadow_enabled = true
-shadow_item_cull_mask = 32
+shadow_item_cull_mask = 32768
 texture = ExtResource("4_jryup")
 
 [node name="Muzzle" type="PointLight2D" parent="."]
@@ -200,6 +205,7 @@ rotation = 1.57079
 color = Color(0.956863, 0.619608, 0.113725, 1)
 energy = 0.0
 shadow_enabled = true
+shadow_item_cull_mask = 32801
 texture = ExtResource("4_vkikv")
 texture_scale = 0.5
 
@@ -208,6 +214,7 @@ position = Vector2(-2.09808e-05, 10)
 color = Color(0.956863, 0.619608, 0.113725, 1)
 energy = 0.0
 shadow_enabled = true
+shadow_item_cull_mask = 32769
 texture = SubResource("GradientTexture2D_ifctb")
 texture_scale = 3.0
 
@@ -218,33 +225,40 @@ collide_with_areas = true
 
 [node name="LineOfFire" type="RayCast2D" parent="LineOfSight"]
 target_position = Vector2(280, 0)
-collision_mask = 5
+collision_mask = 8213
 collide_with_areas = true
 
 [node name="Const" type="RayCast2D" parent="LineOfSight/LineOfFire"]
 target_position = Vector2(280, 0)
-collision_mask = 5
+collision_mask = 8213
 collide_with_areas = true
+
+[node name="Point" type="Marker2D" parent="LineOfSight"]
 
 [node name="ObstacleSight" type="RayCast2D" parent="LineOfSight"]
 target_position = Vector2(280, 0)
 collision_mask = 144
+
+[node name="Point" type="Marker2D" parent="LineOfSight/ObstacleSight"]
+
+[node name="FriendySight" type="RayCast2D" parent="LineOfSight"]
+target_position = Vector2(280, 0)
+collision_mask = 144
+
+[node name="Point" type="Marker2D" parent="LineOfSight/FriendySight"]
 
 [node name="BulletPath" parent="." instance=ExtResource("5_j7t08")]
 modulate = Color(1, 1, 1, 0)
 points = PackedVector2Array(0, 0, 280, 0)
 
 [node name="BulletSpark" parent="." instance=ExtResource("6_nqlb2")]
-visible = false
 position = Vector2(215, 0)
 
-[node name="CollidingPoint" type="Node2D" parent="."]
+[node name="CollidingPoint" type="Marker2D" parent="."]
 visible = false
 
-[node name="CollidingPointDefault" type="Node2D" parent="."]
+[node name="CollidingPointDefault" type="Marker2D" parent="."]
 visible = false
 position = Vector2(215, 0)
 
 [connection signal="tree_entered" from="LineOfSight/LineOfFire" to="." method="_on_line_of_fire_tree_entered"]
-
-[editable path="DebugTestField"]
