@@ -2,5 +2,5 @@
 
 [resource]
 interpolation_mode = 1
-offsets = PackedFloat32Array(0, 0.282, 0.31, 0.345)
+offsets = PackedFloat32Array(0, 0.290055, 0.31, 0.339779)
 colors = PackedColorArray(1, 1, 1, 0, 1, 0, 0, 0.231373, 1, 1, 1, 0.921569, 1, 1, 1, 0)
