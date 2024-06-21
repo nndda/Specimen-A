@@ -9,6 +9,7 @@ radius = 15.0
 height = 48.0
 
 [node name="Guard-RifleShield" instance=ExtResource("1_15pl1")]
+rotate_weight = 0.04
 
 [node name="TriggerArea" parent="." index="1"]
 monitorable = true
@@ -21,6 +22,9 @@ root_ = NodePath("..")
 
 [node name="CollisionShape2D" parent="." index="5"]
 shape = SubResource("CapsuleShape2D_gqvs0")
+
+[connection signal="hit" from="Shield" to="." method="effect_knockback"]
+[connection signal="hit" from="Shield" to="." method="effect_dizzy"]
 
 [editable path="Gun-Rifle"]
 [editable path="Gun-Rifle/DebugTestField"]
