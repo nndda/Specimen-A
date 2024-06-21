@@ -9,7 +9,7 @@ var visibility_enabler : VisibleOnScreenEnabler2D
 
 var particles : Array
 
-signal hit
+signal hit(power : float)
 signal destroyed
 
 func _ready() -> void:
@@ -17,7 +17,7 @@ func _ready() -> void:
         visibility_enabler = $"VisibilityHandler/VisibleOnScreenEnabler2D"
     if !particles_scene.is_empty():
         for p : int in 3:
-            particles.append( load( particles_scene ).instantiate() )
+            particles.append(load(particles_scene).instantiate())
 
 func _process(_delta : float) -> void:
     if following_visibility_handler:
@@ -26,21 +26,23 @@ func _process(_delta : float) -> void:
 
 func damage(power : float) -> void:
     if !invincible:
-        print( dbg.value_is( "damage", power ) )
         emit_particles()
         health -= power
 
-    hit.emit()
+    hit.emit(power)
 
     if health <= 0:
         destroyed.emit()
-        get_node( root_node ).queue_free()
+        get_node(root_node).queue_free()
+
+func damage_prop(power : float) -> void:
+    damage(power)
 
 func emit_particles() -> void:
     if particles.size() > 0:
         particles[0].custom_init_pos = true
         particles[0].init_pos = global_position
-        Global.layer_dict[^"Objects/Particles"].add_child( particles[0] )
+        Global.layer_dict[^"Objects/Particles"].add_child(particles[0])
         particles.remove_at(0)
 
 func _on_free_timer_timeout() -> void:
