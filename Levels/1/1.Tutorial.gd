@@ -30,29 +30,30 @@ func action_string(input : InputEvent) -> String:
     return input.as_text().rstrip(" Button").rstrip(" (Physical)")
 
 func _ready():
-    $BreakOut.visible = false
+    if process_mode != Node.PROCESS_MODE_DISABLED:
+        $BreakOut.visible = false
 
-    if strict:
-        Global.player.allow_attack = false
+        if strict:
+            Global.player.allow_attack = false
 
-    hint_move_a.text = action_string(InputMap.action_get_events(&"Move")[0])
-    hint_move_b.text = action_string(InputMap.action_get_events(&"Move")[1])
-    hint_attack_a.text = action_string(InputMap.action_get_events(&"Attack")[0])
-    hint_attack_b.text = action_string(InputMap.action_get_events(&"Attack")[1])
+        hint_move_a.text = action_string(InputMap.action_get_events(&"Move")[0])
+        hint_move_b.text = action_string(InputMap.action_get_events(&"Move")[1])
+        hint_attack_a.text = action_string(InputMap.action_get_events(&"Attack")[0])
+        hint_attack_b.text = action_string(InputMap.action_get_events(&"Attack")[1])
 
-    for gate : Node2D in breakout_gates:
-        gate.get_node(^"DestructiblesBody").destroyed.connect(hint_breakout_clear)
+        for gate : Node2D in breakout_gates:
+            gate.get_node(^"DestructiblesBody").destroyed.connect(hint_breakout_clear)
 
-    for marker : Node in $BreakOut.get_children():
-        if marker is Marker2D:
-            marker.get_node(^"Area2D").body_entered.\
-                connect(hint_breakout.bind(marker))
+        for marker : Node in $BreakOut.get_children():
+            if marker is Marker2D:
+                marker.get_node(^"Area2D").body_entered.\
+                    connect(hint_breakout.bind(marker))
 
-    await $"../..".ready
-    pause_menu.pause_menu_closed.connect(pause_menu_closed)
+        await $"../..".ready
+        pause_menu.pause_menu_closed.connect(pause_menu_closed)
 
-    await Camera.faded_out
-    hint_move_anim.play(&"FadeIn")
+        await Camera.faded_out
+        hint_move_anim.play(&"FadeIn")
 
 func hint_breakout(body : Node2D, source : Marker2D) -> void:
     if body == Global.player_physics_head:
@@ -94,4 +95,3 @@ func pause_menu_closed() -> void:
             hint_move_timer.process_mode = Node.PROCESS_MODE_INHERIT
         if hint_move_timer.is_stopped():
             hint_move_timer.start()
-

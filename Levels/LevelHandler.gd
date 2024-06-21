@@ -2,7 +2,6 @@ extends Node2D
 
 @export var level_name : StringName
 @export var current_area_name : StringName
-@export_node_path("Node2D") var pseudo_3d_generator : NodePath
 
 @onready var pause_menu : CanvasLayer = $PauseMenu
 
@@ -15,7 +14,12 @@ var tree : SceneTree
 
 signal level_loaded
 
-func _enter_tree() -> void:
+func _input(event : InputEvent) -> void:
+    if event.is_action_pressed(&"Debug - hide groups"):
+        tree.call_group(&"hide", &"hide")
+        tree.set_group(&"hide", "visible", false)
+
+func _enter_tree() -> void:    
     tree = get_tree()
 
     Global.current_scene = self
@@ -25,10 +29,6 @@ func _enter_tree() -> void:
     level_loaded.connect(Camera.start_fade_out)
 
 func _ready() -> void:
-    $TopLayer.visible = true
-    $"TopLayer+1".visible = true
-    $GlobalModulate.visible = true
-
     for i : Node in get_children():
         if i is CanvasItem:
             i.visible = true
@@ -39,6 +39,7 @@ func _ready() -> void:
                 Global.current_objects.append(inst)
 
     tree.call_group_flags(SceneTree.GROUP_CALL_DEFERRED, &"free", &"queue_free")
+    tree.call_group_flags(SceneTree.GROUP_CALL_DEFERRED, &"show", &"show")
 
     Camera.init_visual_loading()
     level_loaded.emit()
@@ -46,11 +47,13 @@ func _ready() -> void:
     Audio.connect_audio()
     Audio.init_bg()
 
-    for area in tree.get_nodes_in_group(&"AreaEntrance"):
+    for area in tree.get_nodes_in_group(&"area_entrance"):
         if area is Area2D:
             area.body_entered.connect(
-                area_entered.bind(String(area.get_parent().get_name()))
+                area_entered.bind("%s" % area.get_parent().name)
             )
+
+    tree.call_group(&"lights_kill", &"kill")
 
     move_top_items()
 
@@ -71,3 +74,6 @@ func move_top_items() -> void:
         for node : Node in tree.get_nodes_in_group(top_layer):
             node.call_deferred(&"reparent", get(top_layer))
             get(top_layer).call_deferred(&"move_child", node, 0)
+
+func call_group(groupname : StringName, method : StringName) -> void:
+    tree.call_group_flags(SceneTree.GROUP_CALL_DEFERRED, groupname, method)

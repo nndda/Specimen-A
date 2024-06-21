@@ -1,11 +1,11 @@
 [gd_scene load_steps=10 format=3 uid="uid://btklfuqmrtree"]
 
 [ext_resource type="Script" path="res://Levels/LevelHandler.gd" id="1_sic2w"]
-[ext_resource type="PackedScene" uid="uid://qpqkkwm1xinu" path="res://Worlds/Tilesets/Tileset.tscn" id="2_04a13"]
+[ext_resource type="PackedScene" uid="uid://5cosy1vndx6y" path="res://Worlds/Tilesets/Tiles.tscn" id="2_s7f4p"]
 [ext_resource type="Material" uid="uid://ud64atwxfe5s" path="res://Shaders/Materials/Add-Unshaded.CanvasItemMaterial.tres" id="3_v8kfu"]
 [ext_resource type="Script" path="res://Scripts/Pseudo3DGenerator.gd" id="4_sovdr"]
+[ext_resource type="TileSet" uid="uid://dd7lf67ra04h2" path="res://Worlds/Tilesets/Tiles.tres" id="5_n2h0g"]
 [ext_resource type="PackedScene" uid="uid://37f75mhp7q61" path="res://UI/PauseMenu.tscn" id="6_2l3p8"]
-[ext_resource type="PackedScene" uid="uid://bu80812ypq0si" path="res://Shaders/Particles/AmbientParticles.tscn" id="6_juqcn"]
 [ext_resource type="PackedScene" uid="uid://dacmfc6k652w7" path="res://Worlds/GlobalEnvironment.tscn" id="7_ehwri"]
 [ext_resource type="PackedScene" uid="uid://b084k80tg1y62" path="res://Worlds/GlobalModulate.tscn" id="8_4dsnx"]
 [ext_resource type="PackedScene" uid="uid://mjd5n5bhhtyf" path="res://Player/Player.tscn" id="11_unoct"]
@@ -14,33 +14,57 @@
 editor_description = "Basee scene for all levels
 MOVE FAR FAR AWAY FROM POINT 0, 0 WHEN BUILDING LEVELS"
 script = ExtResource("1_sic2w")
-pseudo_3d_generator = NodePath("Pseudo3DGenerator")
 
-[node name="TileFloor" parent="." instance=ExtResource("2_04a13")]
-editor_description = "Floor/ground level tileset"
-rendering_quadrant_size = 4
-layer_3/modulate = Color(1, 0, 0.0470588, 0.466667)
+[node name="Tiles" type="Node2D" parent="."]
+metadata/_edit_lock_ = true
 
-[node name="TileDecor" parent="." instance=ExtResource("2_04a13")]
-rendering_quadrant_size = 4
+[node name="Base" parent="Tiles" instance=ExtResource("2_s7f4p")]
+collision_enabled = false
+navigation_enabled = false
+metadata/_edit_lock_ = true
 
-[node name="TileDecor_L" parent="." instance=ExtResource("2_04a13")]
-material = ExtResource("3_v8kfu")
-rendering_quadrant_size = 4
+[node name="+1" parent="Tiles/Base" instance=ExtResource("2_s7f4p")]
+collision_enabled = false
+navigation_enabled = false
+metadata/_edit_lock_ = true
 
-[node name="TileWall" parent="." instance=ExtResource("2_04a13")]
+[node name="Shading" parent="Tiles/Base" instance=ExtResource("2_s7f4p")]
+modulate = Color(1, 1, 1, 0.592157)
+collision_enabled = false
+navigation_enabled = false
+metadata/_edit_lock_ = true
+
+[node name="Wall" parent="Tiles" instance=ExtResource("2_s7f4p")]
 modulate = Color(0.956863, 0.619608, 0.113725, 1)
-rendering_quadrant_size = 4
+navigation_enabled = false
+metadata/_edit_lock_ = true
 
-[node name="Pseudo3DGenerator" type="Node2D" parent="."]
+[node name="Decor" parent="Tiles" instance=ExtResource("2_s7f4p")]
+collision_enabled = false
+metadata/_edit_lock_ = true
+
+[node name="DecorLight" parent="Tiles" instance=ExtResource("2_s7f4p")]
+material = ExtResource("3_v8kfu")
+collision_enabled = false
+metadata/_edit_lock_ = true
+
+[node name="Pseudo3DGenerator" type="Node2D" parent="Tiles" node_paths=PackedStringArray("wall", "decor", "decor_light", "top_layer", "top_layer_2", "collision_patch")]
 script = ExtResource("4_sovdr")
-map = NodePath("../TileWall")
-map_decor = NodePath("../TileDecor")
-map_decor_light = NodePath("../TileDecor_L")
-top_layer = NodePath("../TopLayer")
-top_layer_2 = NodePath("../TopLayer+1")
+tileset = ExtResource("5_n2h0g")
+wall = NodePath("../Wall")
+decor = NodePath("../Decor")
+decor_light = NodePath("../DecorLight")
+top_layer = NodePath("../../TopLayer")
+top_layer_2 = NodePath("../../TopLayer+1")
+collision_patch = NodePath("../CollisionPatch")
+metadata/_edit_lock_ = true
 
-[node name="Objects" type="Node2D" parent="."]
+[node name="CollisionPatch" parent="Tiles" instance=ExtResource("2_s7f4p")]
+navigation_enabled = false
+metadata/_edit_lock_ = true
+
+[node name="Objects" type="Node2D" parent="." groups=["show"]]
+metadata/_edit_lock_ = true
 
 [node name="Corpses" type="Node2D" parent="Objects"]
 
@@ -48,34 +72,50 @@ top_layer_2 = NodePath("../TopLayer+1")
 
 [node name="Statics" type="Node2D" parent="Objects"]
 
-[node name="Areas" type="Node2D" parent="."]
+[node name="Areas" type="Node2D" parent="." groups=["show"]]
+metadata/_edit_lock_ = true
 
-[node name="Player" parent="." instance=ExtResource("11_unoct")]
+[node name="Player" parent="." groups=["show"] instance=ExtResource("11_unoct")]
 rotation = 1.57079
 
-[node name="TopLayer" type="CanvasLayer" parent="."]
+[node name="TopLayer" type="CanvasLayer" parent="." groups=["show"]]
+visible = false
 follow_viewport_enabled = true
 
 [node name="Lights" type="Node2D" parent="TopLayer"]
+metadata/_edit_lock_ = true
 
-[node name="Tile" parent="TopLayer" instance=ExtResource("2_04a13")]
+[node name="Tiles" type="Node2D" parent="TopLayer"]
 modulate = Color(1, 0, 0, 1)
-rendering_quadrant_size = 8
+metadata/_edit_lock_ = true
 
-[node name="Tile" parent="TopLayer/Tile" instance=ExtResource("2_04a13")]
-rendering_quadrant_size = 8
+[node name="Ceiling" parent="TopLayer/Tiles" instance=ExtResource("2_s7f4p")]
+collision_enabled = false
+metadata/_edit_lock_ = true
 
-[node name="TopLayer+1" type="CanvasLayer" parent="."]
+[node name="+1" parent="TopLayer/Tiles/Ceiling" instance=ExtResource("2_s7f4p")]
+collision_enabled = false
+metadata/_edit_lock_ = true
 
-[node name="Tile" parent="TopLayer+1" instance=ExtResource("2_04a13")]
+[node name="TopLayer+1" type="CanvasLayer" parent="." groups=["show"]]
+visible = false
+
+[node name="Tiles" type="Node2D" parent="TopLayer+1"]
 modulate = Color(1, 0, 0, 1)
-rendering_quadrant_size = 8
+metadata/_edit_lock_ = true
 
-[node name="AmbientParticle" parent="TopLayer+1" instance=ExtResource("6_juqcn")]
+[node name="Ceiling" parent="TopLayer+1/Tiles" instance=ExtResource("2_s7f4p")]
+collision_enabled = false
+metadata/_edit_lock_ = true
+
+[node name="+1" parent="TopLayer+1/Tiles/Ceiling" instance=ExtResource("2_s7f4p")]
+collision_enabled = false
+metadata/_edit_lock_ = true
 
 [node name="PauseMenu" parent="." instance=ExtResource("6_2l3p8")]
+visible = false
 
 [node name="GlobalEnvironment" parent="." instance=ExtResource("7_ehwri")]
 
-[node name="GlobalModulate" parent="." instance=ExtResource("8_4dsnx")]
+[node name="GlobalModulate" parent="." groups=["show"] instance=ExtResource("8_4dsnx")]
 visible = false
