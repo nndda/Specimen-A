@@ -8,7 +8,7 @@
 [ext_resource type="PackedScene" uid="uid://8kiy8gyp7sbw" path="res://Shaders/Particles/BloodSplattersDecap.tscn" id="5_5o3f3"]
 [ext_resource type="Texture2D" uid="uid://ritudckff408" path="res://Entities/Guards/Guard-Corpse/Guard-Corpse.Head.png" id="5_jvhtw"]
 [ext_resource type="Texture2D" uid="uid://ugmsvtacu0k8" path="res://Shaders/Particles/BloodSplatters.png" id="6_yv0g6"]
-[ext_resource type="PackedScene" uid="uid://bn801wox8wl0f" path="res://Scripts/VisibilityHandler.tscn" id="7_hi21c"]
+[ext_resource type="PackedScene" uid="uid://bn801wox8wl0f" path="res://Scripts/Area/VisibilityHandler.tscn" id="7_hi21c"]
 [ext_resource type="Texture2D" uid="uid://cl32fw1x5hvxu" path="res://Entities/Guards/Guard-Corpse/Guard-Corpse.Arm.png" id="7_y7a3c"]
 [ext_resource type="Texture2D" uid="uid://c8fagirf3n3m2" path="res://Entities/Guards/Guard-Corpse/Guard-Corpse.Hand.png" id="8_i5drm"]
 [ext_resource type="Texture2D" uid="uid://bk0rmup5ee5ej" path="res://Entities/Guards/Guard-Corpse/Guard-Corpse.Leg.png" id="9_mnm3c"]
@@ -71,6 +71,8 @@ end_cap_mode = 2
 round_precision = 4
 
 [node name="BloodTrailTrigger" type="Area2D" parent="."]
+monitoring = false
+monitorable = false
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="BloodTrailTrigger"]
 shape = SubResource("CircleShape2D_bwk6w")

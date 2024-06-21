@@ -2,14 +2,16 @@ extends Node2D
 
 var is_ready : bool = false
 var repos_node : Node2D
+@onready var blood_trail_trigger : Area2D = $BloodTrailTrigger
 @onready var blood_trail_node : Line2D = $BloodTrail
 @onready var visibility_handler : Node2D = $VisibilityHandler/VisibleOnScreenEnabler2D
 
 func fifty2() -> bool:
-    randomize(); return [true, false].pick_random()
+    randomize()
+    return randf() >= 0.5
 
-func _enter_tree() -> void:
-    visible = true
+#func _enter_tree() -> void:
+    #visible = true
 
 func _ready() -> void:
 ## Generate randomized corpse
@@ -34,28 +36,29 @@ func _ready() -> void:
 
     $Torso.region_rect.position.x += 32 if randf() >= 0.8 else 0
 
-    for limb : String in ["RArm", "LArm", "RLeg", "LLeg"]: decap_limb(limb)
+    for limb : StringName in [&"RArm", &"LArm", &"RLeg", &"LLeg"]: decap_limb(limb)
     is_ready = true
-    blood_trail()
+    #blood_trail()
+    repos_node.global_position = Global.head_pos
 
-func decap_limb(limb : String) -> void:
-    var limb_n := "Hand" if limb.ends_with("Arm") else "Feet"
+func decap_limb(limb : StringName) -> void:
+    var limb_n : StringName = &"Hand" if limb.ends_with("Arm") else &"Feet"
 
     if fifty2():
-        get_node("Torso/%s/%s-BloodSplattersDecap" % [limb, limb_n]).queue_free()
+        get_node(&"Torso/%s/%s-BloodSplattersDecap" % [limb, limb_n]).queue_free()
     else:
-        get_node("Torso/%s/%s-BloodSplattersDecap" % [limb, limb_n]).show()
-        get_node("Torso/%s/%s" % [limb, limb_n]).queue_free()
+        get_node(&"Torso/%s/%s-BloodSplattersDecap" % [limb, limb_n]).show()
+        get_node(&"Torso/%s/%s" % [limb, limb_n]).queue_free()
 
         if fifty2():
-            get_node("Torso/%s-Blood" % limb).queue_free()
+            get_node(&"Torso/%s-Blood" % limb).queue_free()
         else:
-            get_node("Torso/%s-Blood" % limb).show()
-            get_node("Torso/%s-Blood" % limb).rotation_degrees = get_node("Torso/%s" % limb).rotation_degrees
-            get_node("Torso/%s" % limb).queue_free()
+            get_node(&"Torso/%s-Blood" % limb).show()
+            get_node(&"Torso/%s-Blood" % limb).rotation_degrees = get_node(&"Torso/%s" % limb).rotation_degrees
+            get_node(&"Torso/%s" % limb).queue_free()
 
 func _process(_delta : float) -> void:
-    visibility_handler.global_position = self.global_position
+    visibility_handler.global_position = global_position
 
 func _physics_process(_delta : float) -> void:
     if blood_trails:
@@ -79,5 +82,4 @@ func _on_Reposition_tree_entered() -> void:
 func _on_BloodTrailTrigger_body_entered(body) -> void:
     if body.name == &"Head":
         blood_trails = true
-        $BloodTrailTrigger.queue_free()
-
+        blood_trail_trigger.queue_free()
