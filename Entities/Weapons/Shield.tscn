@@ -47,6 +47,7 @@ material = ExtResource("3_p710x")
 texture = ExtResource("3_mpkvc")
 
 [node name="PhysicBody2D" type="StaticBody2D" parent="."]
+visible = false
 position = Vector2(8, 0)
 collision_layer = 256
 collision_mask = 256
@@ -56,7 +57,7 @@ root_node = NodePath("..")
 
 [node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="PhysicBody2D"]
 position = Vector2(12, 0)
-polygon = PackedVector2Array(0, -32, 12, -8, 12, 8, 0, 32, -8, 32, -4, 0, -8, -32)
+polygon = PackedVector2Array(12, -48, 20, -8, 20, 8, 12, 48, -4, 40, 4, 0, -4, -40)
 
 [node name="BulletSpark" parent="." instance=ExtResource("6_oe3eg")]
 position = Vector2(20, 0)
