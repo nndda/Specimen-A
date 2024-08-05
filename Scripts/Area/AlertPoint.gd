@@ -27,7 +27,7 @@ func trigger() -> void:
         alert()
 
 func _on_body_entered(body : Node2D) -> void:
-    if body.name == &"Head":
+    if body.name == Global.PLAYER_HEAD_NAME:
         trigger()
 
 func validate_entities(entities_list : Array[Node]) -> Array[Node]:

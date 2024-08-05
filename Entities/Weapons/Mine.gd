@@ -40,7 +40,7 @@ func _ready() -> void:
 #var is_triggered := false
 func _on_body_entered(body : Node2D) -> void:
     #if !is_triggered:
-        if body.name == &"Head":
+        if body.name == Global.PLAYER_HEAD_NAME:
             #is_triggered = true
             trigger()
             body_entered.disconnect(_on_body_entered)

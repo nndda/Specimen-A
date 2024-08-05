@@ -67,7 +67,7 @@ func hint_breakout_clear() -> void:
     hint_attack_anim.play(&"FadeOut")
 
 func _on_HintMoveRemove_body_exited(body : Node2D) -> void:
-    if body.name == &"Head":
+    if body.name == Global.PLAYER_HEAD_NAME:
         hint_move_timer.start()
         $HintMoveRemove.queue_free()
 

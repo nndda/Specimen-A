@@ -36,6 +36,9 @@ var health              : float = 100.0
 var player_physics_head : CharacterBody2D
 var player_physics_body : Area2D
 
+const PLAYER_HEAD_NAME : StringName = &"Head"
+const PLAYER_BODY_NAME : StringName = &"Body"
+
 var player_destroy_through : Area2D
 
 signal camera_shaken_by_player

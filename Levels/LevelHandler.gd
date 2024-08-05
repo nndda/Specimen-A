@@ -65,7 +65,7 @@ func _ready() -> void:
     Notifications.set_level_label(level_name, 4.25)
 
 func area_entered(body : Node2D, area_name : String) -> void:
-    if body.name == &"Head" and area_name != current_area_name:
+    if body.name == Global.PLAYER_HEAD_NAME and area_name != current_area_name:
         current_area_name = area_name
         Notifications.set_level_label_sub(current_area_name)
 

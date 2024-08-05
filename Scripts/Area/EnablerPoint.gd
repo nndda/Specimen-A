@@ -42,7 +42,7 @@ func initialize_objects() -> void:
             item.visible = false
 
 func _on_body_entered(body : Node2D) -> void:
-    if body.name == &"Head":
+    if body.name == Global.PLAYER_HEAD_NAME:
         if !player_entered:
             player_entered = true
 

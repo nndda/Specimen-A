@@ -18,11 +18,11 @@ func _ready() -> void:
 
 
 func _on_area_cover_body_entered(body : Node2D) -> void:
-    if body.name == &"Head":
+    if body.name == Global.PLAYER_HEAD_NAME:
         fade_out(fade_out_duration)
 
 func _on_area_cover_body_exited(body : Node2D) -> void:
-    if body.name == &"Head":
+    if body.name == Global.PLAYER_HEAD_NAME:
         fade_in(fade_in_duration)
 
 
