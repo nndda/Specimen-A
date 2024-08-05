@@ -15,6 +15,7 @@ config/description="Relics from distant past civilization."
 config/tags=PackedStringArray("game")
 run/main_scene="res://Levels/01_Breached/01.Breached.tscn"
 config/features=PackedStringArray("4.2", "GL Compatibility")
+config/features=PackedStringArray("4.3", "GL Compatibility")
 boot_splash/bg_color=Color(0.027451, 0.00392157, 0.00392157, 1)
 boot_splash/show_image=false
 config/icon="res://UI/icon.png"
