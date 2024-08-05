@@ -14,15 +14,17 @@ var is_copying := false
 var copy_camera_tween : Tween
 func copy_camera(camera_node : Camera2D, auto_disable := true) -> void:
     is_copying = true
+
     copy_camera_tween = create_tween()\
         .set_ease(Tween.EASE_OUT)\
         .set_trans(Tween.TRANS_LINEAR)\
         .parallel()
+
     if auto_disable:
         copy_camera_tween.finished.connect(copy_camera_reset)
+
     copy_camera_tween.tween_property(self, ^"global_position", camera_node.global_position, 0.9)
     copy_camera_tween.tween_property(self, ^"zoom", camera_node.zoom, 0.9)
-    copy_camera_tween.play()
 
 func copy_camera_reset() -> void:
     if is_copying:
@@ -41,17 +43,18 @@ func shake_start(
         timer_freq.start(1 / frequency)
 
 func shake() -> void:
-    shake_tween = create_tween().bind_node(self)
+    shake_tween = create_tween()\
+        .set_trans(Tween.TRANS_SINE)\
+        .set_ease(Tween.EASE_IN_OUT)
+
     shake_tween.tween_property(
         self, ^"offset", Vector2(
             randf_range(-shake_power, shake_power),
             randf_range(-shake_power, shake_power)
             )
             * (timer_duration.time_left / timer_duration.wait_time),
-        timer_freq.wait_time)\
-    .set_trans(Tween.TRANS_SINE)\
-    .set_ease(Tween.EASE_IN_OUT)
-    shake_tween.play()
+        timer_freq.wait_time
+    )
 
 func _on_Frequency_timeout() -> void:
     shake()
@@ -103,7 +106,6 @@ func init_visual_loading() -> void:
         1.0, Global.current_objects.size() * 0.45)\
         .set_ease(Tween.EASE_OUT)
     tween.finished.connect(finished_visual_loading)
-    tween.play()
 
 func sort_visual_distance(a : Node2D, b : Node2D) -> bool:
     return (

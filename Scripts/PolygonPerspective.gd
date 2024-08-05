@@ -15,8 +15,10 @@ var polygon_idx : Vector2i
 var top_scale : float
 
 func get_polygon_idx(vec_dir : Vector2i) -> Vector2i:
-    var rad := atan2(vec_dir.y, vec_dir.x)
-    var idx := int(remap(rad, -PI * 0.5, PI, 0, 3))
+    var idx := int(remap(
+        atan2(vec_dir.y, vec_dir.x),
+        -PI * 0.5, PI, 0, 3
+    ))
     return Vector2i(
         wrapi(idx, 0, 4),
         wrapi(idx + 1, 0, 4)

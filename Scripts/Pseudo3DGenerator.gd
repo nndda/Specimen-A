@@ -7,7 +7,6 @@ extends Node2D
 @export var wall : TileMapLayer
 @export var decor : TileMapLayer
 @export var decor_light : TileMapLayer
-#@export var decor_float : TileMapLayer
 
 @export_category("Top Layers")
 @export var top_layer : CanvasLayer
@@ -58,14 +57,14 @@ func generate_layers() -> void:
 
     for d : Node in wall.get_children() as Array[Node]:
         if d is TileMapLayer:
-            d.add_to_group(&"%s" % d.name)
+            d.add_to_group(d.name)
 
     for n : int in depth:
         var layer := CanvasLayer.new()
         var wall_layer : TileMapLayer = wall.duplicate()
         var wall_tile_set : TileSet = Global.tile_maps[user_tile_res(n, 1)]
 
-        layer.name = &"%d" % n
+        layer.name = "%d" % n
         layer.layer = 0
         layer.follow_viewport_enabled = true
         layer.follow_viewport_scale = remap(n, 0, depth - 1, 1.0, max_scale)
@@ -76,7 +75,6 @@ func generate_layers() -> void:
             if n != 0:
                 wall_layer.collision_enabled = false
 
-            #if n != 0 or n != depth - 1:
             if n == depth - 1:
                 wall_tile_set.set_occlusion_layer_light_mask(0, 1)
             else:
@@ -93,7 +91,7 @@ func generate_layers() -> void:
             decor_layer.collision_enabled = true
             decor_layer.navigation_enabled = false
             layer.call_deferred(&"add_child", decor_layer)
-            
+
             decor_generated = decor_layer
 
             if n == depth - 3: # Tileset level lights
@@ -124,15 +122,8 @@ func generate_layers() -> void:
         wall,
         decor,
         decor_light,
-        #decor_float,
         ]:
         f.call_deferred(&"queue_free")
-
-    #for d : TileMapLayer in [wall] + wall.get_children() as Array[TileMapLayer]:
-        #d.collision_enabled = false
-        #d.navigation_enabled = false
-        #d.visible = false
-        #d.process_mode = Node.PROCESS_MODE_DISABLED
 
     patch_decor()
     layers_generated.emit()
