@@ -90,7 +90,6 @@ func _enter_tree() -> void:
 
 func _ready() -> void:
     if !is_in_group(&"free"):
-        randomize()
         rotate_weight_init = rotate_weight
         speed_init = speed
 
@@ -262,7 +261,6 @@ func _on_update_player_pos_timeout() -> void:
             direction = global_position.direction_to(Global.head_pos)
             set_target_pos(Global.head_pos)
     else:
-        randomize()
         keep_distance.rotation_degrees = randf_range(-15.0, 15.0)
         keep_distance_pos.position = Vector2(
             randf_range(keep_distance_a.position.x, keep_distance_b.position.x),

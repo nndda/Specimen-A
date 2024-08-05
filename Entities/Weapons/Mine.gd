@@ -26,7 +26,6 @@ func trigger() -> void:
             n.kill()
 
 func _ready() -> void:
-    randomize()
     animation_player.stop()
 
     $AnimationPlayer/OffsetTimer.timeout.connect(

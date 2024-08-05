@@ -41,7 +41,6 @@ func shake_start(
         timer_freq.start(1 / frequency)
 
 func shake() -> void:
-    randomize()
     shake_tween = create_tween().bind_node(self)
     shake_tween.tween_property(
         self, ^"offset", Vector2(

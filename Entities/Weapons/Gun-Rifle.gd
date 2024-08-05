@@ -27,7 +27,6 @@ func _ready() -> void:
     animation_player.animation_finished.connect(firing_ended)
 
 func fire() -> void:
-    randomize()
     Camera.shake_start(5.0, 0.09, 32.0)
     line_of_fire.rotation_degrees = randf_range(-spread_degrees, spread_degrees)
     bullet_path.rotation_degrees = line_of_fire.rotation_degrees

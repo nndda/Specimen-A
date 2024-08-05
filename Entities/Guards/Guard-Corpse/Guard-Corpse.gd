@@ -7,7 +7,6 @@ var repos_node : Node2D
 @onready var visibility_handler : Node2D = $VisibilityHandler/VisibleOnScreenEnabler2D
 
 func fifty2() -> bool:
-    randomize()
     return randf() >= 0.5
 
 #func _enter_tree() -> void:
@@ -15,7 +14,6 @@ func fifty2() -> bool:
 
 func _ready() -> void:
 ## Generate randomized corpse
-    randomize()
     $Reposition.global_position = Global.head_pos
 
     $BloodSplash.emitting = true
