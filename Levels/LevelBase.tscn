@@ -119,3 +119,7 @@ visible = false
 
 [node name="GlobalModulate" parent="." groups=["show"] instance=ExtResource("8_4dsnx")]
 visible = false
+
+[node name="InfoComms" type="CanvasLayer" parent="."]
+layer = 39
+follow_viewport_enabled = true
