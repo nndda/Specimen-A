@@ -69,10 +69,20 @@ func stage_clear() -> void:
     stage.actor_label = lines_displays[0]["actor"]
     stage.dialogue_label = lines_displays[0]["dlg"]
 
+var tween_progress_bar : Tween
 func _on_stage_progressed() -> void:
     current_line = stage.get_line()
-    progress_bar.value = current_line + 1
-    end_label.visible = progress_bar.value == dlg_length
+
+    tween_progress_bar = create_tween()\
+        .set_ease(Tween.EASE_OUT)\
+        .set_trans(Tween.TRANS_EXPO)
+
+    tween_progress_bar.tween_property(
+        progress_bar, ^"value",
+        current_line + 1, 0.7
+    ).from_current()
+
+    end_label.visible = current_line == dlg_length - 1
 
 func _on_dlglabel_rendered(_string : String) -> void:
     current_line_wrapped = wrapi(current_line + 1, 0, dlg_length)
