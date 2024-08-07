@@ -1,7 +1,25 @@
-[gd_resource type="Theme" load_steps=2 format=3 uid="uid://dkngjeynggxxy"]
+[gd_resource type="Theme" load_steps=4 format=3 uid="uid://dkngjeynggxxy"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_veatj"]
-bg_color = Color(0, 0, 0, 0.894118)
+content_margin_left = 3.0
+content_margin_top = 3.0
+content_margin_right = 3.0
+content_margin_bottom = 3.0
+bg_color = Color(0.02, 0.02, 0.02, 0.870588)
+corner_radius_top_left = 4
+corner_radius_top_right = 4
+corner_radius_bottom_right = 4
+corner_radius_bottom_left = 4
+
+[sub_resource type="StyleBoxLine" id="StyleBoxLine_tivms"]
+color = Color(1, 1, 1, 0.0431373)
+thickness = 2
+
+[sub_resource type="StyleBoxLine" id="StyleBoxLine_ew3u3"]
+color = Color(0.92, 0.724807, 0.3036, 1)
+thickness = 2
 
 [resource]
 PanelContainer/styles/panel = SubResource("StyleBoxFlat_veatj")
+ProgressBar/styles/background = SubResource("StyleBoxLine_tivms")
+ProgressBar/styles/fill = SubResource("StyleBoxLine_ew3u3")

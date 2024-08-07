@@ -1,12 +1,15 @@
-[gd_scene load_steps=8 format=3 uid="uid://d2tpfh4a8bwk0"]
+[gd_scene load_steps=14 format=3 uid="uid://d2tpfh4a8bwk0"]
 
 [ext_resource type="Script" path="res://Worlds/Objects/InfoComm/InfoComm.gd" id="1_nnlww"]
 [ext_resource type="Theme" uid="uid://dkngjeynggxxy" path="res://Worlds/Objects/InfoComm/InfoCommTheme.tres" id="1_ui1pe"]
 [ext_resource type="Script" path="res://addons/Theatre/classes/Stage.gd" id="2_vvx6x"]
 [ext_resource type="FontFile" uid="uid://fw6yop44axk8" path="res://UI/Fonts/Silver.ttf" id="3_b4n6w"]
+[ext_resource type="Texture2D" uid="uid://p80cfkr7hx8x" path="res://Worlds/Objects/InfoComm/icon_progress.svg" id="4_3skgx"]
+[ext_resource type="Texture2D" uid="uid://cq38mnh7o4wkc" path="res://Worlds/Objects/InfoComm/icon_cancel.svg" id="5_wtftm"]
+[ext_resource type="PackedScene" uid="uid://bn801wox8wl0f" path="res://Scripts/Area/VisibilityHandler.tscn" id="7_c161y"]
 
 [sub_resource type="StyleBoxLine" id="StyleBoxLine_8v78b"]
-color = Color(1, 1, 1, 0.498039)
+color = Color(1, 1, 1, 0.156863)
 vertical = true
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_61gnu"]
@@ -18,7 +21,32 @@ spacing_glyph = 1
 spacing_top = -2
 spacing_bottom = -7
 
-[node name="InfoComm" type="Control" node_paths=PackedStringArray("stage", "main_container", "container", "container_scroll", "progress_bar", "end_label", "button_trigger", "detect_area", "camera_copy")]
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_mpts3"]
+content_margin_left = 4.0
+content_margin_top = 3.0
+content_margin_right = 4.0
+content_margin_bottom = 4.0
+bg_color = Color(0.08, 0.08, 0.08, 0.87451)
+corner_radius_top_left = 2
+corner_radius_top_right = 2
+corner_radius_bottom_right = 2
+corner_radius_bottom_left = 2
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_vocpl"]
+content_margin_left = 7.0
+content_margin_top = 6.0
+content_margin_right = 7.0
+content_margin_bottom = 7.0
+bg_color = Color(0.04, 0.04, 0.04, 0.894118)
+corner_radius_top_left = 2
+corner_radius_top_right = 2
+corner_radius_bottom_right = 2
+corner_radius_bottom_left = 2
+
+[sub_resource type="LabelSettings" id="LabelSettings_4u72y"]
+font_size = 15
+
+[node name="InfoComm" type="Control" node_paths=PackedStringArray("stage", "main_container", "container", "container_scroll", "progress_bar", "end_label", "button_trigger", "detect_area", "camera_copy") groups=["hide"]]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -29,8 +57,8 @@ theme = ExtResource("1_ui1pe")
 script = ExtResource("1_nnlww")
 stage = NodePath("Stage")
 main_container = NodePath("PanelContainer")
-container = NodePath("PanelContainer/MarginContainer/VBoxContainer/ScrollContainer/VBoxContainer")
-container_scroll = NodePath("PanelContainer/MarginContainer/VBoxContainer/ScrollContainer")
+container = NodePath("PanelContainer/MarginContainer/VBoxContainer/MarginContainer/ScrollContainer/VBoxContainer")
+container_scroll = NodePath("PanelContainer/MarginContainer/VBoxContainer/MarginContainer/ScrollContainer")
 progress_bar = NodePath("PanelContainer/MarginContainer/VBoxContainer/ProgressBar")
 end_label = NodePath("PanelContainer/MarginContainer/VBoxContainer/HBoxContainer/EndLabel")
 button_trigger = NodePath("ButtonTrigger")
@@ -58,30 +86,45 @@ theme_override_constants/margin_bottom = 2
 [node name="VBoxContainer" type="VBoxContainer" parent="PanelContainer/MarginContainer"]
 layout_mode = 2
 
-[node name="ScrollContainer" type="ScrollContainer" parent="PanelContainer/MarginContainer/VBoxContainer"]
+[node name="MarginContainer" type="MarginContainer" parent="PanelContainer/MarginContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_constants/margin_left = 3
+theme_override_constants/margin_top = 2
+theme_override_constants/margin_right = 3
+theme_override_constants/margin_bottom = 2
+
+[node name="ScrollContainer" type="ScrollContainer" parent="PanelContainer/MarginContainer/VBoxContainer/MarginContainer"]
 layout_mode = 2
 size_flags_vertical = 3
 follow_focus = true
 horizontal_scroll_mode = 0
 
-[node name="VBoxContainer" type="VBoxContainer" parent="PanelContainer/MarginContainer/VBoxContainer/ScrollContainer"]
+[node name="VBoxContainer" type="VBoxContainer" parent="PanelContainer/MarginContainer/VBoxContainer/MarginContainer/ScrollContainer"]
+modulate = Color(1, 1, 1, 0.858824)
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 
 [node name="ProgressBar" type="ProgressBar" parent="PanelContainer/MarginContainer/VBoxContainer"]
 layout_mode = 2
-max_value = 1.0
-step = 1.0
+max_value = 2.0
+value = 1.0
 show_percentage = false
 
 [node name="HBoxContainer" type="HBoxContainer" parent="PanelContainer/MarginContainer/VBoxContainer"]
 layout_mode = 2
+size_flags_vertical = 4
 
 [node name="Progress" type="Button" parent="PanelContainer/MarginContainer/VBoxContainer/HBoxContainer"]
+custom_minimum_size = Vector2(20, 20)
 layout_mode = 2
+size_flags_horizontal = 3
 focus_mode = 0
-text = "Progress"
+theme_override_colors/icon_normal_color = Color(0.92, 0.724807, 0.3036, 1)
+icon = ExtResource("4_3skgx")
+icon_alignment = 1
+expand_icon = true
 
 [node name="VSeparator" type="VSeparator" parent="PanelContainer/MarginContainer/VBoxContainer/HBoxContainer"]
 layout_mode = 2
@@ -90,6 +133,7 @@ theme_override_styles/separator = SubResource("StyleBoxLine_8v78b")
 
 [node name="EndLabel" type="Label" parent="PanelContainer/MarginContainer/VBoxContainer/HBoxContainer"]
 layout_mode = 2
+theme_override_font_sizes/font_size = 15
 text = "END OF FILE"
 
 [node name="Control" type="Control" parent="PanelContainer/MarginContainer/VBoxContainer/HBoxContainer"]
@@ -97,8 +141,12 @@ layout_mode = 2
 size_flags_horizontal = 3
 
 [node name="Abort" type="Button" parent="PanelContainer/MarginContainer/VBoxContainer/HBoxContainer"]
+custom_minimum_size = Vector2(20, 20)
 layout_mode = 2
-text = "x"
+focus_mode = 0
+theme_override_colors/icon_normal_color = Color(1, 0.0431373, 0.101961, 1)
+icon = ExtResource("5_wtftm")
+expand_icon = true
 
 [node name="DetectArea" type="Area2D" parent="."]
 collision_layer = 261
@@ -114,15 +162,49 @@ shape = SubResource("CircleShape2D_61gnu")
 z_index = 999
 z_as_relative = false
 layout_mode = 0
-offset_right = 8.0
-offset_bottom = 8.0
+offset_right = 128.0
+offset_bottom = 48.0
 focus_mode = 0
 theme_override_fonts/font = SubResource("FontVariation_7tkme")
 theme_override_font_sizes/font_size = 16
-text = "[note...]"
+theme_override_styles/hover = SubResource("StyleBoxFlat_mpts3")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_vocpl")
+theme_override_styles/normal = SubResource("StyleBoxFlat_vocpl")
+
+[node name="HBoxContainer" type="HBoxContainer" parent="ButtonTrigger"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+alignment = 1
+
+[node name="L" type="Label" parent="ButtonTrigger/HBoxContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 15
+text = "["
+
+[node name="Label" type="Label" parent="ButtonTrigger/HBoxContainer"]
+layout_mode = 2
+text = "notes..."
+label_settings = SubResource("LabelSettings_4u72y")
+horizontal_alignment = 1
+
+[node name="R" type="Label" parent="ButtonTrigger/HBoxContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 15
+text = "]"
+
+[node name="VisibilityHandler" parent="." instance=ExtResource("7_c161y")]
+set_process_mode_to = 4
+root_path = NodePath("..")
 
 [connection signal="pressed" from="PanelContainer/MarginContainer/VBoxContainer/HBoxContainer/Progress" to="." method="_on_progress_pressed"]
 [connection signal="pressed" from="PanelContainer/MarginContainer/VBoxContainer/HBoxContainer/Abort" to="." method="_on_abort_pressed"]
 [connection signal="body_entered" from="DetectArea" to="." method="_on_area_2d_body_entered"]
 [connection signal="body_exited" from="DetectArea" to="." method="_on_area_2d_body_exited"]
 [connection signal="pressed" from="ButtonTrigger" to="." method="_on_start_pressed"]
+
+[editable path="VisibilityHandler"]
