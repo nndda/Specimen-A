@@ -95,6 +95,7 @@ func switch_state(start : bool) -> void:
     stage_clear()
     tween_main_ui(start)
 
+    button_trigger.disabled = start
     detect_area.monitoring = !start
     Global.player_physics_head.allow_control = !start
     tween_indicator(!start)
