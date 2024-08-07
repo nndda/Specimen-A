@@ -155,11 +155,12 @@ func _process(_delta : float) -> void:
     raycast_obstacle.look_at(mouse_global_pos)
     ui_obstacle.visible = !allow_move
 
-    if raycast_obstacle.is_colliding():
-        if Input.is_action_just_pressed(&"Move"):
-            ui_obstacle_pos.global_position = raycast_obstacle.get_collision_point()
-            ui_obstacle.position = ui_obstacle_pos.get_global_transform_with_canvas().origin
-            ui_obstacle_anim.play(&"Blink")
+    if allow_control:
+        if raycast_obstacle.is_colliding():
+            if Input.is_action_just_pressed(&"Move"):
+                ui_obstacle_pos.global_position = raycast_obstacle.get_collision_point()
+                ui_obstacle.position = ui_obstacle_pos.get_global_transform_with_canvas().origin
+                ui_obstacle_anim.play(&"Blink")
 
     attack_handler()
 
