@@ -6,7 +6,6 @@ extends Area2D
 signal triggered
 
 @onready var animation_player : AnimationPlayer = $AnimationPlayer
-
 @onready var explosion_particles : GPUParticles2D = $Explosion
 @onready var shards : CPUParticles2D = preload(
     "res://Shaders/Particles/GlassShardsSparks.tscn"
@@ -36,14 +35,11 @@ func _ready() -> void:
     )
     $AnimationPlayer/OffsetTimer.start(randf_range(0.7, 2.1))
 
-#var is_triggered := false
 func _on_body_entered(body : Node2D) -> void:
-    #if !is_triggered:
-        if body.name == Global.PLAYER_HEAD_NAME:
-            #is_triggered = true
-            trigger()
-            body_entered.disconnect(_on_body_entered)
-            body.damage_player(randf_range(damage_min, damage_max))
+    if body.name == Global.PLAYER_HEAD_NAME:
+        trigger()
+        body_entered.disconnect(_on_body_entered)
+        body.damage_player(randf_range(damage_min, damage_max))
 
 func _on_animation_finished(anim_name : StringName) -> void:
     if anim_name == &"Detonate":
@@ -55,4 +51,7 @@ func _on_animation_finished(anim_name : StringName) -> void:
         ]:
             n.queue_free()
 
+    animation_player = null
+    explosion_particles = null
+    shards = null
     set_script(null)

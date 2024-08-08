@@ -27,43 +27,48 @@ func get_polygon_idx(vec_dir : Vector2i) -> Vector2i:
 func _ready() -> void:
     top_scale = Global.top_scale
     texture_size = texture.get_size()
+    var texture_size_half := texture_size * 0.5
+
+    const VEC2_TOP_RIGHT := Vector2(1, -1)
+    const VEC2_BOTTOM_RIGHT := Vector2(1, 1)
+    const VEC2_BOTTOM_LEFT := Vector2(-1, 1)
 
     match direction:
         SkewDirection.UP:   # 0,    0, -1
             texture_dir = Vector2.UP * texture_size
             texture_rel = [
-                (texture_size * 0.5) * Vector2(1, 1),
-                (texture_size * 0.5) * Vector2(-1, 1),
+                texture_size_half * VEC2_BOTTOM_RIGHT,
+                texture_size_half * VEC2_BOTTOM_LEFT,
             ]
 
         SkewDirection.RIGHT:   # 1,    1, 0
             texture_dir = Vector2.RIGHT * texture_size
             texture_rel = [
-                (texture_size * 0.5) * Vector2(-1, 1),
-                (texture_size * -0.5) * Vector2(1, 1),
+                texture_size_half * VEC2_BOTTOM_LEFT,
+                -texture_size_half * VEC2_BOTTOM_RIGHT,
             ]
 
         SkewDirection.DOWN:   # 2,    0, -1
             texture_dir = Vector2.DOWN * texture_size
             texture_rel = [
-                (texture_size * -0.5) * Vector2(1, 1),
-                (texture_size * 0.5) * Vector2(1, -1),
+                -texture_size_half * VEC2_BOTTOM_RIGHT,
+                texture_size_half * VEC2_TOP_RIGHT,
             ]
 
         SkewDirection.LEFT:   # 3,    -1, 0
             texture_dir = Vector2.LEFT * texture_size
             texture_rel = [
-                (texture_size * 0.5) * Vector2(1, -1),
-                (texture_size * 0.5) * Vector2(1, 1),
+                texture_size_half * VEC2_TOP_RIGHT,
+                texture_size_half * VEC2_BOTTOM_RIGHT,
             ]
 
     polygon_idx = get_polygon_idx(texture_dir.sign())
 
 func _process(_delta : float) -> void:
     if visible:
-        canvas_pos = ((\
-            get_global_transform_with_canvas().origin * 2) /\
-            viewport_rect_size) - Vector2.ONE
+        canvas_pos = (
+            (get_global_transform_with_canvas().origin * 2) / viewport_rect_size
+        ) - Vector2.ONE
 
         canvas_rel =\
             position + texture_dir +\

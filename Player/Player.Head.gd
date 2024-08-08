@@ -49,7 +49,9 @@ var canvas_position : Vector2
 # Player UIs
 @onready var ui : CanvasLayer = $"../UI"
 @onready var ui_attack_indicator : TextureProgressBar = $"../UI/AttackIndicator"
+@onready var ui_attack_indicator_size_half : Vector2 = ui_attack_indicator.size * 0.5
 @onready var ui_attack_cooldown : TextureProgressBar = $"../UI/AttackCooldown"
+@onready var ui_attack_cooldown_size_half : Vector2 = ui_attack_cooldown.size * 0.5
 @onready var ui_arrow : Sprite2D = $"../UI/Arrow"
 
 @onready var ui_obstacle : Sprite2D = $"../UI/FaceObstacleIcon"
@@ -63,15 +65,17 @@ var canvas_position : Vector2
 @onready var area_destroy_through : Area2D = $"DestroyThrough-A"
 @onready var player_general_area : Area2D = $PlayerGeneralArea
 
+var open_mouth_rotation : float
 func open_mouth(n : float) -> void:
-    jaw_a.rotation_degrees = n * -30.0
+    open_mouth_rotation = n * 30.0
+    jaw_a.rotation_degrees = -open_mouth_rotation
     jaw_a.rotation_degrees = clampf(
-        jaw_a.rotation_degrees, -30.0, 0.0
+        jaw_a.rotation_degrees, -open_mouth_rotation, 0.0
     )
 
-    jaw_b.rotation_degrees = n * 30.0
+    jaw_b.rotation_degrees = open_mouth_rotation
     jaw_b.rotation_degrees = clampf(
-        jaw_b.rotation_degrees + n * 30.0, 0.0, 30.0
+        jaw_b.rotation_degrees + open_mouth_rotation, 0.0, 30.0
     )
 
 func attack_handler() -> void:
@@ -108,7 +112,6 @@ func attack_handler() -> void:
             allow_attack            = false
 
     ui_attack_indicator.value      = attack_out
-    ui_attack_cooldown.max_value   = 100
     ui_attack_cooldown.value       = (
         (attack_cooldown_timer.time_left / attack_cooldown_timer.wait_time) * 100
     )
@@ -124,10 +127,12 @@ func _ready() -> void:
         #$"../DBG".queue_free() # NOTE: Removing the debug UI messed up the player UI
         $"../DBG".visible = false
 
+    ui_attack_cooldown.max_value   = 100
+
 # TODO: reduce... things in _process
 func _process(_delta : float) -> void:
     mouse_global_pos = get_global_mouse_position()
-    mouse_viewport_pos = get_viewport().get_mouse_position()
+    mouse_viewport_pos = Cursor.mouse_viewport_position
     mouse_moving_distance = global_position.distance_to(mouse_global_pos)
 
     canvas_position = get_global_transform_with_canvas().origin
@@ -149,8 +154,8 @@ func _process(_delta : float) -> void:
     ui_arrow.modulate.a   = moving_f
     ui_arrow.offset.x     = moving_f * 60 + 68
 
-    ui_attack_indicator.position    = canvas_position - ui_attack_indicator.size * 0.5
-    ui_attack_cooldown.position     = canvas_position - ui_attack_cooldown.size * 0.5
+    ui_attack_indicator.position    = canvas_position - ui_attack_indicator_size_half
+    ui_attack_cooldown.position     = canvas_position - ui_attack_cooldown_size_half
 
     raycast_obstacle.look_at(mouse_global_pos)
     ui_obstacle.visible = !allow_move
@@ -168,6 +173,7 @@ func _process(_delta : float) -> void:
         monitor_var()
 
 var velo : Vector2
+var velo_max : Vector2
 var attack_velo : Vector2
 var collision : KinematicCollision2D
 func _physics_process(delta : float) -> void:
@@ -184,7 +190,8 @@ func _physics_process(delta : float) -> void:
 
     else:
         attack_distance_max = 6.4 * attack_strength
-        velo = attack_speed * attack_dir
+        velo_max = attack_speed * attack_dir
+        velo = velo_max
         collision = move_and_collide(velo)
 
         attack_pos[1] = global_position
@@ -196,11 +203,13 @@ func _physics_process(delta : float) -> void:
             attacking = false
 
         if attack_pos[0].distance_to(attack_pos[1]) >= attack_distance_max:
-            velo -= Vector2.ONE * 2.0 * delta
+            velo = velo.move_toward(Vector2.ZERO, delta)
+
             reset_atk_dmg()
             attacking = false
 
-        velo = clamp(velo, Vector2.ZERO, attack_speed * attack_dir)
+        velo = velo.clamp(Vector2.ZERO, velo_max)
+
         body.points[-1] = position
 
     if moving_f > 0.0 and !attacking:
@@ -213,6 +222,11 @@ func _physics_process(delta : float) -> void:
 
     if Global.moving_or_attacking:
         body.update_collision_shape()
+        if body.get_point_count() > body.body_segment_max:
+            body.remove_point(0)
+        else:
+            body.add_point(position)
+
         #body.update_light_path()
 
 func shake_cam() -> void:
@@ -230,7 +244,8 @@ var general_light_tween : Tween
 func fade_out_light() -> void:
     general_light_tween = create_tween()
     general_light_tween.tween_property(
-        light_general, ^"energy", 0.0, 0.85
+        light_general, ^"modulate:a", 0.0, 0.85
+        #light_general, ^"energy", 0.0, 0.85
     )\
     .set_ease(Tween.EASE_OUT)\
     .set_trans(Tween.TRANS_EXPO)
@@ -242,7 +257,8 @@ func fade_in_light() -> void:
     light_general.enabled = true
     general_light_tween = create_tween()
     general_light_tween.tween_property(
-        light_general, ^"energy", 0.65, 0.85
+        light_general, ^"modulate:a", 1.0, 0.85
+        #light_general, ^"energy", 0.65, 0.85
     )\
     .set_ease(Tween.EASE_OUT)\
     .set_trans(Tween.TRANS_EXPO)
@@ -295,14 +311,14 @@ func damage_player(power : float) -> void:
 
 func monitor_var() -> void:
     $"../DBG/VBoxContainer".data = [
-        "fps",              Engine.get_frames_per_second(),
-        "allow_move",       allow_move,
-        "allow_attack",     allow_attack,
-        "moving",           Global.moving,
-        "attacking",        Global.attacking,
-        "moving_f",         Global.moving_f,
-        "moving_atking",    Global.moving_or_attacking,
-        "health",           round(health),
+        #"fps",              Engine.get_frames_per_second(),
+        #"allow_move",       allow_move,
+        #"allow_attack",     allow_attack,
+        #"moving",           Global.moving,
+        #"attacking",        Global.attacking,
+        #"moving_f",         Global.moving_f,
+        #"moving_atking",    Global.moving_or_attacking,
+        #"health",           round(health),
        ]
     $"../DBG/VBoxContainer".mon_vars()
 

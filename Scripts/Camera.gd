@@ -137,7 +137,7 @@ func _process(_delta : float) -> void:
         viewport_rect_size = get_viewport_rect().size
 
         if !paused:
-            mouse_pos = get_viewport().get_mouse_position()
+            mouse_pos = Cursor.mouse_viewport_position
         if !is_copying:
             global_position = Global.head_pos
 

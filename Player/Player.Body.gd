@@ -1,15 +1,12 @@
 extends Line2D
 
-@onready var head : CharacterBody2D = $"../Head"
-@onready var damage_area : Area2D = $"../DamageCollision"
-
 var body_segment_max := get_point_count()
 var body_segment_max_physics : int = body_segment_max - 9
 var body_segment_length_arr : PackedFloat32Array = []
-var body_segment_physics_arr := PackedInt32Array(
-    range(body_segment_max, body_segment_max - body_segment_max_physics, -1))
+var body_segment_physics_arr : Array = range(
+    body_segment_max, body_segment_max - body_segment_max_physics, -1
+)
 
-var collision_segments : Array[CollisionShape2D] = []
 var collision_segments_shape : Array[SegmentShape2D] = []
 
 #@onready var lights_path : Path2D = $Lights
@@ -17,12 +14,14 @@ var collision_segments_shape : Array[SegmentShape2D] = []
 #@onready var lights_anim_delay : Timer = $Lights/AnimationPlayer/Delay
 
 func init_collision_shape() -> void:
+    body_segment_physics_arr.make_read_only()
+
     for segment : int in body_segment_max_physics:
         var shape_node := CollisionShape2D.new()
         var shape := SegmentShape2D.new()
 
-        shape.b = points[ segment + 1 ]
-        shape.a = points[ segment ]
+        shape.b = points[segment + 1]
+        shape.a = points[segment]
 
         shape_node.shape = shape
 
@@ -30,14 +29,15 @@ func init_collision_shape() -> void:
         #shape_node.debug_color = Color.YELLOW
         #shape_node.z_index = 99
 
-        damage_area.add_child(shape_node)
-        collision_segments.append(shape_node)
+        $"../DamageCollision".add_child(shape_node)
         collision_segments_shape.append(shape)
+
+    collision_segments_shape.make_read_only()
 
 func update_collision_shape() -> void:
     for segment : int in body_segment_max_physics:
-        collision_segments_shape[ segment ].b = points[ body_segment_physics_arr[ segment ] - 1 ]
-        collision_segments_shape[ segment ].a = points[ body_segment_physics_arr[ segment ] - 2 ]
+        collision_segments_shape[segment].b = points[body_segment_physics_arr[segment] - 1]
+        collision_segments_shape[segment].a = points[body_segment_physics_arr[segment] - 2]
 
 # WARNING : performance issue
 #func update_body_length() -> void:
@@ -70,13 +70,6 @@ func _ready() -> void:
     #for n : int in body_segment_max - 5:
         #lights_path.curve.add_point(Vector2.ONE)
     #update_light_path()
-
-func _physics_process(_delta : float) -> void:
-    if Global.moving_or_attacking:
-        if get_point_count() > body_segment_max:
-            remove_point(0)
-        else:
-            add_point(head.position)
 
 #func _on_lights_anim_finished(anim_name : StringName) -> void:
     #if anim_name == &"Idle":
