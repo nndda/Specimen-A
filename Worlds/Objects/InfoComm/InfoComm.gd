@@ -9,6 +9,7 @@ var dlg_length : int
 @export var main_container : PanelContainer
 @export var container : VBoxContainer
 @export var container_scroll : ScrollContainer
+var container_scrollbar : VScrollBar
 @export var progress_bar : ProgressBar
 @export var end_label : Label
 
@@ -56,6 +57,9 @@ func _ready() -> void:
     tween_indicator(false)
     tween_main_ui(false)
 
+    container_scrollbar = container_scroll.get_v_scroll_bar()
+    container_scrollbar.changed.connect(_on_container_scrollbar_changed)
+
 var current_line : int = 0
 var current_line_wrapped : int = 0
 
@@ -88,6 +92,9 @@ func _on_dlglabel_rendered(_string : String) -> void:
     current_line_wrapped = wrapi(current_line + 1, 0, dlg_length)
     stage.actor_label = lines_displays[current_line_wrapped]["actor"]
     stage.dialogue_label = lines_displays[current_line_wrapped]["dlg"]
+
+func _on_container_scrollbar_changed() -> void:
+    container_scrollbar.ratio = 1.0
 
 
 
