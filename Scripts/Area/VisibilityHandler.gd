@@ -7,7 +7,8 @@ extends Node
 
 func _ready():
     enabler.global_position = root.global_position
-    enabler.global_rotation = root.global_rotation
+    if root is Node2D:
+        enabler.global_rotation = root.global_rotation
     enabler.screen_entered.connect(_on_screen_entered)
     enabler.screen_exited.connect(_on_screen_exited)
     enabler.visible = true
