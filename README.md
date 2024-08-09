@@ -14,7 +14,7 @@ The project can be built using Godot 4.3 official export templates.
 ## External Assets
 
 ### Fonts
-- Silver by [poppyworks](https://poppyworks.itch.io/)
+- Silver (CC BY 4.0) by [poppyworks](https://poppyworks.itch.io/)
 
 This project is licensed under [GNU GPLv3](LICENSE)
 
