@@ -9,9 +9,6 @@ var repos_node : Node2D
 func fifty2() -> bool:
     return randf() >= 0.5
 
-#func _enter_tree() -> void:
-    #visible = true
-
 func _ready() -> void:
 ## Generate randomized corpse
     $Reposition.global_position = Global.head_pos
@@ -36,24 +33,23 @@ func _ready() -> void:
 
     for limb : StringName in [&"RArm", &"LArm", &"RLeg", &"LLeg"]: decap_limb(limb)
     is_ready = true
-    #blood_trail()
     repos_node.global_position = Global.head_pos
 
 func decap_limb(limb : StringName) -> void:
-    var limb_n : StringName = &"Hand" if limb.ends_with("Arm") else &"Feet"
+    var limb_n : String = "Hand" if limb.ends_with("Arm") else "Feet"
 
     if fifty2():
-        get_node(&"Torso/%s/%s-BloodSplattersDecap" % [limb, limb_n]).queue_free()
+        get_node("Torso/%s/%s-BloodSplattersDecap" % [limb, limb_n]).queue_free()
     else:
-        get_node(&"Torso/%s/%s-BloodSplattersDecap" % [limb, limb_n]).show()
-        get_node(&"Torso/%s/%s" % [limb, limb_n]).queue_free()
+        get_node("Torso/%s/%s-BloodSplattersDecap" % [limb, limb_n]).show()
+        get_node("Torso/%s/%s" % [limb, limb_n]).queue_free()
 
         if fifty2():
-            get_node(&"Torso/%s-Blood" % limb).queue_free()
+            get_node("Torso/%s-Blood" % limb).queue_free()
         else:
-            get_node(&"Torso/%s-Blood" % limb).show()
-            get_node(&"Torso/%s-Blood" % limb).rotation_degrees = get_node(&"Torso/%s" % limb).rotation_degrees
-            get_node(&"Torso/%s" % limb).queue_free()
+            get_node("Torso/%s-Blood" % limb).show()
+            get_node("Torso/%s-Blood" % limb).rotation_degrees = get_node("Torso/%s" % limb).rotation_degrees
+            get_node("Torso/%s" % limb).queue_free()
 
 func _process(_delta : float) -> void:
     visibility_handler.global_position = global_position
@@ -72,6 +68,11 @@ func blood_trail() -> void:
             else:
                 blood_trails = false
                 process_mode = Node.PROCESS_MODE_DISABLED
+                repos_node = null
+                blood_trail_trigger = null
+                blood_trail_node = null
+                visibility_handler = null
+                set_script(null)
 
 func _on_Reposition_tree_entered() -> void:
     repos_node = $Reposition

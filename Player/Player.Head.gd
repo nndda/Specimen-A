@@ -33,6 +33,7 @@ var attack_incr : float = 4.0
 var attack_button_pressed := false
 
 var mouse_global_pos : Vector2
+var mouse_global_pos_dir : Vector2
 var mouse_viewport_pos : Vector2
 var mouse_moving_distance : float
 var canvas_position : Vector2
@@ -104,7 +105,7 @@ func attack_handler() -> void:
             player_general_area.monitorable = true
             player_general_area.monitoring = true
             attacking = true
-            attack_dir = global_position.direction_to(mouse_global_pos)
+            attack_dir = mouse_global_pos_dir
             attack_strength = attack_out
 
             attack_cooldown_timer.start(attack_cooldown * attack_out * 0.01 + 1.2)
@@ -132,6 +133,7 @@ func _ready() -> void:
 # TODO: reduce... things in _process
 func _process(_delta : float) -> void:
     mouse_global_pos = get_global_mouse_position()
+    mouse_global_pos_dir = global_position.direction_to(mouse_global_pos)
     mouse_viewport_pos = Cursor.mouse_viewport_position
     mouse_moving_distance = global_position.distance_to(mouse_global_pos)
 
@@ -182,8 +184,9 @@ func _physics_process(delta : float) -> void:
 
     if !attacking:
         velo = (
-            moving_f * speed
-            * global_position.direction_to(mouse_global_pos)
+            moving_f
+            * speed
+            * mouse_global_pos_dir
         )
         velocity = velo
         move_and_slide()
