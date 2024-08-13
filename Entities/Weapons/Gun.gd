@@ -21,14 +21,7 @@ var on_line := false
 var player_on_sight := false
 var has_obstacle := false
 
-const player_bodies : Array[StringName] = [&"Head", &"DamageCollision"]
-
-#func add_raycast_exceptions(body : CollisionObject2D) -> void:
-    #line_of_sight.add_exception(body)
-    #obstacle_sight.add_exception(body)
-    #friendly_sight.add_exception(body)
-
-func init_raycast_exceptions(raycast : RayCast2D, ignore_all : bool = true) -> void:
+func add_raycast_exceptions(raycast : RayCast2D, ignore_all : bool = true) -> void:
     raycast.add_exception(Global.player_destroy_through)
     raycast.add_exception(Global.player_general_area)
 
@@ -36,14 +29,16 @@ func init_raycast_exceptions(raycast : RayCast2D, ignore_all : bool = true) -> v
         raycast.add_exception(Global.player_physics_head)
         raycast.add_exception(Global.player_physics_body)
 
+func init_raycast_exceptions() -> void:
+    add_raycast_exceptions(line_of_sight, false)
+    add_raycast_exceptions(obstacle_sight)
+    add_raycast_exceptions(friendly_sight)
+
 func _on_line_of_fire_tree_entered() -> void:
     $LineOfSight/LineOfFire.enabled = false
 
 func _ready() -> void:
     fire_function_anim = fire_function.animation_player
-    init_raycast_exceptions(line_of_sight, false)
-    init_raycast_exceptions(obstacle_sight)
-    init_raycast_exceptions(friendly_sight)
 
     fire_function_anim.animation_started.connect(
         entity_holder._on_weapon_animation_started

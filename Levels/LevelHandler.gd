@@ -64,6 +64,8 @@ func _ready() -> void:
     )
     Notifications.set_level_label(level_name, 4.25)
 
+    tree.call_group(&"entity", &"init_raycast_exceptions")
+
 func area_entered(body : Node2D, area_name : String) -> void:
     if body.name == Global.PLAYER_HEAD_NAME and area_name != current_area_name:
         current_area_name = area_name
