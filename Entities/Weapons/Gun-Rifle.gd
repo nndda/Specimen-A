@@ -3,9 +3,6 @@ extends Node
 @export var spread_degrees : float = 1.98
 @export var animation_player : AnimationPlayer
 
-var entity_holder : Node
-@onready var weapon : Node2D = $".."
-
 @export_category("Sights")
 @export var line_of_sight : RayCast2D
 @export var line_of_fire : RayCast2D
@@ -19,10 +16,12 @@ var line_of_fire_collider : Object
 
 @export var colliding_point : Marker2D
 
+var damage_min : float
+var damage_max : float
+
 var hit := false
 
 func _ready() -> void:
-    entity_holder = weapon.entity_holder
     animation_player.animation_started.connect(firing_started)
     animation_player.animation_finished.connect(firing_ended)
 
@@ -57,22 +56,22 @@ func firing_ended(anim : StringName) -> void:
         line_of_fire_const.enabled = false
         bullet_path.points[1] = bullet_path_default_pos.position
 
+var damage_output : float
 func _physics_process(_delta : float) -> void:
-    if entity_holder.triggered:
-            hit = line_of_fire.is_colliding()
-            bullet_path.points[0] = Vector2.ZERO
-            bullet_spark.emitting = hit
+    hit = line_of_fire.is_colliding()
+    bullet_path.points[0] = Vector2.ZERO
+    bullet_spark.emitting = hit
 
-            if hit:
-                colliding_point.global_position = line_of_fire_const.get_collision_point()
-                bullet_path.points[1] = colliding_point.position
-                line_of_fire_collider = line_of_fire.get_collider()
+    if hit:
+        colliding_point.global_position = line_of_fire_const.get_collision_point()
+        bullet_path.points[1] = colliding_point.position
+        line_of_fire_collider = line_of_fire.get_collider()
 
-                bullet_spark.global_position = colliding_point.global_position
-                if line_of_fire_collider != null:
-                    var damage_output : float = randf_range(weapon.damage_min, weapon.damage_max)
+        bullet_spark.global_position = colliding_point.global_position
+        if line_of_fire_collider != null:
+            damage_output = randf_range(damage_min, damage_max)
 
-                    if line_of_fire_collider.has_method(&"damage_player"):
-                        line_of_fire_collider.damage_player(damage_output)
-                    elif line_of_fire_collider.has_method(&"damage_prop"):
-                        line_of_fire_collider.damage_prop(damage_output)
+            if line_of_fire_collider.has_method(&"damage_player"):
+                line_of_fire_collider.damage_player(damage_output)
+            elif line_of_fire_collider.has_method(&"damage_prop"):
+                line_of_fire_collider.damage_prop(damage_output)

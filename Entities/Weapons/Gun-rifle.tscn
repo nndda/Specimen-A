@@ -166,6 +166,8 @@ metadata/_snap_enabled = true
 
 [node name="Gun-Rifle" type="Node2D" node_paths=PackedStringArray("fire_function", "line_of_sight", "obstacle_sight", "friendly_sight")]
 script = ExtResource("1_njox0")
+cooldown_min = 1.9
+cooldown_max = 2.6
 fire_function = NodePath("FireFunction")
 line_of_sight = NodePath("LineOfSight")
 obstacle_sight = NodePath("LineOfSight/ObstacleSight")

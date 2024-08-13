@@ -95,9 +95,6 @@ shape = ExtResource("4_yu3yv")
 [node name="DizzyTimer" type="Timer" parent="Effects"]
 one_shot = true
 
-[node name="AttackCooldown" type="Timer" parent="."]
-one_shot = true
-
 [node name="NavigationAgent2D" type="NavigationAgent2D" parent="."]
 navigation_layers = 256
 avoidance_enabled = true
@@ -262,7 +259,6 @@ text = "Var: Val"
 [connection signal="body_entered" from="TriggerArea" to="." method="_on_trigger_body_entered"]
 [connection signal="area_entered" from="GeneralArea" to="." method="_on_general_area_entered"]
 [connection signal="area_exited" from="GeneralArea" to="." method="_on_general_area_exited"]
-[connection signal="timeout" from="AttackCooldown" to="." method="_on_attack_cooldown_timeout"]
 [connection signal="velocity_computed" from="NavigationAgent2D" to="." method="_on_navigation_velocity_computed"]
 [connection signal="timeout" from="NavigationAgent2D/UpdatePlayerPos" to="." method="_on_update_player_pos_timeout"]
 [connection signal="pressed" from="EntityDebugInfo/PanelContainer/MarginContainer/VBoxContainer/HBoxContainer/Button" to="EntityDebugInfo" method="toggle_visibility"]
