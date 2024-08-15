@@ -25,27 +25,25 @@ func _on_area_cover_body_exited(body : Node2D) -> void:
     if body.name == Global.PLAYER_HEAD_NAME:
         fade_in(fade_in_duration)
 
+func fade_tween_create() -> void:
+    visibility_tween = create_tween().bind_node(self)\
+        .set_ease(Tween.EASE_OUT)\
+        .set_trans(Tween.TRANS_QUAD)
 
 func fade_in(duration : float = 0.5) -> void:
     (material as ShaderMaterial).set_shader_parameter(&"enabled", true)
     visible = true
 
-    visibility_tween = create_tween().bind_node(self)
+    fade_tween_create()
     visibility_tween.tween_property(
-            self, ^"modulate:a", 1.0, duration
-        )\
-        .set_ease(Tween.EASE_OUT)\
-        .set_trans(Tween.TRANS_QUAD)\
-        .from_current()
+        self, ^"modulate:a", 1.0, duration
+    ).from_current()
 
 func fade_out(duration : float = 0.5) -> void:
-    visibility_tween = create_tween().bind_node(self)
+    fade_tween_create()
     visibility_tween.tween_property(
-            self, ^"modulate:a", 0.0, duration
-        )\
-        .set_ease(Tween.EASE_OUT)\
-        .set_trans(Tween.TRANS_QUAD)\
-        .from_current()
+        self, ^"modulate:a", 0.0, duration
+    ).from_current()
 
     await visibility_tween.finished
     visible = false
