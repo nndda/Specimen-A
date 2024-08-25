@@ -29,6 +29,11 @@ var move_tutorial_finished := false
 func action_string(input : InputEvent) -> String:
     return input.as_text().rstrip(" Button").rstrip(" (Physical)")
 
+func _enter_tree() -> void:
+    if Global.user_data["level_stats"]["tutorial_passed"]:
+        process_mode = Node.PROCESS_MODE_DISABLED
+        queue_free()
+
 func _ready():
     if process_mode != Node.PROCESS_MODE_DISABLED:
         $BreakOut.visible = false
@@ -79,6 +84,9 @@ func hint_breakout_clear() -> void:
                 str(time["year"]).left(1) + "1XX",
             ]
         )
+
+        Global.user_data["level_stats"]["tutorial_passed"] = true
+        Global.update_user_data()
 
     broken += 1
     info_stats_stage.set_variable("count", broken)
