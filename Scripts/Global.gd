@@ -100,22 +100,25 @@ const USER_PROGRESS_PATH := "user://user.progress.cfg"
 
 const USER_DATA_PASS = "specimen-a"
 
+#region user config
 func update_user_config() -> void:
     var config := ConfigFile.new()
-    if !FileAccess.file_exists(USER_CONFIG_PATH):
-        for n in user_config_default.keys():
-            config.set_value("config", n, user_config_default[n])
-        var err_save := config.save(USER_CONFIG_PATH)
-        if err_save != OK:
-            printerr("Failed to save user config: ", err_save)
+    var err := OK
+
+    if FileAccess.file_exists(USER_CONFIG_PATH):
+        err = config.load(USER_CONFIG_PATH)
+
+    if err != OK:
+        printerr("Error loading user config: ", error_string(err))
     else:
-        var err := config.load(USER_CONFIG_PATH)
-        if err == OK:
-            for n in user_config.keys():
-                config.set_value("config", n, user_config[n])
-            var err_save := config.save(USER_CONFIG_PATH)
-            if err_save != OK:
-                printerr("Failed to save user config: ", err_save)
+        var config_data : Dictionary = user_config_default.merged(user_config, true)
+
+        for n in config_data.keys():
+            config.set_value("config", n, config_data[n])
+    
+    var err_save := config.save(USER_CONFIG_PATH)
+    if err_save != OK:
+        printerr("Error saving user config: ", error_string(err_save))
 
 func load_user_config() -> void:
     if !FileAccess.file_exists(USER_CONFIG_PATH):
@@ -123,11 +126,13 @@ func load_user_config() -> void:
     else:
         var config := ConfigFile.new()
         var err := config.load(USER_CONFIG_PATH)
-        if err == OK:
+        if err != OK:
+            printerr("Error loading user config: ", error_string(err))
+        else:
             for n in config.get_section_keys("config"):
                 user_config[n] = config.get_value("config", n)
-        else:
-            printerr("Failed to load user config: ", err)
+#endregion
+
 
 func _enter_tree():
     user_data_default = user_data.duplicate(true)
