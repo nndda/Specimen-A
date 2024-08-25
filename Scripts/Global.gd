@@ -70,6 +70,10 @@ func sum_array(array : PackedFloat32Array) -> float:
 
 var user_data := {
     "level_unlocked" : 0,
+    "level_stats" : {
+        "tutorial_passed": false,
+        "lv2_emergency_light": false,
+    },
     "achievements" : {
 
     },
