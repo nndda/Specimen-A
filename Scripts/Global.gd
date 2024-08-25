@@ -9,7 +9,7 @@ const canvas_modulate := preload("res://Worlds/GlobalModulate.tscn")
 var layer : Array[NodePath] = [
     ^"Objects/Corpses",
     ^"Objects/Particles",
-    ]
+]
 var layer_dict := {}
 func update_layers() -> void:
     layer_dict.clear()
@@ -42,8 +42,10 @@ const PLAYER_BODY_NAME : StringName = &"Body"
 var player_destroy_through : Area2D
 var player_general_area : Area2D
 
-signal camera_shaken_by_player
+@warning_ignore("unused_signal")
+signal camera_shaken_by_player(substantial : bool)
 
+@warning_ignore("unused_signal")
 signal level_changed
 
 #var skill_current       : int = skill.none
@@ -71,25 +73,7 @@ var user_data := {
     "achievements" : {
 
     },
-#   CONFIG
-    "config" : {
-        "optimal_graphic" : false,
-        "fullscreen" : false,
-        "resolution_idx" : 0,
-        "brightness" : 1,
-        "contrast" : 1,
-
-        "master" : 0,
-        "sfx" : 0,
-        "bgm" : 0,
-
-        #"always_show_health_bar" : false,
-        #"show_damage" : false,
-
-        "Move" : OS.get_keycode_string(KEY_F),
-        "Attack" : OS.get_keycode_string(KEY_SPACE),
-        },
-    }
+}
 var user_config := {
     "optimal_graphic" : false,
     "fullscreen" : false,
@@ -107,6 +91,7 @@ var user_config := {
     &"Move" : OS.get_keycode_string(KEY_F),
     &"Attack" : OS.get_keycode_string(KEY_SPACE),
 }
+
 var user_config_default : Dictionary
 var user_data_default : Dictionary
 
