@@ -64,8 +64,6 @@ func hint_breakout(body : Node2D, source : Marker2D) -> void:
 var broken : int = 0
 
 func hint_breakout_clear() -> void:
-    #for gate : Node2D in breakout_gates:
-        #gate.get_node(^"DestructiblesBody").destroyed.disconnect(hint_breakout_clear)
     if broken <= 0:
         $BreakOut.queue_free()
         hint_attack_anim.play(&"FadeOut")
@@ -82,21 +80,8 @@ func hint_breakout_clear() -> void:
             ]
         )
 
-    print("iwi")
     broken += 1
     info_stats_stage.set_variable("count", broken)
-
-    #if !info_stats_stage.variables.has("time_breached"):
-        #info_stats_stage.set_variable(
-            #"time_breached",
-            #"%d:%d %d/%d/%s" % [
-                #time["hour"],
-                #time["minute"],
-                #time["day"],
-                #time["month"],
-                #str(time["year"]).left(1) + "1XX",
-            #]
-        #)
 
 func _on_HintMoveRemove_body_exited(body : Node2D) -> void:
     if body.name == Global.PLAYER_HEAD_NAME:
