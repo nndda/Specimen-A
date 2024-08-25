@@ -96,7 +96,7 @@ var user_config_default : Dictionary
 var user_data_default : Dictionary
 
 const USER_CONFIG_PATH := "user://user.config.cfg"
-const USER_PROGRESS_PATH := "user://user.progress.cfg"
+const USER_DATA_PATH := "user://user_data"
 
 const USER_DATA_PASS = "specimen-a"
 
@@ -133,11 +133,53 @@ func load_user_config() -> void:
                 user_config[n] = config.get_value("config", n)
 #endregion
 
+#region user data
+func update_user_data() -> void:
+    var data_file := FileAccess.open_encrypted_with_pass(
+        USER_DATA_PATH, FileAccess.WRITE, USER_DATA_PASS
+    )
+    var err := FileAccess.get_open_error()
 
-func _enter_tree():
+    if err != OK:
+        printerr("Error saving user data: ", error_string(err))
+    else:
+        data_file.store_string(
+            var_to_str(user_data_default)
+        )
+        data_file.close()
+
+    data_file = null
+
+func load_user_data() -> void:    
+    var data_file := FileAccess.open_encrypted_with_pass(
+        USER_DATA_PATH, FileAccess.READ, USER_DATA_PASS
+    )
+    var err := FileAccess.get_open_error()
+
+    if err != OK:
+        push_error("Error loading user data: ", error_string(err))
+    elif err == ERR_FILE_NOT_FOUND or\
+        !FileAccess.file_exists(USER_DATA_PATH):
+        update_user_data()
+    else:
+        user_data.merge(
+            str_to_var(data_file.get_as_text()) as Dictionary,
+            true
+        )
+        data_file.close()
+
+    data_file = null
+#endregion
+
+func _enter_tree() -> void:
     user_data_default = user_data.duplicate(true)
     user_config_default = user_config.duplicate(true)
+
+    user_data_default.make_read_only()
+    user_config_default.make_read_only()
+
     load_user_config()
+    load_user_data()
 
 func _input(event : InputEvent) -> void:
     if event is InputEventKey:
