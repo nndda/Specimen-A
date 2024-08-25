@@ -40,6 +40,7 @@ const PLAYER_HEAD_NAME : StringName = &"Head"
 const PLAYER_BODY_NAME : StringName = &"Body"
 
 var player_destroy_through : Area2D
+var player_general_area : Area2D
 
 signal camera_shaken_by_player
 
