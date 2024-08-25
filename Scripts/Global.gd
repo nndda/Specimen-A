@@ -148,7 +148,7 @@ func update_user_data() -> void:
         printerr("Error saving user data: ", error_string(err))
     else:
         data_file.store_string(
-            var_to_str(user_data_default)
+            var_to_str(user_data_default.merged(user_data, true))
         )
         data_file.close()
 
