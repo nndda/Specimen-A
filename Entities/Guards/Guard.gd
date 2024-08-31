@@ -106,9 +106,6 @@ func _ready() -> void:
         visibility_handler_enabler.global_position = global_position
 
 func _process(_delta : float) -> void:
-    corpse.global_position = global_position
-    corpse.look_at(Global.head_pos)
-
     if is_triggered:
 
         if freeze_on_fire:
@@ -163,6 +160,9 @@ var is_killed := false
 func kill() -> void:
     if !is_killed:
         is_killed = true
+
+        corpse.global_position = global_position
+        corpse.look_at(Global.head_pos)
         corpse.z_as_relative = true
         corpse.z_index = 0
         corpse.visible = true
