@@ -12,6 +12,8 @@ var speed_init : float
 
 @export_category("Configurations")
 
+@export var already_aware := false
+
 ## Stop aiming to player if firing
 @export var freeze_on_fire := false
 
@@ -115,6 +117,9 @@ func _process(_delta : float) -> void:
             aim_to_player()
 
     else:
+        if already_aware:
+            aim_to_player()
+
         if path != null:
             global_position = path.global_position
             global_rotation = path.global_rotation
