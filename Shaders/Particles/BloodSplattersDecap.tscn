@@ -26,6 +26,8 @@ anim_offset_max = 1.0
 script = ExtResource("2_14j4h")
 stay = true
 
+[node name="CopyTimer" type="Timer" parent="."]
+
 [node name="VisibleOnScreenEnabler2D" type="VisibleOnScreenEnabler2D" parent="."]
 position = Vector2(2, -1)
 scale = Vector2(1.2, 0.9)

@@ -6,22 +6,28 @@ extends CPUParticles2D
 var custom_init_pos := false
 var init_pos : Vector2
 
-@onready var copytimer := Timer.new()
+@onready var copytimer : Timer = $CopyTimer
 
 func emit() -> void:
     visible = true
-    copytimer.start(lifetime - 0.05)
+    if stay:
+        copytimer.start(lifetime - 0.05)
     emitting = true
 
 func _ready() -> void:
+    if stay:
+        if copytimer == null:
+            push_error("No copytimer Timer on particles with stay=true at: ",
+                get_path()
+            )
+            stay = false
+        else:
+            copytimer.one_shot = true
+
+    one_shot = true
 
     if custom_init_pos:
         global_position = init_pos
-
-    copytimer.\
-    one_shot = stay
-    one_shot = stay
-    add_child(copytimer)
 
     emit()
 
@@ -32,4 +38,6 @@ func _process(_delta : float) -> void:
 
         if speed_scale == 0:
             process_mode = Node.PROCESS_MODE_DISABLED
+            if stay:
+                copytimer.queue_free()
             set_script(null)

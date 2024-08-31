@@ -1,6 +1,11 @@
 extends GPUParticles2D
 
-@onready var free_timer := Timer.new()
+var free_timer : Timer
+
+func _enter_tree() -> void:
+    set_script(null)
+    free_timer = Timer.new()
+    add_child(free_timer)
 
 func _ready() -> void:
     show()

@@ -20,25 +20,24 @@ curve = SubResource("Curve_k8jw0")
 
 [sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_iibnu"]
 particle_flag_disable_z = true
+angle_min = -720.0
+angle_max = 720.0
 spread = 50.0
-gravity = Vector3(0, 98, 0)
 initial_velocity_max = 50.0
 angular_velocity_min = -200.0
 angular_velocity_max = 200.0
-orbit_velocity_min = 0.0
-orbit_velocity_max = 0.0
+gravity = Vector3(0, 98, 0)
 linear_accel_min = 15.0
 linear_accel_max = 15.0
-angle_min = -720.0
-angle_max = 720.0
+attractor_interaction_enabled = false
 scale_max = 3.0
 scale_curve = SubResource("CurveTexture_uak0h")
 color = Color(0.956863, 0.639216, 0.113725, 1)
 color_ramp = SubResource("GradientTexture1D_f4vpo")
-attractor_interaction_enabled = false
 
 [node name="GlassShardsSparks" instance=ExtResource("1_rui31")]
 self_modulate = Color(0.0588235, 0.0117647, 0.0117647, 1)
+stay = true
 
 [node name="Sparks" type="GPUParticles2D" parent="." index="1"]
 process_mode = 3

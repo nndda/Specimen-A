@@ -38,3 +38,5 @@ stay = true
 [node name="VisibleOnScreenEnabler2D" type="VisibleOnScreenEnabler2D" parent="."]
 position = Vector2(4.76837e-07, -2.86102e-06)
 scale = Vector2(3.2, 3.2)
+
+[node name="CopyTimer" type="Timer" parent="."]
