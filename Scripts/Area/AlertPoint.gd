@@ -4,6 +4,8 @@ extends Area2D
 
 @onready var root : Node = get_parent()
 
+@export var disable_proximity_trigger := false
+
 @export var get_entities_from_parent := false
 @export var entities : Array[Node] = []
 
@@ -36,6 +38,11 @@ func validate_entities(entities_list : Array[Node]) -> Array[Node]:
     for entity in entities_list:
         if entity.is_in_group(&"entity"):
             entity.manual_trigger = true
+
+            if disable_proximity_trigger and\
+                Global.camera_shaken_by_player.is_connected(entity.trigger_if_near):
+                Global.camera_shaken_by_player.disconnect(entity.trigger_if_near)
+
             valid_entities.append(entity)
 
     return valid_entities
