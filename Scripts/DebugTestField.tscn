@@ -1,10 +1,8 @@
-[gd_scene load_steps=3 format=3 uid="uid://dwnj5shb6eoqy"]
+[gd_scene load_steps=2 format=3 uid="uid://dwnj5shb6eoqy"]
 
-[ext_resource type="Script" path="res://Scripts/DebugTestField.gd" id="1_drkeg"]
 [ext_resource type="PackedScene" uid="uid://b084k80tg1y62" path="res://Worlds/GlobalModulate.tscn" id="2_bf6w7"]
 
-[node name="DebugTestField" type="Node2D"]
-script = ExtResource("1_drkeg")
+[node name="DebugTestField" type="Node2D" groups=["free"]]
 
 [node name="GlobalModulate" parent="." instance=ExtResource("2_bf6w7")]
 
@@ -13,3 +11,5 @@ offset_left = -752.0
 offset_top = -488.0
 offset_right = 792.0
 offset_bottom = 512.0
+
+[connection signal="tree_entered" from="." to="." method="hide"]
