@@ -4,7 +4,11 @@ var root_scene : Node2D
 var tree : SceneTree
 var decor_light : TileMapLayer
 
+var scene_passed := false
+
 func _enter_tree() -> void:
+    scene_passed = Global.user_data["level_stats"]["lv2_emergency_light"]
+    
     if is_in_group(&"free"):
         call_deferred(&"queue_free")
     else:
@@ -14,7 +18,7 @@ func _enter_tree() -> void:
         root_scene.ready.connect(_on_root_scene_ready)
 
 func _ready() -> void:
-    if !is_in_group(&"free"):
+    if !scene_passed:
         Global.player_physics_head.allow_attack = false
 
 func _on_pseudo_3d_generator_layers_generated() -> void:
@@ -25,9 +29,10 @@ func _on_root_scene_ready() -> void:
 
 var decor_light_tween : Tween
 func initiate_alert_lights() -> void:
-    await tree.create_timer(0.25).timeout
-    Global.player_physics_head.allow_control = false
-    Global.player_physics_head.fade_out_light()
+    if !scene_passed:
+        await tree.create_timer(0.25).timeout
+        Global.player_physics_head.allow_control = false
+        Global.player_physics_head.fade_out_light()
 
     await tree.create_timer(1.2).timeout
     tree.call_group(&"lights", &"lights_out")
@@ -58,9 +63,13 @@ func initiate_alert_lights() -> void:
     for a in tree.get_nodes_in_group(&"alert_lights_set"):
         a.light.color = Color("#ff0f13")
 
-    Global.player_physics_head.fade_in_light()
-    Global.player_physics_head.allow_control = true
-    Global.player_physics_head.allow_attack = true
+    if !scene_passed:
+        Global.player_physics_head.fade_in_light()
+        Global.player_physics_head.allow_control = true
+        Global.player_physics_head.allow_attack = true
+
+        Global.user_data["level_stats"]["lv2_emergency_light"] = true
+        Global.update_user_data()
 
 func _on_trigger_area_body_entered(body: Node2D) -> void:
     if body.name == Global.PLAYER_HEAD_NAME:
