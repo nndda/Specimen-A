@@ -1,10 +1,10 @@
-[gd_scene load_steps=13 format=3 uid="uid://btpulysfkoqly"]
+[gd_scene load_steps=15 format=3 uid="uid://btpulysfkoqly"]
 
 [ext_resource type="Texture2D" uid="uid://bx5qri4e2cokk" path="res://Entities/Weapons/Mine.png" id="1_fdql2"]
 [ext_resource type="Script" path="res://Entities/Weapons/Mine.gd" id="1_w4y0n"]
 [ext_resource type="PackedScene" uid="uid://deb26datidugv" path="res://Shaders/VisualTestArea.tscn" id="2_d70k5"]
 [ext_resource type="PackedScene" uid="uid://bydxskl7vyst7" path="res://Shaders/Particles/Explosion.tscn" id="4_rew5v"]
-[ext_resource type="Texture2D" uid="uid://d1y5v4sd3axmk" path="res://Shaders/Lights/General.GradientTexture2D.tres" id="6_lbcyi"]
+[ext_resource type="Material" uid="uid://ud64atwxfe5s" path="res://Shaders/Materials/Add-Unshaded.CanvasItemMaterial.tres" id="6_c72oi"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_ebqi5"]
 radius = 80.399
@@ -54,26 +54,26 @@ loop_mode = 1
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
-tracks/0/path = NodePath("IdleLights/PointLight2D:energy")
+tracks/0/path = NodePath("IdleLights/LightA:self_modulate")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
-"times": PackedFloat32Array(0, 0.1, 0.999),
+"times": PackedFloat32Array(0, 0.133333, 1),
 "transitions": PackedFloat32Array(1, 1, 1),
 "update": 0,
-"values": [5.0, 0.0, 0.0]
+"values": [Color(1, 1, 1, 1), Color(1, 1, 1, 0), Color(1, 1, 1, 0)]
 }
 tracks/1/type = "value"
 tracks/1/imported = false
 tracks/1/enabled = true
-tracks/1/path = NodePath("IdleLights/PointLight2D2:energy")
+tracks/1/path = NodePath("IdleLights/LightB:self_modulate")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/keys = {
-"times": PackedFloat32Array(0.2, 0.3, 0.4, 0.999),
+"times": PackedFloat32Array(0.2, 0.3, 0.4, 1),
 "transitions": PackedFloat32Array(1, 1, 1, 1),
 "update": 0,
-"values": [0.0, 5.0, 0.0, 0.0]
+"values": [Color(1, 1, 1, 0), Color(1, 1, 1, 1), Color(1, 1, 1, 0), Color(1, 1, 1, 0)]
 }
 
 [sub_resource type="Animation" id="Animation_uvks4"]
@@ -105,26 +105,26 @@ tracks/1/keys = {
 tracks/2/type = "value"
 tracks/2/imported = false
 tracks/2/enabled = true
-tracks/2/path = NodePath("IdleLights/PointLight2D:energy")
+tracks/2/path = NodePath("IdleLights/LightA:self_modulate")
 tracks/2/interp = 1
 tracks/2/loop_wrap = true
 tracks/2/keys = {
 "times": PackedFloat32Array(0),
 "transitions": PackedFloat32Array(1),
 "update": 0,
-"values": [2.0]
+"values": [Color(1, 1, 1, 1)]
 }
 tracks/3/type = "value"
 tracks/3/imported = false
 tracks/3/enabled = true
-tracks/3/path = NodePath("IdleLights/PointLight2D2:energy")
+tracks/3/path = NodePath("IdleLights/LightB:self_modulate")
 tracks/3/interp = 1
 tracks/3/loop_wrap = true
 tracks/3/keys = {
 "times": PackedFloat32Array(0),
 "transitions": PackedFloat32Array(1),
 "update": 0,
-"values": [2.0]
+"values": [Color(1, 1, 1, 1)]
 }
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_gwqh7"]
@@ -134,7 +134,20 @@ _data = {
 "RESET": SubResource("Animation_uvks4")
 }
 
-[node name="Mine" type="Area2D"]
+[sub_resource type="Gradient" id="Gradient_bk4vw"]
+offsets = PackedFloat32Array(0.133028, 1)
+colors = PackedColorArray(1, 1, 1, 1, 1, 1, 1, 0)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_q16v1"]
+gradient = SubResource("Gradient_bk4vw")
+width = 24
+height = 24
+fill = 1
+fill_from = Vector2(0.5, 0.5)
+fill_to = Vector2(0.9, 0.1)
+metadata/_snap_enabled = true
+
+[node name="Mine" type="Area2D" groups=["entity_obstacle"]]
 collision_layer = 1073741844
 collision_mask = 1073741844
 monitorable = false
@@ -164,22 +177,19 @@ libraries = {
 
 [node name="Explosion" parent="." instance=ExtResource("4_rew5v")]
 
-[node name="IdleLights" type="Node2D" parent="."]
+[node name="IdleLights" type="CanvasGroup" parent="."]
 
-[node name="PointLight2D" type="PointLight2D" parent="IdleLights"]
-modulate = Color(1, 1, 1, 0)
-position = Vector2(2, 2)
-color = Color(0.956863, 0.619608, 0.113725, 1)
-energy = 2.0
-texture = ExtResource("6_lbcyi")
-texture_scale = 0.25
-
-[node name="PointLight2D2" type="PointLight2D" parent="IdleLights"]
+[node name="LightA" type="Sprite2D" parent="IdleLights"]
+modulate = Color(0.96, 0.62208, 0.1152, 0.611765)
+material = ExtResource("6_c72oi")
 position = Vector2(-2, -2)
-color = Color(0.956863, 0.619608, 0.113725, 1)
-energy = 2.0
-texture = ExtResource("6_lbcyi")
-texture_scale = 0.25
+texture = SubResource("GradientTexture2D_q16v1")
+
+[node name="LightB" type="Sprite2D" parent="IdleLights"]
+modulate = Color(0.96, 0.62208, 0.1152, 1)
+material = ExtResource("6_c72oi")
+position = Vector2(2, 2)
+texture = SubResource("GradientTexture2D_q16v1")
 
 [connection signal="body_entered" from="." to="." method="_on_body_entered"]
 [connection signal="animation_finished" from="AnimationPlayer" to="." method="_on_animation_finished"]
