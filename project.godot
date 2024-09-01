@@ -12,9 +12,9 @@ config_version=5
 
 config/name="Specimen A"
 config/description="Relics from distant past civilization."
-config/tags=PackedStringArray("game")
-run/main_scene="res://Levels/01_Breached/01.Breached.tscn"
-config/features=PackedStringArray("4.2", "GL Compatibility")
+config/version="1.0.0"
+config/tags=PackedStringArray()
+run/main_scene="res://Levels/1/1.tscn"
 config/features=PackedStringArray("4.3", "GL Compatibility")
 boot_splash/bg_color=Color(0.027451, 0.00392157, 0.00392157, 1)
 boot_splash/show_image=false
@@ -41,7 +41,7 @@ mouse_cursor/custom_image="res://UI/Cursors/Dot.png"
 
 [editor]
 
-movie_writer/movie_file="C:/Users/Asus/Pictures/_Artworks/#OnGoing/22_ngj3/vids/video.avi"
+script/search_in_file_extensions=PackedStringArray("gd", "gdshader", "tscn", "dlg")
 movie_writer/fps=30
 naming/scene_name_casing=1
 
@@ -49,6 +49,9 @@ naming/scene_name_casing=1
 
 folder_colors={
 "res://Entities/": "red",
+"res://Levels/1/InfoComm/": "orange",
+"res://Levels/2/InfoComm/": "orange",
+"res://Player/": "pink",
 "res://Scripts/": "purple",
 "res://Shaders/": "teal",
 "res://Shaders/Lights/": "blue",
@@ -58,12 +61,15 @@ folder_colors={
 
 [filesystem]
 
+import/fbx2gltf/enabled=false
 import/blender/enabled=false
 
 [gui]
 
 fonts/dynamic_fonts/use_oversampling=false
+theme/custom="res://UI/UI.Theme.tres"
 theme/custom_font="res://UI/Fonts/Silver.FontVariation.tres"
+theme/default_font_antialiasing=0
 
 [importer_defaults]
 
