@@ -11,5 +11,7 @@ height = 3
 [node name="ButtonBase" type="Button" groups=["ui_button"]]
 custom_minimum_size = Vector2(0, 22)
 mouse_default_cursor_shape = 2
+theme_override_font_sizes/font_size = 18
+text = "Button"
 icon = SubResource("GradientTexture2D_es4ux")
 alignment = 0

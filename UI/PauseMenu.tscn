@@ -11,6 +11,7 @@
 shader = ExtResource("2_rfqgi")
 shader_parameter/lod = 1.1
 shader_parameter/color_overlay = Color(0.430057, 0.430057, 0.430057, 1)
+shader_parameter/enabled = true
 
 [node name="PauseMenu" type="CanvasLayer"]
 process_mode = 3
@@ -71,11 +72,12 @@ anchors_preset = 12
 anchor_top = 1.0
 anchor_right = 1.0
 anchor_bottom = 1.0
-offset_top = 2.0
-offset_bottom = 22.0
+offset_left = 12.0
+offset_top = 4.0
+offset_bottom = 24.0
 grow_horizontal = 2
 grow_vertical = 0
-text = "[Esc] / [Middle Mouse]"
+text = "[Esc]"
 
 [node name="Restart" parent="Control/Menu" instance=ExtResource("2_uh5wo")]
 custom_minimum_size = Vector2(120, 22)
@@ -111,7 +113,8 @@ dialog_text = "Go back to the main menu?"
 
 [node name="ConfigMenu" parent="Control" instance=ExtResource("3_aj22h")]
 visible = false
-layout_mode = 1
+layout_mode = 2
+anchors_preset = 0
 
 [connection signal="pressed" from="Control/Menu/Resume" to="." method="_resume_pressed"]
 [connection signal="pressed" from="Control/Menu/Restart" to="." method="_restart_pressed"]

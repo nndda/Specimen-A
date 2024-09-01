@@ -68,6 +68,7 @@ layout_mode = 2
 material = SubResource("CanvasItemMaterial_3u85o")
 custom_minimum_size = Vector2(0, 250)
 layout_mode = 2
+current_tab = 0
 
 [node name="Display" type="MarginContainer" parent="Menu/Tab"]
 layout_mode = 2
@@ -75,6 +76,7 @@ theme_override_constants/margin_left = 16
 theme_override_constants/margin_top = 16
 theme_override_constants/margin_right = 16
 theme_override_constants/margin_bottom = 16
+metadata/_tab_index = 0
 
 [node name="Items" type="VBoxContainer" parent="Menu/Tab/Display"]
 layout_mode = 2
@@ -91,18 +93,17 @@ vertical_alignment = 1
 [node name="OptionButton" type="OptionButton" parent="Menu/Tab/Display/Items/Resolution" groups=["ui_button"]]
 layout_mode = 2
 size_flags_horizontal = 3
-theme_override_colors/font_color = Color(1, 1, 1, 1)
-theme_override_colors/font_pressed_color = Color(1, 1, 1, 1)
-theme_override_colors/font_hover_color = Color(1, 1, 1, 1)
-theme_override_colors/font_hover_pressed_color = Color(1, 1, 1, 1)
-theme_override_colors/font_focus_color = Color(1, 1, 1, 1)
 theme_override_colors/font_disabled_color = Color(1, 1, 1, 1)
+theme_override_colors/font_hover_pressed_color = Color(1, 1, 1, 1)
+theme_override_colors/font_hover_color = Color(1, 1, 1, 1)
+theme_override_colors/font_pressed_color = Color(1, 1, 1, 1)
+theme_override_colors/font_focus_color = Color(1, 1, 1, 1)
+theme_override_colors/font_color = Color(1, 1, 1, 1)
 theme_override_colors/font_outline_color = Color(1, 1, 1, 1)
 alignment = 1
-item_count = 4
 selected = 0
+item_count = 4
 popup/item_0/text = "768 x 432"
-popup/item_0/id = 0
 popup/item_1/text = "1280 x 720"
 popup/item_1/id = 1
 popup/item_2/text = "1366 x 768"
@@ -137,10 +138,9 @@ vertical_alignment = 1
 layout_mode = 2
 size_flags_horizontal = 3
 alignment = 1
-item_count = 2
 selected = 0
+item_count = 2
 popup/item_0/text = "High"
-popup/item_0/id = 0
 popup/item_1/text = "Low"
 popup/item_1/id = 1
 
@@ -207,6 +207,7 @@ theme_override_constants/margin_left = 16
 theme_override_constants/margin_top = 16
 theme_override_constants/margin_right = 16
 theme_override_constants/margin_bottom = 16
+metadata/_tab_index = 1
 
 [node name="Items" type="VBoxContainer" parent="Menu/Tab/Sound"]
 layout_mode = 2
@@ -290,6 +291,7 @@ theme_override_constants/margin_left = 16
 theme_override_constants/margin_top = 16
 theme_override_constants/margin_right = 16
 theme_override_constants/margin_bottom = 16
+metadata/_tab_index = 2
 
 [node name="Items" type="VBoxContainer" parent="Menu/Tab/Controls"]
 layout_mode = 2

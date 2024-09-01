@@ -3,7 +3,8 @@
 [ext_resource type="Script" path="res://Scripts/Notifications.gd" id="1_2haug"]
 [ext_resource type="Theme" uid="uid://1eq3q2sr8oo5" path="res://UI/UI.Theme.tres" id="2_bwafl"]
 [ext_resource type="PackedScene" uid="uid://cv0630kh24uw" path="res://UI/LevelLabels.tscn" id="2_vhd63"]
-[ext_resource type="Texture2D" uid="uid://ds3n3s3xuspp" path="res://icon.svg" id="3_x4x7y"]
+
+[sub_resource type="PlaceholderTexture2D" id="PlaceholderTexture2D_qokak"]
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_3so7r"]
 
@@ -160,7 +161,7 @@ layout_mode = 2
 
 [node name="Icon" type="TextureRect" parent="Control/MarginContainer/NotifContainer/MarginContainer/HBoxContainer"]
 layout_mode = 2
-texture = ExtResource("3_x4x7y")
+texture = SubResource("PlaceholderTexture2D_qokak")
 expand_mode = 2
 
 [node name="VSeparator2" type="VSeparator" parent="Control/MarginContainer/NotifContainer/MarginContainer/HBoxContainer"]
