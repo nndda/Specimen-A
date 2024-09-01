@@ -1,9 +1,9 @@
 [gd_scene load_steps=3 format=3 uid="uid://cytk410u3hy8c"]
 
-[ext_resource type="FontFile" uid="uid://q0pw558k8hk2" path="res://UI/Fonts/Silver.ttf" id="1_0mbub"]
+[ext_resource type="FontVariation" uid="uid://2vhsn1gdoteq" path="res://UI/Fonts/Silver.FontVariation.tres" id="1_hspy1"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_2yns2"]
-font = ExtResource("1_0mbub")
+font = ExtResource("1_hspy1")
 font_size = 42
 
 [node name="AreaLabel" type="Label"]
