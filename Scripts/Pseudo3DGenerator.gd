@@ -123,7 +123,7 @@ func generate_layers() -> void:
         decor,
         decor_light,
         ]:
-        f.call_deferred(&"queue_free")
+        f.queue_free()
 
     patch_decor()
     layers_generated.emit()

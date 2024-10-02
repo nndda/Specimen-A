@@ -9,7 +9,7 @@ func _enter_tree() -> void:
     scene_passed = Global.user_data["level_stats"]["lv2_emergency_light"]
 
     if is_in_group(&"free"):
-        call_deferred(&"queue_free")
+        queue_free()
     else:
         root_scene = get_parent()
         root_scene.ready.connect(_on_root_scene_ready)
