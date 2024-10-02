@@ -217,13 +217,14 @@ func _on_update_player_pos_timeout() -> void:
         set_target_pos(keep_distance_pos.global_position)
 
 func trigger_if_near(substantial : bool) -> void:
-    if player_near and substantial:
+    if player_near and substantial and\
+        process_mode != ProcessMode.PROCESS_MODE_DISABLED:
         triggered.emit()
 
-func _on_trigger_body_entered(_body : Node2D) -> void:
-    triggered.emit()
-func _on_trigger_area_entered(_area : Area2D) -> void:
-    triggered.emit()
+func _on_trigger_body_entered(body : Node2D) -> void:
+    if body.name == Global.PLAYER_HEAD_NAME and\
+        process_mode != ProcessMode.PROCESS_MODE_DISABLED:
+        triggered.emit()
 
 func _on_triggered() -> void:
     if Global.camera_shaken_by_player.is_connected(trigger_if_near):
@@ -233,9 +234,8 @@ func _on_triggered() -> void:
         is_triggered = true
         weapon.initiate()
 
-        if !manual_trigger:
-            if $TriggerArea != null:
-                $TriggerArea.queue_free()
+        if has_node(^"TriggerArea"):
+            $TriggerArea.queue_free()
         $GeneralArea.queue_free()
 
         if path != null:
