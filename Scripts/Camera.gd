@@ -75,7 +75,7 @@ func initialize_level() -> void:
     following = true
     enabled = true
 
-    animation_player.play(&"fade_out")
+    animation_player.play(ANIM_FADE_OUT)
     visload_running = false
 
 var mouse_pos := Vector2.ZERO
@@ -111,13 +111,16 @@ func _process(_delta : float) -> void:
 signal faded_out
 signal faded_in
 
+const ANIM_FADE_IN := &"fade_in"
+const ANIM_FADE_OUT := &"fade_out"
+
 func start_fade_out() -> void:
-    animation_player.play(&"fade_out")
+    animation_player.play(ANIM_FADE_OUT)
 func start_fade_in() -> void:
-    animation_player.play(&"fade_in")
+    animation_player.play(ANIM_FADE_IN)
 
 func _on_animation_finished(anim_name : StringName) -> void:
-    if anim_name == &"fade_out":
+    if anim_name == ANIM_FADE_OUT:
         faded_out.emit()
-    if anim_name == &"fade_in":
+    if anim_name == ANIM_FADE_IN:
         faded_in.emit()
