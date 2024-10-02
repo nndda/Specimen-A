@@ -63,6 +63,7 @@ var canvas_position : Vector2
 # Physics
 @onready var raycast_obstacle : RayCast2D = $FaceObstacle
 @onready var raycast_destroy_through : RayCast2D = $"DestroyThrough-R"
+@onready var raycast_attack_min_range : RayCast2D = $AttackMinRange
 
 @onready var area_destroy_through : Area2D = $"DestroyThrough-A"
 @onready var player_general_area : Area2D = $PlayerGeneralArea
@@ -103,15 +104,20 @@ func attack_handler() -> void:
             global_rotation = raycast_obstacle.global_rotation
 
         if Input.is_action_just_released(&"Attack"):
-            player_general_area.monitorable = true
-            player_general_area.monitoring = true
-            attacking = true
-            attack_dir = mouse_global_pos_dir
-            attack_strength = attack_out
+            if !raycast_attack_min_range.is_colliding():
+                player_general_area.monitorable = true
+                player_general_area.monitoring = true
+                attacking = true
+                attack_dir = mouse_global_pos_dir
+                attack_strength = attack_out
 
-            attack_cooldown_timer.start(attack_cooldown * attack_out * 0.01 + 1.2)
-            attack_pos[0]           = global_position
-            allow_attack            = false
+                attack_cooldown_timer.start(attack_cooldown * attack_out * 0.01 + 1.2)
+                attack_pos[0]           = global_position
+                allow_attack            = false
+            else:
+                ui_obstacle_pos.global_position = raycast_attack_min_range.get_collision_point()
+                #ui_obstacle.position = ui_obstacle_pos.get_global_transform_with_canvas().origin
+                ui_obstacle_anim.play(&"Blink")
 
     ui_attack_indicator.value      = attack_out
     ui_attack_cooldown.value       = (
