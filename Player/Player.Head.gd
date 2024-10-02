@@ -237,12 +237,12 @@ func _physics_process(delta : float) -> void:
     Global.moving_or_attacking = attacking or moving or moving_f > 0
 
     if Global.moving_or_attacking:
-        body.update_collision_shape()
         if body.get_point_count() > body.body_segment_max:
             body.remove_point(0)
         else:
             body.add_point(position)
 
+        body.update_collision_shape()
         #body.update_light_path()
 
 func shake_cam() -> void:
