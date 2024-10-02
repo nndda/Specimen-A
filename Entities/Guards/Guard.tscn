@@ -42,8 +42,8 @@ script = ExtResource("1_wqy3n")
 
 [node name="TriggerArea" type="Area2D" parent="."]
 visible = false
-collision_layer = 512
-collision_mask = 512
+collision_layer = 1073741824
+collision_mask = 1073741824
 monitorable = false
 
 [node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="TriggerArea"]
@@ -64,6 +64,7 @@ rotation = -1.57079
 texture = ExtResource("2_kybeh")
 
 [node name="GeneralLight" type="PointLight2D" parent="Sprite2D" groups=["free"]]
+editor_description = "Having too many lights bugged out the lights n rendering. Need to sacrifice this one."
 visible = false
 color = Color(1, 1, 1, 0.941176)
 energy = 0.45
@@ -115,29 +116,37 @@ wait_time = 0.6
 visible = false
 
 [node name="Position2D" type="Node2D" parent="KeepDistance"]
+visible = false
 position = Vector2(-136, 0)
 
 [node name="n1" type="Node2D" parent="KeepDistance"]
+visible = false
 position = Vector2(-52, 0)
 
 [node name="n2" type="Node2D" parent="KeepDistance"]
+visible = false
 position = Vector2(16, 0)
 
 [node name="Line2D" type="Line2D" parent="KeepDistance"]
+visible = false
 points = PackedVector2Array(-56, 0, 20, 0)
 
 [node name="KeepMove" type="Node2D" parent="."]
 visible = false
 
 [node name="Position2D" type="Node2D" parent="KeepMove"]
+visible = false
 
 [node name="n1" type="Node2D" parent="KeepMove"]
+visible = false
 position = Vector2(0, -80)
 
 [node name="n2" type="Node2D" parent="KeepMove"]
+visible = false
 position = Vector2(0, 96)
 
 [node name="Line2D" type="Line2D" parent="KeepMove"]
+visible = false
 position = Vector2(0, 45.7857)
 scale = Vector2(1, 1.70679)
 points = PackedVector2Array(0, -70.3178, 0, 28.7946)
@@ -145,8 +154,8 @@ points = PackedVector2Array(0, -70.3178, 0, 28.7946)
 [node name="VisibilityHandler" parent="." instance=ExtResource("5_21ehr")]
 
 [node name="VisibleOnScreenEnabler2D" parent="VisibilityHandler" index="0"]
-position = Vector2(6.67572e-06, 9.53674e-07)
-scale = Vector2(8.8, 8.8)
+position = Vector2(1.3113e-05, -1.38283e-05)
+scale = Vector2(11.2, 11.2)
 
 [node name="EntityDebugInfo" type="CanvasLayer" parent="." groups=["free"]]
 layer = 3
@@ -255,7 +264,6 @@ layout_mode = 2
 text = "Var: Val"
 
 [connection signal="triggered" from="." to="." method="_on_triggered" flags=6]
-[connection signal="area_entered" from="TriggerArea" to="." method="_on_trigger_area_entered"]
 [connection signal="body_entered" from="TriggerArea" to="." method="_on_trigger_body_entered"]
 [connection signal="area_entered" from="GeneralArea" to="." method="_on_general_area_entered"]
 [connection signal="area_exited" from="GeneralArea" to="." method="_on_general_area_exited"]
