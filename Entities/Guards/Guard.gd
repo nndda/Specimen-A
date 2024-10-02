@@ -77,7 +77,8 @@ func _ready() -> void:
         rotate_weight_init = rotate_weight
         speed_init = speed
 
-        corpse.reparent(Global.layer_dict[^"Objects/Corpses"])
+        corpse.call_deferred(&"reparent", Global.layer_dict[^"Objects/Corpses"])
+        corpse.call_deferred(&"set_owner", Global.layer_dict[^"Objects/Corpses"])
 
         corpse.modulate.a       = 0.8
         corpse.z_as_relative    = false
