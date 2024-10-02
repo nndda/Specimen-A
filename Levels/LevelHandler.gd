@@ -26,6 +26,11 @@ func _enter_tree() -> void:
     level_loaded.connect(Camera.start_fade_out)
 
 func _ready() -> void:
+    if Global.current_difficulty == Global.Difficulty.NORMAL:
+        Global.scene_tree.call_group(&"difficulty_hard", &"queue_free")
+    elif Global.current_difficulty == Global.Difficulty.HARD:
+        Global.scene_tree.call_group(&"difficulty_hard_rem", &"queue_free")
+
     for i : Node in get_children():
         if i is CanvasItem:
             i.visible = true

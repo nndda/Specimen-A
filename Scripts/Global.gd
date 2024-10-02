@@ -49,6 +49,14 @@ signal camera_shaken_by_player(substantial : bool)
 @warning_ignore("unused_signal")
 signal level_changed
 
+enum Difficulty {
+    NORMAL,
+    HARD,
+}
+
+var current_difficulty : Difficulty = Difficulty.NORMAL
+#var current_difficulty : Difficulty = Difficulty.HARD
+
 #var skill_current       : int = skill.none
 #
 #enum skill {

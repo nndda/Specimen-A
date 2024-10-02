@@ -119,6 +119,12 @@ func attack_handler() -> void:
     )
 
 func _enter_tree() -> void:
+    if Global.current_difficulty == Global.Difficulty.NORMAL:
+        attack_cooldown = 1.1
+
+        health_max = 125.0
+        health_tick = 1.25
+        health_regen = 1.6
     Global.player = self
 
 func _ready() -> void:

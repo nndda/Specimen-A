@@ -5,7 +5,7 @@ extends Node2D
 
 @export_category("Stats")
 @export var damage_min : float = 0.85
-@export var damage_max : float = 1.9
+@export var damage_max : float = 1.95
 
 @export_category("Timing")
 @export_range(0.8, 5.0, 0.1) var cooldown_min : float = 0.8
@@ -49,6 +49,17 @@ func _on_cooldown_timeout() -> void:
     fire_ready = true
 
 func _enter_tree() -> void:
+    var damage_mult : float
+
+    match Global.current_difficulty:
+        Global.Difficulty.NORMAL:
+            damage_mult = 0.87
+        Global.Difficulty.HARD:
+            damage_mult = 1.15
+
+    damage_min *= damage_mult
+    damage_max *= damage_mult
+
     cooldown_timer.wait_time = randf_range(cooldown_min, cooldown_max)
     cooldown_timer.timeout.connect(_on_cooldown_timeout)
 
