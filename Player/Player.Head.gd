@@ -99,7 +99,7 @@ func attack_handler() -> void:
             ui_arrow.offset.x     = attack_out * 0.6 + 68
             raycast_obstacle.\
             look_at(mouse_global_pos)
-            look_at(mouse_global_pos)
+            global_rotation = raycast_obstacle.global_rotation
 
         if Input.is_action_just_released(&"Attack"):
             player_general_area.monitorable = true
