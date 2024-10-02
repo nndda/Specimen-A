@@ -106,6 +106,9 @@ func generate_layers() -> void:
 
         call_deferred(&"add_child", layer)
 
+    top_layer.get_node(^"Tiles").modulate = Color.WHITE
+    top_layer_2.get_node(^"Tiles").modulate = Color.WHITE
+
     for tilemap : TileMapLayer in (
         top_layer.get_node(^"Tiles").get_children(true) +
         top_layer_2.get_node(^"Tiles").get_children(true)
@@ -114,7 +117,7 @@ func generate_layers() -> void:
             tilemap.tile_set = tilemap.tile_set.duplicate()
             tilemap.tile_set.remove_occlusion_layer(0)
 
-            tilemap.modulate = Color("#070101")
+            tilemap.add_to_group(&"tilemap_modulate", true)
             tilemap.collision_enabled = false
             tilemap.navigation_enabled = false
 

@@ -81,3 +81,10 @@ func move_top_items() -> void:
 
 func call_group(groupname : StringName, method : StringName) -> void:
     Global.scene_tree.call_group_flags(SceneTree.GROUP_CALL_DEFERRED, groupname, method)
+
+@onready var global_modulate : CanvasModulate = $GlobalModulate
+
+func _on_pseudo_3d_generator_layers_generated() -> void:
+    for n : TileMapLayer in Global.scene_tree.get_nodes_in_group(&"tilemap_modulate"):
+        global_modulate.color_changed.connect(n.set_modulate)
+    Global.scene_tree.set_group(&"tilemap_modulate", "modulate", global_modulate.color)
