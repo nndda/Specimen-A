@@ -134,7 +134,7 @@ var following := false
 
 func _process(_delta : float) -> void:
     if following:
-        viewport_rect_size = get_viewport_rect().size
+        viewport_rect_size = get_viewport_rect().size * 1.12
 
         if !paused:
             mouse_pos = Cursor.mouse_viewport_position
