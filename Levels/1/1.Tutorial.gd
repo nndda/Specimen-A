@@ -81,7 +81,7 @@ func hint_breakout_clear() -> void:
                 time["minute"],
                 time["day"],
                 time["month"],
-                str(time["year"]).left(1) + "1XX",
+                "21XX",
             ]
         )
 
