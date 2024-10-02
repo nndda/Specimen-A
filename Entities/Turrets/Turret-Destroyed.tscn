@@ -1,9 +1,9 @@
 [gd_scene load_steps=3 format=3 uid="uid://c3nsbmhfcxmu"]
 
 [ext_resource type="Texture2D" uid="uid://bjnbe1b1a2laf" path="res://Entities/Turrets/Turret-Rifle/Turret-Rifle.Base.png" id="1_je4yq"]
-[ext_resource type="PackedScene" uid="uid://en87r33e4ys0" path="res://Shaders/Particles/GlassShardsSparks.tscn" id="2_p4kw4"]
+[ext_resource type="PackedScene" uid="uid://en87r33e4ys0" path="res://Shaders/Particles/GlassShardsSparks.tscn" id="3_5i8km"]
 
 [node name="Turret-Destroyed" type="Sprite2D"]
 texture = ExtResource("1_je4yq")
 
-[node name="GlassShardsSparks" parent="." instance=ExtResource("2_p4kw4")]
+[node name="GlassShardsSparks" parent="." instance=ExtResource("3_5i8km")]
