@@ -32,6 +32,7 @@ var attack_incr : float = 4.0
 
 var attack_button_pressed := false
 
+const mouse_moving_distance_max : float = 46 ** 2
 var mouse_global_pos : Vector2
 var mouse_global_pos_dir : Vector2
 var mouse_viewport_pos : Vector2
@@ -135,12 +136,12 @@ func _process(_delta : float) -> void:
     mouse_global_pos = get_global_mouse_position()
     mouse_global_pos_dir = global_position.direction_to(mouse_global_pos)
     mouse_viewport_pos = Cursor.mouse_viewport_position
-    mouse_moving_distance = global_position.distance_to(mouse_global_pos)
+    mouse_moving_distance = global_position.distance_squared_to(mouse_global_pos)
 
     canvas_position = get_global_transform_with_canvas().origin
 
     moving = Input.is_action_pressed(&"Move")\
-        and mouse_moving_distance >= 45\
+        and mouse_moving_distance >= mouse_moving_distance_max\
         and allow_move\
         and allow_control
     moving_f = clampf(

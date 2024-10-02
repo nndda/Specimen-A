@@ -4,6 +4,8 @@ extends Node2D
 @onready var animation_player : AnimationPlayer = $AnimationPlayer
 @onready var visibility_handler : Node = $VisibilityHandler
 
+const flick_player_distance : float = 380.0 ** 2
+
 var energy_initial : float = 1.0
 var transitioning := false
 
@@ -22,7 +24,7 @@ func kill() -> void:
 func flick(substantial : bool) -> void:
     if visible:
         if !transitioning and substantial:
-            if global_position.distance_to(Global.head_pos) <= 380.0:
+            if global_position.distance_squared_to(Global.head_pos) <= flick_player_distance:
                 animation_player.speed_scale = randf_range(0.9, 1.2)
                 animation_player.play(&"Flick_%d" % randi_range(0, 1))
 

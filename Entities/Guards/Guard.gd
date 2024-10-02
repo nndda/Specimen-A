@@ -102,6 +102,7 @@ func _ready() -> void:
                 free_itms.queue_free()
 
         else:
+            keep_player_distance *= keep_player_distance
             for hidden_item : Node in [ $KeepDistance, $KeepMove ]:
                 hidden_item.visible = false
 
@@ -201,7 +202,7 @@ func _on_navigation_velocity_computed(safe_velocity : Vector2) -> void:
 @onready var keep_move_b : Node2D = $KeepMove/n2
 
 func _on_update_player_pos_timeout() -> void:
-    if global_position.distance_to(Global.head_pos) >= keep_player_distance:
+    if global_position.distance_squared_to(Global.head_pos) >= keep_player_distance:
         if !moving_away:
             direction = global_position.direction_to(Global.head_pos)
             set_target_pos(Global.head_pos)

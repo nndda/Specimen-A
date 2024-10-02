@@ -87,10 +87,10 @@ func _physics_process(_delta : float) -> void:
             cooldown_timer.start(randf_range(cooldown_min, cooldown_max))
     else:
         has_obstacle =\
-            line_of_sight.global_position.distance_to(
+            line_of_sight.global_position.distance_squared_to(
                 line_of_sight.get_collision_point()
             ) >\
-            line_of_sight.global_position.distance_to(
+            line_of_sight.global_position.distance_squared_to(
                 obstacle_sight.get_collision_point()
             )
 
