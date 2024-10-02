@@ -3,17 +3,17 @@ extends Node2D
 var enemy_exception_bodies : Array[PhysicsBody2D]
 var current_scene : Node
 
-const environment := preload("res://Worlds/GlobalEnvironment.tscn")
-const canvas_modulate := preload("res://Worlds/GlobalModulate.tscn")
+const environment : PackedScene = preload("res://Worlds/GlobalEnvironment.tscn")
+const canvas_modulate : PackedScene = preload("res://Worlds/GlobalModulate.tscn")
 
-var layer : Array[NodePath] = [
+const LAYER : Array[NodePath] = [
     ^"Objects/Corpses",
     ^"Objects/Particles",
 ]
 var layer_dict := {}
 func update_layers() -> void:
     layer_dict.clear()
-    for itm : NodePath in layer:
+    for itm : NodePath in LAYER:
         layer_dict[ itm ] = current_scene.get_node(itm)
 
 var current_objects     : Array

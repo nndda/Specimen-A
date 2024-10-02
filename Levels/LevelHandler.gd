@@ -33,7 +33,7 @@ func _ready() -> void:
         if i is CanvasItem:
             i.visible = true
 
-    for layer : NodePath in Global.layer:
+    for layer : NodePath in Global.LAYER:
         for inst : Node in get_node(layer).get_children():
             if inst is CharacterBody2D:
                 Global.current_objects.append(inst)
