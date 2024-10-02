@@ -69,57 +69,8 @@ var visload_running         := true
 var visload_path_follow     : PathFollow2D
 var current_objects_list    : Array[Vector2]
 
-func init_visual_loading() -> void:
+func initialize_level() -> void:
     animation_player.play(&"RESET")
-
-    visload_running = true
-    following = false
-    enabled = true
-
-    var visload_path        := Path2D.new()
-    var visload_path_fol    := PathFollow2D.new()
-    var visload_curve       := Curve2D.new()
-    var tween               := create_tween().bind_node(self)
-
-    visload_path.add_child(visload_path_fol)
-    Global.current_scene.call_deferred(&"add_child", visload_path)
-    visload_path_fol.progress_ratio = 0.0
-
-    for n : Node2D in Global.current_objects:
-        if !current_objects_list.has(n.global_position):
-            current_objects_list.append(n.global_position)
-
-    current_objects_list.erase(Vector2.ZERO)
-
-    current_objects_list.sort_custom(sort_visual_distance)
-
-    for i : Vector2 in current_objects_list:
-        visload_curve.add_point(i)
-    for e : Node2D in [visload_path, visload_path_fol]:
-        visload_entity.append(e)
-
-    visload_path.curve = visload_curve
-    visload_path_follow = visload_path_fol
-
-    tween.tween_property(
-        visload_path_fol, ^"progress_ratio",
-        1.0, Global.current_objects.size() * 0.45)\
-        .set_ease(Tween.EASE_OUT)
-    tween.finished.connect(finished_visual_loading)
-
-func sort_visual_distance(a : Node2D, b : Node2D) -> bool:
-    return (
-        a.distance_to(Global.head_pos) >
-        b.distance_to(Global.head_pos)
-    )
-
-func finished_visual_loading() -> void:
-    for e : Node2D in visload_entity:
-        e.queue_free()
-
-    Global.current_objects.clear()
-    visload_entity.clear()
-    current_objects_list.clear()
 
     following = true
     enabled = true

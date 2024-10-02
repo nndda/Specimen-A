@@ -41,7 +41,7 @@ func _ready() -> void:
     tree.call_group_flags(SceneTree.GROUP_CALL_DEFERRED, &"free", &"queue_free")
     tree.call_group_flags(SceneTree.GROUP_CALL_DEFERRED, &"show", &"show")
 
-    Camera.init_visual_loading()
+    Camera.initialize_level()
     level_loaded.emit()
 
     Audio.connect_audio()
