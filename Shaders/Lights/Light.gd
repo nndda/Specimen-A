@@ -56,5 +56,5 @@ func offset_anim(anim_name : StringName, anim_player_path : NodePath) -> void:
     var anim_player : AnimationPlayer = get_node(anim_player_path)
     anim_player.stop()
 
-    await get_tree().create_timer(randf_range(0.6,1.8)).timeout
+    await Global.scene_tree.create_timer(randf_range(0.6,1.8)).timeout
     anim_player.play(anim_name)

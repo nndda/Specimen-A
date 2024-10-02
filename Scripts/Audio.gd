@@ -39,7 +39,7 @@ func _process(_delta) -> void:
 
 func connect_audio() -> void:
     for group : StringName in sound_groups.keys():
-        for node : Node in get_tree().get_nodes_in_group(group):
+        for node : Node in Global.scene_tree.get_nodes_in_group(group):
             for signal_node : Array in sound_groups[group]:
                 node.connect(signal_node[0], signal_node[1])
 

@@ -307,9 +307,9 @@ func damage_player(power : float) -> void:
                     Node.PROCESS_MODE_DISABLED
                 )
 
-                await Global.current_scene.tree.create_timer(2.0)
+                await Global.scene_tree.create_timer(0.9).timeout
                 Global.health = 100.0
-                Global.current_scene.tree.call_deferred(
+                Global.scene_tree.call_deferred(
                     &"reload_current_scene"
                 )
 

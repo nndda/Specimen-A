@@ -10,17 +10,14 @@ extends Node2D
 
 @onready var area_container : Node2D =  $Areas
 
-var tree : SceneTree
-
 signal level_loaded
 
 func _input(event : InputEvent) -> void:
     if event.is_action_pressed(&"Debug - hide groups"):
-        tree.call_group(&"hide", &"hide")
-        tree.set_group(&"hide", "visible", false)
+        Global.scene_tree.call_group(&"hide", &"hide")
+        Global.scene_tree.set_group(&"hide", "visible", false)
 
-func _enter_tree() -> void:    
-    tree = get_tree()
+func _enter_tree() -> void:
 
     Global.current_scene = self
     Global.update_layers()
@@ -38,8 +35,8 @@ func _ready() -> void:
             if inst is CharacterBody2D:
                 Global.current_objects.append(inst)
 
-    tree.call_group_flags(SceneTree.GROUP_CALL_DEFERRED, &"free", &"queue_free")
-    tree.call_group_flags(SceneTree.GROUP_CALL_DEFERRED, &"show", &"show")
+    Global.scene_tree.call_group_flags(SceneTree.GROUP_CALL_DEFERRED, &"free", &"queue_free")
+    Global.scene_tree.call_group_flags(SceneTree.GROUP_CALL_DEFERRED, &"show", &"show")
 
     Camera.initialize_level()
     level_loaded.emit()
@@ -47,17 +44,17 @@ func _ready() -> void:
     Audio.connect_audio()
     Audio.init_bg()
 
-    for area in tree.get_nodes_in_group(&"area_entrance"):
+    for area in Global.scene_tree.get_nodes_in_group(&"area_entrance"):
         if area is Area2D:
             area.body_entered.connect(
                 area_entered.bind("%s" % area.get_parent().name)
             )
 
-    tree.call_group(&"lights_kill", &"kill")
+    Global.scene_tree.call_group(&"lights_kill", &"kill")
 
     move_top_items()
 
-    tree.call_group(&"entity", &"init_raycast_exceptions")
+    Global.scene_tree.call_group(&"entity", &"init_raycast_exceptions")
 
     await Camera.faded_out
     Notifications.level_label_displayed.connect(
@@ -73,9 +70,9 @@ func area_entered(body : Node2D, area_name : String) -> void:
 
 func move_top_items() -> void:
     for top_layer : StringName in [&"top_1", &"top_2"]:
-        for node : Node in tree.get_nodes_in_group(top_layer):
+        for node : Node in Global.scene_tree.get_nodes_in_group(top_layer):
             node.call_deferred(&"reparent", get(top_layer))
             get(top_layer).call_deferred(&"move_child", node, 0)
 
 func call_group(groupname : StringName, method : StringName) -> void:
-    tree.call_group_flags(SceneTree.GROUP_CALL_DEFERRED, groupname, method)
+    Global.scene_tree.call_group_flags(SceneTree.GROUP_CALL_DEFERRED, groupname, method)

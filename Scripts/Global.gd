@@ -2,6 +2,7 @@ extends Node2D
 
 var enemy_exception_bodies : Array[PhysicsBody2D]
 var current_scene : Node
+var scene_tree : SceneTree
 
 const environment : PackedScene = preload("res://Worlds/GlobalEnvironment.tscn")
 const canvas_modulate : PackedScene = preload("res://Worlds/GlobalModulate.tscn")
@@ -176,6 +177,8 @@ func load_user_data() -> void:
 #endregion
 
 func _enter_tree() -> void:
+    scene_tree = get_tree()
+
     user_data_default = user_data.duplicate(true)
     user_config_default = user_config.duplicate(true)
 
@@ -188,7 +191,7 @@ func _enter_tree() -> void:
 func _input(event : InputEvent) -> void:
     if event is InputEventKey:
         if event.is_action_pressed(&"Debug - Restart scene"):
-            get_tree().reload_current_scene()
+            Global.scene_tree.reload_current_scene()
 
 func _process(_delta : float) -> void:
     health = clamp(health, 0.0, 100.0)

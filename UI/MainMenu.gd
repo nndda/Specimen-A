@@ -48,7 +48,7 @@ func _on_exit_pressed() -> void:
     exit_confirm.popup_centered()
 
 func _on_exit_confirmation_dialog_confirmed() -> void:
-    get_tree().quit()
+    Global.scene_tree.quit()
 
 func goto_url(url : String) -> void:
     goto_url_dest = url

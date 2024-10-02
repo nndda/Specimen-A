@@ -26,7 +26,7 @@ func user_tile_res(n : int, m : int) -> String:
     return "user://Tileset.map.%d-%d.res" % [m, n]
 
 func _enter_tree() -> void:
-    get_tree().current_scene.ready.connect(init_tile_sets)
+    Global.scene_tree.current_scene.ready.connect(init_tile_sets)
 
 func init_tile_sets() -> void:
     if !tilesets_generated:

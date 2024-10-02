@@ -1,20 +1,17 @@
 extends Node2D
 
 var root_scene : Node2D
-var tree : SceneTree
 var decor_light : TileMapLayer
 
 var scene_passed := false
 
 func _enter_tree() -> void:
     scene_passed = Global.user_data["level_stats"]["lv2_emergency_light"]
-    
+
     if is_in_group(&"free"):
         call_deferred(&"queue_free")
     else:
         root_scene = get_parent()
-        tree = root_scene.tree
-
         root_scene.ready.connect(_on_root_scene_ready)
 
 func _ready() -> void:
@@ -25,17 +22,17 @@ func _on_pseudo_3d_generator_layers_generated() -> void:
     decor_light = $"../Tiles/Pseudo3DGenerator".decor_light_generated
 
 func _on_root_scene_ready() -> void:
-    tree.call_group(&"alert_lights_on", &"disable")
+    Global.scene_tree.call_group(&"alert_lights_on", &"disable")
 
 var decor_light_tween : Tween
 func initiate_alert_lights() -> void:
     if !scene_passed:
-        await tree.create_timer(0.25).timeout
+        await Global.scene_tree.create_timer(0.25).timeout
         Global.player_physics_head.allow_control = false
         Global.player_physics_head.fade_out_light()
 
-    await tree.create_timer(1.2).timeout
-    tree.call_group(&"lights", &"lights_out")
+    await Global.scene_tree.create_timer(1.2).timeout
+    Global.scene_tree.call_group(&"lights", &"lights_out")
 
     decor_light_tween = create_tween().bind_node(self)
     decor_light_tween.tween_property(
@@ -44,9 +41,9 @@ func initiate_alert_lights() -> void:
     .set_ease(Tween.EASE_OUT)\
     .set_trans(Tween.TRANS_EXPO)
 
-    await tree.create_timer(3.0).timeout
+    await Global.scene_tree.create_timer(3.0).timeout
 
-    tree.call_group_flags(SceneTree.GROUP_CALL_DEFERRED,
+    Global.scene_tree.call_group_flags(SceneTree.GROUP_CALL_DEFERRED,
         &"alert_lights_out", &"queue_free"
     )
 
@@ -57,11 +54,10 @@ func initiate_alert_lights() -> void:
     .set_ease(Tween.EASE_OUT)\
     .set_trans(Tween.TRANS_EXPO)
 
-    tree.call_group(&"alert_lights_on", &"enable")
-    tree.call_group(&"lights", &"lights_on")
+    Global.scene_tree.call_group(&"alert_lights_on", &"enable")
+    Global.scene_tree.call_group(&"lights", &"lights_on")
  
-    for a in tree.get_nodes_in_group(&"alert_lights_set"):
-        a.light.color = Color("#ff0f13")
+    Global.scene_tree.set_group(&"alert_lights_set", "light:color", Color("#ff0f13"))
 
     if !scene_passed:
         Global.player_physics_head.fade_in_light()

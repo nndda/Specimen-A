@@ -47,14 +47,14 @@ func set_level_label(string : String, duration : float = 3.5) -> void:
     level_label.text = string
     level_label_anim.play(&"Display")
 
-    await get_tree().create_timer(duration).timeout
+    await Global.scene_tree.create_timer(duration).timeout
     level_label_anim.play_backwards(&"Display")
 
 func set_level_label_sub(string : String, duration : float = 3.5) -> void:
     level_label_sub.text = string
     level_label_anim_sub.play(&"Display")
 
-    await get_tree().create_timer(duration).timeout
+    await Global.scene_tree.create_timer(duration).timeout
     level_label_anim_sub.play_backwards(&"Display")
 
 func _on_level_label_anim_finished(_anim_name : StringName) -> void:
