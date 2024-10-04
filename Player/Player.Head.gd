@@ -26,7 +26,12 @@ var attack_cooldown     : float = 2.0
 
 var attack_speed        : float = 22.0
 
-var attack_distance_max : float = 32.0 * 12.0
+var attack_distance_max : float = 32.0 * 12.0:
+    set = set_attack_distance_max
+
+func set_attack_distance_max(val : float) -> void:
+    attack_distance_max = val * val
+
 var attack_pos : PackedVector2Array = [Vector2.ZERO, Vector2.ZERO]
 var attack_incr : float = 4.0
 
@@ -223,7 +228,7 @@ func _physics_process(delta : float) -> void:
             reset_atk_dmg()
             attacking = false
 
-        if attack_pos[0].distance_to(attack_pos[1]) >= attack_distance_max:
+        if attack_pos[0].distance_squared_to(attack_pos[1]) >= attack_distance_max:
             velo = velo.move_toward(Vector2.ZERO, delta)
 
             reset_atk_dmg()
