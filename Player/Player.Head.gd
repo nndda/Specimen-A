@@ -56,9 +56,9 @@ var canvas_position : Vector2
 @onready var ui_attack_cooldown_size_half : Vector2 = ui_attack_cooldown.size * 0.5
 @onready var ui_arrow : Sprite2D = $"../UI/Arrow"
 
-@onready var ui_obstacle : Sprite2D = $"../UI/FaceObstacleIcon"
-@onready var ui_obstacle_pos : Node2D = $"FaceObstacle-Pos"
-@onready var ui_obstacle_anim : AnimationPlayer = $"../UI/FaceObstacleIcon/AnimationPlayer"
+var ui_obstacle_pos_temp := Vector2.ZERO
+@onready var ui_obstacle : Sprite2D = $"../UINoFollow/FaceObstacleIcon"
+@onready var ui_obstacle_anim : AnimationPlayer = $"../UINoFollow/FaceObstacleIcon/AnimationPlayer"
 
 # Physics
 @onready var raycast_obstacle : RayCast2D = $FaceObstacle
@@ -114,9 +114,10 @@ func attack_handler() -> void:
                 attack_cooldown_timer.start(attack_cooldown * attack_out * 0.01 + 1.2)
                 attack_pos[0]           = global_position
                 allow_attack            = false
+
             else:
-                ui_obstacle_pos.global_position = raycast_attack_min_range.get_collision_point()
-                #ui_obstacle.position = ui_obstacle_pos.get_global_transform_with_canvas().origin
+                # Trigger obstacle indicator if attack range is too close
+                ui_obstacle_pos_temp = raycast_attack_min_range.get_collision_point()
                 ui_obstacle_anim.play(&"Blink")
 
     ui_attack_indicator.value      = attack_out
@@ -173,14 +174,18 @@ func _process(_delta : float) -> void:
     ui_attack_cooldown.position     = canvas_position - ui_attack_cooldown_size_half
 
     raycast_obstacle.look_at(mouse_global_pos)
-    ui_obstacle.visible = !allow_move
 
+    #region X mark UI obstacle indicator functions
     if allow_control:
         if raycast_obstacle.is_colliding():
             if Input.is_action_just_pressed(&"Move"):
-                ui_obstacle_pos.global_position = raycast_obstacle.get_collision_point()
-                ui_obstacle.position = ui_obstacle_pos.get_global_transform_with_canvas().origin
+                ui_obstacle_pos_temp = raycast_obstacle.get_collision_point()
                 ui_obstacle_anim.play(&"Blink")
+
+    ui_obstacle.visible = ui_obstacle_anim.current_animation == "Blink" or !allow_move
+    if ui_obstacle.visible:
+        ui_obstacle.global_position = ui_obstacle_pos_temp
+    #endregion
 
     attack_handler()
 
