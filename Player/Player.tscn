@@ -22,6 +22,81 @@
 [ext_resource type="PackedScene" uid="uid://bu80812ypq0si" path="res://Shaders/Particles/AmbientParticles.tscn" id="15_74shs"]
 [ext_resource type="Script" path="res://Scripts/DebugVars.gd" id="16_u7job"]
 
+[sub_resource type="Animation" id="Animation_i73mt"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("0:progress_ratio")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [0.0]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("1:progress_ratio")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [0.0]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("2:progress_ratio")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [0.0]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("0/0:energy")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [1.9]
+}
+tracks/4/type = "value"
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/path = NodePath("1/1:energy")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [1.9]
+}
+tracks/5/type = "value"
+tracks/5/imported = false
+tracks/5/enabled = true
+tracks/5/path = NodePath("2/2:energy")
+tracks/5/interp = 1
+tracks/5/loop_wrap = true
+tracks/5/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [1.9]
+}
+
 [sub_resource type="Animation" id="Animation_c8lpg"]
 resource_name = "Idle"
 length = 2.0
@@ -98,105 +173,30 @@ tracks/5/keys = {
 "values": [0.0, 1.0, 1.0]
 }
 
-[sub_resource type="Animation" id="Animation_i73mt"]
-length = 0.001
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath("0:progress_ratio")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 0,
-"values": [0.0]
-}
-tracks/1/type = "value"
-tracks/1/imported = false
-tracks/1/enabled = true
-tracks/1/path = NodePath("1:progress_ratio")
-tracks/1/interp = 1
-tracks/1/loop_wrap = true
-tracks/1/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 0,
-"values": [0.0]
-}
-tracks/2/type = "value"
-tracks/2/imported = false
-tracks/2/enabled = true
-tracks/2/path = NodePath("2:progress_ratio")
-tracks/2/interp = 1
-tracks/2/loop_wrap = true
-tracks/2/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 0,
-"values": [0.0]
-}
-tracks/3/type = "value"
-tracks/3/imported = false
-tracks/3/enabled = true
-tracks/3/path = NodePath("0/0:energy")
-tracks/3/interp = 1
-tracks/3/loop_wrap = true
-tracks/3/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 0,
-"values": [1.9]
-}
-tracks/4/type = "value"
-tracks/4/imported = false
-tracks/4/enabled = true
-tracks/4/path = NodePath("1/1:energy")
-tracks/4/interp = 1
-tracks/4/loop_wrap = true
-tracks/4/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 0,
-"values": [1.9]
-}
-tracks/5/type = "value"
-tracks/5/imported = false
-tracks/5/enabled = true
-tracks/5/path = NodePath("2/2:energy")
-tracks/5/interp = 1
-tracks/5/loop_wrap = true
-tracks/5/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 0,
-"values": [1.9]
-}
-
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_yw4d2"]
 _data = {
 "Idle": SubResource("Animation_c8lpg"),
 "RESET": SubResource("Animation_i73mt")
 }
 
-[sub_resource type="Animation" id="Animation_cxbw2"]
-resource_name = "FadeOutHealthBar"
+[sub_resource type="Animation" id="Animation_u1eg8"]
+length = 0.001
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
-tracks/0/path = NodePath("../../../UI/HealthBar:modulate")
+tracks/0/path = NodePath("../..:modulate")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
-"times": PackedFloat32Array(0, 0.4, 1),
-"transitions": PackedFloat32Array(1, 0.5, 1),
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
 "update": 0,
-"values": [Color(1, 1, 1, 1), Color(1, 1, 1, 1), Color(1, 1, 1, 0)]
+"values": [Color(1, 1, 1, 1)]
 }
 tracks/1/type = "value"
 tracks/1/imported = false
 tracks/1/enabled = true
-tracks/1/path = NodePath("../..:modulate")
+tracks/1/path = NodePath("../../../UI/HealthBar:modulate")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/keys = {
@@ -233,24 +233,24 @@ tracks/1/keys = {
 "values": [Color(1, 1, 1, 1)]
 }
 
-[sub_resource type="Animation" id="Animation_u1eg8"]
-length = 0.001
+[sub_resource type="Animation" id="Animation_cxbw2"]
+resource_name = "FadeOutHealthBar"
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
-tracks/0/path = NodePath("../..:modulate")
+tracks/0/path = NodePath("../../../UI/HealthBar:modulate")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
+"times": PackedFloat32Array(0, 0.4, 1),
+"transitions": PackedFloat32Array(1, 0.5, 1),
 "update": 0,
-"values": [Color(1, 1, 1, 1)]
+"values": [Color(1, 1, 1, 1), Color(1, 1, 1, 1), Color(1, 1, 1, 0)]
 }
 tracks/1/type = "value"
 tracks/1/imported = false
 tracks/1/enabled = true
-tracks/1/path = NodePath("../../../UI/HealthBar:modulate")
+tracks/1/path = NodePath("../..:modulate")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/keys = {
@@ -265,6 +265,33 @@ _data = {
 "FadeOutHealthBar": SubResource("Animation_cxbw2"),
 "Hit": SubResource("Animation_lntnx"),
 "RESET": SubResource("Animation_u1eg8")
+}
+
+[sub_resource type="Animation" id="Animation_dyb2h"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Jaw_0:rotation")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [0.0]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Jaw_1:rotation")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [0.0]
 }
 
 [sub_resource type="Animation" id="Animation_w72yn"]
@@ -295,33 +322,6 @@ tracks/1/keys = {
 "values": [0.0, 0.523599]
 }
 
-[sub_resource type="Animation" id="Animation_dyb2h"]
-length = 0.001
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath("Jaw_0:rotation")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 0,
-"values": [0.0]
-}
-tracks/1/type = "value"
-tracks/1/imported = false
-tracks/1/enabled = true
-tracks/1/path = NodePath("Jaw_1:rotation")
-tracks/1/interp = 1
-tracks/1/loop_wrap = true
-tracks/1/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 0,
-"values": [0.0]
-}
-
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_40jbl"]
 _data = {
 "Open": SubResource("Animation_w72yn"),
@@ -345,8 +345,20 @@ color = Color(1, 0, 0, 1)
 [sub_resource type="SeparationRayShape2D" id="SeparationRayShape2D_gdoay"]
 length = 56.0
 
-[sub_resource type="Animation" id="Animation_13ibh"]
-resource_name = "Blink"
+[sub_resource type="Gradient" id="Gradient_o3wjq"]
+offsets = PackedFloat32Array(0.75395, 0.925508, 1)
+colors = PackedColorArray(0.647059, 0.0470588, 0.0509804, 0, 0.647059, 0.0470588, 0.0509804, 0.312292, 0.647059, 0.0470588, 0.0509804, 0.631373)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_qqpd7"]
+gradient = SubResource("Gradient_o3wjq")
+width = 512
+height = 256
+fill = 1
+fill_from = Vector2(0.5, 0.5)
+metadata/_snap_enabled = true
+
+[sub_resource type="Animation" id="Animation_av16e"]
+length = 0.001
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
@@ -354,10 +366,31 @@ tracks/0/path = NodePath(".:modulate")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
-"times": PackedFloat32Array(0, 0.2, 0.4, 0.6, 0.8, 1),
-"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1),
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
 "update": 0,
-"values": [Color(0.898039, 0, 0, 0), Color(0.898039, 0, 0, 1), Color(0.898039, 0, 0, 0), Color(0.898039, 0, 0, 1), Color(0.898039, 0, 0, 0), Color(0.898039, 0, 0, 0)]
+"values": [Color(1, 1, 1, 1)]
+}
+
+[sub_resource type="Animation" id="Animation_edyag"]
+resource_name = "FadeOut"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.3, 0.9),
+"transitions": PackedFloat32Array(1, 0.5, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 1), Color(1, 1, 1, 1), Color(1, 1, 1, 0)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_b4x0k"]
+_data = {
+"FadeOut": SubResource("Animation_edyag"),
+"RESET": SubResource("Animation_av16e")
 }
 
 [sub_resource type="Animation" id="Animation_yfkwi"]
@@ -375,58 +408,27 @@ tracks/0/keys = {
 "values": [Color(0.898039, 0, 0, 0)]
 }
 
+[sub_resource type="Animation" id="Animation_13ibh"]
+resource_name = "Blink"
+length = 1.8
+step = 0.2
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.2, 0.4, 0.6, 0.8, 1, 1.2, 1.4, 1.6, 1.76667),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1, 1, 1, 1),
+"update": 0,
+"values": [Color(0.898039, 0, 0, 0), Color(0.898039, 0, 0, 1), Color(0.898039, 0, 0, 0), Color(0.898039, 0, 0, 1), Color(0.898039, 0, 0, 0), Color(0.898039, 0, 0, 1), Color(0.898039, 0, 0, 0), Color(0.898039, 0, 0, 1), Color(0.898039, 0, 0, 0), Color(0.898039, 0, 0, 0)]
+}
+
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_0vrgw"]
 _data = {
 "Blink": SubResource("Animation_13ibh"),
 "RESET": SubResource("Animation_yfkwi")
-}
-
-[sub_resource type="Gradient" id="Gradient_o3wjq"]
-offsets = PackedFloat32Array(0.75395, 0.925508, 1)
-colors = PackedColorArray(0.647059, 0.0470588, 0.0509804, 0, 0.647059, 0.0470588, 0.0509804, 0.312292, 0.647059, 0.0470588, 0.0509804, 0.631373)
-
-[sub_resource type="GradientTexture2D" id="GradientTexture2D_qqpd7"]
-gradient = SubResource("Gradient_o3wjq")
-width = 512
-height = 256
-fill = 1
-fill_from = Vector2(0.5, 0.5)
-metadata/_snap_enabled = true
-
-[sub_resource type="Animation" id="Animation_edyag"]
-resource_name = "FadeOut"
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath(".:modulate")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0, 0.3, 0.9),
-"transitions": PackedFloat32Array(1, 0.5, 1),
-"update": 0,
-"values": [Color(1, 1, 1, 1), Color(1, 1, 1, 1), Color(1, 1, 1, 0)]
-}
-
-[sub_resource type="Animation" id="Animation_av16e"]
-length = 0.001
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath(".:modulate")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 0,
-"values": [Color(1, 1, 1, 1)]
-}
-
-[sub_resource type="AnimationLibrary" id="AnimationLibrary_b4x0k"]
-_data = {
-"FadeOut": SubResource("Animation_edyag"),
-"RESET": SubResource("Animation_av16e")
 }
 
 [node name="Player" type="Node2D"]
@@ -445,7 +447,7 @@ self_modulate = Color(0.439216, 0.0470588, 0.0470588, 1)
 light_mask = 525313
 material = ExtResource("2_grj2a")
 points = PackedVector2Array(-184, 0, -152, 0, -128, 8, -112, 0, -88, 0, -72, 8, -56, -8, -40, -16, -24, -8, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0)
-width = 28.0
+width = 30.0
 width_curve = ExtResource("1_8mgss")
 default_color = Color(0.611765, 0.341176, 0.341176, 1)
 texture = ExtResource("1_tfqx0")
@@ -548,6 +550,7 @@ explosiveness = 0.9
 fract_delta = false
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Head"]
+visible = false
 shape = ExtResource("8_r88gq")
 
 [node name="Light" type="PointLight2D" parent="Head"]
@@ -582,13 +585,19 @@ rotation = -1.57079
 shape = SubResource("SeparationRayShape2D_gdoay")
 
 [node name="FaceObstacle" type="RayCast2D" parent="Head"]
+visible = false
 target_position = Vector2(37, 0)
 collision_mask = 257
 
 [node name="FaceObstacle-Pos" type="Node2D" parent="Head"]
+visible = false
+
+[node name="AttackMinRange" type="RayCast2D" parent="Head"]
+visible = false
+target_position = Vector2(65, 0)
+collision_mask = 273
 
 [node name="PlayerGeneralArea" type="Area2D" parent="Head"]
-visible = false
 collision_layer = 256
 collision_mask = 256
 monitoring = false
@@ -599,20 +608,11 @@ shape = ExtResource("11_ufsfa")
 [node name="AreaEMP" parent="Head" groups=["free"] instance=ExtResource("13_2xkcd")]
 
 [node name="AmbientParticle" parent="Head" instance=ExtResource("15_74shs")]
+visible = false
 
 [node name="UI" type="CanvasLayer" parent="."]
 layer = 19
 script = ExtResource("9_dcp3e")
-
-[node name="FaceObstacleIcon" type="Sprite2D" parent="UI"]
-modulate = Color(0.898039, 0, 0, 0)
-scale = Vector2(0.5, 0.5)
-texture = ExtResource("8_4yjjr")
-
-[node name="AnimationPlayer" type="AnimationPlayer" parent="UI/FaceObstacleIcon"]
-libraries = {
-"": SubResource("AnimationLibrary_0vrgw")
-}
 
 [node name="Arrow" type="Sprite2D" parent="UI"]
 modulate = Color(0.898039, 0, 0, 1)
@@ -679,6 +679,22 @@ one_shot = true
 libraries = {
 "": SubResource("AnimationLibrary_b4x0k")
 }
+
+[node name="UINoFollow" type="CanvasLayer" parent="."]
+layer = 19
+follow_viewport_enabled = true
+
+[node name="FaceObstacleIcon" type="Sprite2D" parent="UINoFollow"]
+modulate = Color(0.898039, 0, 0, 0)
+top_level = true
+scale = Vector2(0.5, 0.5)
+texture = ExtResource("8_4yjjr")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="UINoFollow/FaceObstacleIcon"]
+libraries = {
+"": SubResource("AnimationLibrary_0vrgw")
+}
+speed_scale = 1.4
 
 [node name="DBG" type="CanvasLayer" parent="."]
 layer = 5
