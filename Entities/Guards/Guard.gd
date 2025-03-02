@@ -245,7 +245,8 @@ func _on_triggered() -> void:
 func _on_general_area_entered(area : Area2D) -> void:
     if area.name == &"PlayerGeneralArea":
         player_near = true
-        idle_check_timer.stop()
+        if !idle_check_timer.is_stopped():
+            idle_check_timer.stop()
 func _on_general_area_exited(area  : Area2D) -> void:
     if area.name == &"PlayerGeneralArea":
         player_near = false
