@@ -145,8 +145,8 @@ func _ready() -> void:
         monitor_var()
         $"../DBG/VBoxContainer".set_vars()
     else:
-        #$"../DBG".queue_free() # NOTE: Removing the debug UI messed up the player UI
-        $"../DBG".visible = false
+        $"../DBG".queue_free() # NOTE: Removing the debug UI messed up the player UI (or is it???)
+        #$"../DBG".visible = false
 
     ui_attack_cooldown.max_value   = 100
 
