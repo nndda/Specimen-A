@@ -39,12 +39,8 @@ shape = SubResource("CapsuleShape2D_dggyt")
 
 [node name="Gun-Rifle" parent="." index="7" instance=ExtResource("3_p8ma6")]
 position = Vector2(12, 5)
-
-[node name="Position2D" parent="KeepDistance" index="0"]
-visible = false
-
-[node name="Line2D" parent="KeepDistance" index="3"]
-visible = false
+cooldown_min = 1.2
+cooldown_max = 1.9
 
 [node name="VisibilityHandler" parent="." index="11"]
 root_path = NodePath("..")
