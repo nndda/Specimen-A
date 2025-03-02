@@ -1,9 +1,8 @@
 extends Line2D
 class_name PlayerBody
 
-var body_segment_max := get_point_count()
-var body_segment_max_physics : int = body_segment_max - 9
-var body_segment_length_arr : PackedFloat32Array = []
+var body_segment_max : int = get_point_count()
+var body_segment_max_physics : int = body_segment_max - 4
 var body_segment_physics_arr : Array = range(
     body_segment_max, body_segment_max - body_segment_max_physics, -1
 )
@@ -30,7 +29,7 @@ func init_collision_shape() -> void:
         #shape_node.debug_color = Color.YELLOW
         #shape_node.z_index = 99
 
-        $"../DamageCollision".add_child(shape_node)
+        $"../DamageCollision".call_deferred(&"add_child", shape_node)
         collision_segments_shape.append(shape)
 
     collision_segments_shape.make_read_only()
