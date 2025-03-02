@@ -19,6 +19,9 @@ var goto_url_dest : String
 
 func _ready() -> void:
     Global.current_scene = self
+
+    PlayerHead.stats_initialized = false
+
     Camera.enabled = false
     Camera.start_fade_out()
 

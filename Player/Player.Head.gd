@@ -131,6 +131,8 @@ func attack_handler() -> void:
         (attack_cooldown_timer.time_left / attack_cooldown_timer.wait_time) * 100
     )
 
+static var stats_initialized : bool = false
+
 func _enter_tree() -> void:
     if Global.current_difficulty == Global.Difficulty.NORMAL:
         attack_cooldown = 1.1
@@ -138,7 +140,12 @@ func _enter_tree() -> void:
         health_max = 125.0
         health_tick = 1.25
         health_regen = 1.6
+
     Global.player = self
+
+    if !stats_initialized:
+        health = health_max
+        stats_initialized = true
 
 func _ready() -> void:
     if show_debug:
