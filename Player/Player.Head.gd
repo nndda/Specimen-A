@@ -258,12 +258,12 @@ func _physics_process(delta : float) -> void:
 
 func shake_cam() -> void:
     Camera.shake_start(
-        attack_strength * 0.25 + 15,
-        0.95,
-        attack_strength * 0.08 + 16
+        attack_strength * .15 + 15.,
+        .8,
+        attack_strength * .08 + 16.
     )
     #print(attack_strength)
-    Global.camera_shaken_by_player.emit(attack_strength > 32.0)
+    Global.camera_shaken_by_player.emit(attack_strength > 40.)
 
 @onready var light_general : PointLight2D = $Light
 
