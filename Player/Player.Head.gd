@@ -1,4 +1,5 @@
 extends CharacterBody2D
+class_name PlayerHead
 
 @export var show_debug := false
 

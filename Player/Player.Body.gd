@@ -1,4 +1,5 @@
 extends Line2D
+class_name PlayerBody
 
 var body_segment_max := get_point_count()
 var body_segment_max_physics : int = body_segment_max - 9
