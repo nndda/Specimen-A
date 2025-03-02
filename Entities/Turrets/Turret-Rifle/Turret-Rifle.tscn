@@ -21,45 +21,6 @@ resource_local_to_scene = true
 radius = 16.0
 height = 48.0
 
-[sub_resource type="Animation" id="Animation_7e8xh"]
-length = 0.001
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath("../Muzzle:energy")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 0,
-"values": [0.0]
-}
-tracks/1/type = "value"
-tracks/1/imported = false
-tracks/1/enabled = true
-tracks/1/path = NodePath("../Muzzle/Flash:energy")
-tracks/1/interp = 1
-tracks/1/loop_wrap = true
-tracks/1/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 0,
-"values": [0.0]
-}
-tracks/2/type = "value"
-tracks/2/imported = false
-tracks/2/enabled = true
-tracks/2/path = NodePath("../BulletPath:modulate")
-tracks/2/interp = 1
-tracks/2/loop_wrap = true
-tracks/2/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 0,
-"values": [Color(1, 1, 1, 0)]
-}
-
 [sub_resource type="Animation" id="Animation_gmvwc"]
 resource_name = "Firing"
 length = 1.175
@@ -160,10 +121,49 @@ tracks/4/keys = {
 "values": [true, false, true, false, true, false, true, false, true, false, true, false, true, false, true, false, true, false, true, false, true, false, true, false]
 }
 
+[sub_resource type="Animation" id="Animation_7e8xh"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("../Muzzle:energy")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [0.0]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("../Muzzle/Flash:energy")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [0.0]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("../BulletPath:modulate")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(1, 1, 1, 0)]
+}
+
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_3c7i6"]
 _data = {
-&"RESET": SubResource("Animation_7e8xh"),
-&"Firing": SubResource("Animation_gmvwc")
+"Firing": SubResource("Animation_gmvwc"),
+"RESET": SubResource("Animation_7e8xh")
 }
 
 [node name="Turret-Rifle" node_paths=PackedStringArray("weapon", "corpse") instance=ExtResource("1_2s3nu")]
@@ -176,7 +176,6 @@ corpse = NodePath("Turret-Destroyed")
 blood_scene = "res://Shaders/Particles/GlassShards.tscn"
 
 [node name="DebugTestField" parent="." index="0" instance=ExtResource("2_pv4xo")]
-visible = false
 
 [node name="Turret-Destroyed" parent="." index="1" instance=ExtResource("3_yqkct")]
 
@@ -203,13 +202,15 @@ shape = SubResource("CapsuleShape2D_ere1r")
 
 [node name="Gun-Rifle" parent="." index="10" instance=ExtResource("2_en8q7")]
 position = Vector2(11, 0)
+cooldown_min = 0.8
+cooldown_max = 1.5
 
 [node name="FireFunction" parent="Gun-Rifle" index="1"]
 spread_degrees = 1.46
 
 [node name="Rifle" parent="Gun-Rifle/FireFunction" index="0"]
 libraries = {
-&"": SubResource("AnimationLibrary_3c7i6")
+"": SubResource("AnimationLibrary_3c7i6")
 }
 
 [node name="LineOfSight" parent="Gun-Rifle" index="4"]
