@@ -28,6 +28,7 @@ func _ready() -> void:
     dlg_length = dlg.get_length()
 
     stage.progressed.connect(_on_stage_progressed)
+    stage.set_variable("nl", "\n")
 
     for n in dlg.get_length():
         var line_cont := VBoxContainer.new()
@@ -41,9 +42,7 @@ func _ready() -> void:
         line_cont.call_deferred(&"add_child", line_label)
         line_cont.call_deferred(&"add_child", line_dlg)
 
-        container.call_deferred(
-            &"add_child", line_cont
-        )
+        container.call_deferred(&"add_child", line_cont)
 
         lines_displays.append({
             "actor": line_label,
