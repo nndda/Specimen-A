@@ -5,6 +5,8 @@
 
 [node name="ChairA-0" instance=ExtResource("1_xydk2")]
 
+[node name="LightOccluder2D" parent="." index="0" groups=["free"]]
+
 [node name="Sprite2D" parent="." index="1"]
 texture = ExtResource("2_x6fln")
 region_rect = Rect2(32, 384, 32, 32)
@@ -14,3 +16,5 @@ disabled = true
 
 [node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="." index="4"]
 polygon = PackedVector2Array(-14, -8, -14, 15, 14, 15, 14, -8, 11, -8, 11, 9, -11, 9, -11, -8)
+
+[editable path="VisibilityHandler"]

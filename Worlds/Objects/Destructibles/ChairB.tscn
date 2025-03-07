@@ -1,0 +1,14 @@
+[gd_scene load_steps=3 format=3 uid="uid://bhiieheu50lse"]
+
+[ext_resource type="PackedScene" uid="uid://dlsk0on3syube" path="res://Worlds/Objects/Destructibles/ChairA.tscn" id="1_n4gvc"]
+[ext_resource type="Texture2D" uid="uid://dlmh608sgp7ib" path="res://Worlds/Objects/Destructibles/ChairB.png" id="2_4b7u7"]
+
+[node name="ChairB" instance=ExtResource("1_n4gvc")]
+
+[node name="Sprite2D" parent="." index="1"]
+texture = ExtResource("2_4b7u7")
+
+[node name="CollisionPolygon2D" parent="." index="4"]
+polygon = PackedVector2Array(-12, 14, 12, 14, 12, 8, -12, 8)
+
+[editable path="VisibilityHandler"]

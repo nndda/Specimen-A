@@ -1,9 +1,14 @@
-[gd_scene load_steps=9 format=3 uid="uid://lgi518g62db8"]
+[gd_scene load_steps=10 format=3 uid="uid://lgi518g62db8"]
 
 [ext_resource type="Script" path="res://Worlds/Objects/Destructibles/DestructiblesBody.gd" id="1_rjp6r"]
 [ext_resource type="Texture2D" uid="uid://be0g0rvserdp1" path="res://Worlds/Objects/Destructibles/BoxA.png" id="2_e4rny"]
 [ext_resource type="Shader" path="res://Shaders/Scripts/shadow.gdshader" id="2_vl8pp"]
 [ext_resource type="PackedScene" uid="uid://bn801wox8wl0f" path="res://Scripts/Area/VisibilityHandler.tscn" id="4_roe10"]
+
+[sub_resource type="PhysicsMaterial" id="PhysicsMaterial_d2x3b"]
+rough = true
+bounce = 1.0
+absorbent = true
 
 [sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_vhdpc"]
 
@@ -24,10 +29,9 @@ position = Vector2(32, 0)
 collision_layer = 8192
 collision_mask = 8193
 mass = 25.0
+physics_material_override = SubResource("PhysicsMaterial_d2x3b")
 gravity_scale = 0.0
-linear_damp_mode = 1
 linear_damp = 85.0
-angular_damp_mode = 1
 angular_damp = 85.0
 script = ExtResource("1_rjp6r")
 health = 1.0

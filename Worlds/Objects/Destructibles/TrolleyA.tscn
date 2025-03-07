@@ -9,6 +9,8 @@ size = Vector2(94, 26)
 [node name="TrolleyA-0" instance=ExtResource("1_86mv6")]
 collision_layer = 16777232
 collision_mask = 16777233
+linear_damp_mode = 1
+angular_damp_mode = 1
 
 [node name="Sprite2D" parent="." index="1"]
 texture = ExtResource("2_moyij")
@@ -16,6 +18,4 @@ texture = ExtResource("2_moyij")
 [node name="CollisionShape2D" parent="." index="2"]
 shape = SubResource("RectangleShape2D_812rr")
 
-[node name="VisibleOnScreenEnabler2D" parent="." index="3"]
-position = Vector2(-9.53674e-07, 1.90735e-06)
-scale = Vector2(6.4, 3.2)
+[editable path="VisibilityHandler"]
