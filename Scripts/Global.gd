@@ -47,8 +47,6 @@ var player_general_area : Area2D
 
 @warning_ignore("unused_signal")
 signal camera_shaken_by_player(substantial : bool)
-
-@warning_ignore("unused_signal")
 signal level_changed
 
 enum Difficulty {
@@ -130,7 +128,7 @@ func update_user_config() -> void:
 
         for n in config_data.keys():
             config.set_value("config", n, config_data[n])
-    
+
     var err_save := config.save(USER_CONFIG_PATH)
     if err_save != OK:
         printerr("Error saving user config: ", error_string(err_save))
@@ -175,6 +173,7 @@ func load_user_data() -> void:
         push_error("Error loading user data: ", error_string(err))
     elif err == ERR_FILE_NOT_FOUND or\
         !FileAccess.file_exists(USER_DATA_PATH):
+        print("User data not found, creating new one...")
         update_user_data()
     else:
         user_data.merge(
@@ -198,10 +197,20 @@ func _enter_tree() -> void:
     load_user_config()
     load_user_data()
 
+    level_changed.connect(_on_level_changed)
+
+    print(user_data)
+
 func _input(event : InputEvent) -> void:
     if event is InputEventKey:
         if event.is_action_pressed(&"Debug - Restart scene"):
             Global.scene_tree.reload_current_scene()
+        elif event.is_action_pressed(&"Debug - print orphan nodes"):
+            print("Oprhan nodes:")
+            print_orphan_nodes()
+
+func _on_level_changed() -> void:
+    top_decor_layer = null
 
 func _process(_delta : float) -> void:
     health = clamp(health, 0.0, 100.0)
