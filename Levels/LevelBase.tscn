@@ -124,4 +124,7 @@ visible = false
 layer = 39
 follow_viewport_enabled = true
 
+[node name="DifficultyGroupDummy" type="Node" parent="." groups=["difficulty_hard", "difficulty_hard_rem", "free"]]
+editor_description = "Having this only so that the difficulty group checkboxes become available to the inherited scenes."
+
 [connection signal="layers_generated" from="Tiles/Pseudo3DGenerator" to="." method="_on_pseudo_3d_generator_layers_generated"]
