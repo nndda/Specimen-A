@@ -1,4 +1,4 @@
-[gd_scene load_steps=13 format=3 uid="uid://d2tpfh4a8bwk0"]
+[gd_scene load_steps=19 format=3 uid="uid://d2tpfh4a8bwk0"]
 
 [ext_resource type="Script" path="res://Worlds/Objects/InfoComm/InfoComm.gd" id="1_nnlww"]
 [ext_resource type="Theme" uid="uid://dkngjeynggxxy" path="res://Worlds/Objects/InfoComm/InfoCommTheme.tres" id="1_ui1pe"]
@@ -6,6 +6,9 @@
 [ext_resource type="FontFile" uid="uid://fw6yop44axk8" path="res://UI/Fonts/Silver.ttf" id="3_b4n6w"]
 [ext_resource type="Texture2D" uid="uid://p80cfkr7hx8x" path="res://Worlds/Objects/InfoComm/icon_progress.svg" id="4_3skgx"]
 [ext_resource type="Texture2D" uid="uid://cq38mnh7o4wkc" path="res://Worlds/Objects/InfoComm/icon_cancel.svg" id="5_wtftm"]
+[ext_resource type="Texture2D" uid="uid://4oo5favew0j" path="res://Worlds/Objects/InfoComm/NoteA.png" id="6_rt764"]
+[ext_resource type="Material" uid="uid://ud64atwxfe5s" path="res://Shaders/Materials/Add-Unshaded.CanvasItemMaterial.tres" id="7_2vax4"]
+[ext_resource type="PackedScene" uid="uid://b084k80tg1y62" path="res://Worlds/GlobalModulate.tscn" id="9_caumy"]
 
 [sub_resource type="StyleBoxLine" id="StyleBoxLine_8v78b"]
 color = Color(1, 1, 1, 0.156863)
@@ -13,6 +16,44 @@ vertical = true
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_61gnu"]
 radius = 121.062
+
+[sub_resource type="Animation" id="Animation_cf27g"]
+resource_name = "Flash"
+length = 1.8
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0.233333, 0.533333, 0.833333, 1.13333, 1.76667),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 0.901961), Color(1, 1, 1, 0), Color(1, 1, 1, 0.901961), Color(1, 1, 1, 0), Color(1, 1, 1, 0)]
+}
+
+[sub_resource type="Animation" id="Animation_jkwgu"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(1, 1, 1, 1)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_l6mrk"]
+_data = {
+"Flash": SubResource("Animation_cf27g"),
+"RESET": SubResource("Animation_jkwgu")
+}
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_mpts3"]
 content_margin_left = 4.0
@@ -45,7 +86,7 @@ spacing_bottom = -10
 [sub_resource type="LabelSettings" id="LabelSettings_4u72y"]
 font_size = 15
 
-[node name="InfoComm" type="Control" node_paths=PackedStringArray("stage", "main_container", "container", "container_scroll", "progress_bar", "end_label", "button_trigger", "detect_area", "camera_copy") groups=["hide"]]
+[node name="InfoComm" type="Control" node_paths=PackedStringArray("stage", "main_container", "container", "container_scroll", "progress_bar", "end_label", "button_trigger", "detect_area", "camera_copy") groups=["hide", "infocomm"]]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -155,6 +196,21 @@ monitorable = false
 [node name="CollisionShape2D" type="CollisionShape2D" parent="DetectArea"]
 shape = SubResource("CircleShape2D_61gnu")
 
+[node name="ItemSprite" type="Sprite2D" parent="DetectArea"]
+texture = ExtResource("6_rt764")
+
+[node name="Flash" type="Sprite2D" parent="DetectArea/ItemSprite"]
+visible = false
+material = ExtResource("7_2vax4")
+texture = ExtResource("6_rt764")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="DetectArea/ItemSprite/Flash"]
+libraries = {
+"": SubResource("AnimationLibrary_l6mrk")
+}
+autoplay = "Flash"
+speed_scale = 1.7
+
 [node name="CameraCopy" type="Camera2D" parent="."]
 
 [node name="ButtonTrigger" type="Button" parent="."]
@@ -196,8 +252,12 @@ layout_mode = 2
 theme_override_font_sizes/font_size = 15
 text = "]"
 
+[node name="GlobalModulate" parent="." groups=["free"] instance=ExtResource("9_caumy")]
+visible = false
+
 [connection signal="pressed" from="DialoguePanel/MarginContainer/VBoxContainer/HBoxContainer/Progress" to="." method="_on_progress_pressed"]
 [connection signal="pressed" from="DialoguePanel/MarginContainer/VBoxContainer/HBoxContainer/Abort" to="." method="_on_abort_pressed"]
 [connection signal="body_entered" from="DetectArea" to="." method="_on_area_2d_body_entered"]
 [connection signal="body_exited" from="DetectArea" to="." method="_on_area_2d_body_exited"]
 [connection signal="pressed" from="ButtonTrigger" to="." method="_on_start_pressed"]
+[connection signal="tree_entered" from="GlobalModulate" to="GlobalModulate" method="hide"]

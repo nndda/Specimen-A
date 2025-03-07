@@ -4,6 +4,8 @@ extends Control
 var dlg : Dialogue
 var dlg_length : int
 
+@export var on_top : bool = false
+
 @export_group("Setup")
 @export var stage : Stage
 @export var main_container : PanelContainer
@@ -59,6 +61,19 @@ func _ready() -> void:
 
     container_scrollbar = container_scroll.get_v_scroll_bar()
     container_scrollbar.changed.connect(_on_container_scrollbar_changed)
+
+    lines_displays.make_read_only()
+    Global.current_scene.layers_generated.connect(init_sprite)
+
+func init_sprite() -> void:
+    Global.current_scene.layers_generated.disconnect(init_sprite)
+
+    $DetectArea/ItemSprite/Flash.texture = $DetectArea/ItemSprite.texture
+    $DetectArea/ItemSprite/Flash.visible = true
+    if on_top:
+        $DetectArea/ItemSprite.reparent(Global.top_decor_layer)
+    else:
+        $DetectArea/ItemSprite.reparent(Global.layer_dict[^"Objects/Statics"])
 
 var current_line : int = 0
 var current_line_wrapped : int = 0
