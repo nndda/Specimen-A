@@ -7,9 +7,11 @@ var scene_tree : SceneTree
 const environment : PackedScene = preload("res://Worlds/GlobalEnvironment.tscn")
 const canvas_modulate : PackedScene = preload("res://Worlds/GlobalModulate.tscn")
 
+var top_decor_layer : Node
 const LAYER : Array[NodePath] = [
     ^"Objects/Corpses",
     ^"Objects/Particles",
+    ^"Objects/Statics",
 ]
 var layer_dict := {}
 func update_layers() -> void:
