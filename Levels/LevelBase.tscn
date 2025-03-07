@@ -123,3 +123,5 @@ visible = false
 [node name="InfoComms" type="CanvasLayer" parent="."]
 layer = 39
 follow_viewport_enabled = true
+
+[connection signal="layers_generated" from="Tiles/Pseudo3DGenerator" to="." method="_on_pseudo_3d_generator_layers_generated"]
