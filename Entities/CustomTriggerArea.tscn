@@ -1,0 +1,7 @@
+[gd_scene format=3 uid="uid://bo6lvj77rmdo0"]
+
+[node name="CustomTriggerArea" type="Area2D"]
+collision_layer = 1073741824
+collision_mask = 1073741824
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
