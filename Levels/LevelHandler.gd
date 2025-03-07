@@ -11,6 +11,7 @@ extends Node2D
 @onready var area_container : Node2D =  $Areas
 
 signal level_loaded
+signal layers_generated
 
 func _input(event : InputEvent) -> void:
     if event.is_action_pressed(&"Debug - hide groups"):
@@ -88,3 +89,4 @@ func _on_pseudo_3d_generator_layers_generated() -> void:
     for n : TileMapLayer in Global.scene_tree.get_nodes_in_group(&"tilemap_modulate"):
         global_modulate.color_changed.connect(n.set_modulate)
     Global.scene_tree.set_group(&"tilemap_modulate", "modulate", global_modulate.color)
+    layers_generated.emit()
