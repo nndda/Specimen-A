@@ -24,7 +24,7 @@ func toggle_pause() -> void:
     Camera.paused = paused
     ProjectSettings.set_setting("display/mouse_cursor/custom_image",
         "" if paused else\
-        "res://UI/Cursors/Dot.png"
+        "res://UI/Cursors/Blank.png"
     )
     level_root.call_deferred(&"set_process_mode",
         Node.PROCESS_MODE_DISABLED if paused else\
