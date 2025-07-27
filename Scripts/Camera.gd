@@ -64,11 +64,6 @@ func _on_Duration_timeout() -> void:
     timer_freq.stop()
 
 
-var visload_entity          : Array[Node2D]
-var visload_running         := true
-var visload_path_follow     : PathFollow2D
-var current_objects_list    : Array[Vector2]
-
 func initialize_level() -> void:
     animation_player.play(&"RESET")
 
@@ -76,7 +71,6 @@ func initialize_level() -> void:
     enabled = true
 
     animation_player.play(ANIM_FADE_OUT)
-    visload_running = false
 
 var mouse_pos := Vector2.ZERO
 var viewport_rect_size := Vector2.ZERO
@@ -102,11 +96,6 @@ func _process(_delta : float) -> void:
             0.0, viewport_rect_size.y,
             -1.0, 1.0
         )
-
-    else:
-        if visload_path_follow != null:
-            if visload_running:
-                global_position = visload_path_follow.global_position
 
 signal faded_out
 signal faded_in

@@ -1,6 +1,6 @@
 [gd_scene load_steps=6 format=3 uid="uid://c2ehu5c4nqfgg"]
 
-[ext_resource type="Script" path="res://Scripts/Camera.gd" id="1_ybuwx"]
+[ext_resource type="Script" uid="uid://bcmigjil8phm3" path="res://Scripts/Camera.gd" id="1_ybuwx"]
 
 [sub_resource type="Animation" id="Animation_dmp2c"]
 length = 0.001
@@ -50,9 +50,9 @@ tracks/0/keys = {
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_wjggx"]
 _data = {
-"RESET": SubResource("Animation_dmp2c"),
-"fade_in": SubResource("Animation_sa7jm"),
-"fade_out": SubResource("Animation_5uipk")
+&"RESET": SubResource("Animation_dmp2c"),
+&"fade_in": SubResource("Animation_sa7jm"),
+&"fade_out": SubResource("Animation_5uipk")
 }
 
 [node name="Camera" type="Camera2D"]
