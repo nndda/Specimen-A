@@ -5,14 +5,14 @@
 [ext_resource type="Material" uid="uid://dg7dt853u8s8c" path="res://Player/Player.Shadow.tres" id="2_grj2a"]
 [ext_resource type="PackedScene" uid="uid://18w32fckqjmb" path="res://Player/Lights/BodyLight.tscn" id="3_7gejm"]
 [ext_resource type="Curve2D" uid="uid://cpo3ggpdprdea" path="res://Player/Lights/BodyLight.Curve2D.tres" id="3_50gab"]
-[ext_resource type="Script" path="res://Player/Player.Body.gd" id="3_tu4s7"]
+[ext_resource type="Script" uid="uid://canqntflnag3p" path="res://Player/Player.Body.gd" id="3_tu4s7"]
 [ext_resource type="Texture2D" uid="uid://blgxid8pqsvwg" path="res://Player/Sprites/Texture.png" id="4_fr7ey"]
-[ext_resource type="Script" path="res://Player/Player.DamageCollision.gd" id="5_4h1ol"]
-[ext_resource type="Script" path="res://Player/Player.Head.gd" id="6_01yml"]
+[ext_resource type="Script" uid="uid://b7yy00dm44nmj" path="res://Player/Player.DamageCollision.gd" id="5_4h1ol"]
+[ext_resource type="Script" uid="uid://cplrqvforbsoi" path="res://Player/Player.Head.gd" id="6_01yml"]
 [ext_resource type="Texture2D" uid="uid://bdvyd3nbu8826" path="res://UI/Cursors/Cross.png" id="8_4yjjr"]
 [ext_resource type="Shape2D" uid="uid://bckhilh6un6wl" path="res://Player/Head.CollisionShape2D.tres" id="8_r88gq"]
 [ext_resource type="Texture2D" uid="uid://cix4worf0f6hk" path="res://UI/Cursors/Arrow.png" id="9_7uy1q"]
-[ext_resource type="Script" path="res://Player/Player.UI.gd" id="9_dcp3e"]
+[ext_resource type="Script" uid="uid://tdy18ckrahic" path="res://Player/Player.UI.gd" id="9_dcp3e"]
 [ext_resource type="Texture2D" uid="uid://cnjkvl2okf07r" path="res://Player/Head.Light.tres" id="9_ic0gl"]
 [ext_resource type="Texture2D" uid="uid://dm2bi3d3tjkt8" path="res://Player/UI/AttackIndicator.texture_under.tres" id="10_cgkkv"]
 [ext_resource type="Texture2D" uid="uid://cawxr7kd8og66" path="res://Player/UI/AttackIndicator.texture_progres.tres" id="11_frthm"]
@@ -20,7 +20,7 @@
 [ext_resource type="Texture2D" uid="uid://dmf6sl1cpnp2x" path="res://Player/UI/AttackCooldown.texture_progres.tres" id="12_gqrry"]
 [ext_resource type="PackedScene" uid="uid://bkda31jn1iyum" path="res://Player/Bodies/AreaEmp.tscn" id="13_2xkcd"]
 [ext_resource type="PackedScene" uid="uid://bu80812ypq0si" path="res://Shaders/Particles/AmbientParticles.tscn" id="15_74shs"]
-[ext_resource type="Script" path="res://Scripts/DebugVars.gd" id="16_u7job"]
+[ext_resource type="Script" uid="uid://dpv1pqlenw38o" path="res://Scripts/DebugVars.gd" id="16_u7job"]
 
 [sub_resource type="Animation" id="Animation_c8lpg"]
 resource_name = "Idle"
@@ -175,8 +175,8 @@ tracks/5/keys = {
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_yw4d2"]
 _data = {
-"Idle": SubResource("Animation_c8lpg"),
-"RESET": SubResource("Animation_i73mt")
+&"Idle": SubResource("Animation_c8lpg"),
+&"RESET": SubResource("Animation_i73mt")
 }
 
 [sub_resource type="Animation" id="Animation_cxbw2"]
@@ -262,9 +262,9 @@ tracks/1/keys = {
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_87jn6"]
 _data = {
-"FadeOutHealthBar": SubResource("Animation_cxbw2"),
-"Hit": SubResource("Animation_lntnx"),
-"RESET": SubResource("Animation_u1eg8")
+&"FadeOutHealthBar": SubResource("Animation_cxbw2"),
+&"Hit": SubResource("Animation_lntnx"),
+&"RESET": SubResource("Animation_u1eg8")
 }
 
 [sub_resource type="Animation" id="Animation_w72yn"]
@@ -324,8 +324,8 @@ tracks/1/keys = {
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_40jbl"]
 _data = {
-"Open": SubResource("Animation_w72yn"),
-"RESET": SubResource("Animation_dyb2h")
+&"Open": SubResource("Animation_w72yn"),
+&"RESET": SubResource("Animation_dyb2h")
 }
 
 [sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_71rbj"]
@@ -389,8 +389,8 @@ tracks/0/keys = {
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_b4x0k"]
 _data = {
-"FadeOut": SubResource("Animation_edyag"),
-"RESET": SubResource("Animation_av16e")
+&"FadeOut": SubResource("Animation_edyag"),
+&"RESET": SubResource("Animation_av16e")
 }
 
 [sub_resource type="Animation" id="Animation_13ibh"]
@@ -427,8 +427,8 @@ tracks/0/keys = {
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_0vrgw"]
 _data = {
-"Blink": SubResource("Animation_13ibh"),
-"RESET": SubResource("Animation_yfkwi")
+&"Blink": SubResource("Animation_13ibh"),
+&"RESET": SubResource("Animation_yfkwi")
 }
 
 [node name="Player" type="Node2D"]

@@ -151,8 +151,8 @@ tracks/4/keys = {
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_3c7i6"]
 _data = {
-&"RESET": SubResource("Animation_7e8xh"),
-&"Firing": SubResource("Animation_gmvwc")
+&"Firing": SubResource("Animation_gmvwc"),
+&"RESET": SubResource("Animation_7e8xh")
 }
 
 [sub_resource type="Animation" id="Animation_eawy5"]
@@ -277,8 +277,8 @@ tracks/4/keys = {
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_fb2tj"]
 _data = {
-&"RESET": SubResource("Animation_eawy5"),
-&"Firing": SubResource("Animation_fdmf3")
+&"Firing": SubResource("Animation_fdmf3"),
+&"RESET": SubResource("Animation_eawy5")
 }
 
 [node name="Crew-Revolver" node_paths=PackedStringArray("weapon", "corpse") instance=ExtResource("1_143es")]

@@ -124,8 +124,8 @@ tracks/3/keys = {
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_fb2tj"]
 _data = {
-"Firing": SubResource("Animation_fdmf3"),
-"RESET": SubResource("Animation_eawy5")
+&"Firing": SubResource("Animation_fdmf3"),
+&"RESET": SubResource("Animation_eawy5")
 }
 
 [node name="Gun-Revolver" node_paths=PackedStringArray("fire_function", "line_of_sight", "obstacle_sight", "friendly_sight") instance=ExtResource("1_3jml5")]

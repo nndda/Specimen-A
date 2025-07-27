@@ -1,7 +1,7 @@
 [gd_scene load_steps=15 format=3 uid="uid://btpulysfkoqly"]
 
 [ext_resource type="Texture2D" uid="uid://bx5qri4e2cokk" path="res://Entities/Weapons/Mine.png" id="1_fdql2"]
-[ext_resource type="Script" path="res://Entities/Weapons/Mine.gd" id="1_w4y0n"]
+[ext_resource type="Script" uid="uid://drypghb6x60u0" path="res://Entities/Weapons/Mine.gd" id="1_w4y0n"]
 [ext_resource type="PackedScene" uid="uid://deb26datidugv" path="res://Shaders/VisualTestArea.tscn" id="2_d70k5"]
 [ext_resource type="PackedScene" uid="uid://bydxskl7vyst7" path="res://Shaders/Particles/Explosion.tscn" id="4_rew5v"]
 [ext_resource type="Material" uid="uid://ud64atwxfe5s" path="res://Shaders/Materials/Add-Unshaded.CanvasItemMaterial.tres" id="6_c72oi"]
@@ -129,9 +129,9 @@ tracks/3/keys = {
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_gwqh7"]
 _data = {
-"Detonate": SubResource("Animation_ohscn"),
-"Idle": SubResource("Animation_mud5y"),
-"RESET": SubResource("Animation_uvks4")
+&"Detonate": SubResource("Animation_ohscn"),
+&"Idle": SubResource("Animation_mud5y"),
+&"RESET": SubResource("Animation_uvks4")
 }
 
 [sub_resource type="Gradient" id="Gradient_bk4vw"]

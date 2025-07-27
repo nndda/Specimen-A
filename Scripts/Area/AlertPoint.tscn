@@ -1,6 +1,6 @@
 [gd_scene load_steps=3 format=3 uid="uid://bbutot5seicon"]
 
-[ext_resource type="Script" path="res://Scripts/Area/AlertPoint.gd" id="1_erycd"]
+[ext_resource type="Script" uid="uid://bnyshxmnh0wke" path="res://Scripts/Area/AlertPoint.gd" id="1_erycd"]
 [ext_resource type="Shape2D" uid="uid://qr510gglchm8" path="res://Scripts/Area/Point.DefaultShape.tres" id="1_mdmub"]
 
 [node name="AlertPoint" type="Area2D"]

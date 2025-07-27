@@ -1,4 +1,4 @@
-[gd_resource type="TileSet" load_steps=8 format=3 uid="uid://dd7lf67ra04h2"]
+[gd_resource type="TileSet" load_steps=7 format=3 uid="uid://dd7lf67ra04h2"]
 
 [ext_resource type="Texture2D" uid="uid://ccdvj4dmcgmym" path="res://Worlds/Tilesets/Mask.png" id="1_1fmdy"]
 [ext_resource type="Texture2D" uid="uid://v4aig0fr5bu0" path="res://Worlds/Tilesets/TilesBase.png" id="2_h21en"]
@@ -80,9 +80,6 @@ texture_region_size = Vector2i(32, 32)
 4:0/0/terrains_peering_bit/top_side = 0
 4:0/0/terrains_peering_bit/top_right_corner = 0
 
-[sub_resource type="OccluderPolygon2D" id="OccluderPolygon2D_ukjvq"]
-polygon = PackedVector2Array(16, -16, -16, -16, -16, 16, 16, 16)
-
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_nwbs6"]
 resource_name = "Base"
 texture = ExtResource("2_h21en")
@@ -103,13 +100,10 @@ texture_region_size = Vector2i(32, 32)
 8:0/0/physics_layer_0/polygon_0/points = PackedVector2Array(-16, -4, 16, -4, 16, 16, -16, 16)
 8:1/0 = 0
 2:1/0 = 0
-2:1/0/occlusion_layer_0/polygon = SubResource("OccluderPolygon2D_ukjvq")
 2:1/0/physics_layer_0/polygon_0/points = PackedVector2Array(-16, -16, 16, -16, 16, 16, -16, 16)
 2:2/0 = 0
-2:2/0/occlusion_layer_0/polygon = SubResource("OccluderPolygon2D_ukjvq")
 2:2/0/physics_layer_0/polygon_0/points = PackedVector2Array(-16, -16, 16, -16, 16, 16, -16, 16)
 1:2/0 = 0
-1:2/0/occlusion_layer_0/polygon = SubResource("OccluderPolygon2D_ukjvq")
 1:2/0/physics_layer_0/polygon_0/points = PackedVector2Array(-16, -16, 16, -16, 16, 16, -16, 16)
 1:4/0 = 0
 1:5/0 = 0

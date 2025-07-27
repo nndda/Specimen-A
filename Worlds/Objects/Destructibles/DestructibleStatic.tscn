@@ -1,7 +1,7 @@
 [gd_scene load_steps=4 format=3 uid="uid://bec4opke5551m"]
 
 [ext_resource type="Texture2D" uid="uid://dng5nqxs0o4uw" path="res://Worlds/Objects/Destructibles/PowerSource.png" id="1_boiik"]
-[ext_resource type="Script" path="res://Worlds/Objects/Destructibles/DestructiblesBody.gd" id="1_h273c"]
+[ext_resource type="Script" uid="uid://wk4raxbab6vw" path="res://Worlds/Objects/Destructibles/DestructiblesBody.gd" id="1_h273c"]
 [ext_resource type="PackedScene" uid="uid://bn801wox8wl0f" path="res://Scripts/Area/VisibilityHandler.tscn" id="1_ont0x"]
 
 [node name="DestructibleStatic" type="StaticBody2D"]

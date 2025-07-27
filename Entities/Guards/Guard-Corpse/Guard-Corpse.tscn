@@ -1,6 +1,6 @@
 [gd_scene load_steps=21 format=3 uid="uid://c44yomx1glpfj"]
 
-[ext_resource type="Script" path="res://Entities/Guards/Guard-Corpse/Guard-Corpse.gd" id="1_iomh3"]
+[ext_resource type="Script" uid="uid://dc5fihmtkifxl" path="res://Entities/Guards/Guard-Corpse/Guard-Corpse.gd" id="1_iomh3"]
 [ext_resource type="Texture2D" uid="uid://bi0x6glg40d2i" path="res://Shaders/Particles/BloodTrail.png" id="2_iwxdb"]
 [ext_resource type="PackedScene" uid="uid://cf1nettbgosmj" path="res://Shaders/Particles/BloodSplatters.tscn" id="3_nd872"]
 [ext_resource type="Material" uid="uid://dyjvgrb7n14vw" path="res://Shaders/Materials/CorpseShadow.ShaderMaterial.tres" id="4_lyq84"]

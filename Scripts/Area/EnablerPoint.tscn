@@ -1,6 +1,6 @@
 [gd_scene load_steps=3 format=3 uid="uid://dxrsevadm5y44"]
 
-[ext_resource type="Script" path="res://Scripts/Area/EnablerPoint.gd" id="1_x62f2"]
+[ext_resource type="Script" uid="uid://c7m26k3pfw1d6" path="res://Scripts/Area/EnablerPoint.gd" id="1_x62f2"]
 [ext_resource type="Shape2D" uid="uid://qr510gglchm8" path="res://Scripts/Area/Point.DefaultShape.tres" id="2_s2vms"]
 
 [node name="EnablerPoint" type="Area2D"]

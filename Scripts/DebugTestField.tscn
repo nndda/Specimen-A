@@ -3,6 +3,7 @@
 [ext_resource type="PackedScene" uid="uid://b084k80tg1y62" path="res://Worlds/GlobalModulate.tscn" id="2_bf6w7"]
 
 [node name="DebugTestField" type="Node2D" groups=["free"]]
+visible = false
 
 [node name="GlobalModulate" parent="." instance=ExtResource("2_bf6w7")]
 

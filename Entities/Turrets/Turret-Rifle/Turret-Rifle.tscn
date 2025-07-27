@@ -5,9 +5,9 @@
 [ext_resource type="PackedScene" uid="uid://dwnj5shb6eoqy" path="res://Scripts/DebugTestField.tscn" id="2_pv4xo"]
 [ext_resource type="PackedScene" uid="uid://c3nsbmhfcxmu" path="res://Entities/Turrets/Turret-Destroyed.tscn" id="3_yqkct"]
 [ext_resource type="Texture2D" uid="uid://bjnbe1b1a2laf" path="res://Entities/Turrets/Turret-Rifle/Turret-Rifle.Base.png" id="4_kel4u"]
-[ext_resource type="Script" path="res://Entities/Turrets/StationaryTrigger.gd" id="4_r6sjh"]
+[ext_resource type="Script" uid="uid://cbnfiuutniybl" path="res://Entities/Turrets/StationaryTrigger.gd" id="4_r6sjh"]
 [ext_resource type="Texture2D" uid="uid://jp1ol34cgvye" path="res://Entities/Turrets/Turret-Rifle/Turret-Rifle.Gun.png" id="4_sxw3u"]
-[ext_resource type="Shader" path="res://Shaders/Scripts/shadow.gdshader" id="4_yn4es"]
+[ext_resource type="Shader" uid="uid://c2etxp5cryiqg" path="res://Shaders/Scripts/shadow.gdshader" id="4_yn4es"]
 [ext_resource type="PackedScene" uid="uid://bydxskl7vyst7" path="res://Shaders/Particles/Explosion.tscn" id="9_jtijr"]
 [ext_resource type="PackedScene" uid="uid://c2y5c12g4n54p" path="res://Entities/Weapons/LaserSightExt.tscn" id="10_whlpx"]
 
@@ -162,8 +162,8 @@ tracks/2/keys = {
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_3c7i6"]
 _data = {
-"Firing": SubResource("Animation_gmvwc"),
-"RESET": SubResource("Animation_7e8xh")
+&"Firing": SubResource("Animation_gmvwc"),
+&"RESET": SubResource("Animation_7e8xh")
 }
 
 [node name="Turret-Rifle" node_paths=PackedStringArray("weapon", "corpse") instance=ExtResource("1_2s3nu")]

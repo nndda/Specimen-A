@@ -1,10 +1,16 @@
-[gd_scene load_steps=6 format=3 uid="uid://b0qvyw3l8mlv0"]
+[gd_scene load_steps=8 format=3 uid="uid://b0qvyw3l8mlv0"]
 
-[ext_resource type="Script" path="res://UI/MainMenu.gd" id="1_bf8lx"]
+[ext_resource type="Script" uid="uid://d1ty2x48c03ja" path="res://UI/MainMenu.gd" id="1_bf8lx"]
 [ext_resource type="Theme" uid="uid://1eq3q2sr8oo5" path="res://UI/UI.Theme.tres" id="1_tx3nc"]
 [ext_resource type="PackedScene" uid="uid://pbhmm4m3qrow" path="res://UI/ButtonBase.tscn" id="3_dop32"]
 [ext_resource type="PackedScene" uid="uid://dc65kw5fmo080" path="res://UI/ConfigMenu.tscn" id="4_c5xvl"]
 [ext_resource type="PackedScene" uid="uid://cae0ko67ln767" path="res://UI/Credits/CreditsMenu.tscn" id="5_1yu6k"]
+[ext_resource type="FontFile" uid="uid://dn3dkhkk25uyd" path="res://UI/Fonts/AVA.ttf" id="6_beo35"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_chkt2"]
+font = ExtResource("6_beo35")
+font_size = 32
+font_color = Color(1, 1, 1, 0.678431)
 
 [node name="MainMenu" type="Node2D" node_paths=PackedStringArray("btn_start", "btn_config", "btn_credits", "btn_achievement", "btn_exit", "config_menu", "exit_confirm", "goto_url_confirm", "version_label")]
 script = ExtResource("1_bf8lx")
@@ -31,14 +37,13 @@ offset_right = 768.0
 offset_bottom = 432.0
 
 [node name="ReferenceRect" type="ReferenceRect" parent="CanvasLayer/Control"]
-visible = false
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-border_width = 5.0
+border_width = 3.0
 
 [node name="Margin" type="MarginContainer" parent="CanvasLayer/Control"]
 layout_mode = 1
@@ -55,27 +60,33 @@ layout_mode = 2
 alignment = 1
 
 [node name="Start" parent="CanvasLayer/Control/Margin/Menu" instance=ExtResource("3_dop32")]
-custom_minimum_size = Vector2(140, 28)
+custom_minimum_size = Vector2(120, 0)
 layout_mode = 2
-text = "Start"
+text = "Start New"
+
+[node name="Continue" parent="CanvasLayer/Control/Margin/Menu" instance=ExtResource("3_dop32")]
+custom_minimum_size = Vector2(120, 0)
+layout_mode = 2
+disabled = true
+text = "Continue"
 
 [node name="Config" parent="CanvasLayer/Control/Margin/Menu" instance=ExtResource("3_dop32")]
-custom_minimum_size = Vector2(140, 28)
+custom_minimum_size = Vector2(120, 0)
 layout_mode = 2
 text = "Config"
 
 [node name="Credits" parent="CanvasLayer/Control/Margin/Menu" instance=ExtResource("3_dop32")]
-custom_minimum_size = Vector2(140, 28)
+custom_minimum_size = Vector2(120, 0)
 layout_mode = 2
 text = "Credits"
 
 [node name="Achievements" parent="CanvasLayer/Control/Margin/Menu" instance=ExtResource("3_dop32")]
-custom_minimum_size = Vector2(140, 28)
+custom_minimum_size = Vector2(120, 0)
 layout_mode = 2
 text = "Achievements"
 
 [node name="Exit" parent="CanvasLayer/Control/Margin/Menu" instance=ExtResource("3_dop32")]
-custom_minimum_size = Vector2(140, 28)
+custom_minimum_size = Vector2(120, 0)
 layout_mode = 2
 text = "Exit"
 
@@ -93,8 +104,7 @@ layout_mode = 1
 visible = false
 layout_mode = 1
 
-[node name="CreditsGenerator" parent="CanvasLayer/Control/CreditsMenu" index="0" node_paths=PackedStringArray("target", "main_menu_root")]
-target = NodePath("../PanelContainer/MarginContainer/VBoxContainer/ScrollContainer/MainCreditsContainer")
+[node name="CreditsGenerator" parent="CanvasLayer/Control/CreditsMenu" index="0" node_paths=PackedStringArray("main_menu_root")]
 main_menu_root = NodePath("../../../..")
 
 [node name="BottomMenu" type="MarginContainer" parent="CanvasLayer/Control"]
@@ -129,6 +139,22 @@ theme_override_constants/separation = 13
 layout_mode = 2
 text = "<version_info>"
 
+[node name="TitleContainer" type="MarginContainer" parent="CanvasLayer/Control"]
+layout_mode = 1
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -77.0
+offset_bottom = 16.0
+grow_horizontal = 0
+theme_override_constants/margin_top = 80
+theme_override_constants/margin_right = 90
+
+[node name="Label" type="Label" parent="CanvasLayer/Control/TitleContainer"]
+layout_mode = 2
+text = "SPECIMEN-A"
+label_settings = SubResource("LabelSettings_chkt2")
+
 [node name="GoToURLConfirm" type="ConfirmationDialog" parent="."]
 title = "Open URL"
 size = Vector2i(219, 70)
@@ -136,6 +162,7 @@ ok_button_text = "Open in browser"
 dialog_text = "Go to 'github.com/nndda/Specimen-A'?"
 
 [connection signal="pressed" from="CanvasLayer/Control/Margin/Menu/Start" to="." method="_on_start_pressed"]
+[connection signal="pressed" from="CanvasLayer/Control/Margin/Menu/Continue" to="." method="_on_start_pressed"]
 [connection signal="pressed" from="CanvasLayer/Control/Margin/Menu/Config" to="." method="_on_config_pressed"]
 [connection signal="pressed" from="CanvasLayer/Control/Margin/Menu/Credits" to="." method="_on_credits_pressed"]
 [connection signal="pressed" from="CanvasLayer/Control/Margin/Menu/Credits" to="CanvasLayer/Control/CreditsMenu" method="show"]

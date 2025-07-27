@@ -65,7 +65,7 @@ func hint_breakout(body : Node2D, source : Marker2D) -> void:
         label_breakout.position = source.position
         label_breakout.global_rotation = source.global_rotation
 
-@onready var info_stats_stage : Stage = $"../../InfoComms/Containments/DialoguePanel/Stage"
+@onready var info_stats_stage : TheatreStage = $"../../InfoComms/Containments/DialoguePanel/TheatreStage"
 var broken : int = 0
 
 func hint_breakout_clear() -> void:

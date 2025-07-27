@@ -41,8 +41,8 @@ tracks/0/keys = {
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_hu64f"]
 _data = {
-"RESET": SubResource("Animation_6fs06"),
-"Rotating": SubResource("Animation_cabkb")
+&"RESET": SubResource("Animation_6fs06"),
+&"Rotating": SubResource("Animation_cabkb")
 }
 
 [node name="LightAlert" instance=ExtResource("1_05u7m")]

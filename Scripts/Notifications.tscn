@@ -1,6 +1,6 @@
 [gd_scene load_steps=15 format=3 uid="uid://cnnfpjbpkoe1u"]
 
-[ext_resource type="Script" path="res://Scripts/Notifications.gd" id="1_2haug"]
+[ext_resource type="Script" uid="uid://d1mxfn3tq4rnq" path="res://Scripts/Notifications.gd" id="1_2haug"]
 [ext_resource type="Theme" uid="uid://1eq3q2sr8oo5" path="res://UI/UI.Theme.tres" id="2_bwafl"]
 [ext_resource type="PackedScene" uid="uid://cv0630kh24uw" path="res://UI/LevelLabels.tscn" id="2_vhd63"]
 
@@ -57,9 +57,9 @@ tracks/0/keys = {
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_e0rbe"]
 _data = {
-"RESET": SubResource("Animation_ting8"),
-"enter": SubResource("Animation_6fhda"),
-"exit": SubResource("Animation_3bw6h")
+&"RESET": SubResource("Animation_ting8"),
+&"enter": SubResource("Animation_6fhda"),
+&"exit": SubResource("Animation_3bw6h")
 }
 
 [sub_resource type="Animation" id="Animation_2gkk3"]
@@ -95,8 +95,8 @@ tracks/0/keys = {
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_5uspk"]
 _data = {
-"Display": SubResource("Animation_2gkk3"),
-"RESET": SubResource("Animation_aul55")
+&"Display": SubResource("Animation_2gkk3"),
+&"RESET": SubResource("Animation_aul55")
 }
 
 [sub_resource type="Animation" id="Animation_xlav0"]
@@ -117,7 +117,7 @@ tracks/0/keys = {
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_glhiu"]
 _data = {
-"Display": SubResource("Animation_xlav0")
+&"Display": SubResource("Animation_xlav0")
 }
 
 [node name="Notifications" type="CanvasLayer"]

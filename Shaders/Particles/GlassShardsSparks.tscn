@@ -2,7 +2,7 @@
 
 [ext_resource type="PackedScene" uid="uid://c152ot7ob213r" path="res://Shaders/Particles/GlassShards.tscn" id="1_rui31"]
 [ext_resource type="Material" uid="uid://ud64atwxfe5s" path="res://Shaders/Materials/Add-Unshaded.CanvasItemMaterial.tres" id="2_fo10u"]
-[ext_resource type="Script" path="res://Shaders/Particles/OneTimeParticles.gd" id="3_waacd"]
+[ext_resource type="Script" uid="uid://bshc5kr3ate4c" path="res://Shaders/Particles/OneTimeParticles.gd" id="3_waacd"]
 
 [sub_resource type="Gradient" id="Gradient_v4dc0"]
 offsets = PackedFloat32Array(0, 0.679688, 0.945313)

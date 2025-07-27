@@ -1,6 +1,6 @@
 [gd_scene load_steps=12 format=3 uid="uid://dgmfdfnnvk3qx"]
 
-[ext_resource type="Script" path="res://Shaders/Lights/Light.gd" id="1_1ad8k"]
+[ext_resource type="Script" uid="uid://chule8fhpg7qh" path="res://Shaders/Lights/Light.gd" id="1_1ad8k"]
 [ext_resource type="Texture2D" uid="uid://gcktcc1y5wpa" path="res://Shaders/Lights/Light.Point.png" id="2_dr7i5"]
 [ext_resource type="PackedScene" uid="uid://deb26datidugv" path="res://Shaders/VisualTestArea.tscn" id="2_g7n3x"]
 [ext_resource type="Texture2D" uid="uid://siw2jprbqhps" path="res://Shaders/Lights/General.L.GradientTexture2D.tres" id="5_rqanb"]
@@ -84,11 +84,11 @@ tracks/0/keys = {
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_cg14a"]
 _data = {
-"Flick_0": SubResource("Animation_0cmn5"),
-"Flick_1": SubResource("Animation_diu3l"),
-"LightsOn": SubResource("Animation_i4mc6"),
-"LightsOut": SubResource("Animation_obcd3"),
-"RESET": SubResource("Animation_64miy")
+&"Flick_0": SubResource("Animation_0cmn5"),
+&"Flick_1": SubResource("Animation_diu3l"),
+&"LightsOn": SubResource("Animation_i4mc6"),
+&"LightsOut": SubResource("Animation_obcd3"),
+&"RESET": SubResource("Animation_64miy")
 }
 
 [node name="Light" type="Node2D" groups=["lights"]]

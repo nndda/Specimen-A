@@ -1,8 +1,8 @@
 [gd_scene load_steps=7 format=3 uid="uid://bg1ynbvtdy37h"]
 
-[ext_resource type="Shader" path="res://Shaders/Scripts/shadow.gdshader" id="1_qifnt"]
+[ext_resource type="Shader" uid="uid://c2etxp5cryiqg" path="res://Shaders/Scripts/shadow.gdshader" id="1_qifnt"]
 [ext_resource type="Texture2D" uid="uid://clp0r68xa3tud" path="res://Worlds/Objects/Cable.png" id="2_n5fuc"]
-[ext_resource type="Script" path="res://Worlds/Objects/Cable.gd" id="3_vqp2n"]
+[ext_resource type="Script" uid="uid://b6moxu1qy3k6o" path="res://Worlds/Objects/Cable.gd" id="3_vqp2n"]
 [ext_resource type="Material" uid="uid://ud64atwxfe5s" path="res://Shaders/Materials/Add-Unshaded.CanvasItemMaterial.tres" id="4_4os22"]
 [ext_resource type="Texture2D" uid="uid://d4euaxind3pst" path="res://Worlds/Objects/CableLight.png" id="5_p351g"]
 

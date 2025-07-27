@@ -1,7 +1,7 @@
 [gd_scene load_steps=4 format=3 uid="uid://cf1nettbgosmj"]
 
 [ext_resource type="Texture2D" uid="uid://ugmsvtacu0k8" path="res://Shaders/Particles/BloodSplatters.png" id="1_j3kmr"]
-[ext_resource type="Script" path="res://Shaders/Particles/ParticlesHandler.gd" id="2_exox2"]
+[ext_resource type="Script" uid="uid://bxwn7jx1e8pp6" path="res://Shaders/Particles/ParticlesHandler.gd" id="2_exox2"]
 
 [sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_mlwat"]
 particles_animation = true

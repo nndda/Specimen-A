@@ -1,8 +1,8 @@
 [gd_scene load_steps=10 format=3 uid="uid://lgi518g62db8"]
 
-[ext_resource type="Script" path="res://Worlds/Objects/Destructibles/DestructiblesBody.gd" id="1_rjp6r"]
+[ext_resource type="Script" uid="uid://wk4raxbab6vw" path="res://Worlds/Objects/Destructibles/DestructiblesBody.gd" id="1_rjp6r"]
 [ext_resource type="Texture2D" uid="uid://be0g0rvserdp1" path="res://Worlds/Objects/Destructibles/BoxA.png" id="2_e4rny"]
-[ext_resource type="Shader" path="res://Shaders/Scripts/shadow.gdshader" id="2_vl8pp"]
+[ext_resource type="Shader" uid="uid://c2etxp5cryiqg" path="res://Shaders/Scripts/shadow.gdshader" id="2_vl8pp"]
 [ext_resource type="PackedScene" uid="uid://bn801wox8wl0f" path="res://Scripts/Area/VisibilityHandler.tscn" id="4_roe10"]
 
 [sub_resource type="PhysicsMaterial" id="PhysicsMaterial_d2x3b"]

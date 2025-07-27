@@ -1,8 +1,8 @@
 [gd_scene load_steps=12 format=3 uid="uid://b36sccd6amvf5"]
 
-[ext_resource type="Script" path="res://Entities/Weapons/Shield.gd" id="1_4air0"]
+[ext_resource type="Script" uid="uid://ckd787lg4so2n" path="res://Entities/Weapons/Shield.gd" id="1_4air0"]
 [ext_resource type="Texture2D" uid="uid://2a5o2g568n6" path="res://Entities/Weapons/Shield.png" id="2_mon2s"]
-[ext_resource type="Script" path="res://Worlds/Objects/Destructibles/DestructiblesBody.gd" id="3_3ghli"]
+[ext_resource type="Script" uid="uid://wk4raxbab6vw" path="res://Worlds/Objects/Destructibles/DestructiblesBody.gd" id="3_3ghli"]
 [ext_resource type="Texture2D" uid="uid://dgcfqpbwhk6bo" path="res://Entities/Weapons/ShieldLights.png" id="3_mpkvc"]
 [ext_resource type="Material" uid="uid://ud64atwxfe5s" path="res://Shaders/Materials/Add-Unshaded.CanvasItemMaterial.tres" id="3_p710x"]
 [ext_resource type="PackedScene" uid="uid://dgh25kwhgv2hd" path="res://Entities/Weapons/BulletSpark.tscn" id="6_oe3eg"]

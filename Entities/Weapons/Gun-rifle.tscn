@@ -1,8 +1,8 @@
 [gd_scene load_steps=13 format=3 uid="uid://d35rqaqdqkt6x"]
 
-[ext_resource type="Script" path="res://Entities/Weapons/Gun.gd" id="1_njox0"]
+[ext_resource type="Script" uid="uid://dip016itxi3b4" path="res://Entities/Weapons/Gun.gd" id="1_njox0"]
 [ext_resource type="PackedScene" uid="uid://deb26datidugv" path="res://Shaders/VisualTestArea.tscn" id="2_0s0ld"]
-[ext_resource type="Script" path="res://Entities/Weapons/Gun-Rifle.gd" id="2_4luqg"]
+[ext_resource type="Script" uid="uid://658dhml5tgyy" path="res://Entities/Weapons/Gun-Rifle.gd" id="2_4luqg"]
 [ext_resource type="Texture2D" uid="uid://n8aih3jo7tfy" path="res://Shaders/Lights/General.Spotlight.png" id="4_jryup"]
 [ext_resource type="Texture2D" uid="uid://cgmofnkdo20sl" path="res://Shaders/Particles/muzzle.png" id="4_vkikv"]
 [ext_resource type="PackedScene" uid="uid://dc3jwfr08ejes" path="res://Entities/Weapons/BulletPath.tscn" id="5_j7t08"]
@@ -149,8 +149,8 @@ tracks/2/keys = {
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_3c7i6"]
 _data = {
-"Firing": SubResource("Animation_gmvwc"),
-"RESET": SubResource("Animation_7e8xh")
+&"Firing": SubResource("Animation_gmvwc"),
+&"RESET": SubResource("Animation_7e8xh")
 }
 
 [sub_resource type="Gradient" id="Gradient_5epnv"]

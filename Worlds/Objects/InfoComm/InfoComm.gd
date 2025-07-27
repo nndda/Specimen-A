@@ -7,7 +7,7 @@ var dlg_length : int
 @export var on_top : bool = false
 
 @export_group("Setup")
-@export var stage : Stage
+@export var stage : TheatreStage
 @export var main_container : PanelContainer
 @export var container : VBoxContainer
 @export var container_scroll : ScrollContainer

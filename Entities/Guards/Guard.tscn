@@ -1,14 +1,14 @@
 [gd_scene load_steps=16 format=3 uid="uid://baiwsrdc0aog7"]
 
-[ext_resource type="Script" path="res://Entities/Guards/Guard.gd" id="1_wqy3n"]
+[ext_resource type="Script" uid="uid://p3mr0c7lvo8m" path="res://Entities/Guards/Guard.gd" id="1_wqy3n"]
 [ext_resource type="PackedScene" uid="uid://deb26datidugv" path="res://Shaders/VisualTestArea.tscn" id="2_a0hpe"]
-[ext_resource type="Shader" path="res://Shaders/Scripts/shadow.gdshader" id="2_gr2c2"]
+[ext_resource type="Shader" uid="uid://c2etxp5cryiqg" path="res://Shaders/Scripts/shadow.gdshader" id="2_gr2c2"]
 [ext_resource type="Texture2D" uid="uid://ryy4fypkc3oa" path="res://Entities/Guards/Guard-Rifle/Guard-Rifle.png" id="2_kybeh"]
 [ext_resource type="Texture2D" uid="uid://d1y5v4sd3axmk" path="res://Shaders/Lights/General.GradientTexture2D.tres" id="3_7ft35"]
 [ext_resource type="Texture2D" uid="uid://chfgwpvx3r37w" path="res://Entities/Guards/Entity.GeneralLight.GradientTexture2D.tres" id="4_blmpw"]
 [ext_resource type="Shape2D" uid="uid://dsstw8sd6tnpd" path="res://Entities/Guards/Guard.CollisionShape2D.tres" id="4_yu3yv"]
 [ext_resource type="PackedScene" uid="uid://bn801wox8wl0f" path="res://Scripts/Area/VisibilityHandler.tscn" id="5_21ehr"]
-[ext_resource type="Script" path="res://Entities/Guards/EntityDebugInfo.gd" id="9_lcbhl"]
+[ext_resource type="Script" uid="uid://besn0ijwjy10l" path="res://Entities/Guards/EntityDebugInfo.gd" id="9_lcbhl"]
 [ext_resource type="Material" uid="uid://ud64atwxfe5s" path="res://Shaders/Materials/Add-Unshaded.CanvasItemMaterial.tres" id="10_mj5vq"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_wehjl"]
@@ -50,7 +50,6 @@ monitorable = false
 polygon = PackedVector2Array(-24, -32, -24, 32, 256, 160, 256, -160)
 
 [node name="GeneralArea" type="Area2D" parent="."]
-visible = false
 collision_layer = 256
 collision_mask = 256
 monitorable = false

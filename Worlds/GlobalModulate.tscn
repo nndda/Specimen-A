@@ -1,6 +1,6 @@
 [gd_scene load_steps=2 format=3 uid="uid://b084k80tg1y62"]
 
-[ext_resource type="Script" path="res://Worlds/GlobalModulate.gd" id="1_t0m5r"]
+[ext_resource type="Script" uid="uid://cnajhv7dhn4re" path="res://Worlds/GlobalModulate.gd" id="1_t0m5r"]
 
 [node name="GlobalModulate" type="CanvasModulate"]
 color = Color(0.0957288, 0.0555067, 0.0836637, 1)

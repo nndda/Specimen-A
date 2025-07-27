@@ -1,4 +1,4 @@
-[gd_scene load_steps=55 format=4 uid="uid://cexhj5k6snu4x"]
+[gd_scene load_steps=65 format=4 uid="uid://cexhj5k6snu4x"]
 
 [ext_resource type="PackedScene" uid="uid://btklfuqmrtree" path="res://Levels/LevelBase.tscn" id="1_mvhw5"]
 [ext_resource type="PackedScene" uid="uid://dgmfdfnnvk3qx" path="res://Shaders/Lights/Light.tscn" id="2_1w8ry"]
@@ -21,16 +21,104 @@
 [ext_resource type="PackedScene" uid="uid://bg1ynbvtdy37h" path="res://Worlds/Objects/Cable.tscn" id="10_tw34u"]
 [ext_resource type="PackedScene" uid="uid://cl4j1f4r75d0d" path="res://Worlds/Objects/Destructibles/Vents1_V.tscn" id="11_yho0g"]
 [ext_resource type="PackedScene" uid="uid://dtbtuito4gyee" path="res://Worlds/Objects/Destructibles/Vents1_H.tscn" id="12_d6ima"]
-[ext_resource type="Script" path="res://Levels/1/1.Tutorial.gd" id="15_51xuf"]
-[ext_resource type="Script" path="res://Levels/1/1.SceneTitle.gd" id="17_oauk8"]
+[ext_resource type="Script" uid="uid://cn7ngs5x57umj" path="res://Levels/1/1.Tutorial.gd" id="15_51xuf"]
+[ext_resource type="PackedScene" uid="uid://dmq627gchq1qn" path="res://Worlds/Objects/Destructibles/PottedPlantsA.tscn" id="16_ncxfu"]
+[ext_resource type="Texture2D" uid="uid://2ao8askace5q" path="res://Worlds/Objects/Destructibles/BoxC.png" id="17_6jxl7"]
+[ext_resource type="Script" uid="uid://dtlotdqf2c3vc" path="res://Levels/1/1.SceneTitle.gd" id="17_oauk8"]
 [ext_resource type="LabelSettings" uid="uid://1smbo88stqiw" path="res://Levels/1/Tutorial.LabelSettings.tres" id="19_4x1mu"]
 [ext_resource type="PackedScene" uid="uid://cuy7lxvli81sr" path="res://Scripts/Area/LevelTransit.tscn" id="19_4xd2j"]
 [ext_resource type="PackedScene" uid="uid://b8b7oc0a403fv" path="res://Levels/1/TutorialKeys.Panel.tscn" id="20_2lgd7"]
 [ext_resource type="PackedScene" uid="uid://bnj757uh5nsce" path="res://Scripts/Area/AreaMask.tscn" id="20_v3cqy"]
 [ext_resource type="PackedScene" uid="uid://d2tpfh4a8bwk0" path="res://Worlds/Objects/InfoComm/InfoComm.tscn" id="27_nwi2x"]
+[ext_resource type="Texture2D" uid="uid://cx2a4oglnjj5u" path="res://Worlds/Tilesets/TilesDecor.png" id="30_s5otp"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_7a6if"]
 radius = 40.1995
+
+[sub_resource type="Animation" id="Animation_0cmn5"]
+resource_name = "Flick_0"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("PointLight2D:energy")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.3, 0.4, 0.5, 1),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1),
+"update": 0,
+"values": [1.0, 1.0, 0.0, 1.0, 1.0]
+}
+
+[sub_resource type="Animation" id="Animation_diu3l"]
+resource_name = "Flick_1"
+length = 2.0
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("PointLight2D:energy")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 2),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1, 1),
+"update": 0,
+"values": [1.0, 1.0, 0.0, 1.0, 1.0, 0.0, 1.0, 1.0]
+}
+
+[sub_resource type="Animation" id="Animation_i4mc6"]
+resource_name = "LightsOn"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("PointLight2D:energy")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0.0999, 0.1998),
+"transitions": PackedFloat32Array(0.5, 1),
+"update": 0,
+"values": [0.0, 1.0]
+}
+
+[sub_resource type="Animation" id="Animation_obcd3"]
+resource_name = "LightsOut"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("PointLight2D:energy")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0.1332, 0.2331),
+"transitions": PackedFloat32Array(0.5, 1),
+"update": 0,
+"values": [1.0, 0.0]
+}
+
+[sub_resource type="Animation" id="Animation_64miy"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("PointLight2D:energy")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [1.0]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_cg14a"]
+_data = {
+&"Flick_0": SubResource("Animation_0cmn5"),
+&"Flick_1": SubResource("Animation_diu3l"),
+&"LightsOn": SubResource("Animation_i4mc6"),
+&"LightsOut": SubResource("Animation_obcd3"),
+&"RESET": SubResource("Animation_64miy")
+}
 
 [sub_resource type="LabelSettings" id="LabelSettings_aa584"]
 font_size = 38
@@ -87,8 +175,8 @@ tracks/0/keys = {
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_28wep"]
 _data = {
-"FadeOut": SubResource("Animation_you5v"),
-"RESET": SubResource("Animation_kfl6p")
+&"FadeOut": SubResource("Animation_you5v"),
+&"RESET": SubResource("Animation_kfl6p")
 }
 
 [sub_resource type="Animation" id="Animation_1kwfg"]
@@ -138,9 +226,9 @@ tracks/0/keys = {
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_kybwq"]
 _data = {
-"FadeIn": SubResource("Animation_1kwfg"),
-"FadeOut": SubResource("Animation_r3q67"),
-"RESET": SubResource("Animation_qmf0t")
+&"FadeIn": SubResource("Animation_1kwfg"),
+&"FadeOut": SubResource("Animation_r3q67"),
+&"RESET": SubResource("Animation_qmf0t")
 }
 
 [sub_resource type="Animation" id="Animation_war4t"]
@@ -190,9 +278,9 @@ tracks/0/keys = {
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_bhdj8"]
 _data = {
-"FadeIn": SubResource("Animation_war4t"),
-"FadeOut": SubResource("Animation_78igc"),
-"RESET": SubResource("Animation_sleqo")
+&"FadeIn": SubResource("Animation_war4t"),
+&"FadeOut": SubResource("Animation_78igc"),
+&"RESET": SubResource("Animation_sleqo")
 }
 
 [sub_resource type="LabelSettings" id="LabelSettings_cuhj7"]
@@ -233,9 +321,13 @@ tracks/0/keys = {
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_bq0q1"]
 _data = {
-"FadeOut": SubResource("Animation_dhtrq"),
-"RESET": SubResource("Animation_ryrol")
+&"FadeOut": SubResource("Animation_dhtrq"),
+&"RESET": SubResource("Animation_ryrol")
 }
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_kh03u"]
+atlas = ExtResource("30_s5otp")
+region = Rect2(224, 128, 32, 32)
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_87c6g"]
 radius = 176.045
@@ -429,6 +521,8 @@ position = Vector2(-336, -1120)
 collision_layer = 16
 collision_mask = 17
 mass = 6.0
+linear_damp_mode = 1
+angular_damp_mode = 1
 
 [node name="BoxA-1" parent="Areas/Outer Cage/Decors" index="2" instance=ExtResource("4_do5kf")]
 position = Vector2(-368, -1104)
@@ -446,6 +540,8 @@ position = Vector2(48, -1520)
 collision_layer = 16
 collision_mask = 17
 mass = 6.0
+linear_damp_mode = 1
+angular_damp_mode = 1
 
 [node name="BoxA-3" parent="Areas/Outer Cage/Decors" index="6" instance=ExtResource("4_do5kf")]
 position = Vector2(48, -1488)
@@ -456,6 +552,8 @@ rotation = 1.57079
 collision_layer = 16
 collision_mask = 17
 mass = 6.0
+linear_damp_mode = 1
+angular_damp_mode = 1
 
 [node name="BoxA-4" parent="Areas/Outer Cage/Decors" index="8" instance=ExtResource("4_do5kf")]
 position = Vector2(-48, -1632)
@@ -526,6 +624,8 @@ position = Vector2(1424, -1192)
 collision_layer = 16
 collision_mask = 17
 mass = 6.0
+linear_damp_mode = 1
+angular_damp_mode = 1
 
 [node name="ChairA-0" parent="Areas/Control Room/Decors" index="5" instance=ExtResource("7_4jkhw")]
 position = Vector2(1248, -768)
@@ -533,6 +633,8 @@ rotation = -2.61799
 collision_layer = 16
 collision_mask = 17
 mass = 6.0
+linear_damp_mode = 1
+angular_damp_mode = 1
 
 [node name="ChairA-1" parent="Areas/Control Room/Decors" index="6" instance=ExtResource("7_4jkhw")]
 position = Vector2(1312, -760)
@@ -540,6 +642,8 @@ rotation = 2.618
 collision_layer = 16
 collision_mask = 17
 mass = 6.0
+linear_damp_mode = 1
+angular_damp_mode = 1
 
 [node name="ChairA-2" parent="Areas/Control Room/Decors" index="7" instance=ExtResource("7_4jkhw")]
 position = Vector2(1432, -760)
@@ -547,6 +651,8 @@ rotation = -3.14159
 collision_layer = 16
 collision_mask = 17
 mass = 6.0
+linear_damp_mode = 1
+angular_damp_mode = 1
 
 [node name="ChairA-3" parent="Areas/Control Room/Decors" index="8" instance=ExtResource("7_4jkhw")]
 position = Vector2(1264, -1024)
@@ -554,6 +660,8 @@ rotation = -2.09439
 collision_layer = 16
 collision_mask = 17
 mass = 6.0
+linear_damp_mode = 1
+angular_damp_mode = 1
 
 [node name="ChairA-4" parent="Areas/Control Room/Decors" index="9" instance=ExtResource("7_4jkhw")]
 position = Vector2(1264, -1104)
@@ -561,6 +669,8 @@ rotation = -0.785397
 collision_layer = 16
 collision_mask = 17
 mass = 6.0
+linear_damp_mode = 1
+angular_damp_mode = 1
 
 [node name="BoxA-5" parent="Areas/Control Room/Decors" index="10" instance=ExtResource("4_do5kf")]
 position = Vector2(1264, -1200)
@@ -570,6 +680,25 @@ rotation = -1.57079
 position = Vector2(1216, -1200)
 collision_layer = 16
 collision_mask = 17
+linear_damp_mode = 1
+angular_damp_mode = 1
+
+[node name="PottedPlantsA-0" parent="Areas/Control Room/Decors" index="12" instance=ExtResource("16_ncxfu")]
+position = Vector2(1392, -880)
+linear_damp_mode = 1
+angular_damp_mode = 1
+
+[node name="PottedPlantsA-1" parent="Areas/Control Room/Decors" index="13" instance=ExtResource("16_ncxfu")]
+position = Vector2(1456, -816)
+rotation = -3.40339
+linear_damp_mode = 1
+angular_damp_mode = 1
+
+[node name="PottedPlantsA-2" parent="Areas/Control Room/Decors" index="14" instance=ExtResource("16_ncxfu")]
+position = Vector2(1312, -1192)
+rotation = -3.40339
+linear_damp_mode = 1
+angular_damp_mode = 1
 
 [node name="Door" parent="Areas/Control Room" index="2" instance=ExtResource("4_yb8sl")]
 position = Vector2(1488, -1088)
@@ -617,14 +746,23 @@ position = Vector2(1584, -1576)
 rotation = 1.57079
 collision_layer = 16
 collision_mask = 17
+linear_damp_mode = 1
+angular_damp_mode = 1
 
 [node name="BoxB-0" parent="Areas/Control Room Hallway/Decord" index="2" instance=ExtResource("5_kd0tr")]
 position = Vector2(1708, -1396)
 collision_layer = 16
 collision_mask = 17
 mass = 6.0
+linear_damp_mode = 1
+angular_damp_mode = 1
 
-[node name="BoxA-1" parent="Areas/Control Room Hallway/Decord" index="3" instance=ExtResource("4_do5kf")]
+[node name="BoxC" type="Sprite2D" parent="Areas/Control Room Hallway/Decord" index="3"]
+position = Vector2(1560, -768)
+rotation = 1.57079
+texture = ExtResource("17_6jxl7")
+
+[node name="BoxA-1" parent="Areas/Control Room Hallway/Decord" index="4" instance=ExtResource("4_do5kf")]
 position = Vector2(1676, -1428)
 rotation = 1.57079
 
@@ -670,6 +808,11 @@ color = Color(1, 1, 1, 1)
 blend_mode = 2
 range_layer_max = 3
 texture_scale = 2.5
+
+[node name="AnimationPlayer" parent="Areas/Central Hub/Lights/LightTop-m" index="4"]
+libraries = {
+&"": SubResource("AnimationLibrary_cg14a")
+}
 
 [node name="Decors" type="Node2D" parent="Areas/Central Hub" index="1"]
 
@@ -890,7 +1033,7 @@ autowrap_mode = 2
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="TopLayer/Tutorial/HintRangeAttack" index="0"]
 libraries = {
-"": SubResource("AnimationLibrary_28wep")
+&"": SubResource("AnimationLibrary_28wep")
 }
 autoplay = "RESET"
 
@@ -958,7 +1101,7 @@ label_settings = ExtResource("19_4x1mu")
 [node name="AnimationPlayer" type="AnimationPlayer" parent="TopLayer/Tutorial/BasicControls/HintMove" index="3"]
 root_node = NodePath("../Timer")
 libraries = {
-"": SubResource("AnimationLibrary_kybwq")
+&"": SubResource("AnimationLibrary_kybwq")
 }
 
 [node name="Timer" type="Timer" parent="TopLayer/Tutorial/BasicControls/HintMove" index="4"]
@@ -1025,7 +1168,7 @@ label_settings = ExtResource("19_4x1mu")
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="TopLayer/Tutorial/BasicControls/HintAttack" index="3"]
 libraries = {
-"": SubResource("AnimationLibrary_bhdj8")
+&"": SubResource("AnimationLibrary_bhdj8")
 }
 
 [node name="Title" type="Node2D" parent="TopLayer" index="3"]
@@ -1053,7 +1196,7 @@ label_settings = SubResource("LabelSettings_htjww")
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="TopLayer/Title/Label2" index="0"]
 libraries = {
-"": SubResource("AnimationLibrary_bq0q1")
+&"": SubResource("AnimationLibrary_bq0q1")
 }
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="TopLayer/Title" index="2"]
@@ -1096,6 +1239,7 @@ offset_top = -1080.0
 offset_right = 1232.0
 offset_bottom = -1080.0
 dialogue_file = "res://Levels/1/InfoComm/containment_breach.dlg"
+metadata/_edit_use_anchors_ = true
 
 [node name="DialoguePanel" parent="InfoComms/Containments" index="0"]
 offset_left = -360.0
@@ -1105,6 +1249,13 @@ offset_bottom = 144.0
 
 [node name="DetectArea" parent="InfoComms/Containments" index="1"]
 position = Vector2(-16, 8)
+
+[node name="ItemSprite" parent="InfoComms/Containments/DetectArea" index="1"]
+rotation = -1.57079
+texture = SubResource("AtlasTexture_kh03u")
+
+[node name="Flash" parent="InfoComms/Containments/DetectArea/ItemSprite" index="0"]
+visible = false
 
 [node name="CameraCopy" parent="InfoComms/Containments" index="2"]
 position = Vector2(8, 8)
@@ -1128,12 +1279,16 @@ dialogue_file = "res://Levels/1/InfoComm/msg_yours.dlg"
 
 [node name="DialoguePanel" parent="InfoComms/Yours" index="0"]
 offset_left = 152.0
-offset_top = 168.0
-offset_right = 320.0
-offset_bottom = 312.0
+offset_top = 152.0
+offset_right = 328.0
+offset_bottom = 304.0
 
 [node name="DetectArea" parent="InfoComms/Yours" index="1"]
 position = Vector2(168, 336)
+
+[node name="ItemSprite" parent="InfoComms/Yours/DetectArea" index="1"]
+position = Vector2(-88, -48)
+rotation = 0.785397
 
 [node name="CameraCopy" parent="InfoComms/Yours" index="2"]
 position = Vector2(88, 272)

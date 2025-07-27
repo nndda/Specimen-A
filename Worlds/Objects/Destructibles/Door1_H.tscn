@@ -1,8 +1,8 @@
 [gd_scene load_steps=6 format=3 uid="uid://bwxa1i1dmi3mh"]
 
 [ext_resource type="Texture2D" uid="uid://d3olqqlsqtlj5" path="res://Worlds/Objects/Destructibles/Door1.png" id="1_ad7ah"]
-[ext_resource type="Script" path="res://Scripts/PolygonPerspective.gd" id="2_8x6hv"]
-[ext_resource type="Script" path="res://Worlds/Objects/Destructibles/DestructiblesBody.gd" id="3_0hntq"]
+[ext_resource type="Script" uid="uid://badbnfib3u05d" path="res://Scripts/PolygonPerspective.gd" id="2_8x6hv"]
+[ext_resource type="Script" uid="uid://wk4raxbab6vw" path="res://Worlds/Objects/Destructibles/DestructiblesBody.gd" id="3_0hntq"]
 [ext_resource type="PackedScene" uid="uid://bn801wox8wl0f" path="res://Scripts/Area/VisibilityHandler.tscn" id="4_mv4g3"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_ucthy"]

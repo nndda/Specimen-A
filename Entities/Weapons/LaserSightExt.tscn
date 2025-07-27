@@ -1,7 +1,7 @@
 [gd_scene load_steps=4 format=3 uid="uid://c2y5c12g4n54p"]
 
 [ext_resource type="Material" uid="uid://ud64atwxfe5s" path="res://Shaders/Materials/Add-Unshaded.CanvasItemMaterial.tres" id="1_u26qr"]
-[ext_resource type="Script" path="res://Entities/Weapons/LaserSightExt.gd" id="1_vh54p"]
+[ext_resource type="Script" uid="uid://ct8aqfldmyffx" path="res://Entities/Weapons/LaserSightExt.gd" id="1_vh54p"]
 
 [sub_resource type="Gradient" id="Gradient_kbuei"]
 offsets = PackedFloat32Array(0.603687, 0.788018, 0.898618, 1)

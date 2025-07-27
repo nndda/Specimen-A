@@ -1,6 +1,6 @@
 [gd_scene load_steps=6 format=3 uid="uid://bgooaf7wwemem"]
 
-[ext_resource type="Script" path="res://Levels/Intro/Intro-Map.gd" id="1_632fd"]
+[ext_resource type="Script" uid="uid://ccsoag3io8s8e" path="res://Levels/Intro/Intro-Map.gd" id="1_632fd"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_k4dhy"]
 line_spacing = 0.0

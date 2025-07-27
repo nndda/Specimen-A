@@ -1,7 +1,7 @@
 [gd_scene load_steps=4 format=3 uid="uid://c152ot7ob213r"]
 
 [ext_resource type="Texture2D" uid="uid://b7bnbcwgl1ps8" path="res://Shaders/Particles/GlassShards.png" id="1_on3nt"]
-[ext_resource type="Script" path="res://Shaders/Particles/ParticlesHandler.gd" id="2_4is71"]
+[ext_resource type="Script" uid="uid://bxwn7jx1e8pp6" path="res://Shaders/Particles/ParticlesHandler.gd" id="2_4is71"]
 
 [sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_pvaee"]
 particles_animation = true
